@@ -33,6 +33,7 @@ AIGovOps turns AI governance frameworks (NIST AI RMF, ISO/IEC 42001, EU AI Act, 
 |---|---|---|
 | [audit-log-generator](plugins/audit-log-generator/) | ISO 42001-compliant audit log (JSON + Markdown) | 0.1.0 |
 | [role-matrix-generator](plugins/role-matrix-generator/) | ISO 42001-compliant role and responsibility matrix (JSON + Markdown + CSV) | 0.1.0 |
+| [risk-register-builder](plugins/risk-register-builder/) | ISO 42001 and NIST AI RMF-compliant AI risk register (JSON + Markdown + CSV) | 0.1.0 |
 
 ## Bundles
 
