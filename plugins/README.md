@@ -11,6 +11,8 @@ Plugins differ from skills in execution semantics. A skill is loaded as knowledg
 | [audit-log-generator](audit-log-generator/) | ISO 42001-compliant audit log (JSON + Markdown) | 0.1.0 |
 | [role-matrix-generator](role-matrix-generator/) | ISO 42001-compliant role and responsibility matrix (JSON + Markdown + CSV) | 0.1.0 |
 | [risk-register-builder](risk-register-builder/) | ISO 42001 and NIST AI RMF-compliant AI risk register (JSON + Markdown + CSV) | 0.1.0 |
+| [soa-generator](soa-generator/) | ISO 42001-compliant Statement of Applicability (JSON + Markdown + CSV) | 0.1.0 |
+| [aisia-runner](aisia-runner/) | ISO 42001 and NIST AI RMF-compliant AI System Impact Assessment (JSON + Markdown) | 0.1.0 |
 
 ## Plugin requirements
 
