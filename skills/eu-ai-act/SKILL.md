@@ -75,12 +75,17 @@ The skill is companion to the `iso42001` and `nist-ai-rmf` skills in this catalo
 - Chapter X-XII (Articles 85-113): Codes of conduct, confidentiality, penalties, final provisions.
 - Annexes I-XIII: Lists, templates, and technical specifications including Annex III (high-risk use cases) and Annex IX (Union harmonisation legislation on which product-safety high-risk classification relies).
 
-**Enforcement timeline.**
+**Enforcement timeline.** The full staged timeline including continuously-applicable provisions, delegated-act-triggered changes, and the Article 111 transitional arrangement is captured as structured data in [`enforcement-timeline.yaml`](enforcement-timeline.yaml). Plugins reference this file directly to answer applicability-by-date questions. Key dates:
 
-- 2 February 2025: Prohibitions in Article 5 and general provisions in Chapter I apply.
-- 2 August 2025: GPAI model obligations (Chapter V), governance provisions (Chapter VII, Section 1), and penalty provisions apply.
-- 2 August 2026: Majority of remaining provisions apply, including Article 6(2) Annex III classification and Articles 9 through 15 requirements.
-- 2 August 2027: Extended transition for certain Annex III use cases integrated with product-safety frameworks (Annex I).
+- **1 August 2024**: Regulation enters into force.
+- **2 February 2025**: Prohibitions in Article 5 and Chapter I general provisions apply. AI literacy obligations (Article 4) apply.
+- **2 August 2025**: GPAI model obligations (Articles 51-55), Chapter VII Union-level governance, and Chapter XII penalties apply. Member States must have designated national competent authorities.
+- **2 February 2026** (target): Codes of practice under Article 56 expected to be finalized by the AI Office.
+- **2 August 2026**: Majority of remaining provisions apply, including Article 6(2) Annex III classification, Articles 9-15 requirements for high-risk systems, Articles 16-27 actor obligations, Article 50 transparency, and Articles 72-73 post-market monitoring.
+- **2 August 2027**: Extended transition ends for high-risk systems classified via the Annex I product-safety route (Article 6(1)).
+- **31 December 2030**: Transitional arrangements under Article 111 for pre-existing systems sunset for public-authority uses.
+
+Secondary instruments (delegated acts, implementing acts, guidelines, codes of practice, harmonised standards) are tracked in [`delegated-acts.yaml`](delegated-acts.yaml). The framework-monitor workflow in this repository probes EUR-Lex weekly for updates and opens an issue when tracked items change status.
 
 **Related frameworks and cross-references.**
 
@@ -233,12 +238,12 @@ All outputs produced by this skill, or by plugins in `framework: eu-ai-act` mode
 
 **Article 6(3) exception determinations are human.** The Article 6(3) exception (Annex III systems not posing significant risk) requires organization-specific analysis and documentation. The skill's gap-assessment can surface that the determination is needed; it does not make the determination.
 
-**Regulatory revisions follow.** The EU AI Act contemplates delegated acts and implementing acts under Articles 6, 47, 50, 51, 52, 72, and others. These can modify thresholds, procedures, and categorizations over the life of the Regulation. The framework-monitor workflow surfaces detected changes; skill updates follow the AGENTS.md change-update protocol.
+**Regulatory revisions follow.** The EU AI Act contemplates delegated acts under Articles 6, 7, 51, 52, and others, implementing acts under Articles 43 and 71, and guidelines under Article 96. These can modify thresholds, procedures, and categorizations over the life of the Regulation. The current status of each tracked secondary instrument is maintained in [`delegated-acts.yaml`](delegated-acts.yaml); plugins reading that file get current-state guidance without hard-coding. The framework-monitor workflow surfaces detected changes; skill updates follow the AGENTS.md change-update protocol.
 
-**GPAI threshold calibration is external.** Article 51 compute-FLOP thresholds for systemic-risk classification may be updated by delegated acts. Any GPAI-classification plugin must read a current-thresholds configuration from an external source rather than hard-coding the thresholds.
+**GPAI threshold calibration is external.** Article 51 compute-FLOP thresholds for systemic-risk classification (baseline 10^25 FLOPs for training) may be updated by delegated act. Any GPAI-classification plugin must read the current threshold from `delegated-acts.yaml` (tracked under `delegated-act-gpai-systemic-risk-thresholds`) rather than hard-coding.
 
 **Member-State national implementation is out of scope.** Organizations with deployments in multiple Member States face potentially divergent national-level rules where Member States exercise discretion afforded by the Regulation. This skill covers the EU-level Regulation; Member-State-specific rules require national counsel and national skill extensions.
 
-**Enforcement is staged through 2027.** Pre-effective-date outputs are planning artifacts, not compliance evidence. The skill accepts a `planning_mode` flag on future integrations; until then, outputs cited against provisions not yet in force carry an explicit "planning; effective DD Month YYYY" annotation.
+**Enforcement is staged through 2030.** The full timeline (entry into force, Article 5 prohibitions, GPAI obligations, core high-risk obligations, Annex I extended transition, Article 111 legacy-system sunset) is in `enforcement-timeline.yaml`. Pre-effective-date outputs are planning artifacts, not compliance evidence. Outputs cited against provisions not yet in force carry an explicit "planning; effective DD Month YYYY" annotation derived from the timeline data.
 
 **Cross-framework interaction depends on the co-framework skill.** Organizations subject to GDPR, DSA, DMA, sector-specific regulation (MDR, MiFID II, and others) have obligations beyond the AI Act. This skill does not address them; the relevant sector skills would.

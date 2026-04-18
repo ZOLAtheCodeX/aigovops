@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   check-frameworks:
-    name: Check upstream framework sources for changes
+    name: Probe upstream framework sources for changes
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -25,9 +25,9 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
-        run: pip install requests
+        run: pip install requests==2.31.0 pyyaml==6.0.1
 
-      - name: Probe framework sources
+      - name: Probe framework sources and detect changes
         id: probe
         run: |
           python - <<'PY'
@@ -35,45 +35,155 @@ jobs:
           import json
           import os
           import sys
+          import pathlib
           import requests
+          import yaml
 
-          # Source list. Expand as new frameworks are added to skills/.
+          USER_AGENT = "AIGovOps-FrameworkMonitor/0.2 (+https://github.com/ZOLAtheCodeX/aigovops)"
+          HEADERS = {"User-Agent": USER_AGENT, "Accept": "text/html,*/*"}
+
+          # Source list. Each entry declares:
+          #   id: stable identifier used in the change state file.
+          #   name: human-readable name for issue titles.
+          #   url: URL to probe.
+          #   skill: which aigovops skill this source backs.
+          #   priority: 'high' sources open an issue automatically; 'medium'
+          #             and 'low' are reported in the workflow summary only.
           SOURCES = [
               {
                   "id": "nist-ai-rmf",
                   "name": "NIST AI Risk Management Framework",
                   "url": "https://csrc.nist.gov/projects/ai-risk-management-framework",
+                  "skill": "nist-ai-rmf",
+                  "priority": "high",
               },
               {
-                  "id": "iso42001",
+                  "id": "nist-ai-rmf-playbook",
+                  "name": "NIST AI RMF Playbook",
+                  "url": "https://airc.nist.gov/AI_RMF_Knowledge_Base/Playbook",
+                  "skill": "nist-ai-rmf",
+                  "priority": "high",
+              },
+              {
+                  "id": "nist-ai-600-1-genai-profile",
+                  "name": "NIST AI 600-1 Generative AI Profile",
+                  "url": "https://airc.nist.gov/airmf-resources/",
+                  "skill": "nist-ai-rmf",
+                  "priority": "high",
+              },
+              {
+                  "id": "iso-42001",
                   "name": "ISO/IEC 42001:2023",
                   "url": "https://www.iso.org/standard/81230.html",
+                  "skill": "iso42001",
+                  "priority": "high",
               },
               {
-                  "id": "eu-ai-act",
-                  "name": "EU AI Act (Regulation (EU) 2024/1689)",
+                  "id": "eu-ai-act-eur-lex",
+                  "name": "EU AI Act (Regulation (EU) 2024/1689) consolidated text",
                   "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj",
+                  "skill": "eu-ai-act",
+                  "priority": "high",
+              },
+              {
+                  "id": "eu-ai-act-commission-policy",
+                  "name": "EU AI Act implementation (European Commission)",
+                  "url": "https://digital-strategy.ec.europa.eu/en/policies/ai-act",
+                  "skill": "eu-ai-act",
+                  "priority": "high",
+              },
+              {
+                  "id": "eu-ai-office-codes-of-practice",
+                  "name": "EU AI Office codes of practice for GPAI",
+                  "url": "https://digital-strategy.ec.europa.eu/en/policies/ai-code-general-purpose",
+                  "skill": "eu-ai-act",
+                  "priority": "high",
+              },
+              {
+                  "id": "cen-cenelec-jtc21",
+                  "name": "CEN-CENELEC JTC 21 (harmonised standards for EU AI Act)",
+                  "url": "https://www.cencenelec.eu/european-standardization/joint-technical-committees/",
+                  "skill": "eu-ai-act",
+                  "priority": "medium",
               },
           ]
 
+          STATE_FILE = pathlib.Path(".github/framework-monitor-state.json")
+          try:
+              state = json.loads(STATE_FILE.read_text(encoding="utf-8")) if STATE_FILE.is_file() else {}
+          except Exception:
+              state = {}
+
           changes = []
+          probe_report = []
           for src in SOURCES:
               try:
-                  resp = requests.get(src["url"], timeout=30, headers={"User-Agent": "AIGovOps-FrameworkMonitor/0.1"})
+                  resp = requests.get(src["url"], timeout=30, headers=HEADERS)
                   if resp.status_code != 200:
-                      print(f"WARN: {src['id']} returned HTTP {resp.status_code}")
+                      probe_report.append({"id": src["id"], "status": "error", "http_status": resp.status_code})
                       continue
+                  # Hash body content for change detection. Not a perfect
+                  # signal (sites often vary timestamps or CSRF tokens) but
+                  # the threshold for opening an issue is 'non-identical
+                  # digest, manual review required'.
                   digest = hashlib.sha256(resp.content).hexdigest()
-                  print(f"{src['id']}: sha256={digest[:16]}...")
-                  # Stub: in Phase 3, compare against previously stored digest in repo state.
-                  # For now, this workflow only emits a probe report.
+                  prior_digest = state.get(src["id"], {}).get("digest")
+                  probe_report.append({
+                      "id": src["id"],
+                      "status": "ok",
+                      "digest": digest[:16],
+                      "prior_digest": (prior_digest or "")[:16],
+                      "changed": prior_digest is not None and prior_digest != digest,
+                  })
+                  if prior_digest is not None and prior_digest != digest:
+                      changes.append({
+                          "id": src["id"],
+                          "name": src["name"],
+                          "url": src["url"],
+                          "skill": src["skill"],
+                          "priority": src["priority"],
+                      })
+                  state[src["id"]] = {"digest": digest, "last_probed_url": src["url"]}
               except Exception as exc:
-                  print(f"ERROR probing {src['id']}: {exc}")
+                  probe_report.append({"id": src["id"], "status": "exception", "error": str(exc)[:200]})
 
-          # Stub: emit changes list for the next step. Empty for now.
-          with open(os.environ.get("GITHUB_OUTPUT", "/dev/stdout"), "a") as f:
+          # Emit outputs for later steps.
+          output_path = os.environ.get("GITHUB_OUTPUT", "/dev/stdout")
+          with open(output_path, "a") as f:
               f.write(f"changes_json={json.dumps(changes)}\n")
+              f.write(f"probe_report_json={json.dumps(probe_report)}\n")
+
+          # Persist updated state for next run.
+          STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
+          STATE_FILE.write_text(json.dumps(state, indent=2), encoding="utf-8")
+
+          # Also probe EU AI Act delegated-acts tracker for stale entries.
+          try:
+              delegated_acts_path = pathlib.Path("skills/eu-ai-act/delegated-acts.yaml")
+              if delegated_acts_path.is_file():
+                  with open(delegated_acts_path) as f:
+                      data = yaml.safe_load(f)
+                  high_priority = data.get("high_priority_monitors", [])
+                  print(f"EU AI Act delegated-acts tracker: {len(high_priority)} high-priority monitors declared.")
+          except Exception as exc:
+              print(f"EU AI Act tracker read error: {exc}")
+
+          # Print the report to the workflow log.
+          print(json.dumps(probe_report, indent=2))
           PY
+
+      - name: Commit updated change-state file
+        if: github.event_name == 'schedule'
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "framework-monitor"
+          if [ -n "$(git status --porcelain .github/framework-monitor-state.json)" ]; then
+            git add .github/framework-monitor-state.json
+            git commit -m "chore(framework-monitor): update digests [skip ci]"
+            git push || echo "push skipped (read-only or permission gap)"
+          else
+            echo "No state changes to commit."
+          fi
 
       - name: Open framework-update issues for detected changes
         if: steps.probe.outputs.changes_json != '[]' && steps.probe.outputs.changes_json != ''
@@ -82,19 +192,29 @@ jobs:
           script: |
             const changes = JSON.parse(process.env.CHANGES_JSON || '[]');
             for (const change of changes) {
+              const labels = ['framework-update', `skill:${change.skill}`];
+              if (change.priority === 'high') labels.push('priority:high');
               await github.rest.issues.create({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 title: `[framework-update] ${change.name}: change detected`,
                 body: [
                   `Framework: ${change.name}`,
+                  `Skill: ${change.skill}`,
                   `Source: ${change.url}`,
+                  `Priority: ${change.priority}`,
                   `Detected at: ${new Date().toISOString()}`,
                   ``,
                   `This issue was opened automatically by the framework-monitor workflow.`,
-                  `Please populate with: change summary, affected skills, and proposed updates.`,
+                  `Review the source URL and populate:`,
+                  `- Change summary`,
+                  `- Affected SKILL.md or operationalization-map rows`,
+                  `- Affected eval test cases`,
+                  `- Required plugin updates (if any)`,
+                  ``,
+                  `See AGENTS.md Section 9 for the framework-update procedure.`,
                 ].join('\n'),
-                labels: ['framework-update'],
+                labels,
               });
             }
         env:

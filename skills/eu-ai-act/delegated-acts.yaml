@@ -1,0 +1,99 @@
+# EU AI Act Delegated and Implementing Acts Tracker
+#
+# The Regulation empowers the Commission and the AI Office to adopt
+# delegated acts, implementing acts, guidelines, and codes of practice
+# that specify or modify obligations. This file tracks the status of
+# those secondary instruments so AIGovClaw workflows can surface them
+# during framework-monitor runs and so that applicability analyses
+# reflect current-state guidance, not just Regulation text.
+#
+# Last updated: 2026-04-18.
+# Verification cadence: the framework-monitor workflow in aigovops
+# re-probes EUR-Lex weekly and opens an issue when any tracked item
+# changes status.
+
+guidelines_and_codes:
+  - id: "guidelines-article-5-prohibited-practices"
+    empowering_article: "Article 96"
+    subject: "Guidelines on the application of the prohibitions in Article 5"
+    issuing_body: "European Commission, supported by AI Office"
+    status: "published in draft form for stakeholder consultation"
+    impact: "Clarifies edge cases in Article 5(1)(a)-(h) prohibitions; affects high-risk-classifier rule logic."
+    tracking_url: "https://digital-strategy.ec.europa.eu/en/policies/ai-act"
+
+  - id: "guidelines-high-risk-classification"
+    empowering_article: "Article 96"
+    subject: "Guidelines on the application of Article 6 high-risk classification including the Article 6(3) exception"
+    issuing_body: "European Commission"
+    status: "expected; consultation ongoing as of 2026-Q1"
+    impact: "Defines criteria for Article 6(3) 'not significant risk' exception; directly affects aigovops high-risk classification logic."
+    tracking_url: "https://digital-strategy.ec.europa.eu/en/policies/ai-act"
+
+  - id: "code-of-practice-gpai"
+    empowering_article: "Article 56"
+    subject: "Code of practice for general-purpose AI models"
+    issuing_body: "AI Office (facilitator); GPAI providers and other stakeholders (contributors)"
+    status: "drafting; first version expected before 2026-02-02"
+    impact: "Compliance mechanism for GPAI providers under Articles 53-55. Adherence demonstrates compliance absent a harmonised standard."
+    tracking_url: "https://digital-strategy.ec.europa.eu/en/policies/ai-code-general-purpose"
+
+  - id: "commission-implementing-regulation-template-fria"
+    empowering_article: "Article 27(5)"
+    subject: "Template for the Fundamental Rights Impact Assessment (FRIA)"
+    issuing_body: "AI Office"
+    status: "required by Article 27(5); expected before 2026-08-02"
+    impact: "Standardizes the FRIA format. aigovops aisia-runner in eu-ai-act mode will align its AISIA-section schema to this template when published."
+    tracking_url: "https://digital-strategy.ec.europa.eu/en/policies/ai-act"
+
+harmonised_standards:
+  - id: "iso-iec-42001-as-harmonised"
+    empowering_article: "Article 40"
+    subject: "Potential designation of ISO/IEC 42001:2023 as a harmonised standard or basis thereof for Chapter III requirements"
+    issuing_body: "CEN-CENELEC JTC 21 (Joint Technical Committee on Artificial Intelligence)"
+    status: "standardization request issued by Commission; work ongoing in CEN-CENELEC JTC 21"
+    impact: "If ISO 42001 is designated as harmonised standard: conformance to the standard gives presumption of conformity with relevant Chapter III articles. Confirms the design rationale for aigovops sharing plugins between iso42001 and eu-ai-act skills."
+    tracking_url: "https://www.cencenelec.eu/european-standardization/joint-technical-committees/"
+
+  - id: "cen-cenelec-work-programme"
+    empowering_article: "Article 40"
+    subject: "European harmonised standards developed in response to the Commission's standardization request for the AI Act"
+    issuing_body: "CEN-CENELEC JTC 21"
+    status: "work programme ongoing; multiple standards in development for risk management, data governance, human oversight, technical documentation"
+    impact: "Each harmonised standard, once published in the Official Journal, gives presumption of conformity with corresponding Chapter III provisions."
+
+delegated_acts:
+  - id: "delegated-act-gpai-systemic-risk-thresholds"
+    empowering_article: "Article 51(3)"
+    subject: "Amendment of the compute-FLOP threshold for presuming a GPAI model has systemic risk capabilities"
+    status: "baseline threshold in Article 51(2) (10^25 FLOPs for training); delegated act empowered to modify as state-of-the-art evolves"
+    impact: "Directly affects GPAI systemic-risk classification. aigovops high-risk-classifier must read current threshold from configuration, not hard-code 10^25."
+    monitor_for: "EUR-Lex delegated act publication"
+
+  - id: "delegated-act-annex-i-list"
+    empowering_article: "Article 7"
+    subject: "Modifications to Annex III (high-risk use-case list)"
+    status: "Commission empowered to add use cases to Annex III where they fulfil specified criteria; no modifications adopted as of 2026-04-18"
+    impact: "Annex III additions expand the set of systems subject to high-risk obligations. aigovops eu-ai-act skill + high-risk-classifier must update when the list changes."
+    monitor_for: "EUR-Lex delegated act publication affecting Annex III"
+
+implementing_acts:
+  - id: "implementing-act-conformity-assessment-templates"
+    empowering_article: "Article 43"
+    subject: "Uniform conditions for conformity assessment procedures and notified body designation"
+    status: "expected before 2026-08-02 to support core obligations entering force"
+    impact: "Required for organizations pursuing formal conformity assessment. Affects aigovops conformity-assessment plugin scope (Phase 4)."
+
+  - id: "implementing-act-eu-database-operation"
+    empowering_article: "Article 71"
+    subject: "Operational details of the EU database for high-risk AI systems registered under Article 49"
+    status: "Commission developing; expected before 2026-08-02"
+    impact: "Defines submission format for high-risk AI system registration. aigovclaw audit-log workflow emits submission hook; actual submission is through the EU database interface once operational."
+
+# Items the framework-monitor workflow should treat with elevated priority
+# because their publication directly triggers aigovops plugin logic changes.
+high_priority_monitors:
+  - "implementing-act-conformity-assessment-templates"
+  - "code-of-practice-gpai"
+  - "commission-implementing-regulation-template-fria"
+  - "delegated-act-gpai-systemic-risk-thresholds"
+  - "delegated-act-annex-i-list"

@@ -1,0 +1,141 @@
+# EU AI Act Enforcement Timeline
+#
+# Structured data describing the staged application of Regulation
+# (EU) 2024/1689. Plugins consume this file to answer applicability
+# questions ("what applies to my AI system on date X?") without
+# hard-coding the timeline in plugin code. The skill body references
+# this file; update it when a delegated act, implementing act, or
+# guidance document revises the schedule.
+#
+# Authoritative source: Regulation (EU) 2024/1689, Chapter XIII,
+# Articles 111 through 113 (Final provisions; entry into force and
+# application). Amendments tracked via the framework-monitor workflow
+# which probes EUR-Lex for revisions.
+#
+# Last updated: 2026-04-18.
+# Validated by: Zola Valashiya (LL.M Innovation and Technology Law; AIGP).
+
+enforcement_events:
+  - date: "2024-08-01"
+    phase: "entry-into-force"
+    description: >
+      Regulation (EU) 2024/1689 entered into force on the twentieth day
+      following its publication in the Official Journal (12 July 2024).
+    effective_provisions: ["Article 1 scope", "Article 3 definitions"]
+    citation: "EU AI Act, Article 113"
+
+  - date: "2025-02-02"
+    phase: "prohibited-practices-applicable"
+    description: >
+      Prohibited AI practices under Article 5 apply. Organizations must
+      cease any AI use falling under Article 5(1)(a) through (h). Chapter I
+      general provisions (scope, definitions, AI literacy) also apply from
+      this date per Article 113(a).
+    effective_provisions:
+      - "Article 5 (prohibited AI practices)"
+      - "Chapter I (Articles 1-4)"
+    citation: "EU AI Act, Article 113(a)"
+    organizational_actions:
+      - "Review all AI systems and proposed uses against Article 5 prohibitions."
+      - "Document determinations via the AIGovClaw high-risk-classifier workflow (Article 5 classification branch)."
+      - "Establish AI literacy programs for staff interacting with AI systems (Article 4)."
+
+  - date: "2025-08-02"
+    phase: "gpai-and-governance-applicable"
+    description: >
+      General-purpose AI model obligations (Articles 51-55), Union-level
+      governance provisions (Chapter VII including the AI Office and AI
+      Board), and penalty provisions (Chapter XII) apply. Member States
+      must have designated national competent authorities by this date.
+    effective_provisions:
+      - "Chapter V: GPAI models (Articles 51-56)"
+      - "Chapter VII: Governance at Union level"
+      - "Chapter XII: Penalties"
+    citation: "EU AI Act, Article 113(b)"
+    organizational_actions:
+      - "GPAI providers: establish technical documentation per Article 53(1)(a) and Annex XI."
+      - "GPAI providers: publish training data summary per Article 53(1)(d)."
+      - "GPAI providers: implement copyright compliance policy per Article 53(1)(c)."
+      - "Systemic-risk GPAI providers: notify the AI Office per Article 52."
+      - "All orgs: identify national competent authority in deployment Member States."
+
+  - date: "2026-02-02"
+    phase: "codes-of-practice-expected"
+    description: >
+      Codes of practice under Article 56 expected to be finalized by the
+      AI Office by this date. GPAI providers may demonstrate compliance
+      through adherence to approved codes of practice.
+    effective_provisions:
+      - "Article 56 (codes of practice) in effect as compliance mechanism"
+    citation: "EU AI Act, Article 56(9)"
+    organizational_actions:
+      - "GPAI providers: evaluate whether to adhere to AI Office codes of practice."
+
+  - date: "2026-08-02"
+    phase: "core-obligations-applicable"
+    description: >
+      Majority of Regulation provisions apply: high-risk AI system
+      classification under Article 6(2) and Annex III, requirements for
+      high-risk systems under Articles 9-15, obligations of providers and
+      deployers under Articles 16-27, transparency obligations under
+      Article 50, and post-market monitoring under Articles 72-73.
+    effective_provisions:
+      - "Chapter III: High-risk AI systems (most provisions, except those under Annex I product-safety route)"
+      - "Chapter IV: Transparency obligations (Article 50)"
+      - "Chapter IX: Post-market monitoring (Articles 72-73)"
+      - "Remaining provisions not scheduled for 2027"
+    citation: "EU AI Act, Article 113 (general application date)"
+    organizational_actions:
+      - "Classify every AI system in AIMS scope via Article 6 + Annex III (AIGovClaw high-risk-classifier)."
+      - "For each high-risk system: establish risk management system (Article 9) via aigovops risk-register-builder."
+      - "For each high-risk system: complete FRIA if deployer (Article 27) via aisia-runner."
+      - "For each high-risk system: ensure human oversight arrangement per Article 14 via role-matrix-generator."
+      - "For each high-risk system: measurement against Article 15 accuracy, robustness, cybersecurity via metrics-collector."
+      - "Register high-risk systems in the EU database per Article 49 (where applicable)."
+      - "Establish post-market monitoring plan per Article 72."
+      - "Establish serious-incident reporting process per Article 73."
+
+  - date: "2027-08-02"
+    phase: "annex-i-extended-transition-ends"
+    description: >
+      Extended transition ends for AI systems classified as high-risk via
+      the Annex I product-safety route (Article 6(1)). These systems must
+      conform to the full Regulation by this date. Systems already subject
+      to conformity assessment under Annex I legislation (Medical Device
+      Regulation, Machinery Regulation, and so on) must satisfy both sets
+      of obligations.
+    effective_provisions:
+      - "Article 6(1) high-risk classification for Annex I products"
+      - "Chapter III requirements applied to Annex I-route high-risk systems"
+    citation: "EU AI Act, Article 113(c)"
+    organizational_actions:
+      - "Confirm product-safety conformity assessment under relevant Annex I legislation includes AI-specific Chapter III obligations."
+      - "Update CE-marking documentation per Article 48."
+
+  - date: "2030-12-31"
+    phase: "member-state-legacy-transition-sunset"
+    description: >
+      Transitional arrangement under Article 111 ends for AI systems
+      placed on the market or put into service before 2 August 2025.
+      Public-authority systems subject to Article 111 have until this
+      date to conform.
+    effective_provisions:
+      - "Article 111 transitional arrangements terminate"
+    citation: "EU AI Act, Article 111"
+    organizational_actions:
+      - "Public-authority systems in scope of Article 111: complete conformity work by this date."
+
+# Continuously-applicable provisions: Articles that apply from entry into
+# force and do not have a staged date. Not listed above because they are
+# never "coming into effect"; they are already in effect.
+continuously_applicable:
+  - "Article 3 (definitions)"
+  - "Article 113 (entry into force)"
+
+# Applicability helpers for plugin consumption.
+applicability_helpers:
+  risk_tier_determination_required_from: "2025-02-02"
+  high_risk_requirements_live_from: "2026-08-02"
+  gpai_obligations_live_from: "2025-08-02"
+  deployer_fria_required_from: "2026-08-02"
+  post_market_monitoring_required_from: "2026-08-02"
