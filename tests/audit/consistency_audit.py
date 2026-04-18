@@ -42,6 +42,8 @@ PLUGIN_PUBLIC_FUNCTIONS = {
     "management-review-packager": ["generate_review_package", "render_markdown"],
     "metrics-collector": ["generate_metrics_report", "render_markdown", "render_csv"],
     "gap-assessment": ["generate_gap_assessment", "render_markdown", "render_csv"],
+    "data-register-builder": ["generate_data_register", "render_markdown", "render_csv"],
+    "applicability-checker": ["check_applicability", "render_markdown"],
 }
 
 
@@ -230,6 +232,8 @@ def audit_workflow_plugin_artifact_type_alignment(findings: list[dict], aigovcla
         "management-review.md": "management-review-packager",
         "metrics-collector.md": "metrics-collector",
         "gap-assessment.md": "gap-assessment",
+        "data-register.md": "data-register-builder",
+        "applicability-check.md": "applicability-checker",
     }
 
     for workflow_file, plugin_name in expected.items():
