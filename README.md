@@ -36,6 +36,8 @@ AIGovOps turns AI governance frameworks (NIST AI RMF, ISO/IEC 42001, EU AI Act, 
 | [risk-register-builder](plugins/risk-register-builder/) | ISO 42001 and NIST AI RMF-compliant AI risk register (JSON + Markdown + CSV) | 0.1.0 |
 | [soa-generator](plugins/soa-generator/) | ISO 42001-compliant Statement of Applicability (JSON + Markdown + CSV) | 0.1.0 |
 | [aisia-runner](plugins/aisia-runner/) | ISO 42001 and NIST AI RMF-compliant AI System Impact Assessment (JSON + Markdown) | 0.1.0 |
+| [nonconformity-tracker](plugins/nonconformity-tracker/) | ISO 42001 Clause 10.2 and NIST MANAGE 4.2 nonconformity and corrective-action records (JSON + Markdown) | 0.1.0 |
+| [management-review-packager](plugins/management-review-packager/) | ISO 42001 Clause 9.3.2 management review input package (JSON + Markdown) | 0.1.0 |
 
 ## Bundles
 
