@@ -252,6 +252,166 @@ def test_no_em_dashes():
     assert "\u2014" not in md
 
 
+# --- Colorado SB 205 safe-harbor assessment ---
+
+def test_sb205_assessment_default_enabled():
+    # Employment is a Colorado SB 205 consequential-decision domain.
+    sys = _minimal_system(
+        system_name="ResumeScreen",
+        intended_use="Resume screening and candidate ranking for HR",
+        sector="employment",
+    )
+    result = plugin.classify({
+        "system_description": sys,
+        "actor_conformance_frameworks": ["nist-ai-rmf"],
+        "actor_role_for_sb205": "deployer",
+    })
+    assert "sb205_assessment" in result
+    sb205 = result["sb205_assessment"]
+    assert sb205["in_scope"] is True
+    assert "employment" in sb205["matched_domains"]
+    assert sb205["section_6_1_1706_3_applies"] is True
+    assert sb205["section_6_1_1706_4_applies"] is True
+    assert any(
+        c["presumption_target"] == "nist-ai-rmf"
+        for c in sb205["safe_harbor_citations"]
+    )
+    assert all(
+        c["section"] == "Colorado SB 205, Section 6-1-1706(3)"
+        for c in sb205["safe_harbor_citations"]
+    )
+    # EU classification output remains intact.
+    assert result["risk_tier"] == "high-risk-annex-iii"
+
+
+def test_sb205_assessment_disabled_via_flag():
+    sys = _minimal_system(
+        system_name="ResumeScreen",
+        intended_use="Resume screening",
+        sector="employment",
+    )
+    result = plugin.classify({
+        "system_description": sys,
+        "assess_sb205_safe_harbor": False,
+        "actor_conformance_frameworks": ["nist-ai-rmf"],
+        "actor_role_for_sb205": "deployer",
+    })
+    assert "sb205_assessment" not in result
+    assert result["risk_tier"] == "high-risk-annex-iii"
+
+
+def test_sb205_out_of_scope_system():
+    sys = _minimal_system(
+        system_name="InternalBot",
+        intended_use="Internal back-office automation",
+        sector="internal-operations",
+    )
+    result = plugin.classify({
+        "system_description": sys,
+        "actor_conformance_frameworks": ["nist-ai-rmf"],
+        "actor_role_for_sb205": "deployer",
+    })
+    assert "sb205_assessment" in result
+    sb205 = result["sb205_assessment"]
+    assert sb205["in_scope"] is False
+    assert sb205["safe_harbor_applicable"] is False
+    assert "reason" in sb205
+
+
+def test_sb205_in_scope_no_conformance_warns():
+    sys = _minimal_system(
+        system_name="LoanScore",
+        intended_use="Credit scoring and creditworthiness evaluation",
+        sector="financial-lending",
+    )
+    result = plugin.classify({
+        "system_description": sys,
+        "actor_conformance_frameworks": [],
+        "actor_role_for_sb205": "deployer",
+    })
+    sb205 = result["sb205_assessment"]
+    assert sb205["in_scope"] is True
+    assert sb205["section_6_1_1706_3_applies"] is False
+    assert sb205["section_6_1_1706_4_applies"] is False
+    assert sb205["safe_harbor_citations"] == []
+    assert any(
+        "safe-harbor not available" in w.lower()
+        or "no claimed conformance" in w.lower()
+        for w in sb205["warnings"]
+    )
+
+
+def test_sb205_in_scope_iso42001_conformance_safe_harbor():
+    sys = _minimal_system(
+        system_name="InsuranceRater",
+        intended_use="Life insurance pricing with automated decisioning",
+        sector="insurance",
+    )
+    result = plugin.classify({
+        "system_description": sys,
+        "actor_conformance_frameworks": ["iso42001"],
+        "actor_role_for_sb205": "deployer",
+    })
+    sb205 = result["sb205_assessment"]
+    assert sb205["in_scope"] is True
+    assert sb205["section_6_1_1706_3_applies"] is True
+    assert any(
+        c["presumption_target"] == "iso42001"
+        for c in sb205["safe_harbor_citations"]
+    )
+    assert all(
+        c["section"] == "Colorado SB 205, Section 6-1-1706(3)"
+        for c in sb205["safe_harbor_citations"]
+    )
+
+
+def test_sb205_graceful_failure_on_broken_crosswalk():
+    # Force a crosswalk load failure by temporarily pointing the loader at
+    # a path that does not exist. The EU classification must still render.
+    import importlib.util as _util
+    from pathlib import Path as _Path
+
+    original_loader = plugin._load_crosswalk_module
+
+    def _broken_loader():
+        bogus = _Path("/nonexistent/crosswalk-matrix-builder/plugin.py")
+        spec = _util.spec_from_file_location("_bogus", bogus)
+        # Force an ImportError path inside _assess_sb205_safe_harbor.
+        raise ImportError(f"crosswalk plugin not found at {bogus}")
+
+    try:
+        # Patch the top-level symbol used as a default argument binding.
+        plugin._load_crosswalk_module = _broken_loader
+        sys_desc = _minimal_system(
+            system_name="EmploymentScreen",
+            intended_use="Resume screening",
+            sector="employment",
+        )
+        # Call the internal assessor directly with the broken loader to
+        # exercise the graceful-failure branch end-to-end.
+        assessment, warnings = plugin._assess_sb205_safe_harbor(
+            system=sys_desc,
+            actor_conformance_frameworks=["nist-ai-rmf"],
+            actor_role="deployer",
+            crosswalk_module_loader=_broken_loader,
+        )
+        assert assessment is None
+        assert any("crosswalk" in w.lower() for w in warnings)
+
+        # Sanity: end-to-end classify still succeeds even if we cannot
+        # patch the lazy loader inside classify's default path. The EU
+        # classification output is the primary invariant.
+        result = plugin.classify({
+            "system_description": sys_desc,
+            "actor_conformance_frameworks": ["nist-ai-rmf"],
+            "actor_role_for_sb205": "deployer",
+        })
+        assert result["risk_tier"] == "high-risk-annex-iii"
+        assert "citations" in result
+    finally:
+        plugin._load_crosswalk_module = original_loader
+
+
 # --- Summary ---
 
 def test_summary_counts_present():

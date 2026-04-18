@@ -30,12 +30,42 @@ Status: Phase 3 minimum-viable implementation.
 
 from __future__ import annotations
 
+import importlib.util
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any
 
-AGENT_SIGNATURE = "gap-assessment/0.1.0"
+AGENT_SIGNATURE = "gap-assessment/0.2.0"
 
 VALID_FRAMEWORKS = ("iso42001", "nist", "eu-ai-act")
+
+# Crosswalk-plugin framework ids that may be passed as reference frameworks
+# for cross-framework gap surfacing. These are the ids declared in
+# crosswalk-matrix-builder/data/frameworks.yaml.
+VALID_CROSSWALK_REFERENCE_FRAMEWORKS = (
+    "iso42001",
+    "nist-ai-rmf",
+    "eu-ai-act",
+    "uk-atrs",
+    "colorado-sb-205",
+    "nyc-ll144",
+)
+
+# Map gap-assessment target_framework ids to crosswalk framework ids. The
+# gap-assessment plugin predates crosswalk-matrix-builder and uses shorter
+# identifiers; the crosswalk uses canonical versioned ids.
+_TARGET_FRAMEWORK_TO_CROSSWALK_ID = {
+    "iso42001": "iso42001",
+    "nist": "nist-ai-rmf",
+    "eu-ai-act": "eu-ai-act",
+}
+
+DEFAULT_CROSSWALK_REFERENCE_FRAMEWORKS = (
+    "nist-ai-rmf",
+    "eu-ai-act",
+    "uk-atrs",
+    "colorado-sb-205",
+)
 VALID_CLASSIFICATIONS = (
     "covered",
     "partially-covered",
@@ -88,6 +118,20 @@ DEFAULT_ISO_TARGETS: tuple[dict[str, str], ...] = (
 
 REQUIRED_INPUT_FIELDS = ("ai_system_inventory", "target_framework")
 
+VALID_INPUT_FIELDS = (
+    "ai_system_inventory",
+    "target_framework",
+    "targets",
+    "soa_rows",
+    "current_state_evidence",
+    "manual_classifications",
+    "exclusion_justifications",
+    "scope_boundary",
+    "reviewed_by",
+    "surface_crosswalk_gaps",
+    "crosswalk_reference_frameworks",
+)
+
 
 def _validate(inputs: dict[str, Any]) -> None:
     if not isinstance(inputs, dict):
@@ -125,6 +169,21 @@ def _validate(inputs: dict[str, Any]) -> None:
             if status and status not in VALID_CLASSIFICATIONS:
                 raise ValueError(
                     f"manual_classifications[{cid!r}].classification must be one of {VALID_CLASSIFICATIONS}; got {status!r}"
+                )
+
+    surface = inputs.get("surface_crosswalk_gaps")
+    if surface is not None and not isinstance(surface, bool):
+        raise ValueError("surface_crosswalk_gaps, when provided, must be a bool")
+
+    ref_fws = inputs.get("crosswalk_reference_frameworks")
+    if ref_fws is not None:
+        if not isinstance(ref_fws, list):
+            raise ValueError("crosswalk_reference_frameworks, when provided, must be a list")
+        for fw in ref_fws:
+            if fw not in VALID_CROSSWALK_REFERENCE_FRAMEWORKS:
+                raise ValueError(
+                    f"crosswalk_reference_frameworks entry {fw!r} is not a valid crosswalk framework id; "
+                    f"must be one of {VALID_CROSSWALK_REFERENCE_FRAMEWORKS}"
                 )
 
 
@@ -268,6 +327,109 @@ def _classify_target(
     )
 
 
+_CROSSWALK_MODULE_CACHE: Any = None
+
+
+def _load_crosswalk_module():
+    """Lazily load the sibling crosswalk-matrix-builder plugin module.
+
+    The plugins directory uses hyphenated names so a straight import is not
+    available. This helper resolves the sibling path and loads
+    ``crosswalk-matrix-builder/plugin.py`` via importlib. Result is cached.
+    """
+    global _CROSSWALK_MODULE_CACHE
+    if _CROSSWALK_MODULE_CACHE is not None:
+        return _CROSSWALK_MODULE_CACHE
+    plugin_path = (
+        Path(__file__).resolve().parent.parent
+        / "crosswalk-matrix-builder"
+        / "plugin.py"
+    )
+    if not plugin_path.is_file():
+        raise FileNotFoundError(f"crosswalk-matrix-builder/plugin.py not found at {plugin_path}")
+    spec = importlib.util.spec_from_file_location("_gap_assessment_crosswalk", plugin_path)
+    if spec is None or spec.loader is None:
+        raise ImportError(f"Could not build import spec for {plugin_path}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    _CROSSWALK_MODULE_CACHE = module
+    return module
+
+
+def _surface_crosswalk_gaps(
+    target_framework: str,
+    reference_frameworks: list[str],
+) -> tuple[list[dict[str, Any]], list[str]]:
+    """Return (surfaced, warnings).
+
+    For each reference framework, query the crosswalk for bidirectional
+    no-mapping entries between the reference and the gap-assessment target.
+    Each returned record names the direction and carries a trimmed row list.
+    """
+    surfaced: list[dict[str, Any]] = []
+    warnings: list[str] = []
+
+    crosswalk_target = _TARGET_FRAMEWORK_TO_CROSSWALK_ID.get(target_framework)
+    if crosswalk_target is None:
+        warnings.append(
+            f"Crosswalk gap surfacing skipped: no crosswalk framework id mapping for target_framework={target_framework!r}."
+        )
+        return surfaced, warnings
+
+    try:
+        crosswalk = _load_crosswalk_module()
+    except Exception as exc:
+        warnings.append(f"Crosswalk gap surfacing skipped: {exc}")
+        return surfaced, warnings
+
+    for ref_fw in reference_frameworks:
+        if ref_fw == crosswalk_target:
+            # Self-pair is meaningless.
+            continue
+        for direction_label, src, tgt in (
+            ("reference-beyond-target", ref_fw, crosswalk_target),
+            ("target-beyond-reference", crosswalk_target, ref_fw),
+        ):
+            try:
+                result = crosswalk.build_matrix({
+                    "query_type": "gaps",
+                    "source_framework": src,
+                    "target_framework": tgt,
+                })
+            except Exception as exc:
+                warnings.append(
+                    f"Crosswalk gap surfacing skipped for {src!r}->{tgt!r}: {exc}"
+                )
+                continue
+
+            gap_rows = result.get("gaps") or []
+            trimmed: list[dict[str, Any]] = []
+            for row in gap_rows:
+                citation_sources = row.get("citation_sources") or []
+                citation_label = ""
+                for src_item in citation_sources:
+                    pub = (src_item.get("publication") or "").strip()
+                    if pub:
+                        citation_label = pub
+                        break
+                trimmed.append({
+                    "source_ref": row.get("source_ref", ""),
+                    "source_title": row.get("source_title", ""),
+                    "notes": row.get("notes", "") or "",
+                    "citation": citation_label,
+                })
+
+            surfaced.append({
+                "reference_framework": ref_fw,
+                "target_framework": crosswalk_target,
+                "direction": direction_label,
+                "gap_count": len(trimmed),
+                "gaps": trimmed,
+            })
+
+    return surfaced, warnings
+
+
 def _default_next_step(classification: str) -> str:
     return {
         "covered": "Continue routine monitoring.",
@@ -373,7 +535,7 @@ def generate_gap_assessment(inputs: dict[str, Any]) -> dict[str, Any]:
     elif tf == "eu-ai-act":
         citations = ["EU AI Act, Article 9"]  # Risk-management reference; caller may override.
 
-    return {
+    output: dict[str, Any] = {
         "timestamp": _utc_now_iso(),
         "agent_signature": AGENT_SIGNATURE,
         "target_framework": tf,
@@ -384,6 +546,20 @@ def generate_gap_assessment(inputs: dict[str, Any]) -> dict[str, Any]:
         "warnings": register_warnings,
         "reviewed_by": inputs.get("reviewed_by"),
     }
+
+    surface = inputs.get("surface_crosswalk_gaps")
+    if surface is None:
+        surface = True
+    if surface:
+        reference_frameworks = inputs.get("crosswalk_reference_frameworks")
+        if reference_frameworks is None:
+            reference_frameworks = list(DEFAULT_CROSSWALK_REFERENCE_FRAMEWORKS)
+        surfaced, surfacing_warnings = _surface_crosswalk_gaps(tf, reference_frameworks)
+        output["crosswalk_gaps_surfaced"] = surfaced
+        if surfacing_warnings:
+            output["warnings"] = list(output["warnings"]) + surfacing_warnings
+
+    return output
 
 
 def render_markdown(assessment: dict[str, Any]) -> str:
@@ -439,6 +615,50 @@ def render_markdown(assessment: dict[str, Any]) -> str:
             )
         lines.append("")
 
+    # Cross-framework gap visibility (opt-out enrichment from crosswalk plugin).
+    surfaced = assessment.get("crosswalk_gaps_surfaced")
+    if surfaced is not None:
+        lines.extend(["## Cross-framework gap visibility", ""])
+        if not surfaced:
+            lines.append(
+                "No cross-framework gaps surfaced. Verify crosswalk_reference_frameworks or crosswalk data scope."
+            )
+            lines.append("")
+        else:
+            lines.append(
+                "Gaps below are sourced from crosswalk-matrix-builder no-mapping entries. "
+                "See the crosswalk plugin for the full row list and citations."
+            )
+            lines.append("")
+            # Group by reference_framework.
+            by_ref: dict[str, list[dict[str, Any]]] = {}
+            for entry in surfaced:
+                by_ref.setdefault(entry["reference_framework"], []).append(entry)
+            for ref_fw in sorted(by_ref):
+                entries = by_ref[ref_fw]
+                total = sum(e["gap_count"] for e in entries)
+                lines.append(f"### {ref_fw} ({total} gap rows)")
+                lines.append("")
+                for entry in entries:
+                    lines.append(
+                        f"- direction: {entry['direction']} "
+                        f"(source: {_direction_source(entry)}, target: {_direction_target(entry)}); "
+                        f"gap_count: {entry['gap_count']}"
+                    )
+                    top = entry["gaps"][:5]
+                    for gap in top:
+                        ref = gap.get("source_ref", "")
+                        title = gap.get("source_title", "")
+                        notes = (gap.get("notes") or "").replace("\n", " ")
+                        citation = gap.get("citation", "")
+                        lines.append(f"  - {ref}: {title}. {notes} [{citation}]")
+                    remaining = entry["gap_count"] - len(top)
+                    if remaining > 0:
+                        lines.append(
+                            f"  - (+{remaining} more; query crosswalk-matrix-builder for the full list)"
+                        )
+                lines.append("")
+
     warnings = [(r["target_id"], w) for r in assessment["rows"] for w in r["warnings"]]
     if warnings or assessment.get("warnings"):
         lines.extend(["## Warnings", ""])
@@ -451,8 +671,27 @@ def render_markdown(assessment: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def _direction_source(entry: dict[str, Any]) -> str:
+    if entry["direction"] == "reference-beyond-target":
+        return entry["reference_framework"]
+    return entry["target_framework"]
+
+
+def _direction_target(entry: dict[str, Any]) -> str:
+    if entry["direction"] == "reference-beyond-target":
+        return entry["target_framework"]
+    return entry["reference_framework"]
+
+
 def render_csv(assessment: dict[str, Any]) -> str:
-    """Render gap assessment rows as CSV."""
+    """Render gap assessment rows as CSV.
+
+    The main per-target rows use the standard six columns. When the
+    assessment carries a non-empty ``crosswalk_gaps_surfaced`` block, one
+    summary row per (reference_framework, direction) pair is appended so
+    consumers can see cross-framework gap counts without bloating the
+    primary table with full gap text.
+    """
     if "rows" not in assessment:
         raise ValueError("assessment missing 'rows' field")
     header = "target_id,target_title,citation,classification,justification,next_step"
@@ -465,6 +704,25 @@ def render_csv(assessment: dict[str, Any]) -> str:
             _csv_escape(str(r.get("classification", ""))),
             _csv_escape(str(r.get("justification", "") or "")),
             _csv_escape(str(r.get("next_step", "") or "")),
+        ]
+        lines.append(",".join(fields))
+
+    surfaced = assessment.get("crosswalk_gaps_surfaced") or []
+    for entry in surfaced:
+        ref_fw = entry.get("reference_framework", "")
+        direction = entry.get("direction", "")
+        count = entry.get("gap_count", 0)
+        target_id = f"CROSSWALK:{ref_fw}:{direction}"
+        target_title = f"Cross-framework gap summary ({ref_fw}, {direction})"
+        justification = f"{count} no-mapping rows surfaced from crosswalk-matrix-builder."
+        next_step = "Query crosswalk-matrix-builder for full gap rows and citations."
+        fields = [
+            _csv_escape(target_id),
+            _csv_escape(target_title),
+            _csv_escape("crosswalk-matrix-builder"),
+            _csv_escape("crosswalk-summary"),
+            _csv_escape(justification),
+            _csv_escape(next_step),
         ]
         lines.append(",".join(fields))
     return "\n".join(lines) + "\n"

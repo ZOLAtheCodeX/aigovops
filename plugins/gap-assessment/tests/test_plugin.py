@@ -212,7 +212,9 @@ def test_render_markdown_sections():
 
 
 def test_render_csv_header_and_row_count():
-    result = plugin.generate_gap_assessment(_iso_base())
+    inputs = _iso_base()
+    inputs["surface_crosswalk_gaps"] = False
+    result = plugin.generate_gap_assessment(inputs)
     csv = plugin.render_csv(result)
     lines = csv.strip().split("\n")
     assert lines[0].startswith("target_id,target_title,citation,classification")
@@ -227,6 +229,71 @@ def test_custom_iso_targets_respected():
     ]
     result = plugin.generate_gap_assessment(inputs)
     assert len(result["rows"]) == 2
+
+
+def test_surface_crosswalk_gaps_default_is_true():
+    result = plugin.generate_gap_assessment(_iso_base())
+    assert "crosswalk_gaps_surfaced" in result
+    assert isinstance(result["crosswalk_gaps_surfaced"], list)
+
+
+def test_surface_crosswalk_gaps_false_skips():
+    inputs = _iso_base()
+    inputs["surface_crosswalk_gaps"] = False
+    result = plugin.generate_gap_assessment(inputs)
+    assert "crosswalk_gaps_surfaced" not in result
+
+
+def test_crosswalk_gaps_for_iso_target_includes_eu_gaps():
+    inputs = _iso_base()
+    inputs["crosswalk_reference_frameworks"] = ["eu-ai-act"]
+    result = plugin.generate_gap_assessment(inputs)
+    surfaced = result["crosswalk_gaps_surfaced"]
+    eu_beyond_iso = [
+        e for e in surfaced
+        if e["reference_framework"] == "eu-ai-act"
+        and e["direction"] == "reference-beyond-target"
+    ]
+    assert eu_beyond_iso, "expected at least one eu-ai-act reference-beyond-target entry"
+    assert eu_beyond_iso[0]["gap_count"] >= 1
+    assert eu_beyond_iso[0]["gaps"]
+    first_gap = eu_beyond_iso[0]["gaps"][0]
+    for key in ("source_ref", "source_title", "notes", "citation"):
+        assert key in first_gap
+
+
+def test_invalid_reference_framework_raises():
+    inputs = _iso_base()
+    inputs["crosswalk_reference_frameworks"] = ["not-a-real-framework"]
+    try:
+        plugin.generate_gap_assessment(inputs)
+    except ValueError as exc:
+        assert "crosswalk_reference_frameworks" in str(exc)
+        return
+    raise AssertionError("expected ValueError")
+
+
+def test_graceful_failure_when_crosswalk_missing():
+    # Simulate broken crosswalk load by monkey-patching the loader.
+    original_loader = plugin._load_crosswalk_module
+    original_cache = plugin._CROSSWALK_MODULE_CACHE
+    plugin._CROSSWALK_MODULE_CACHE = None
+
+    def _broken_loader():
+        raise FileNotFoundError("simulated missing crosswalk plugin")
+
+    plugin._load_crosswalk_module = _broken_loader
+    try:
+        result = plugin.generate_gap_assessment(_iso_base())
+    finally:
+        plugin._load_crosswalk_module = original_loader
+        plugin._CROSSWALK_MODULE_CACHE = original_cache
+
+    assert "crosswalk_gaps_surfaced" in result
+    assert result["crosswalk_gaps_surfaced"] == []
+    assert any(
+        "Crosswalk gap surfacing skipped" in w for w in result["warnings"]
+    )
 
 
 def test_no_em_dashes_in_output():

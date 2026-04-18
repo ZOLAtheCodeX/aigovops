@@ -19,10 +19,36 @@ operationalization map.
 
 from __future__ import annotations
 
+import csv
+import importlib.util
+import io
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any
 
-AGENT_SIGNATURE = "high-risk-classifier/0.1.0"
+AGENT_SIGNATURE = "high-risk-classifier/0.2.0"
+
+_CROSSWALK_DIR = Path(__file__).resolve().parent.parent / "crosswalk-matrix-builder"
+
+# Colorado SB 205 consequential-decision domains that bring a system into
+# scope. Source: Colorado SB 205 Section 6-1-1701(3) and Section 6-1-1701(9).
+COLORADO_SB205_DOMAINS = (
+    "education",
+    "employment",
+    "financial-lending",
+    "essential-government",
+    "health-care",
+    "housing",
+    "insurance",
+    "legal-services",
+)
+
+# Values accepted in ``actor_conformance_frameworks`` for Colorado SB 205
+# safe-harbor analysis. These are the framework identifiers named in Section
+# 6-1-1706(3).
+VALID_SB205_CONFORMANCE_FRAMEWORKS = ("nist-ai-rmf", "iso42001")
+
+VALID_SB205_ACTOR_ROLES = ("developer", "deployer", "both")
 
 VALID_RISK_TIERS = (
     "prohibited",
@@ -120,6 +146,14 @@ ARTICLE_5_TRIGGERS = {
 REQUIRED_INPUT_FIELDS = ("system_description",)
 REQUIRED_SYSTEM_FIELDS = ("system_name", "intended_use", "sector")
 
+VALID_INPUT_FIELDS = (
+    "system_description",
+    "reviewed_by",
+    "assess_sb205_safe_harbor",
+    "actor_conformance_frameworks",
+    "actor_role_for_sb205",
+)
+
 
 def _validate(inputs: dict[str, Any]) -> None:
     if not isinstance(inputs, dict):
@@ -133,6 +167,27 @@ def _validate(inputs: dict[str, Any]) -> None:
     missing_sys = [f for f in REQUIRED_SYSTEM_FIELDS if f not in system]
     if missing_sys:
         raise ValueError(f"system_description missing required fields: {sorted(missing_sys)}")
+
+    assess_flag = inputs.get("assess_sb205_safe_harbor", True)
+    if not isinstance(assess_flag, bool):
+        raise ValueError("assess_sb205_safe_harbor must be a bool")
+
+    frameworks = inputs.get("actor_conformance_frameworks", [])
+    if not isinstance(frameworks, list):
+        raise ValueError("actor_conformance_frameworks must be a list")
+    for fw in frameworks:
+        if fw not in VALID_SB205_CONFORMANCE_FRAMEWORKS:
+            raise ValueError(
+                f"Invalid actor_conformance_frameworks value '{fw}'. "
+                f"Must be one of {VALID_SB205_CONFORMANCE_FRAMEWORKS}."
+            )
+
+    role = inputs.get("actor_role_for_sb205")
+    if role is not None and role not in VALID_SB205_ACTOR_ROLES:
+        raise ValueError(
+            f"Invalid actor_role_for_sb205 '{role}'. "
+            f"Must be one of {VALID_SB205_ACTOR_ROLES} or None."
+        )
 
 
 def _emotion_recognition_workplace_education_matcher(text: str) -> tuple[str, ...]:
@@ -243,9 +298,196 @@ def _screen_annex_i(system: dict[str, Any]) -> dict[str, Any] | None:
     }
 
 
+def _load_crosswalk_module():
+    """Import the sibling crosswalk-matrix-builder plugin module.
+
+    Lazy import so classification with assess_sb205_safe_harbor=False does
+    not pay the YAML-load cost and is immune to crosswalk-side failures.
+    """
+    plugin_path = _CROSSWALK_DIR / "plugin.py"
+    if not plugin_path.exists():
+        raise ImportError(f"crosswalk plugin not found at {plugin_path}")
+    spec = importlib.util.spec_from_file_location(
+        "_aigovops_crosswalk_plugin_hrc", plugin_path
+    )
+    if spec is None or spec.loader is None:
+        raise ImportError(f"could not build import spec for {plugin_path}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def _system_in_sb205_scope(system: dict[str, Any]) -> tuple[bool, list[str]]:
+    """Determine whether the system operates in a Colorado SB 205
+    consequential-decision domain.
+
+    Returns (in_scope, matched_domains). Matching prefers the explicit
+    ``consequential_decision_domains`` list. If absent, falls back to the
+    ``sector`` field and matches on substring.
+    """
+    declared = system.get("consequential_decision_domains")
+    if isinstance(declared, list) and declared:
+        matched = [d for d in declared if d in COLORADO_SB205_DOMAINS]
+        return (bool(matched), matched)
+
+    sector = str(system.get("sector", "")).lower()
+    # Sector-string fallback mapping. Conservative: exact-token or clear
+    # substring alignments only.
+    sector_to_domain = {
+        "education": "education",
+        "employment": "employment",
+        "hr": "employment",
+        "human-resources": "employment",
+        "financial-lending": "financial-lending",
+        "lending": "financial-lending",
+        "credit": "financial-lending",
+        "government": "essential-government",
+        "essential-government": "essential-government",
+        "health-care": "health-care",
+        "healthcare": "health-care",
+        "health": "health-care",
+        "housing": "housing",
+        "insurance": "insurance",
+        "legal-services": "legal-services",
+        "legal": "legal-services",
+    }
+    matched: list[str] = []
+    for token, domain in sector_to_domain.items():
+        if token in sector and domain not in matched:
+            matched.append(domain)
+    return (bool(matched), matched)
+
+
+def _assess_sb205_safe_harbor(
+    system: dict[str, Any],
+    actor_conformance_frameworks: list[str],
+    actor_role: str | None,
+    crosswalk_module_loader=_load_crosswalk_module,
+) -> tuple[dict[str, Any] | None, list[str]]:
+    """Run the Colorado SB 205 safe-harbor assessment.
+
+    Returns (assessment_dict_or_None, top_level_warnings). If the sibling
+    crosswalk plugin fails to load, returns (None, [warning]) so the EU
+    classification output remains intact.
+    """
+    top_level_warnings: list[str] = []
+    in_scope, matched_domains = _system_in_sb205_scope(system)
+
+    if not in_scope:
+        return (
+            {
+                "in_scope": False,
+                "reason": (
+                    "System is not deployed in a Colorado SB 205 "
+                    "consequential-decision domain (education, employment, "
+                    "financial-lending, essential-government, health-care, "
+                    "housing, insurance, legal-services)."
+                ),
+                "safe_harbor_applicable": False,
+            },
+            top_level_warnings,
+        )
+
+    try:
+        crosswalk = crosswalk_module_loader()
+        presumption_result = crosswalk.build_matrix({
+            "query_type": "matrix",
+            "source_framework": "colorado-sb-205",
+            "relationship_filter": ["statutory-presumption"],
+        })
+    except Exception as exc:
+        top_level_warnings.append(
+            f"Colorado SB 205 safe-harbor assessment skipped: crosswalk "
+            f"load failed ({type(exc).__name__}: {exc}). EU AI Act "
+            "classification is unaffected."
+        )
+        return (None, top_level_warnings)
+
+    presumption_rows = presumption_result.get("mappings", [])
+    target_frameworks_in_data = {
+        row.get("target_framework") for row in presumption_rows
+    }
+
+    warnings: list[str] = []
+    citations: list[dict[str, str]] = []
+    recommended_actions: list[str] = []
+
+    claimed = list(actor_conformance_frameworks)
+    has_claim = bool(claimed)
+
+    # Section 6-1-1706(3) applies when the actor claims NIST or ISO
+    # conformance AND occupies a deployer role (or both). Developers are
+    # covered by the same presumption language in the statute; a developer
+    # who is not also a deployer still benefits from conformance evidence
+    # for 6-1-1702(1) reasonable-care defence.
+    role_qualifies_for_6_1_1706_3 = actor_role in ("deployer", "both", "developer")
+
+    section_6_1_1706_3_applies = False
+    section_6_1_1706_4_applies = False
+
+    for fw in claimed:
+        if fw in target_frameworks_in_data:
+            if role_qualifies_for_6_1_1706_3:
+                section_6_1_1706_3_applies = True
+            # Section 6-1-1706(4) affirmative defense attaches to any actor
+            # who conforms to a recognized framework and cures the
+            # violation. Role-independent.
+            section_6_1_1706_4_applies = True
+            citations.append({
+                "section": "Colorado SB 205, Section 6-1-1706(3)",
+                "presumption_target": fw,
+            })
+
+    if not has_claim:
+        warnings.append(
+            "No claimed conformance to NIST AI RMF or ISO 42001 provided. "
+            "Colorado SB 205 safe-harbor not available. Consider conforming "
+            "to gain Section 6-1-1706(3) rebuttable presumption."
+        )
+    else:
+        if actor_role is None:
+            warnings.append(
+                "actor_role_for_sb205 not provided. Section 6-1-1706(3) "
+                "presumption determination requires role designation "
+                "(developer, deployer, or both)."
+            )
+        if "nist-ai-rmf" in claimed:
+            recommended_actions.append(
+                "Maintain NIST AI RMF conformance documentation"
+            )
+        if "iso42001" in claimed:
+            recommended_actions.append(
+                "Maintain ISO/IEC 42001 AIMS conformance documentation and "
+                "Clause 9.2 internal audit records"
+            )
+        if section_6_1_1706_3_applies:
+            recommended_actions.append(
+                "If discrimination claim arises, invoke 6-1-1706(3) "
+                "rebuttable presumption"
+            )
+        recommended_actions.append(
+            "Continue Clause 9.2 internal audit (ISO) or continuous "
+            "improvement practice (NIST MANAGE 4.2) to maintain presumption"
+        )
+
+    assessment = {
+        "in_scope": True,
+        "matched_domains": matched_domains,
+        "actor_role": actor_role,
+        "section_6_1_1706_3_applies": section_6_1_1706_3_applies,
+        "section_6_1_1706_4_applies": section_6_1_1706_4_applies,
+        "claimed_conformance": claimed,
+        "safe_harbor_citations": citations,
+        "recommended_actions": recommended_actions,
+        "warnings": warnings,
+    }
+    return (assessment, top_level_warnings)
+
+
 def classify(inputs: dict[str, Any]) -> dict[str, Any]:
     """
-    Classify an AI system under EU AI Act risk tiers.
+    Classify an AI system under EU AI Act risk tiers and, when in scope,
+    assess Colorado SB 205 safe-harbor posture.
 
     Args:
         inputs: Dict with:
@@ -254,13 +496,23 @@ def classify(inputs: dict[str, Any]) -> dict[str, Any]:
                                 data_processed, annex_i_product_type,
                                 annex_iii_self_declared (list of category keys),
                                 article_5_self_declared (list),
-                                article_6_3_exception_claimed (bool).
+                                article_6_3_exception_claimed (bool),
+                                consequential_decision_domains (list, optional).
             reviewed_by: optional string.
+            assess_sb205_safe_harbor: bool (default True). Set to False to
+                                skip the Colorado SB 205 safe-harbor
+                                assessment entirely.
+            actor_conformance_frameworks: list[str] (default []). Names the
+                                frameworks the actor claims conformance to.
+                                Accepted values: "nist-ai-rmf", "iso42001".
+            actor_role_for_sb205: str | None (default None). One of
+                                "developer", "deployer", "both", or None.
 
     Returns:
         Dict with timestamp, agent_signature, risk_tier, rationale,
         annex_iii_matches, article_5_matches, annex_i_match, citations,
-        requires_legal_review flag, warnings, reviewed_by.
+        requires_legal_review, warnings, reviewed_by, summary. Includes
+        sb205_assessment when assess_sb205_safe_harbor is True.
 
     Raises:
         ValueError: if required inputs are missing or malformed.
@@ -354,8 +606,21 @@ def classify(inputs: dict[str, Any]) -> dict[str, Any]:
             citations.append("EU AI Act, Article 26")
             citations.append("EU AI Act, Article 27")
 
+    # Colorado SB 205 safe-harbor assessment. Additive to EU classification.
+    assess_sb205 = inputs.get("assess_sb205_safe_harbor", True)
+    sb205_assessment = None
+    if assess_sb205:
+        sb205_assessment, sb205_top_warnings = _assess_sb205_safe_harbor(
+            system=system,
+            actor_conformance_frameworks=inputs.get(
+                "actor_conformance_frameworks", []
+            ),
+            actor_role=inputs.get("actor_role_for_sb205"),
+        )
+        warnings.extend(sb205_top_warnings)
+
     # Always cite Article 6 as the classification home.
-    return {
+    output: dict[str, Any] = {
         "timestamp": _utc_now_iso(),
         "agent_signature": AGENT_SIGNATURE,
         "framework": "eu-ai-act",
@@ -376,6 +641,15 @@ def classify(inputs: dict[str, Any]) -> dict[str, Any]:
             "article_5_flag_count": len(article_5_matches),
         },
     }
+
+    if sb205_assessment is not None:
+        output["sb205_assessment"] = sb205_assessment
+        output["summary"]["sb205_in_scope"] = sb205_assessment.get("in_scope", False)
+        output["summary"]["sb205_6_1_1706_3_applies"] = sb205_assessment.get(
+            "section_6_1_1706_3_applies", False
+        )
+
+    return output
 
 
 def _has_transparency_obligation(system: dict[str, Any]) -> bool:
@@ -437,6 +711,57 @@ def render_markdown(result: dict[str, Any]) -> str:
         lines.append(f"- Product type: {m['product_type']}")
         lines.append(f"- {m['explanation']}")
 
+    sb205 = result.get("sb205_assessment")
+    if sb205 is not None:
+        lines.extend(["", "## Colorado SB 205 safe-harbor assessment", ""])
+        lines.append(f"- In scope: {sb205.get('in_scope', False)}")
+        if sb205.get("in_scope"):
+            domains = sb205.get("matched_domains") or []
+            if domains:
+                lines.append(
+                    f"- Matched consequential-decision domains: {', '.join(domains)}"
+                )
+            lines.append(f"- Actor role: {sb205.get('actor_role')}")
+            claimed = sb205.get("claimed_conformance") or []
+            lines.append(
+                "- Claimed conformance: "
+                + (", ".join(claimed) if claimed else "(none)")
+            )
+            lines.append(
+                f"- Section 6-1-1706(3) applies: "
+                f"{sb205.get('section_6_1_1706_3_applies', False)}"
+            )
+            lines.append(
+                f"- Section 6-1-1706(4) applies: "
+                f"{sb205.get('section_6_1_1706_4_applies', False)}"
+            )
+            citations_sb = sb205.get("safe_harbor_citations") or []
+            if citations_sb:
+                lines.extend(["", "### Safe-harbor citations", ""])
+                for c in citations_sb:
+                    lines.append(
+                        f"- {c.get('section')} "
+                        f"(presumption target: {c.get('presumption_target')})"
+                    )
+            actions = sb205.get("recommended_actions") or []
+            if actions:
+                lines.extend(["", "### Recommended actions", ""])
+                for a in actions:
+                    lines.append(f"- {a}")
+            sb_warnings = sb205.get("warnings") or []
+            if sb_warnings:
+                lines.extend(["", "### Assessment warnings", ""])
+                for w in sb_warnings:
+                    lines.append(f"- {w}")
+        else:
+            reason = sb205.get("reason")
+            if reason:
+                lines.append(f"- Reason: {reason}")
+            lines.append(
+                f"- Safe-harbor applicable: "
+                f"{sb205.get('safe_harbor_applicable', False)}"
+            )
+
     if result.get("warnings"):
         lines.extend(["", "## Warnings", ""])
         for w in result["warnings"]:
@@ -444,3 +769,51 @@ def render_markdown(result: dict[str, Any]) -> str:
 
     lines.append("")
     return "\n".join(lines)
+
+
+def render_csv(result: dict[str, Any]) -> str:
+    """Render a single-row CSV summary of the classification result.
+
+    Columns cover the EU AI Act classification outputs plus the Colorado
+    SB 205 safe-harbor summary columns. Consumers that only need a compact
+    audit-log row rather than the full markdown artifact use this renderer.
+    """
+    required = ("timestamp", "risk_tier")
+    missing = [k for k in required if k not in result]
+    if missing:
+        raise ValueError(f"result missing required fields: {missing}")
+
+    sys_desc = result.get("system_description_echo", {})
+    sb205 = result.get("sb205_assessment") or {}
+    claimed = sb205.get("claimed_conformance") or []
+
+    buf = io.StringIO()
+    writer = csv.writer(buf)
+    header = [
+        "timestamp",
+        "agent_signature",
+        "system_name",
+        "risk_tier",
+        "requires_legal_review",
+        "annex_iii_match_count",
+        "article_5_flag_count",
+        "sb205_in_scope",
+        "sb205_6_1_1706_3_applies",
+        "sb205_claimed_conformance",
+    ]
+    writer.writerow(header)
+    writer.writerow([
+        result.get("timestamp", ""),
+        result.get("agent_signature", ""),
+        sys_desc.get("system_name", ""),
+        result.get("risk_tier", ""),
+        result.get("requires_legal_review", False),
+        len(result.get("annex_iii_matches") or []),
+        len(result.get("article_5_matches") or []),
+        sb205.get("in_scope", False) if result.get("sb205_assessment") else "",
+        sb205.get("section_6_1_1706_3_applies", False)
+        if result.get("sb205_assessment")
+        else "",
+        "|".join(claimed),
+    ])
+    return buf.getvalue()

@@ -209,6 +209,81 @@ def test_citation_format_matches_style_md():
         assert row["citation"].startswith("ISO/IEC 42001:2023, Annex A, Control ")
 
 
+# --------------------------------------------------------------------------- #
+# Crosswalk enrichment tests (soa-generator/0.2.0 integration).
+# --------------------------------------------------------------------------- #
+
+
+def test_enrich_with_crosswalk_default_is_true():
+    result = plugin.generate_soa(_base_inputs())
+    assert "crosswalk_summary" in result
+    row = next(r for r in result["rows"] if r["control_id"] == "A.6.2.4")
+    assert "cross_framework_coverage" in row
+    assert isinstance(row["cross_framework_coverage"], list)
+    assert len(row["cross_framework_coverage"]) > 0
+    nist_matches = [e for e in row["cross_framework_coverage"] if e["target_framework"] == "nist-ai-rmf"]
+    assert len(nist_matches) >= 1
+
+
+def test_enrich_with_crosswalk_false_skips_enrichment():
+    inputs = _base_inputs()
+    inputs["enrich_with_crosswalk"] = False
+    result = plugin.generate_soa(inputs)
+    assert "crosswalk_summary" not in result
+    for row in result["rows"]:
+        assert "cross_framework_coverage" not in row
+
+
+def test_crosswalk_target_frameworks_filter_applies():
+    inputs = _base_inputs()
+    inputs["crosswalk_target_frameworks"] = ["uk-atrs"]
+    result = plugin.generate_soa(inputs)
+    for row in result["rows"]:
+        for entry in row.get("cross_framework_coverage") or []:
+            assert entry["target_framework"] == "uk-atrs"
+            assert entry["target_framework"] not in ("nist-ai-rmf", "eu-ai-act")
+
+
+def test_invalid_target_framework_raises():
+    inputs = _base_inputs()
+    inputs["crosswalk_target_frameworks"] = ["martian"]
+    try:
+        plugin.generate_soa(inputs)
+    except ValueError as exc:
+        assert "martian" in str(exc)
+        return
+    raise AssertionError("expected ValueError")
+
+
+def test_crosswalk_summary_counts_match_rows():
+    result = plugin.generate_soa(_base_inputs())
+    cs = result["crosswalk_summary"]
+    total_rows = len(result["rows"])
+    assert cs["rows_with_coverage"] + cs["rows_without_coverage"] == total_rows
+
+
+def test_crosswalk_graceful_failure_on_broken_data():
+    inputs = _base_inputs()
+    # Patch the sibling crosswalk data dir by renaming it for the duration of
+    # the test. We rename back in a finally block to keep side effects nil.
+    crosswalk_data_dir = Path(plugin._CROSSWALK_DIR) / "data"
+    backup_dir = Path(plugin._CROSSWALK_DIR) / "data__test_backup"
+    assert crosswalk_data_dir.exists(), "test precondition: crosswalk data dir exists"
+    crosswalk_data_dir.rename(backup_dir)
+    try:
+        result = plugin.generate_soa(inputs)
+        # SoA still produced.
+        assert len(result["rows"]) == 38
+        # Top-level warning present.
+        warnings_text = " ".join(result.get("warnings") or [])
+        assert "Crosswalk enrichment skipped" in warnings_text
+        # Rows are unenriched (no coverage key added when load fails).
+        for row in result["rows"]:
+            assert "cross_framework_coverage" not in row
+    finally:
+        backup_dir.rename(crosswalk_data_dir)
+
+
 def _run_all():
     import inspect
     tests = [(n, o) for n, o in inspect.getmembers(sys.modules[__name__]) if n.startswith("test_") and callable(o)]

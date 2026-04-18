@@ -30,8 +30,10 @@ Controls with no evidence default to `not-covered` with a `REQUIRES REVIEWER DEC
 | `exclusion_justifications` | dict | no | Maps target_id to justification text for not-applicable. |
 | `scope_boundary` | string | no | AIMS scope description for report context. |
 | `reviewed_by` | string | no | |
+| `surface_crosswalk_gaps` | bool | no (default `True`) | Opt-out flag. When true, the plugin queries the sibling `crosswalk-matrix-builder` plugin for bidirectional `no-mapping` entries between the gap-assessment target framework and each entry in `crosswalk_reference_frameworks`, and surfaces them under `crosswalk_gaps_surfaced`. Set to `False` to skip entirely. |
+| `crosswalk_reference_frameworks` | list[str] | no (default `["nist-ai-rmf", "eu-ai-act", "uk-atrs", "colorado-sb-205"]`) | Crosswalk framework ids whose gap entries are surfaced alongside the core assessment. Must be valid crosswalk framework ids (see `crosswalk-matrix-builder/data/frameworks.yaml`). |
 
-Invalid `target_framework` or invalid classification value raises `ValueError`. Missing `targets` for nist or eu-ai-act raises `ValueError`. Content gaps surface as warnings.
+Invalid `target_framework` or invalid classification value raises `ValueError`. Missing `targets` for nist or eu-ai-act raises `ValueError`. Invalid `crosswalk_reference_frameworks` entries raise `ValueError`. Content gaps surface as warnings.
 
 ## Classification precedence
 
@@ -50,9 +52,35 @@ Assessment dict with:
 - `timestamp`, `agent_signature`, `target_framework`, `scope_boundary`, top-level `citations`, `reviewed_by`.
 - `rows`: one per target with `target_id`, `target_title`, `citation`, `classification`, `justification`, `next_step`, per-row `warnings`.
 - `summary`: `target_framework`, `total_targets`, `classification_counts`, `targets_with_warnings`, `coverage_score` (weighted ratio: covered plus half of partially-covered, divided by total applicable).
-- `warnings`: register-level warnings (unknown target ids in evidence, and so on).
+- `warnings`: register-level warnings (unknown target ids in evidence, crosswalk surfacing failures, and so on).
+- `crosswalk_gaps_surfaced` (present only when `surface_crosswalk_gaps` is true): list of entries grouping `no-mapping` rows from the sibling `crosswalk-matrix-builder` plugin. Each entry has the shape:
+
+```python
+{
+    "reference_framework": "eu-ai-act",
+    "target_framework": "iso42001",
+    "direction": "reference-beyond-target",  # or "target-beyond-reference"
+    "gap_count": 15,
+    "gaps": [
+        {
+            "source_ref": "Art. 43",
+            "source_title": "Conformity assessment procedures",
+            "notes": "EU AI Act requires notified body assessment; no ISO 42001 control provides this.",
+            "citation": "EU AI Act, Article 43",
+        },
+        # ...
+    ],
+}
+```
+
+`direction="reference-beyond-target"` means the reference framework has requirements with no equivalent in the gap-assessment target (the practitioner's primary framework). `direction="target-beyond-reference"` means the target covers ground the reference framework does not. Both directions are emitted per reference framework so the practitioner sees the full bidirectional picture.
+
+This is how a practitioner running a gap assessment against ISO/IEC 42001 also sees what EU AI Act, UK ATRS, or Colorado SB 205 require beyond ISO, all in a single artifact. The crosswalk dataset is the source of truth: the gap-assessment plugin does not invent gap findings, it surfaces cited `no-mapping` entries already in `crosswalk-matrix-builder/data/`.
 
 Three renderers: `generate_gap_assessment`, `render_markdown`, `render_csv`.
+
+- `render_markdown` adds a "Cross-framework gap visibility" section grouping surfaced entries by reference framework, showing up to five highest-listed gap rows per entry and linking out to the crosswalk plugin for the full list.
+- `render_csv` adds one summary row per (reference_framework, direction) pair at the end of the main table. Full gap text is intentionally not inlined in CSV to keep files reviewable.
 
 ## Example
 
@@ -104,7 +132,7 @@ coverage_score = (covered + 0.5 * partially-covered) / (covered + partially-cove
 python plugins/gap-assessment/tests/test_plugin.py
 ```
 
-23 tests covering all three target frameworks, all four classification sources with precedence, SoA status mapping, evidence strength semantics, coverage score calculation, unknown-id register warnings, Markdown and CSV rendering, and no-em-dash enforcement.
+28 tests covering all three target frameworks, all four classification sources with precedence, SoA status mapping, evidence strength semantics, coverage score calculation, unknown-id register warnings, Markdown and CSV rendering, crosswalk gap surfacing (default on, opt-out, bidirectional coverage, invalid reference framework rejection, graceful failure on missing crosswalk), and no-em-dash enforcement.
 
 ## Related
 

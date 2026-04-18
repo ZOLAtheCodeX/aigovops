@@ -26,10 +26,40 @@ published standard text is flagged on the relevant IDs.
 
 from __future__ import annotations
 
+import importlib.util
+import sys
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any
 
-AGENT_SIGNATURE = "soa-generator/0.1.0"
+AGENT_SIGNATURE = "soa-generator/0.2.0"
+
+# Sibling-plugin path for crosswalk-matrix-builder. Imported lazily inside
+# the enrichment helper so basic SoA calls (enrich_with_crosswalk=False)
+# pay no import cost and are unaffected by crosswalk load failures.
+_CROSSWALK_DIR = Path(__file__).resolve().parent.parent / "crosswalk-matrix-builder"
+if str(_CROSSWALK_DIR) not in sys.path:
+    sys.path.insert(0, str(_CROSSWALK_DIR))
+
+# Framework ids accepted in crosswalk_target_frameworks. Sourced from
+# plugins/crosswalk-matrix-builder/data/frameworks.yaml.
+VALID_CROSSWALK_TARGET_FRAMEWORKS = (
+    "iso42001",
+    "nist-ai-rmf",
+    "eu-ai-act",
+    "uk-atrs",
+    "colorado-sb-205",
+    "nyc-ll144",
+    "cppa-admt",
+    "ccpa-cpra",
+    "ca-sb-942",
+    "ca-ab-2013",
+    "ca-ab-1008",
+    "ca-sb-1001",
+    "ca-ab-1836",
+)
+
+DEFAULT_CROSSWALK_TARGET_FRAMEWORKS = ("nist-ai-rmf", "eu-ai-act")
 
 # Default Annex A control list with titles as best-recalled from the
 # operationalization map. Control IDs and titles require standard-text
@@ -85,6 +115,18 @@ VALID_STATUSES = (
 
 REQUIRED_INPUT_FIELDS = ("ai_system_inventory",)
 
+VALID_INPUT_FIELDS = (
+    "ai_system_inventory",
+    "risk_register",
+    "annex_a_controls",
+    "implementation_plans",
+    "exclusion_justifications",
+    "scope_notes",
+    "reviewed_by",
+    "enrich_with_crosswalk",
+    "crosswalk_target_frameworks",
+)
+
 
 def _validate(inputs: dict[str, Any]) -> None:
     if not isinstance(inputs, dict):
@@ -105,6 +147,25 @@ def _validate(inputs: dict[str, Any]) -> None:
         value = inputs.get(field_name)
         if value is not None and not isinstance(value, dict):
             raise ValueError(f"{field_name}, when provided, must be a dict keyed by control_id")
+
+    enrich = inputs.get("enrich_with_crosswalk")
+    if enrich is not None and not isinstance(enrich, bool):
+        raise ValueError("enrich_with_crosswalk, when provided, must be a bool")
+
+    targets = inputs.get("crosswalk_target_frameworks")
+    if targets is not None:
+        if not isinstance(targets, list):
+            raise ValueError("crosswalk_target_frameworks, when provided, must be a list of framework ids")
+        for t in targets:
+            if not isinstance(t, str):
+                raise ValueError(
+                    f"crosswalk_target_frameworks entries must be strings; got {type(t).__name__}"
+                )
+            if t not in VALID_CROSSWALK_TARGET_FRAMEWORKS:
+                raise ValueError(
+                    f"Unknown crosswalk target framework '{t}'. "
+                    f"Must be one of {sorted(VALID_CROSSWALK_TARGET_FRAMEWORKS)}."
+                )
 
 
 def _utc_now_iso() -> str:
@@ -222,6 +283,112 @@ def _compute_status_and_justification(
     )
 
 
+def _load_crosswalk_module():
+    """Import the sibling crosswalk-matrix-builder plugin module.
+
+    Lazy import so SoA generation with enrich_with_crosswalk=False does not
+    pay the YAML-load cost and is immune to crosswalk-side failures.
+    """
+    plugin_path = _CROSSWALK_DIR / "plugin.py"
+    if not plugin_path.exists():
+        raise ImportError(f"crosswalk plugin not found at {plugin_path}")
+    spec = importlib.util.spec_from_file_location(
+        "_aigovops_crosswalk_plugin", plugin_path
+    )
+    if spec is None or spec.loader is None:
+        raise ImportError(f"could not build import spec for {plugin_path}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def _enrich_rows_with_crosswalk(
+    rows: list[dict[str, Any]],
+    target_frameworks: list[str],
+) -> tuple[list[str], dict[str, int]]:
+    """Attach cross_framework_coverage to each row in-place.
+
+    Returns (top_level_warnings, summary_counts). On crosswalk load failure,
+    returns a single warning and leaves rows unenriched (no key added).
+    """
+    try:
+        crosswalk = _load_crosswalk_module()
+    except Exception as exc:
+        return (
+            [f"Crosswalk enrichment skipped: {type(exc).__name__}: {exc}"],
+            {"rows_with_coverage": 0, "rows_without_coverage": 0, "total_mappings_included": 0},
+        )
+
+    # Load crosswalk data once, then filter in-memory. If data files are
+    # missing or invariants fail, abort enrichment entirely with a single
+    # top-level warning and leave rows untouched (cross_framework_coverage
+    # key absent).
+    try:
+        data = crosswalk.load_crosswalk_data()
+    except Exception as exc:
+        return (
+            [f"Crosswalk enrichment skipped: {type(exc).__name__}: {exc}"],
+            {"rows_with_coverage": 0, "rows_without_coverage": 0, "total_mappings_included": 0},
+        )
+
+    # Index by source_ref for O(1) lookup per row.
+    by_source_ref: dict[str, list[dict[str, Any]]] = {}
+    for m in data.get("mappings", []):
+        if m.get("source_framework") != "iso42001":
+            continue
+        by_source_ref.setdefault(m["source_ref"], []).append(m)
+
+    allowed = set(target_frameworks)
+    rows_with = 0
+    rows_without = 0
+    total_included = 0
+
+    for row in rows:
+        cid = row.get("control_id")
+        if not cid:
+            row["cross_framework_coverage"] = []
+            rows_without += 1
+            continue
+
+        matches = by_source_ref.get(cid, [])
+        filtered: list[dict[str, Any]] = []
+        for m in matches:
+            if m.get("target_framework") not in allowed:
+                continue
+            citations = m.get("citation_sources") or []
+            citation_label = ""
+            if citations:
+                pub = (citations[0].get("publication") or "").strip()
+                citation_label = pub
+            filtered.append({
+                "target_framework": m.get("target_framework"),
+                "target_ref": m.get("target_ref"),
+                "target_title": m.get("target_title"),
+                "relationship": m.get("relationship"),
+                "confidence": m.get("confidence"),
+                "citation": citation_label,
+            })
+
+        row["cross_framework_coverage"] = filtered
+        if filtered:
+            rows_with += 1
+            total_included += len(filtered)
+        else:
+            rows_without += 1
+            row.setdefault("warnings", []).append(
+                f"No cross-framework coverage found for {cid} in target_frameworks={sorted(allowed)}"
+            )
+
+    return (
+        [],
+        {
+            "rows_with_coverage": rows_with,
+            "rows_without_coverage": rows_without,
+            "total_mappings_included": total_included,
+        },
+    )
+
+
 def generate_soa(inputs: dict[str, Any]) -> dict[str, Any]:
     """
     Generate an ISO/IEC 42001:2023-compliant Statement of Applicability.
@@ -308,6 +475,25 @@ def generate_soa(inputs: dict[str, Any]) -> dict[str, Any]:
                 "add it to the list or correct the key."
             )
 
+    # Optional crosswalk enrichment (opt-out, default on).
+    enrich = inputs.get("enrich_with_crosswalk")
+    if enrich is None:
+        enrich = True
+    target_frameworks = list(
+        inputs.get("crosswalk_target_frameworks") or DEFAULT_CROSSWALK_TARGET_FRAMEWORKS
+    )
+
+    crosswalk_summary: dict[str, Any] | None = None
+    if enrich:
+        crosswalk_warnings, counts = _enrich_rows_with_crosswalk(rows, target_frameworks)
+        register_level_warnings.extend(crosswalk_warnings)
+        crosswalk_summary = {
+            "target_frameworks": target_frameworks,
+            "rows_with_coverage": counts["rows_with_coverage"],
+            "rows_without_coverage": counts["rows_without_coverage"],
+            "total_mappings_included": counts["total_mappings_included"],
+        }
+
     summary = {
         "total_controls": len(rows),
         "status_counts": status_counts,
@@ -315,7 +501,7 @@ def generate_soa(inputs: dict[str, Any]) -> dict[str, Any]:
         "risk_register_rows_referenced": sum(len(v) for v in linked_risks.values()),
     }
 
-    return {
+    output: dict[str, Any] = {
         "timestamp": timestamp,
         "agent_signature": AGENT_SIGNATURE,
         "citations": [
@@ -326,6 +512,9 @@ def generate_soa(inputs: dict[str, Any]) -> dict[str, Any]:
         "warnings": register_level_warnings,
         "reviewed_by": inputs.get("reviewed_by"),
     }
+    if crosswalk_summary is not None:
+        output["crosswalk_summary"] = crosswalk_summary
+    return output
 
 
 def render_markdown(soa: dict[str, Any]) -> str:
@@ -367,6 +556,39 @@ def render_markdown(soa: dict[str, Any]) -> str:
             f"| {row['control_id']} | {row.get('control_title') or ''} | {row['status']} | "
             f"{justification} | {plan_ref} | {scope} |"
         )
+    # Per-row cross-framework coverage sections (only when enrichment ran).
+    if any("cross_framework_coverage" in r for r in soa["rows"]):
+        lines.extend(["", "## Cross-framework coverage", ""])
+        for row in soa["rows"]:
+            if "cross_framework_coverage" not in row:
+                continue
+            coverage = row.get("cross_framework_coverage") or []
+            lines.append(f"### {row['control_id']} {row.get('control_title') or ''}".rstrip())
+            if not coverage:
+                lines.append("")
+                lines.append("- (no cross-framework coverage)")
+                lines.append("")
+                continue
+            lines.append("")
+            for entry in coverage:
+                conf = entry.get("confidence") or ""
+                badge = f"[{conf}]" if conf else ""
+                lines.append(
+                    f"- {entry.get('target_framework')} -> {entry.get('target_ref')} "
+                    f"({entry.get('relationship')}) {badge}".rstrip()
+                )
+            lines.append("")
+    if soa.get("crosswalk_summary"):
+        cs = soa["crosswalk_summary"]
+        lines.extend([
+            "## Crosswalk summary",
+            "",
+            f"- target_frameworks: {', '.join(cs.get('target_frameworks', []))}",
+            f"- rows_with_coverage: {cs.get('rows_with_coverage', 0)}",
+            f"- rows_without_coverage: {cs.get('rows_without_coverage', 0)}",
+            f"- total_mappings_included: {cs.get('total_mappings_included', 0)}",
+            "",
+        ])
     if soa.get("warnings"):
         lines.extend(["", "## Register-level warnings", ""])
         for w in soa["warnings"]:
@@ -381,10 +603,33 @@ def render_markdown(soa: dict[str, Any]) -> str:
 
 
 def render_csv(soa: dict[str, Any]) -> str:
-    """Render a Statement of Applicability as CSV."""
+    """Render a Statement of Applicability as CSV.
+
+    When crosswalk enrichment ran, adds three columns:
+      - crosswalk_nist_ref: first NIST AI RMF match target_ref (if any)
+      - crosswalk_eu_ai_act_ref: first EU AI Act match target_ref (if any)
+      - crosswalk_additional_count: count of remaining matches elided from the row
+    """
     if "rows" not in soa:
         raise ValueError("soa missing 'rows' field")
-    header = "control_id,control_title,status,justification,implementation_plan_ref,scope_note,linked_risks,citation"
+    enriched = any("cross_framework_coverage" in r for r in soa["rows"])
+    header_cols = [
+        "control_id",
+        "control_title",
+        "status",
+        "justification",
+        "implementation_plan_ref",
+        "scope_note",
+        "linked_risks",
+        "citation",
+    ]
+    if enriched:
+        header_cols.extend([
+            "crosswalk_nist_ref",
+            "crosswalk_eu_ai_act_ref",
+            "crosswalk_additional_count",
+        ])
+    header = ",".join(header_cols)
     lines = [header]
     for row in soa["rows"]:
         fields = [
@@ -397,6 +642,25 @@ def render_csv(soa: dict[str, Any]) -> str:
             _csv_escape("; ".join(row.get("linked_risks") or [])),
             _csv_escape(str(row.get("citation") or "")),
         ]
+        if enriched:
+            coverage = row.get("cross_framework_coverage") or []
+            nist_ref = ""
+            eu_ref = ""
+            flattened = 0
+            for entry in coverage:
+                tf = entry.get("target_framework")
+                if tf == "nist-ai-rmf" and not nist_ref:
+                    nist_ref = entry.get("target_ref") or ""
+                    flattened += 1
+                elif tf == "eu-ai-act" and not eu_ref:
+                    eu_ref = entry.get("target_ref") or ""
+                    flattened += 1
+            elided = len(coverage) - flattened
+            fields.extend([
+                _csv_escape(nist_ref),
+                _csv_escape(eu_ref),
+                _csv_escape(str(elided)),
+            ])
         lines.append(",".join(fields))
     return "\n".join(lines) + "\n"
 
