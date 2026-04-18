@@ -16,7 +16,7 @@ Skill path: `skills/<skill-name>/SKILL.md`
 
 Provide the exact input. Use a fenced code block.
 
-```
+```text
 <input here>
 ```
 
@@ -28,7 +28,7 @@ Describe what the skill should have produced. Cite the authoritative framework r
 
 Provide the actual output. Use a fenced code block.
 
-```
+```text
 <observed output here>
 ```
 

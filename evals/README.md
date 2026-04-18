@@ -10,7 +10,7 @@ This is the mechanism by which the catalogue maintains its certification-grade s
 
 ## Layout
 
-```
+```text
 evals/
 ├── <skill-name>/
 │   └── test_cases.yaml

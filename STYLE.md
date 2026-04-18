@@ -17,6 +17,7 @@ All framework references must use the exact formats below. Citation precision is
 Format: `ISO/IEC 42001:2023, Clause X.X.X`
 
 Examples:
+
 - `ISO/IEC 42001:2023, Clause 6.1.2`
 - `ISO/IEC 42001:2023, Annex A, Control A.6.2.4`
 - `ISO/IEC 42001:2023, Clause 8.3`
@@ -28,6 +29,7 @@ Use the full standard identifier on first reference in any document. Subsequent 
 Format: `<FUNCTION> <Subcategory>` where FUNCTION is one of GOVERN, MAP, MEASURE, MANAGE.
 
 Examples:
+
 - `GOVERN 1.1`
 - `MAP 3.5`
 - `MEASURE 2.7`
@@ -40,6 +42,7 @@ When referencing the framework as a whole on first use, write `NIST AI Risk Mana
 Format: `EU AI Act, Article XX, Paragraph X` where applicable.
 
 Examples:
+
 - `EU AI Act, Article 9, Paragraph 2`
 - `EU AI Act, Article 14`
 - `EU AI Act, Annex III, Point 5`
@@ -53,6 +56,7 @@ The following are not acceptable in any output produced by a skill, plugin, or c
 ### Em-dashes
 
 The U+2014 character is prohibited. Use one of:
+
 - A colon, when introducing an explanation or list.
 - A comma, when joining two related independent clauses.
 - Parentheses, when adding a parenthetical aside.
@@ -65,6 +69,7 @@ No emojis in skill outputs, plugin outputs, README files, comments, commit messa
 ### Hedging phrases
 
 The following phrases and close variants are prohibited:
+
 - "may want to consider"
 - "might be helpful to"
 - "could potentially"
