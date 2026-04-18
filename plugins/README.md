@@ -8,7 +8,8 @@ Plugins differ from skills in execution semantics. A skill is loaded as knowledg
 
 | Plugin | Output Artifact | Status |
 |---|---|---|
-| [audit-log-generator](audit-log-generator/) | ISO 42001-compliant audit log (JSON + human-readable) | stub |
+| [audit-log-generator](audit-log-generator/) | ISO 42001-compliant audit log (JSON + Markdown) | 0.1.0 |
+| [role-matrix-generator](role-matrix-generator/) | ISO 42001-compliant role and responsibility matrix (JSON + Markdown + CSV) | 0.1.0 |
 
 ## Plugin requirements
 
