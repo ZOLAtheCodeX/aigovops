@@ -8,8 +8,8 @@ assignees: []
 
 ## Skill
 
-Skill name: 
-Skill version: 
+Skill name:
+Skill version:
 Skill path: `skills/<skill-name>/SKILL.md`
 
 ## Input that produced the incorrect output

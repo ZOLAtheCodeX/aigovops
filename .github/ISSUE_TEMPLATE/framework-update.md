@@ -8,7 +8,7 @@ assignees: []
 
 ## Framework
 
-Framework name (use the official identifier, for example `ISO/IEC 42001:2023`, `NIST AI RMF 1.0`, `EU AI Act`): 
+Framework name (use the official identifier, for example `ISO/IEC 42001:2023`, `NIST AI RMF 1.0`, `EU AI Act`):
 
 ## Change summary
 
@@ -21,9 +21,9 @@ A one-paragraph description of what changed. Identify the change type:
 
 ## Source
 
-URL of the authoritative source: 
+URL of the authoritative source:
 
-Publication date of the change: 
+Publication date of the change:
 
 ## Affected material
 
