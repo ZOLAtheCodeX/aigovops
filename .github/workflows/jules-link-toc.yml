@@ -4,9 +4,6 @@
 name: Jules - link-toc
 
 on:
-  schedule:
-    # Monday 11:00 UTC.
-    - cron: '0 11 * * 1'
   workflow_dispatch: {}
 
 permissions:

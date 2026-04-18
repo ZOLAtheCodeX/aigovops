@@ -4,9 +4,6 @@
 name: Jules - prohibited-content-sweep
 
 on:
-  schedule:
-    # Sunday 12:00 UTC.
-    - cron: '0 12 * * 0'
   workflow_dispatch: {}
 
 permissions:

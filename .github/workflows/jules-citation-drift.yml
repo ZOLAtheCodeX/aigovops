@@ -4,9 +4,6 @@
 name: Jules - citation-drift
 
 on:
-  schedule:
-    # Wednesday 13:00 UTC.
-    - cron: '0 13 * * 3'
   workflow_dispatch: {}
 
 permissions:

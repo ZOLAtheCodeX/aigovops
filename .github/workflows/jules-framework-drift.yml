@@ -4,9 +4,6 @@
 name: Jules - framework-drift
 
 on:
-  schedule:
-    # Monday 10:00 UTC, one hour after framework-monitor opens issues.
-    - cron: '0 10 * * 1'
   workflow_dispatch: {}
   issues:
     types: [opened, labeled]

@@ -4,9 +4,6 @@
 name: Jules - dep-bump
 
 on:
-  schedule:
-    # Tuesday 14:00 UTC.
-    - cron: '0 14 * * 2'
   workflow_dispatch: {}
 
 permissions:
