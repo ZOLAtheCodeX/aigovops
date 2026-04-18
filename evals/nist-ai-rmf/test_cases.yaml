@@ -309,3 +309,25 @@ test_cases:
     status: validated
     validated_by: "Zola Valashiya (ISO/IEC 42001 Lead Implementer; NIST AI RMF practitioner; AIGP; CIPT) - 2026-04-18"
     authored_by: "AIGovOps Contributors (Claude Code draft)"
+
+  - id: nist-ai-rmf-008
+    tier: T1.8
+    description: "AI risk identification produces complete MAP function coverage"
+    input:
+      ai_system_inventory:
+        - system_name: "CustomerChurnPredict"
+          intended_use: "Predict customer churn probability."
+          risk_tier: "moderate"
+      risk_context:
+        - risk_id: "RR-001"
+          risk_category: "privacy"
+          description: "Potential misuse of customer data."
+    expected_outputs:
+      - "MAP 3.5: Impacts, likelihoods, and risks of the AI system are documented and managed. Rationale: The risk context explicitly identifies privacy risks (RR-001) that must be assessed for impact and likelihood."
+      - "MAP 1.1: Intended purposes, potentially beneficial uses, and context of the AI system are understood and documented. Rationale: The AI system inventory defines the intended use (Predict customer churn probability) establishing the baseline context."
+    clause_references:
+      - "MAP 3.5"
+      - "MAP 1.1"
+    status: validated
+    validated_by: "AIGovOps Contributors"
+    authored_by: "AIGovOps Contributors"
