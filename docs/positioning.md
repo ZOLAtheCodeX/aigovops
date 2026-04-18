@@ -19,15 +19,18 @@ The plugin output contract already targets this split. Every plugin emits a stru
 ## Why this beats "extension only" or "standalone only"
 
 **Extension only** (AIGovClaw as a plug-in to VerifyWise):
+
 - Distribution advantage. Users stay where they work.
 - Fatal flaw: platform risk. If VerifyWise pivots, is acquired, or builds native AI governance, the distribution evaporates. Tenant on someone else's land.
 - Value capture compressed. Extensions tend to monetize as $5-20 per seat add-ons. Standalone AI governance platforms charge $50K-250K ACV. Same plugins, 100x pricing ceiling gap.
 
 **Standalone only** (AIGovClaw as a new pane of glass):
+
 - Full brand equity and pricing power.
 - Fatal flaw: compliance leads will not adopt a 12th tool. Vanta did not win by building a new auditor workflow; they plugged into the existing evidence-request process.
 
 **Dual-mode (proposed):**
+
 - Same plugins power all three surfaces.
 - Hub is the brand surface. Adapters are distribution. Engine is the moat.
 - This is the Terraform / Prisma / LangChain pattern: OSS core is the lever, hosted and adapter layer is the business.
@@ -36,7 +39,7 @@ The plugin output contract already targets this split. Every plugin emits a stru
 
 Almost nothing. The existing architecture was adapter-friendly by design. What we add:
 
-```
+```text
 aigovclaw/
   hub/                         NEW. Minimal web dashboard. Artifacts land here. Jules activity feed posts here. Humans triage action items.
   adapters/
