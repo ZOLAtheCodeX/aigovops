@@ -111,6 +111,12 @@ Examples:
 
 On first reference in a document, include the relevant portal URL: CPPA regulations (https://cppa.ca.gov/regulations/), California Legislative Information (https://leginfo.legislature.ca.gov/), California Attorney General AI hub (https://oag.ca.gov/ai).
 
+### Statutory-presumption relationship (crosswalk)
+
+Crosswalk output uses a fixed 7-value relationship vocabulary defined in `plugins/crosswalk-matrix-builder/data/SCHEMA.md`. One value, `statutory-presumption`, is canonical and load-bearing and must not be flattened into `satisfies` or `partial-satisfaction` in any citation or downstream artifact.
+
+`statutory-presumption` applies when a statute explicitly recognizes conformance with another framework as rebuttable evidence of compliance. The canonical reference example is `Colorado SB 205, Section 6-1-1706(3)`, which names conformance with the NIST AI Risk Management Framework 1.0 or ISO/IEC 42001:2023 as a rebuttable presumption of reasonable care for a deployer defending against an attorney-general action. `Colorado SB 205, Section 6-1-1706(4)` extends the same posture to the affirmative-defense-on-cure pathway. Every `statutory-presumption` row in the crosswalk must carry confidence `high`, must cite the statute itself, and must be asymmetric (`bidirectional: false`). Downstream plugins citing a statutory-presumption row must preserve the vocabulary value verbatim; rewriting to `satisfies` is a citation-quality defect.
+
 ## Prohibited language
 
 The following are not acceptable in any output produced by a skill, plugin, or contributor in this repository.

@@ -1,0 +1,917 @@
+# Colorado SB24-205 (Colorado AI Act) crosswalk to ISO/IEC 42001, NIST AI RMF, EU AI Act.
+# Source framework: colorado-sb-205. Operative: 2026-06-30.
+# Every obligation maps to ISO 42001, NIST AI RMF, and EU AI Act as separate entries.
+# Relationships: satisfies, partial-satisfaction, complementary, statutory-presumption, no-mapping.
+# See SCHEMA.md for invariants.
+
+mappings:
+
+  # C1 Section 6-1-1702(2) Developer statement disclosing system info to deployers
+  - id: colorado-sb-205--section-6-1-1702-2--iso42001--a-6-2-6
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1702(2)"
+    source_title: "Developer statement disclosing system information to deployers"
+    target_framework: iso42001
+    target_ref: "A.6.2.6; A.6.2.8"
+    target_title: "AI system documentation and information for interested parties"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "IAPP Colorado AI Act analysis"
+        date: "2024-06"
+    notes: "Developer disclosure obligations to deployers align with ISO 42001 Annex A documentation and stakeholder-information controls."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1702-2--nist-ai-rmf--govern-1-4
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1702(2)"
+    source_title: "Developer statement disclosing system information to deployers"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 1.4, MAP 4.1"
+    target_title: "Documentation of AI risks and approaches communicated to stakeholders"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "Developer-to-deployer disclosure satisfies NIST AI RMF expectations on documentation and third-party risk communication."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1702-2--eu-ai-act--article-13
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1702(2)"
+    source_title: "Developer statement disclosing system information to deployers"
+    target_framework: eu-ai-act
+    target_ref: "Article 13; Article 11 + Annex IV"
+    target_title: "Transparency to deployers and technical documentation"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "Colorado developer statement parallels EU AI Act transparency-to-deployer obligations and technical documentation content in Annex IV."
+    bidirectional: false
+
+  # C2 Section 6-1-1702(3) Documentation to support deployer impact assessment
+  - id: colorado-sb-205--section-6-1-1702-3--iso42001--a-6-2-6
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1702(3)"
+    source_title: "Documentation to support deployer impact assessment"
+    target_framework: iso42001
+    target_ref: "A.6.2.6, A.7.4"
+    target_title: "AI system documentation and data quality information"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+    notes: "Documentation supporting deployer impact assessment aligns with ISO 42001 technical documentation and data-quality controls."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1702-3--nist-ai-rmf--map-2-3
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1702(3)"
+    source_title: "Documentation to support deployer impact assessment"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 2.3, MEASURE 2.1"
+    target_title: "Scientific integrity and test, evaluation, verification documentation"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "Developer technical documentation for deployer assessment satisfies NIST mapping and measurement documentation expectations."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1702-3--eu-ai-act--article-11
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1702(3)"
+    source_title: "Documentation to support deployer impact assessment"
+    target_framework: eu-ai-act
+    target_ref: "Article 11; Article 26(9)"
+    target_title: "Technical documentation and deployer fundamental rights impact assessment support"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "Colorado deployer-assessment documentation mirrors EU AI Act provider obligations to support deployer FRIA."
+    bidirectional: false
+
+  # C3 Section 6-1-1702(5) Developer public statement on risk management
+  - id: colorado-sb-205--section-6-1-1702-5--iso42001--a-3-2
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1702(5)"
+    source_title: "Developer public statement on risk management"
+    target_framework: iso42001
+    target_ref: "A.3.2; A.6.2.2"
+    target_title: "AI policy and AI system impact assessment process"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+    notes: "Public risk-management statement partially satisfies ISO 42001 policy publication expectations; full AIMS requires more than public statement."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1702-5--nist-ai-rmf--govern-1-1
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1702(5)"
+    source_title: "Developer public statement on risk management"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 1.1, GOVERN 1.4"
+    target_title: "Legal, regulatory and organizational AI risk policies"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "Public statement is one artifact of a NIST-aligned governance program; additional internal policies still required."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1702-5--eu-ai-act--article-53
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1702(5)"
+    source_title: "Developer public statement on risk management"
+    target_framework: eu-ai-act
+    target_ref: "Article 53"
+    target_title: "General-purpose AI model provider transparency obligations"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "Public risk statement overlaps with EU AI Act GPAI provider transparency but does not fully satisfy Annex XI content."
+    bidirectional: false
+
+  # C4 Section 6-1-1702(7) Developer 90-day disclosure of discrimination risks
+  - id: colorado-sb-205--section-6-1-1702-7--iso42001--a-10-3
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1702(7)"
+    source_title: "Developer 90-day disclosure of discrimination risks to AG and deployers"
+    target_framework: iso42001
+    target_ref: "A.10.3; A.6.2.7"
+    target_title: "Reporting of concerns and AI system evaluation"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+    notes: "90-day discrimination disclosure maps to ISO 42001 incident reporting and evaluation controls; not a full equivalent."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1702-7--nist-ai-rmf--manage-4-1
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1702(7)"
+    source_title: "Developer 90-day disclosure of discrimination risks to AG and deployers"
+    target_framework: nist-ai-rmf
+    target_ref: "MANAGE 4.1, GOVERN 4.3"
+    target_title: "Post-deployment monitoring and incident response"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "Discrimination-risk reporting overlaps with NIST post-deployment manage functions but Colorado imposes strict statutory timeline."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1702-7--eu-ai-act--article-73
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1702(7)"
+    source_title: "Developer 90-day disclosure of discrimination risks to AG and deployers"
+    target_framework: eu-ai-act
+    target_ref: "Article 73"
+    target_title: "Reporting of serious incidents by providers"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "Discrimination disclosure overlaps with EU AI Act Article 73 serious incident reporting; Colorado scope is narrower (discrimination) and timeline is fixed at 90 days."
+    bidirectional: false
+
+  # C5 Section 6-1-1703(2) Deployer risk management policy and program
+  - id: colorado-sb-205--section-6-1-1703-2--iso42001--clauses-4-10
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1703(2)"
+    source_title: "Deployer risk management policy and program"
+    target_framework: iso42001
+    target_ref: "Clauses 4-10; A.6.1.2"
+    target_title: "AI management system and risk treatment"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "A full ISO 42001 AIMS implementation satisfies deployer risk management policy and program duties."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1703-2--nist-ai-rmf--govern-1-1
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1703(2)"
+    source_title: "Deployer risk management policy and program"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 1.1-1.7, MANAGE 1-4"
+    target_title: "Governance and risk management functions"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "Deployer RM program is satisfied by implementing NIST GOVERN and MANAGE functions end-to-end."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1703-2--eu-ai-act--article-9
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1703(2)"
+    source_title: "Deployer risk management policy and program"
+    target_framework: eu-ai-act
+    target_ref: "Article 9"
+    target_title: "Risk management system for high-risk AI"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "EU AI Act Article 9 risk management system is operationally equivalent to Colorado deployer RM program obligations."
+    bidirectional: false
+
+  # C6 Section 6-1-1703(3) Deployer impact assessment annually and on modification
+  - id: colorado-sb-205--section-6-1-1703-3--iso42001--a-5-2
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1703(3)"
+    source_title: "Deployer impact assessment annually and on modification"
+    target_framework: iso42001
+    target_ref: "A.5.2, A.5.3, A.5.4, A.5.5"
+    target_title: "AI system impact assessment process and documentation"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "ISO 42001 A.5 impact assessment controls satisfy Colorado deployer impact assessment on cadence and content."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1703-3--nist-ai-rmf--map-5-1
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1703(3)"
+    source_title: "Deployer impact assessment annually and on modification"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 5.1, MEASURE 2.11"
+    target_title: "Impacts to stakeholders and fairness measurement"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "NIST MAP 5.1 impact characterization and MEASURE 2.11 fairness testing satisfy deployer impact assessment content."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1703-3--eu-ai-act--article-27
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1703(3)"
+    source_title: "Deployer impact assessment annually and on modification"
+    target_framework: eu-ai-act
+    target_ref: "Article 27"
+    target_title: "Fundamental rights impact assessment for high-risk AI"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "EU FRIA under Article 27 covers the same deployer-side ex ante assessment obligation as Colorado Section 6-1-1703(3)."
+    bidirectional: false
+
+  # C7 Section 6-1-1703(4)(a) Consumer pre-decision notice
+  - id: colorado-sb-205--section-6-1-1703-4-a--iso42001--a-8-2
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1703(4)(a)"
+    source_title: "Consumer pre-decision notice"
+    target_framework: iso42001
+    target_ref: "A.8.2"
+    target_title: "Information for interested parties on AI system use"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+    notes: "ISO 42001 A.8.2 interested-party information obligation is operationally satisfied by Colorado pre-decision notice to consumers."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1703-4-a--nist-ai-rmf--map-5-2
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1703(4)(a)"
+    source_title: "Consumer pre-decision notice"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 5.2"
+    target_title: "Transparency and engagement with affected individuals"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "NIST MAP 5.2 captures stakeholder transparency aligned with Colorado pre-decision notice."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1703-4-a--eu-ai-act--article-26-11
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1703(4)(a)"
+    source_title: "Consumer pre-decision notice"
+    target_framework: eu-ai-act
+    target_ref: "Article 26(11); Article 50"
+    target_title: "Deployer notification to affected persons and transparency obligations"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "Colorado consumer pre-decision notice satisfies EU AI Act deployer notification under Article 26(11) and transparency under Article 50."
+    bidirectional: false
+
+  # C8 Section 6-1-1703(4)(b) Consumer right to correct personal data
+  - id: colorado-sb-205--section-6-1-1703-4-b--iso42001--a-7-4
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1703(4)(b)"
+    source_title: "Consumer right to correct personal data"
+    target_framework: iso42001
+    target_ref: "A.7.4"
+    target_title: "Data quality for AI systems"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+    notes: "Data-quality controls partially support consumer data correction but ISO 42001 does not by itself confer a correction right."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1703-4-b--nist-ai-rmf--measure-2-8
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1703(4)(b)"
+    source_title: "Consumer right to correct personal data"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 2.8, MANAGE 2.3"
+    target_title: "Data integrity measurement and issue response"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "NIST supports the data integrity side of correction but the consumer-facing right is a statutory addition."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1703-4-b--eu-ai-act--article-14-4-c
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1703(4)(b)"
+    source_title: "Consumer right to correct personal data"
+    target_framework: eu-ai-act
+    target_ref: "Article 14(4)(c); GDPR Article 16"
+    target_title: "Human oversight and right to rectification"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+      - publication: "Regulation (EU) 2016/679 (GDPR)"
+        date: "2016-04"
+    notes: "Colorado correction right parallels GDPR Article 16 rectification and AI Act human oversight obligations."
+    bidirectional: false
+
+  # C9 Section 6-1-1703(4)(c) Consumer right to appeal with human review
+  - id: colorado-sb-205--section-6-1-1703-4-c--iso42001--a-9-2
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1703(4)(c)"
+    source_title: "Consumer right to appeal with human review"
+    target_framework: iso42001
+    target_ref: "A.9.2"
+    target_title: "Human oversight of AI systems"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+    notes: "Human oversight control in A.9.2 partially supports appeal rights; the consumer-facing right itself is statutory."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1703-4-c--nist-ai-rmf--manage-2-3
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1703(4)(c)"
+    source_title: "Consumer right to appeal with human review"
+    target_framework: nist-ai-rmf
+    target_ref: "MANAGE 2.3, MEASURE 2.8"
+    target_title: "Issue response and human review mechanisms"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "NIST MANAGE 2.3 supports human review infrastructure that a Colorado appeal process requires."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1703-4-c--eu-ai-act--article-14
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1703(4)(c)"
+    source_title: "Consumer right to appeal with human review"
+    target_framework: eu-ai-act
+    target_ref: "Article 14; Article 86"
+    target_title: "Human oversight and right to explanation of individual decisions"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "Colorado appeal with human review overlaps with AI Act Article 14 oversight and Article 86 individual-decision explanation."
+    bidirectional: false
+
+  # C10 Section 6-1-1703(5) Public statement on deployment, data, risk management
+  - id: colorado-sb-205--section-6-1-1703-5--iso42001--a-3-2
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1703(5)"
+    source_title: "Deployer public statement on deployment, data, risk management"
+    target_framework: iso42001
+    target_ref: "A.3.2; A.8.2"
+    target_title: "AI policy publication and information to interested parties"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+    notes: "Public statement partially satisfies ISO 42001 transparency expectations but does not itself implement a full policy framework."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1703-5--nist-ai-rmf--govern-1-4
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1703(5)"
+    source_title: "Deployer public statement on deployment, data, risk management"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 1.4"
+    target_title: "Transparent documentation of risk approach"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "Deployer public statement partially meets GOVERN 1.4 documentation and communication expectations."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1703-5--eu-ai-act--article-49
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1703(5)"
+    source_title: "Deployer public statement on deployment, data, risk management"
+    target_framework: eu-ai-act
+    target_ref: "Article 49; Article 13"
+    target_title: "EU database registration and transparency to users"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "Colorado public statement covers similar disclosure ground as EU AI Act registration and transparency but is not a direct substitute."
+    bidirectional: false
+
+  # C11 Section 6-1-1703(7) Deployer 90-day discrimination disclosure to AG
+  - id: colorado-sb-205--section-6-1-1703-7--iso42001--a-10-3
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1703(7)"
+    source_title: "Deployer 90-day discrimination disclosure to AG"
+    target_framework: iso42001
+    target_ref: "A.10.3; A.6.2.7"
+    target_title: "Reporting concerns and AI system evaluation"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+    notes: "Incident reporting controls partially support statutory AG disclosure timeline."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1703-7--nist-ai-rmf--manage-4-1
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1703(7)"
+    source_title: "Deployer 90-day discrimination disclosure to AG"
+    target_framework: nist-ai-rmf
+    target_ref: "MANAGE 4.1"
+    target_title: "Post-deployment incident monitoring and response"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "NIST MANAGE 4.1 infrastructure is necessary but not sufficient to meet the 90-day AG disclosure."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1703-7--eu-ai-act--article-73
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1703(7)"
+    source_title: "Deployer 90-day discrimination disclosure to AG"
+    target_framework: eu-ai-act
+    target_ref: "Article 73"
+    target_title: "Reporting of serious incidents"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "Article 73 provider-side serious-incident reporting overlaps with deployer-side Colorado AG disclosure but is not co-extensive."
+    bidirectional: false
+
+  # C12 Duty of reasonable care to prevent algorithmic discrimination
+  - id: colorado-sb-205--section-6-1-1702-1-and-6-1-1703-1--iso42001--clause-6-1
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1702(1) + 6-1-1703(1)"
+    source_title: "Duty of reasonable care to prevent algorithmic discrimination"
+    target_framework: iso42001
+    target_ref: "Clause 6.1; A.6.2.4"
+    target_title: "Risk management planning and fairness evaluation"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "A full ISO 42001 AIMS with fairness-evaluation controls operationally satisfies the reasonable-care duty."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1702-1-and-6-1-1703-1--nist-ai-rmf--govern-3-2
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1702(1) + 6-1-1703(1)"
+    source_title: "Duty of reasonable care to prevent algorithmic discrimination"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 3.2, MEASURE 2.11"
+    target_title: "Fairness governance and fairness measurement"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "NIST governance and fairness measurement together satisfy the statutory reasonable-care duty."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1702-1-and-6-1-1703-1--eu-ai-act--article-10
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1702(1) + 6-1-1703(1)"
+    source_title: "Duty of reasonable care to prevent algorithmic discrimination"
+    target_framework: eu-ai-act
+    target_ref: "Article 10; Article 15"
+    target_title: "Data governance and accuracy/robustness for high-risk AI"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "AI Act Articles 10 and 15 establish data-governance and accuracy/robustness duties that operationally satisfy Colorado reasonable-care duty."
+    bidirectional: false
+
+  # C13 Section 6-1-1704 Generative AI / chatbot disclosure
+  - id: colorado-sb-205--section-6-1-1704--iso42001--a-8-2
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1704"
+    source_title: "Generative AI / chatbot interaction disclosure"
+    target_framework: iso42001
+    target_ref: "A.8.2"
+    target_title: "Information to interested parties on AI interaction"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+    notes: "Interested-party information control satisfies chatbot interaction-disclosure obligation."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1704--nist-ai-rmf--govern-5-1
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1704"
+    source_title: "Generative AI / chatbot interaction disclosure"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 5.1, MAP 3.4"
+    target_title: "Transparency about AI interactions with users"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "NIST GOVERN 5.1 and MAP 3.4 cover disclosure of AI interactions to affected users."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1704--eu-ai-act--article-50-1
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1704"
+    source_title: "Generative AI / chatbot interaction disclosure"
+    target_framework: eu-ai-act
+    target_ref: "Article 50(1)"
+    target_title: "Transparency for AI systems interacting with natural persons"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "EU AI Act Article 50(1) chatbot disclosure is substantively equivalent to Colorado Section 6-1-1704."
+    bidirectional: false
+
+  # C14 Section 6-1-1705 Trade secret carve-out and redaction
+  - id: colorado-sb-205--section-6-1-1705--iso42001--a-8-3
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1705"
+    source_title: "Trade secret carve-out and redaction"
+    target_framework: iso42001
+    target_ref: "A.8.3"
+    target_title: "External reporting and confidentiality handling"
+    relationship: complementary
+    confidence: medium
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+    notes: "Confidentiality handling under ISO 42001 external-reporting control is complementary to Colorado trade-secret carve-out but is not a direct substitute."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1705--nist-ai-rmf--govern-1-4
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1705"
+    source_title: "Trade secret carve-out and redaction"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 1.4"
+    target_title: "Documentation scoped to protect sensitive information"
+    relationship: complementary
+    confidence: medium
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "NIST documentation practices accommodate trade-secret protection but are not a direct mapping."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1705--eu-ai-act--article-78
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1705"
+    source_title: "Trade secret carve-out and redaction"
+    target_framework: eu-ai-act
+    target_ref: "Article 78"
+    target_title: "Confidentiality obligations of authorities"
+    relationship: complementary
+    confidence: medium
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "Article 78 imposes confidentiality duties on authorities, complementing Colorado trade-secret protection for submitted information."
+    bidirectional: false
+
+  # C15 Section 6-1-1706 AG enforcement; no private right of action
+  - id: colorado-sb-205--section-6-1-1706--iso42001--no-equivalent
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1706"
+    source_title: "AG exclusive enforcement; no private right of action"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+    notes: "ISO 42001 is a voluntary management system standard with no public enforcement regime; Colorado enforcement allocation has no standard analog."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1706--nist-ai-rmf--no-equivalent
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1706"
+    source_title: "AG exclusive enforcement; no private right of action"
+    target_framework: nist-ai-rmf
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+    notes: "NIST AI RMF is voluntary guidance without enforcement provisions; Colorado AG-exclusive enforcement has no NIST equivalent."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1706--eu-ai-act--article-99
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1706"
+    source_title: "AG exclusive enforcement; no private right of action"
+    target_framework: eu-ai-act
+    target_ref: "Article 99"
+    target_title: "Penalties and enforcement"
+    relationship: complementary
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "Both frameworks establish public enforcement; allocation differs (member-state authorities vs Colorado AG exclusive)."
+    bidirectional: true
+
+  # C16 Section 6-1-1706(3) Rebuttable presumption of reasonable care
+  - id: colorado-sb-205--section-6-1-1706-3--iso42001--aims-full
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1706(3)"
+    source_title: "Rebuttable presumption of reasonable care for NIST AI RMF or ISO 42001 conformance"
+    target_framework: iso42001
+    target_ref: "Clauses 4-10 + Annex A (full AIMS)"
+    target_title: "Full AI management system conformance"
+    relationship: statutory-presumption
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+      - publication: "Gibson Dunn Colorado AI Act client alert"
+        date: "2024-05"
+    notes: "Colorado SB 205 Section 6-1-1706(3) names ISO 42001 as a recognized risk-management framework; conformance establishes a rebuttable presumption of reasonable care."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1706-3--nist-ai-rmf--all-functions
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1706(3)"
+    source_title: "Rebuttable presumption of reasonable care for NIST AI RMF or ISO 42001 conformance"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN, MAP, MEASURE, MANAGE"
+    target_title: "Full NIST AI RMF conformance across all five functions"
+    relationship: statutory-presumption
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+      - publication: "Gibson Dunn Colorado AI Act client alert"
+        date: "2024-05"
+    notes: "Colorado SB 205 Section 6-1-1706(3) names NIST AI RMF as a recognized risk-management framework; conformance establishes a rebuttable presumption of reasonable care."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1706-3--eu-ai-act--no-equivalent
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1706(3)"
+    source_title: "Rebuttable presumption of reasonable care for NIST AI RMF or ISO 42001 conformance"
+    target_framework: eu-ai-act
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+    notes: "EU AI Act uses harmonised standards and presumption of conformity for high-risk AI (Article 40), not a rebuttable presumption tied to NIST or ISO 42001; no operationally equivalent provision."
+    bidirectional: false
+
+  # C17 Section 6-1-1706(4) Affirmative defense on cure plus framework conformance
+  - id: colorado-sb-205--section-6-1-1706-4--iso42001--annex-a-controls
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1706(4)"
+    source_title: "Affirmative defense on cure plus compliance with recognized framework"
+    target_framework: iso42001
+    target_ref: "Annex A controls"
+    target_title: "Implementation of ISO 42001 Annex A controls"
+    relationship: statutory-presumption
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "Annex A controls, together with cure, support the affirmative defense under Section 6-1-1706(4)."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1706-4--nist-ai-rmf--entire-framework
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1706(4)"
+    source_title: "Affirmative defense on cure plus compliance with recognized framework"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN, MAP, MEASURE, MANAGE"
+    target_title: "Entire NIST AI RMF framework conformance"
+    relationship: statutory-presumption
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "Full NIST AI RMF conformance, together with cure, supports the affirmative defense under Section 6-1-1706(4)."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1706-4--eu-ai-act--no-equivalent
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1706(4)"
+    source_title: "Affirmative defense on cure plus compliance with recognized framework"
+    target_framework: eu-ai-act
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+    notes: "EU AI Act does not provide an analogous affirmative-defense regime keyed to NIST or ISO 42001 conformance."
+    bidirectional: false
+
+  # C18 Section 6-1-1703(6) Small-deployer exemption
+  - id: colorado-sb-205--section-6-1-1703-6--iso42001--no-equivalent
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1703(6)"
+    source_title: "Small-deployer exemption (<50 FTE, non-trainer)"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: medium
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+    notes: "ISO 42001 applies regardless of deployer size; no size-based exemption exists."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1703-6--nist-ai-rmf--no-equivalent
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1703(6)"
+    source_title: "Small-deployer exemption (<50 FTE, non-trainer)"
+    target_framework: nist-ai-rmf
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: medium
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+    notes: "NIST AI RMF is voluntary and scale-agnostic; no direct analog to a small-deployer statutory exemption."
+    bidirectional: false
+
+  - id: colorado-sb-205--section-6-1-1703-6--eu-ai-act--article-3-63
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1703(6)"
+    source_title: "Small-deployer exemption (<50 FTE, non-trainer)"
+    target_framework: eu-ai-act
+    target_ref: "Article 3(63)"
+    target_title: "SME and micro-enterprise definition with scaled obligations"
+    relationship: complementary
+    confidence: medium
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "EU AI Act SME provisions scale rather than exempt obligations; approach is complementary but not equivalent."
+    bidirectional: false

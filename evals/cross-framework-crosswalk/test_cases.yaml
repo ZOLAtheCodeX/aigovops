@@ -1,0 +1,178 @@
+# AIGovOps Skill Evaluation Harness
+# Skill: cross-framework-crosswalk
+# Purpose: validate crosswalk query outputs against the cited mapping
+#          rows in plugins/crosswalk-matrix-builder/data/.
+# Format: input query dict produces expected result structure,
+#         citations, and mapping-set membership assertions.
+# Schema: see ../README.md
+# Citation format: see ../../STYLE.md and
+#                  skills/cross-framework-crosswalk/SKILL.md
+#
+# Test case status legend:
+#   stub      placeholder content, no validation against data
+#   validated content grounded in the YAML mapping data; validated_by populated
+#   deprecated superseded; kept for history
+
+test_cases:
+  - id: cross-framework-crosswalk-001
+    tier: T1.1
+    description: |
+      Coverage query anchored at ISO/IEC 42001:2023 Annex A Control
+      A.6.2.4 (AI system verification and validation). Validates that
+      the crosswalk surfaces the three NIST AI RMF equivalents
+      (MEASURE 1.1, MEASURE 2.5, MEASURE 2.7), each encoded as
+      exact-match with high confidence from NIST AI 600-1 Appendix A.
+      EU AI Act rows (Article 9(5), Article 15(1)) and the UK ATRS
+      row (Section Tool details) anchor A.6.2.4 as target rather than
+      source and therefore surface via a separate coverage query on
+      eu-ai-act / uk-atrs; they are cited here to show the exact-
+      match vs partial-match vs satisfies distinction preserved
+      across the broader dataset for the same ISO control. Confirms
+      every surfaced row carries at least one citation_sources entry
+      as required by invariant 6.
+    input:
+      query_type: "coverage"
+      source_framework: "iso42001"
+      source_ref: "A.6.2.4"
+    expected_outputs:
+      - "result['query']['query_type'] equals 'coverage'."
+      - "result['query']['source_framework'] equals 'iso42001'."
+      - "result['query']['source_ref'] equals 'A.6.2.4'."
+      - "result['summary']['total'] equals 3."
+      - "result['summary']['by_target_framework'] equals {'nist-ai-rmf': 3}."
+      - "result['mappings'] contains a row with id 'iso42001--a-6-2-4--nist-ai-rmf--measure-1-1' and relationship 'exact-match' and confidence 'high'."
+      - "result['mappings'] contains a row with id 'iso42001--a-6-2-4--nist-ai-rmf--measure-2-5' and relationship 'exact-match' and confidence 'high'."
+      - "result['mappings'] contains a row with id 'iso42001--a-6-2-4--nist-ai-rmf--measure-2-7' and relationship 'exact-match' and confidence 'high'."
+      - "Every row in result['mappings'] has a non-empty citation_sources list (invariant 6)."
+      - "result['citations'] contains the ISO 42001 citation-format label from frameworks.yaml."
+      - "result['warnings'] is empty (the query resolves to at least one mapping row)."
+      - "result['agent_signature'] equals 'crosswalk-matrix-builder/0.1.0'."
+      - "No em-dash (U+2014), emoji, or hedging phrase present in any surfaced field (id, source_title, target_title, notes)."
+    clause_references:
+      - "ISO/IEC 42001:2023, Annex A, Control A.6.2.4"
+      - "MEASURE 1.1"
+      - "MEASURE 2.5"
+      - "MEASURE 2.7"
+      - "EU AI Act, Article 9, Paragraph 5"
+      - "EU AI Act, Article 15, Paragraph 1"
+      - "UK ATRS, Section Tool details"
+    status: validated
+    validated_by: "Zola Valashiya (ISO/IEC 42001 Lead Implementer; AIGP; CIPT) - 2026-04-18"
+    authored_by: "AIGovOps Contributors (Claude Code draft)"
+
+  - id: cross-framework-crosswalk-002
+    tier: T1.2
+    description: |
+      Gaps query from EU AI Act to ISO/IEC 42001:2023. Validates that
+      the crosswalk returns the 15 EU-beyond-ISO no-mapping entries
+      currently encoded in iso42001-eu-ai-act.yaml, covering the EU
+      AI Act conformity-assessment chain (Article 43, Annex VI and
+      VII), CE marking and EU declaration of conformity (Articles
+      47-48), EU database registration (Articles 49 and 71), GPAI
+      obligations (Articles 51-55 including the 53(1)(c) copyright
+      policy and 53(1)(d) training-data summary), real-world-testing
+      outside sandboxes (Articles 60-61), market-surveillance
+      cooperation (Articles 74-78), Article 22 non-EU authorised-
+      representative, Article 73 serious-incident reporting, Article
+      72(3) post-market monitoring template, Article 19 log retention,
+      Article 27 FRIA methodology, Article 5 prohibited-practices
+      enforcement, and Article 5(2-6) biometric derogation. Confirms
+      that ISO 42001 alone does not satisfy EU AI Act Chapter III and
+      that every gap row carries a non-empty notes field explaining
+      the gap, as required by invariant 5.
+    input:
+      query_type: "gaps"
+      source_framework: "eu-ai-act"
+      target_framework: "iso42001"
+    expected_outputs:
+      - "result['query']['query_type'] equals 'gaps'."
+      - "result['summary']['gap_count'] equals 15."
+      - "result['summary']['total'] equals 15."
+      - "Every row in result['gaps'] has relationship 'no-mapping'."
+      - "Every row in result['gaps'] has a non-empty notes field (invariant 5)."
+      - "result['gaps'] contains a row with source_ref 'Article 43, Annex VI and VII'."
+      - "result['gaps'] contains a row with source_ref 'Articles 47-48' (CE marking and EU declaration of conformity)."
+      - "result['gaps'] contains a row with source_ref 'Articles 49 and 71' (EU database registration)."
+      - "result['gaps'] contains a row with source_ref 'Articles 51-55' (GPAI systemic-risk obligations)."
+      - "result['gaps'] contains a row with source_ref 'Article 27' (FRIA methodology specificity)."
+      - "result['citations'] contains both the EU AI Act and the ISO/IEC 42001:2023 citation labels."
+      - "result['warnings'] is empty (the gap set is non-empty)."
+      - "No em-dash (U+2014), emoji, or hedging phrase present in any surfaced field."
+    clause_references:
+      - "EU AI Act, Article 43"
+      - "EU AI Act, Annex VI"
+      - "EU AI Act, Annex VII"
+      - "EU AI Act, Article 47"
+      - "EU AI Act, Article 48"
+      - "EU AI Act, Article 49"
+      - "EU AI Act, Article 71"
+      - "EU AI Act, Article 51"
+      - "EU AI Act, Article 52"
+      - "EU AI Act, Article 53, Paragraph 1"
+      - "EU AI Act, Article 54"
+      - "EU AI Act, Article 55"
+      - "EU AI Act, Article 27"
+      - "EU AI Act, Article 22"
+      - "EU AI Act, Article 73"
+      - "EU AI Act, Article 72, Paragraph 3"
+      - "EU AI Act, Article 19"
+      - "EU AI Act, Article 60"
+      - "EU AI Act, Article 61"
+      - "EU AI Act, Article 74"
+      - "EU AI Act, Article 78"
+      - "EU AI Act, Article 5"
+      - "ISO/IEC 42001:2023"
+    status: validated
+    validated_by: "Zola Valashiya (ISO/IEC 42001 Lead Implementer; AIGP; CIPT) - 2026-04-18"
+    authored_by: "AIGovOps Contributors (Claude Code draft)"
+
+  - id: cross-framework-crosswalk-003
+    tier: T1.3
+    description: |
+      Statutory-presumption query for Colorado SB 205. Retrieves
+      Section 6-1-1706(3) and Section 6-1-1706(4) entries via a
+      matrix query filtered to relationship 'statutory-presumption'
+      and confirms that the mapping targets include both ISO/IEC
+      42001:2023 (full AIMS, Clauses 4-10 plus Annex A) and NIST AI
+      RMF 1.0 (all four functions: GOVERN, MAP, MEASURE, MANAGE).
+      Validates the Colorado SB 205 safe-harbor semantics encoded in
+      colorado-sb205-crosswalk.yaml and confirms the statutory-
+      presumption vocabulary value is preserved (not folded into
+      'satisfies'). Every row must carry confidence 'high' because
+      the statute itself is the primary source, and every row must
+      cite 'Colorado SB 205' in citation_sources.
+    input:
+      query_type: "matrix"
+      source_framework: "colorado-sb-205"
+      relationship_filter:
+        - "statutory-presumption"
+    expected_outputs:
+      - "result['query']['query_type'] equals 'matrix'."
+      - "result['query']['source_framework'] equals 'colorado-sb-205'."
+      - "result['query']['relationship_filter'] equals ['statutory-presumption']."
+      - "result['summary']['total'] equals 4."
+      - "result['summary']['by_relationship'] has exactly one key 'statutory-presumption' with count 4."
+      - "result['summary']['by_confidence'] has exactly one key 'high' with count 4."
+      - "result['matrix'] contains a row with id 'colorado-sb-205--section-6-1-1706-3--iso42001--aims-full' targeting iso42001 with target_ref mentioning Clauses 4-10 and Annex A."
+      - "result['matrix'] contains a row with id 'colorado-sb-205--section-6-1-1706-3--nist-ai-rmf--all-functions' targeting nist-ai-rmf with target_ref 'GOVERN, MAP, MEASURE, MANAGE'."
+      - "result['matrix'] contains a row with id 'colorado-sb-205--section-6-1-1706-4--iso42001--annex-a-controls' for the affirmative-defense-on-cure path."
+      - "result['matrix'] contains a row with id 'colorado-sb-205--section-6-1-1706-4--nist-ai-rmf--entire-framework' for the affirmative-defense-on-cure path."
+      - "Every row in result['matrix'] has relationship 'statutory-presumption' and confidence 'high'."
+      - "Every row in result['matrix'] has bidirectional false (statutory-presumption is asymmetric)."
+      - "Every row in result['matrix'] cites 'Colorado SB 205' in citation_sources."
+      - "result['citations'] contains the Colorado SB 205 citation label 'Colorado SB 205, Section <section>'."
+      - "result['warnings'] is empty."
+      - "No em-dash (U+2014), emoji, or hedging phrase present in any surfaced field."
+    clause_references:
+      - "Colorado SB 205, Section 6-1-1706(3)"
+      - "Colorado SB 205, Section 6-1-1706(4)"
+      - "ISO/IEC 42001:2023, Clause 4"
+      - "ISO/IEC 42001:2023, Clause 10"
+      - "ISO/IEC 42001:2023, Annex A"
+      - "GOVERN 1.1"
+      - "MAP 1.1"
+      - "MEASURE 1.1"
+      - "MANAGE 1.1"
+    status: validated
+    validated_by: "Zola Valashiya (ISO/IEC 42001 Lead Implementer; AIGP; CIPT) - 2026-04-18"
+    authored_by: "AIGovOps Contributors (Claude Code draft)"

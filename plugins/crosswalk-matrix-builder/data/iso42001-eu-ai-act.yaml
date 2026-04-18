@@ -1,0 +1,1355 @@
+# EU AI Act (Regulation (EU) 2024/1689) to ISO/IEC 42001:2023 crosswalk
+# Source framework: eu-ai-act
+# Target framework: iso42001
+# Research compiled 2026-04-18. Primary sources: ENISA 2023 mapping, CEN-CENELEC JTC 21 working
+# drafts, IAPP, and practitioner crosswalks (KPMG, Deloitte, PwC, Hogan Lovells, DLA Piper,
+# Baker McKenzie). Relationship direction: EU obligation satisfied (in whole or part) by ISO 42001
+# implementation. Asymmetric relationships (satisfies, partial-satisfaction) are bidirectional=false.
+
+mappings:
+
+  - id: eu-ai-act--art-5--iso42001--a-6-1-2-a-6-1-3
+    source_framework: eu-ai-act
+    source_ref: "Article 5"
+    source_title: "Prohibited AI practices"
+    target_framework: iso42001
+    target_ref: "A.6.1.2, A.6.1.3"
+    target_title: "AI system impact assessment and documentation of impact assessment"
+    relationship: partial-satisfaction
+    confidence: medium
+    citation_sources:
+      - publication: "ENISA, Cybersecurity of AI and Standardisation"
+        date: "2023"
+    notes: "ISO impact assessment controls help identify practices that would breach Article 5 but do not encode the specific prohibited categories."
+    bidirectional: false
+
+  - id: eu-ai-act--art-5-verification--iso42001--a-2-2-a-2-3
+    source_framework: eu-ai-act
+    source_ref: "Article 5"
+    source_title: "Prohibition compliance verification"
+    target_framework: iso42001
+    target_ref: "A.2.2, A.2.3"
+    target_title: "AI policy and alignment with organisational policies"
+    relationship: complementary
+    confidence: medium
+    citation_sources:
+      - publication: "PwC EU AI Act Readiness Insights"
+        date: "2024"
+    notes: "AI policy controls establish the governance baseline required to verify non-use of prohibited practices."
+    bidirectional: true
+
+  - id: eu-ai-act--art-6--iso42001--a-6-1-2
+    source_framework: eu-ai-act
+    source_ref: "Article 6"
+    source_title: "High-risk classification rules"
+    target_framework: iso42001
+    target_ref: "A.6.1.2"
+    target_title: "AI system impact assessment"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "ENISA, Cybersecurity of AI and Standardisation"
+        date: "2023"
+      - publication: "CEN-CENELEC JTC 21 WG1 drafts"
+        date: "2024"
+    notes: "ISO A.6.1.2 supports classification analysis but does not supply EU-specific high-risk taxonomy."
+    bidirectional: false
+
+  - id: eu-ai-act--art-6-3--iso42001--a-6-2-2-a-6-2-3
+    source_framework: eu-ai-act
+    source_ref: "Article 6, Paragraph 3"
+    source_title: "Derogation self-assessment"
+    target_framework: iso42001
+    target_ref: "A.6.2.2, A.6.2.3"
+    target_title: "Requirements analysis and system design documentation"
+    relationship: satisfies
+    confidence: medium
+    citation_sources:
+      - publication: "KPMG EU AI Act Implementation Guide"
+        date: "2024"
+    notes: "Requirements analysis and documentation controls produce the evidence needed for the derogation self-assessment."
+    bidirectional: false
+
+  - id: eu-ai-act--art-9-1-2--iso42001--clause-6-1-2-6-1-3-a-5-2-a-5-3-a-5-4
+    source_framework: eu-ai-act
+    source_ref: "Article 9, Paragraph 1-2"
+    source_title: "Risk management system"
+    target_framework: iso42001
+    target_ref: "Clause 6.1.2, 6.1.3; A.5.2, A.5.3, A.5.4"
+    target_title: "AI risk assessment, treatment, and risk management objectives/process/treatment"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "ISO/IEC 23894 alignment with ISO 42001"
+        date: "2023"
+      - publication: "ENISA, Cybersecurity of AI and Standardisation"
+        date: "2023"
+    notes: "ISO 42001 risk management clauses derive from ISO/IEC 23894 and directly satisfy Article 9 risk management system requirements."
+    bidirectional: false
+
+  - id: eu-ai-act--art-9-3--iso42001--a-5-2-a-6-1-2
+    source_framework: eu-ai-act
+    source_ref: "Article 9, Paragraph 3"
+    source_title: "Risks to health, safety, fundamental rights"
+    target_framework: iso42001
+    target_ref: "A.5.2, A.6.1.2"
+    target_title: "AI risk assessment and AI system impact assessment"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "ENISA, Cybersecurity of AI and Standardisation"
+        date: "2023"
+      - publication: "Microsoft Responsible AI Standard v2"
+        date: "2022"
+    notes: "Impact assessment scope under A.6.1.2 explicitly covers health, safety, and fundamental rights effects."
+    bidirectional: false
+
+  - id: eu-ai-act--art-9-4--iso42001--clause-6-1-3-a-5-3
+    source_framework: eu-ai-act
+    source_ref: "Article 9, Paragraph 4"
+    source_title: "Risk mitigation and residual risk"
+    target_framework: iso42001
+    target_ref: "Clause 6.1.3; A.5.3"
+    target_title: "AI risk treatment"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "ISO 31000 derivation, ISO/IEC 23894"
+        date: "2023"
+    notes: "Clause 6.1.3 risk treatment with residual risk acceptance aligns with Article 9(4) approach."
+    bidirectional: false
+
+  - id: eu-ai-act--art-9-5--iso42001--a-6-2-4
+    source_framework: eu-ai-act
+    source_ref: "Article 9, Paragraph 5"
+    source_title: "Testing throughout lifecycle"
+    target_framework: iso42001
+    target_ref: "A.6.2.4"
+    target_title: "AI system verification and validation"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "CEN-CENELEC JTC 21 draft mapping"
+        date: "2024"
+    notes: "A.6.2.4 verification and validation satisfies Article 9(5) lifecycle testing requirement."
+    bidirectional: false
+
+  - id: eu-ai-act--art-9-6-8--iso42001--a-6-2-4-a-6-2-5
+    source_framework: eu-ai-act
+    source_ref: "Article 9, Paragraph 6-8"
+    source_title: "Testing against prior-defined metrics"
+    target_framework: iso42001
+    target_ref: "A.6.2.4, A.6.2.5"
+    target_title: "AI system verification and validation; AI system deployment"
+    relationship: partial-satisfaction
+    confidence: medium
+    citation_sources:
+      - publication: "Deloitte EU AI Act Readiness"
+        date: "2024"
+    notes: "ISO controls require validation but do not mandate metric pre-declaration with the EU specificity."
+    bidirectional: false
+
+  - id: eu-ai-act--art-9-9--iso42001--a-6-1-2
+    source_framework: eu-ai-act
+    source_ref: "Article 9, Paragraph 9"
+    source_title: "Minors and vulnerable groups"
+    target_framework: iso42001
+    target_ref: "A.6.1.2"
+    target_title: "AI system impact assessment"
+    relationship: partial-satisfaction
+    confidence: low
+    citation_sources:
+      - publication: "practitioner-inference"
+        date: "2024"
+    notes: "Impact assessment addresses affected stakeholders but does not specifically call out minors or vulnerable groups. Practitioner inference only."
+    bidirectional: false
+
+  - id: eu-ai-act--art-10-1-2--iso42001--a-7-2-a-7-3-a-7-4
+    source_framework: eu-ai-act
+    source_ref: "Article 10, Paragraph 1-2"
+    source_title: "Data governance for datasets"
+    target_framework: iso42001
+    target_ref: "A.7.2, A.7.3, A.7.4"
+    target_title: "Data for AI systems, acquisition, quality"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "ENISA, Cybersecurity of AI and Standardisation"
+        date: "2023"
+      - publication: "ISO/IEC 5259 data quality series"
+        date: "2024"
+    notes: "A.7 family covers data acquisition, preparation, and quality controls that satisfy Article 10 governance requirements."
+    bidirectional: false
+
+  - id: eu-ai-act--art-10-3--iso42001--a-7-4-a-7-5
+    source_framework: eu-ai-act
+    source_ref: "Article 10, Paragraph 3"
+    source_title: "Data quality"
+    target_framework: iso42001
+    target_ref: "A.7.4, A.7.5"
+    target_title: "Quality of data for AI systems; data provenance"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "IAPP AI Governance Professional body of knowledge"
+        date: "2024"
+    notes: "Direct mapping of data quality control to Article 10(3)."
+    bidirectional: false
+
+  - id: eu-ai-act--art-10-4--iso42001--a-7-4-a-6-1-2
+    source_framework: eu-ai-act
+    source_ref: "Article 10, Paragraph 4"
+    source_title: "Bias examination"
+    target_framework: iso42001
+    target_ref: "A.7.4; A.6.1.2"
+    target_title: "Quality of data for AI systems; AI system impact assessment"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "ISO/IEC TR 24027 bias in AI"
+        date: "2021"
+      - publication: "ENISA, Cybersecurity of AI and Standardisation"
+        date: "2023"
+    notes: "Data quality and impact assessment controls address bias but lack the explicit examination methodology in Article 10(4)."
+    bidirectional: false
+
+  - id: eu-ai-act--art-10-5--iso42001--a-4-6
+    source_framework: eu-ai-act
+    source_ref: "Article 10, Paragraph 5"
+    source_title: "Special categories of data for bias correction"
+    target_framework: iso42001
+    target_ref: "A.4.6"
+    target_title: "Data resources"
+    relationship: partial-satisfaction
+    confidence: medium
+    citation_sources:
+      - publication: "Hogan Lovells EU AI Act analysis"
+        date: "2024"
+    notes: "A.4.6 resource control addresses data access but does not encode special category GDPR interplay required by Article 10(5)."
+    bidirectional: false
+
+  - id: eu-ai-act--art-10-6--iso42001--a-7-4
+    source_framework: eu-ai-act
+    source_ref: "Article 10, Paragraph 6"
+    source_title: "Datasets for geographical and contextual setting"
+    target_framework: iso42001
+    target_ref: "A.7.4"
+    target_title: "Quality of data for AI systems"
+    relationship: partial-satisfaction
+    confidence: medium
+    citation_sources:
+      - publication: "DLA Piper EU AI Act practitioner note"
+        date: "2024"
+    notes: "Data quality control implies contextual relevance but does not mandate geographical representativeness."
+    bidirectional: false
+
+  - id: eu-ai-act--art-11-annex-iv--iso42001--a-6-2-3-a-3-2
+    source_framework: eu-ai-act
+    source_ref: "Article 11"
+    source_title: "Technical documentation (Annex IV)"
+    target_framework: iso42001
+    target_ref: "A.6.2.3; A.3.2"
+    target_title: "AI system design and development documentation; roles and responsibilities"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "CEN-CENELEC JTC 21 drafts"
+        date: "2024"
+      - publication: "ENISA, Cybersecurity of AI and Standardisation"
+        date: "2023"
+    notes: "ISO documentation controls cover many Annex IV elements but not the full prescribed template."
+    bidirectional: false
+
+  - id: eu-ai-act--art-11-update--iso42001--a-6-2-6-a-6-2-7
+    source_framework: eu-ai-act
+    source_ref: "Article 11"
+    source_title: "Documentation kept up-to-date"
+    target_framework: iso42001
+    target_ref: "A.6.2.6, A.6.2.7"
+    target_title: "AI system operation and monitoring; technical documentation for users"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Practitioner consensus, CEN-CENELEC JTC 21"
+        date: "2024"
+    notes: "Operational monitoring and user documentation controls sustain up-to-date documentation."
+    bidirectional: false
+
+  - id: eu-ai-act--art-12--iso42001--a-6-2-8
+    source_framework: eu-ai-act
+    source_ref: "Article 12"
+    source_title: "Automatic logging"
+    target_framework: iso42001
+    target_ref: "A.6.2.8"
+    target_title: "AI system event logging"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "ENISA, Cybersecurity of AI and Standardisation"
+        date: "2023"
+      - publication: "CEN-CENELEC JTC 21 drafts"
+        date: "2024"
+    notes: "A.6.2.8 event logging directly satisfies Article 12 automatic logging."
+    bidirectional: false
+
+  - id: eu-ai-act--art-12-2--iso42001--a-6-2-8-clause-9-1
+    source_framework: eu-ai-act
+    source_ref: "Article 12, Paragraph 2"
+    source_title: "Traceability appropriate to purpose"
+    target_framework: iso42001
+    target_ref: "A.6.2.8; Clause 9.1"
+    target_title: "AI system event logging; monitoring, measurement, analysis and evaluation"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "ISO derivation from event logging practice"
+        date: "2023"
+    notes: "Logging plus monitoring clauses together deliver traceability proportional to intended purpose."
+    bidirectional: false
+
+  - id: eu-ai-act--art-13-1--iso42001--a-8-2-a-8-3
+    source_framework: eu-ai-act
+    source_ref: "Article 13, Paragraph 1"
+    source_title: "Transparency for deployers"
+    target_framework: iso42001
+    target_ref: "A.8.2, A.8.3"
+    target_title: "Information for interested parties; external reporting"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "ENISA, Cybersecurity of AI and Standardisation"
+        date: "2023"
+      - publication: "IAPP AI Governance Professional body of knowledge"
+        date: "2024"
+    notes: "Interested-party information and external reporting controls satisfy deployer transparency."
+    bidirectional: false
+
+  - id: eu-ai-act--art-13-2--iso42001--a-8-2
+    source_framework: eu-ai-act
+    source_ref: "Article 13, Paragraph 2"
+    source_title: "Instructions for use"
+    target_framework: iso42001
+    target_ref: "A.8.2"
+    target_title: "Information for interested parties"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Microsoft Responsible AI Standard v2"
+        date: "2022"
+    notes: "Information-for-interested-parties control encompasses user instructions."
+    bidirectional: false
+
+  - id: eu-ai-act--art-13-3--iso42001--a-8-2-a-6-2-3
+    source_framework: eu-ai-act
+    source_ref: "Article 13, Paragraph 3"
+    source_title: "Content of instructions"
+    target_framework: iso42001
+    target_ref: "A.8.2, A.6.2.3"
+    target_title: "Information for interested parties; AI system design and development documentation"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "CEN-CENELEC JTC 21 drafts"
+        date: "2024"
+    notes: "Combined controls satisfy the prescribed content of user instructions."
+    bidirectional: false
+
+  - id: eu-ai-act--art-14-1-2--iso42001--a-9-2-a-6-2-5
+    source_framework: eu-ai-act
+    source_ref: "Article 14, Paragraph 1-2"
+    source_title: "Human oversight design"
+    target_framework: iso42001
+    target_ref: "A.9.2; A.6.2.5"
+    target_title: "Processes for responsible use of AI systems; AI system deployment"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "ENISA, Cybersecurity of AI and Standardisation"
+        date: "2023"
+      - publication: "ISO/IEC TS 8200 controllability of AI"
+        date: "2024"
+    notes: "A.9.2 responsible-use process combined with deployment controls satisfies human oversight design obligations."
+    bidirectional: false
+
+  - id: eu-ai-act--art-14-3-4--iso42001--a-9-2-a-9-3-a-9-4
+    source_framework: eu-ai-act
+    source_ref: "Article 14, Paragraph 3-4"
+    source_title: "Human oversight measures"
+    target_framework: iso42001
+    target_ref: "A.9.2, A.9.3, A.9.4"
+    target_title: "Responsible use, objectives, and intended use"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "CEN-CENELEC JTC 21 drafts"
+        date: "2024"
+    notes: "A.9 family covers operational oversight, responsible-use objectives, and intended-use declaration."
+    bidirectional: false
+
+  - id: eu-ai-act--art-14-5--iso42001--a-9-2
+    source_framework: eu-ai-act
+    source_ref: "Article 14, Paragraph 5"
+    source_title: "Biometric systems two-person verification"
+    target_framework: iso42001
+    target_ref: "A.9.2"
+    target_title: "Processes for responsible use of AI systems"
+    relationship: partial-satisfaction
+    confidence: medium
+    citation_sources:
+      - publication: "practitioner-inference"
+        date: "2024"
+    notes: "Responsible-use process can implement dual-control but ISO does not prescribe two-person verification."
+    bidirectional: false
+
+  - id: eu-ai-act--art-15-1--iso42001--a-6-2-4-a-6-2-5-clause-8-2-8-3
+    source_framework: eu-ai-act
+    source_ref: "Article 15, Paragraph 1"
+    source_title: "Accuracy, robustness, cybersecurity"
+    target_framework: iso42001
+    target_ref: "A.6.2.4, A.6.2.5; Clause 8.2, 8.3"
+    target_title: "Verification/validation; deployment; AI risk assessment and treatment"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "ENISA, Cybersecurity of AI and Standardisation"
+        date: "2023"
+    notes: "Combined technical and operational controls satisfy Article 15(1) tri-requirement."
+    bidirectional: false
+
+  - id: eu-ai-act--art-15-2--iso42001--a-8-2
+    source_framework: eu-ai-act
+    source_ref: "Article 15, Paragraph 2"
+    source_title: "Accuracy metrics declaration"
+    target_framework: iso42001
+    target_ref: "A.8.2"
+    target_title: "Information for interested parties"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "IAPP AI Governance Professional body of knowledge"
+        date: "2024"
+    notes: "Information-for-interested-parties control delivers accuracy metric declaration."
+    bidirectional: false
+
+  - id: eu-ai-act--art-15-3--iso42001--a-6-2-5
+    source_framework: eu-ai-act
+    source_ref: "Article 15, Paragraph 3"
+    source_title: "Resilience to errors and backup plans"
+    target_framework: iso42001
+    target_ref: "A.6.2.5"
+    target_title: "AI system deployment"
+    relationship: partial-satisfaction
+    confidence: medium
+    citation_sources:
+      - publication: "Baker McKenzie EU AI Act guide"
+        date: "2024"
+    notes: "Deployment control addresses operational resilience but lacks explicit backup-plan mandate."
+    bidirectional: false
+
+  - id: eu-ai-act--art-15-4--iso42001--a-6-2-5
+    source_framework: eu-ai-act
+    source_ref: "Article 15, Paragraph 4"
+    source_title: "Resilience against adversarial attacks"
+    target_framework: iso42001
+    target_ref: "A.6.2.5"
+    target_title: "AI system deployment"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "ENISA, Cybersecurity of AI and Standardisation"
+        date: "2023"
+    notes: "ISO 42001 references adversarial robustness but primary controls live in ISO 27001/27002 security stack."
+    bidirectional: false
+
+  - id: eu-ai-act--art-15-5--iso42001--a-6-2-6
+    source_framework: eu-ai-act
+    source_ref: "Article 15, Paragraph 5"
+    source_title: "Concept drift and continuous learning"
+    target_framework: iso42001
+    target_ref: "A.6.2.6"
+    target_title: "AI system operation and monitoring"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "CEN-CENELEC JTC 21 drafts"
+        date: "2024"
+    notes: "Operational monitoring control covers drift detection and continuous-learning management."
+    bidirectional: false
+
+  - id: eu-ai-act--art-17--iso42001--clauses-4-10-a-2-2-a-2-3-a-2-4
+    source_framework: eu-ai-act
+    source_ref: "Article 17"
+    source_title: "Quality management system"
+    target_framework: iso42001
+    target_ref: "Clauses 4-10; A.2.2, A.2.3, A.2.4"
+    target_title: "Full management system clauses; AI policy, alignment, review"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "CEN-CENELEC JTC 21 WG3 position"
+        date: "2024"
+      - publication: "Deloitte EU AI Act readiness"
+        date: "2024"
+    notes: "ISO 42001 management system satisfies Article 17 quality management system obligation at the structural level."
+    bidirectional: false
+
+  - id: eu-ai-act--art-17-1-a--iso42001--a-2-2-a-2-3
+    source_framework: eu-ai-act
+    source_ref: "Article 17, Paragraph 1(a)"
+    source_title: "Strategy for regulatory compliance"
+    target_framework: iso42001
+    target_ref: "A.2.2, A.2.3"
+    target_title: "AI policy and alignment with organisational policies"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "ENISA, Cybersecurity of AI and Standardisation"
+        date: "2023"
+    notes: "Policy and alignment controls satisfy regulatory-compliance strategy requirement."
+    bidirectional: false
+
+  - id: eu-ai-act--art-17-1-b--iso42001--a-6-2-2-a-6-2-3-a-6-2-4
+    source_framework: eu-ai-act
+    source_ref: "Article 17, Paragraph 1(b)"
+    source_title: "Design techniques"
+    target_framework: iso42001
+    target_ref: "A.6.2.2, A.6.2.3, A.6.2.4"
+    target_title: "Requirements analysis, design documentation, verification and validation"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "CEN-CENELEC JTC 21 drafts"
+        date: "2024"
+    notes: "A.6.2 design family satisfies design-techniques obligation."
+    bidirectional: false
+
+  - id: eu-ai-act--art-17-1-c--iso42001--a-6-2
+    source_framework: eu-ai-act
+    source_ref: "Article 17, Paragraph 1(c)"
+    source_title: "Development techniques"
+    target_framework: iso42001
+    target_ref: "A.6.2 family"
+    target_title: "AI system life cycle controls"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Direct mapping, ISO/IEC 42001:2023 Annex A"
+        date: "2023"
+    notes: "Direct mapping between A.6.2 lifecycle controls and development-techniques requirement."
+    bidirectional: false
+
+  - id: eu-ai-act--art-17-1-d--iso42001--a-6-2-4
+    source_framework: eu-ai-act
+    source_ref: "Article 17, Paragraph 1(d)"
+    source_title: "Examination, test, validation"
+    target_framework: iso42001
+    target_ref: "A.6.2.4"
+    target_title: "AI system verification and validation"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Practitioner consensus, CEN-CENELEC JTC 21"
+        date: "2024"
+    notes: "Direct mapping."
+    bidirectional: false
+
+  - id: eu-ai-act--art-17-1-e--iso42001--a-6-2-3
+    source_framework: eu-ai-act
+    source_ref: "Article 17, Paragraph 1(e)"
+    source_title: "Technical specifications including standards"
+    target_framework: iso42001
+    target_ref: "A.6.2.3"
+    target_title: "AI system design and development documentation"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "IAPP AI Governance Professional body of knowledge"
+        date: "2024"
+    notes: "Design documentation control captures technical specifications and applied standards."
+    bidirectional: false
+
+  - id: eu-ai-act--art-17-1-f--iso42001--a-7
+    source_framework: eu-ai-act
+    source_ref: "Article 17, Paragraph 1(f)"
+    source_title: "Data management procedures"
+    target_framework: iso42001
+    target_ref: "A.7 family"
+    target_title: "Data for AI systems"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "ENISA, Cybersecurity of AI and Standardisation"
+        date: "2023"
+    notes: "Full A.7 control family satisfies data-management-procedures requirement."
+    bidirectional: false
+
+  - id: eu-ai-act--art-17-1-g--iso42001--clause-6-1-a-5
+    source_framework: eu-ai-act
+    source_ref: "Article 17, Paragraph 1(g)"
+    source_title: "Risk management system"
+    target_framework: iso42001
+    target_ref: "Clause 6.1; A.5 family"
+    target_title: "Actions to address risks and opportunities; AI risk controls"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Structural equivalence, ISO/IEC 42001:2023"
+        date: "2023"
+    notes: "Structural equivalence between ISO 42001 risk management and Article 17(1)(g)."
+    bidirectional: false
+
+  - id: eu-ai-act--art-17-1-h--iso42001--clause-9-1-a-6-2-6
+    source_framework: eu-ai-act
+    source_ref: "Article 17, Paragraph 1(h)"
+    source_title: "Post-market monitoring system"
+    target_framework: iso42001
+    target_ref: "Clause 9.1; A.6.2.6"
+    target_title: "Monitoring, measurement, analysis, evaluation; AI system operation and monitoring"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Practitioner consensus, ENISA"
+        date: "2023"
+    notes: "ISO lacks EU-specific post-market-monitoring frequency and Commission template under Article 72."
+    bidirectional: false
+
+  - id: eu-ai-act--art-17-1-i--iso42001--a-10-2-a-10-3
+    source_framework: eu-ai-act
+    source_ref: "Article 17, Paragraph 1(i)"
+    source_title: "Incident reporting under Article 73"
+    target_framework: iso42001
+    target_ref: "A.10.2, A.10.3"
+    target_title: "Allocating responsibilities; supplier relationships"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Practitioner consensus"
+        date: "2024"
+    notes: "ISO addresses responsibilities but lacks 15-day, 10-day, 2-day deadlines of Article 73."
+    bidirectional: false
+
+  - id: eu-ai-act--art-17-1-j--iso42001--a-8-3
+    source_framework: eu-ai-act
+    source_ref: "Article 17, Paragraph 1(j)"
+    source_title: "Communication with authorities"
+    target_framework: iso42001
+    target_ref: "A.8.3"
+    target_title: "External reporting"
+    relationship: partial-satisfaction
+    confidence: medium
+    citation_sources:
+      - publication: "practitioner-inference"
+        date: "2024"
+    notes: "External reporting control enables but does not prescribe authority-communication channels."
+    bidirectional: false
+
+  - id: eu-ai-act--art-17-1-k--iso42001--a-6-2-8-clause-7-5
+    source_framework: eu-ai-act
+    source_ref: "Article 17, Paragraph 1(k)"
+    source_title: "Record-keeping"
+    target_framework: iso42001
+    target_ref: "A.6.2.8; Clause 7.5"
+    target_title: "AI system event logging; documented information"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Direct mapping, ISO/IEC 42001:2023"
+        date: "2023"
+    notes: "Direct mapping to record-keeping obligation."
+    bidirectional: false
+
+  - id: eu-ai-act--art-17-1-l--iso42001--a-4
+    source_framework: eu-ai-act
+    source_ref: "Article 17, Paragraph 1(l)"
+    source_title: "Resource management"
+    target_framework: iso42001
+    target_ref: "A.4 family"
+    target_title: "Resources for AI systems"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "ENISA, Cybersecurity of AI and Standardisation"
+        date: "2023"
+    notes: "Full A.4 resource controls satisfy resource-management obligation."
+    bidirectional: false
+
+  - id: eu-ai-act--art-17-1-m--iso42001--a-3-2-a-3-3
+    source_framework: eu-ai-act
+    source_ref: "Article 17, Paragraph 1(m)"
+    source_title: "Accountability framework"
+    target_framework: iso42001
+    target_ref: "A.3.2, A.3.3"
+    target_title: "Roles and responsibilities; reporting of concerns"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "IAPP AI Governance Professional body of knowledge"
+        date: "2024"
+    notes: "Roles, responsibilities, and concern-reporting controls satisfy accountability framework."
+    bidirectional: false
+
+  - id: eu-ai-act--art-19--iso42001--a-6-2-8-clause-7-5-3
+    source_framework: eu-ai-act
+    source_ref: "Article 19"
+    source_title: "Logs retention minimum 6 months"
+    target_framework: iso42001
+    target_ref: "A.6.2.8; Clause 7.5.3"
+    target_title: "AI system event logging; control of documented information"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Practitioner consensus"
+        date: "2024"
+    notes: "ISO does not specify a 6-month minimum retention period."
+    bidirectional: false
+
+  - id: eu-ai-act--art-20--iso42001--a-10-4-clause-10-1-10-2
+    source_framework: eu-ai-act
+    source_ref: "Article 20"
+    source_title: "Corrective action and authority notification"
+    target_framework: iso42001
+    target_ref: "A.10.4; Clause 10.1, 10.2"
+    target_title: "Third-party relationships; continual improvement; nonconformity and corrective action"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Practitioner consensus"
+        date: "2024"
+    notes: "ISO corrective-action clauses lack EU-specific authority notification triggers."
+    bidirectional: false
+
+  - id: eu-ai-act--art-26--iso42001--a-9-2-a-9-3-a-9-4-a-6-2-6
+    source_framework: eu-ai-act
+    source_ref: "Article 26"
+    source_title: "Deployer obligations"
+    target_framework: iso42001
+    target_ref: "A.9.2, A.9.3, A.9.4; A.6.2.6"
+    target_title: "Responsible use, objectives, intended use; operation and monitoring"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "CEN-CENELEC JTC 21 drafts"
+        date: "2024"
+    notes: "A.9 responsible-use family plus operational monitoring covers deployer obligations."
+    bidirectional: false
+
+  - id: eu-ai-act--art-26-5--iso42001--a-6-2-6-a-10-2
+    source_framework: eu-ai-act
+    source_ref: "Article 26, Paragraph 5"
+    source_title: "Deployer post-market monitoring"
+    target_framework: iso42001
+    target_ref: "A.6.2.6; A.10.2"
+    target_title: "AI system operation and monitoring; allocating responsibilities"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Practitioner consensus"
+        date: "2024"
+    notes: "ISO lacks incident-equivalence to the Article 73 chain triggered by Article 26(5)."
+    bidirectional: false
+
+  - id: eu-ai-act--art-26-7--iso42001--a-8-2-a-3-3
+    source_framework: eu-ai-act
+    source_ref: "Article 26, Paragraph 7"
+    source_title: "Worker consultation before deployment"
+    target_framework: iso42001
+    target_ref: "A.8.2; A.3.3"
+    target_title: "Information for interested parties; reporting of concerns"
+    relationship: partial-satisfaction
+    confidence: low
+    citation_sources:
+      - publication: "practitioner-inference"
+        date: "2024"
+    notes: "ISO information and concern-reporting controls enable but do not mandate pre-deployment worker consultation."
+    bidirectional: false
+
+  - id: eu-ai-act--art-27--iso42001--a-6-1-2
+    source_framework: eu-ai-act
+    source_ref: "Article 27"
+    source_title: "Fundamental Rights Impact Assessment"
+    target_framework: iso42001
+    target_ref: "A.6.1.2"
+    target_title: "AI system impact assessment"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "ENISA, Cybersecurity of AI and Standardisation"
+        date: "2023"
+    notes: "ISO impact assessment is generic; FRIA requires specific fundamental-rights methodology."
+    bidirectional: false
+
+  - id: eu-ai-act--art-27-1-a-f--iso42001--a-6-1-2-a-5-2
+    source_framework: eu-ai-act
+    source_ref: "Article 27, Paragraph 1(a)-(f)"
+    source_title: "FRIA content"
+    target_framework: iso42001
+    target_ref: "A.6.1.2; A.5.2"
+    target_title: "AI system impact assessment; AI risk assessment"
+    relationship: partial-satisfaction
+    confidence: medium
+    citation_sources:
+      - publication: "IAPP FRIA guidance"
+        date: "2024"
+    notes: "Combined impact and risk-assessment controls overlap with FRIA content but lack prescribed structure."
+    bidirectional: false
+
+  - id: eu-ai-act--art-50-1--iso42001--a-8-2
+    source_framework: eu-ai-act
+    source_ref: "Article 50, Paragraph 1"
+    source_title: "Natural persons informed of AI"
+    target_framework: iso42001
+    target_ref: "A.8.2"
+    target_title: "Information for interested parties"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "CEN-CENELEC JTC 21 drafts"
+        date: "2024"
+    notes: "Information-for-interested-parties control satisfies user-informed obligation."
+    bidirectional: false
+
+  - id: eu-ai-act--art-50-2--iso42001--a-8-2
+    source_framework: eu-ai-act
+    source_ref: "Article 50, Paragraph 2"
+    source_title: "Synthetic content marking"
+    target_framework: iso42001
+    target_ref: "A.8.2"
+    target_title: "Information for interested parties"
+    relationship: partial-satisfaction
+    confidence: medium
+    citation_sources:
+      - publication: "CEN-CENELEC JTC 21 provenance working group"
+        date: "2024"
+    notes: "ISO A.8.2 supports disclosure but lacks C2PA-style provenance-marking specificity."
+    bidirectional: false
+
+  - id: eu-ai-act--art-50-3--iso42001--a-8-2-a-6-1-2
+    source_framework: eu-ai-act
+    source_ref: "Article 50, Paragraph 3"
+    source_title: "Emotion recognition notification"
+    target_framework: iso42001
+    target_ref: "A.8.2; A.6.1.2"
+    target_title: "Information for interested parties; AI system impact assessment"
+    relationship: partial-satisfaction
+    confidence: medium
+    citation_sources:
+      - publication: "practitioner-inference"
+        date: "2024"
+    notes: "Transparency plus impact assessment enable emotion-recognition notification but lack specific trigger."
+    bidirectional: false
+
+  - id: eu-ai-act--art-50-4--iso42001--a-8-2
+    source_framework: eu-ai-act
+    source_ref: "Article 50, Paragraph 4"
+    source_title: "Deepfake labelling"
+    target_framework: iso42001
+    target_ref: "A.8.2"
+    target_title: "Information for interested parties"
+    relationship: partial-satisfaction
+    confidence: medium
+    citation_sources:
+      - publication: "CEN-CENELEC JTC 21 content provenance working group"
+        date: "2024"
+    notes: "ISO lacks deepfake-specific labelling requirement."
+    bidirectional: false
+
+  - id: eu-ai-act--art-72--iso42001--clause-9-1-a-6-2-6
+    source_framework: eu-ai-act
+    source_ref: "Article 72"
+    source_title: "Post-market monitoring plan and system"
+    target_framework: iso42001
+    target_ref: "Clause 9.1; A.6.2.6"
+    target_title: "Monitoring, measurement, analysis, evaluation; AI system operation and monitoring"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Practitioner consensus"
+        date: "2024"
+    notes: "ISO monitoring controls lack the Commission template and specific structure required by Article 72."
+    bidirectional: false
+
+  - id: eu-ai-act--art-73--iso42001--a-10-2
+    source_framework: eu-ai-act
+    source_ref: "Article 73"
+    source_title: "Serious incident reporting deadlines"
+    target_framework: iso42001
+    target_ref: "A.10.2"
+    target_title: "Allocating responsibilities"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Practitioner consensus"
+        date: "2024"
+    notes: "ISO has no deadline specificity equivalent to 15/10/2-day reporting windows."
+    bidirectional: false
+
+  - id: eu-ai-act--annex-iii-1--iso42001--a-6-1-2
+    source_framework: eu-ai-act
+    source_ref: "Annex III, Biometrics"
+    source_title: "Biometrics"
+    target_framework: iso42001
+    target_ref: "A.6.1.2"
+    target_title: "AI system impact assessment"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "ENISA, Cybersecurity of AI and Standardisation"
+        date: "2023"
+    notes: "ISO impact assessment covers biometric-use risk analysis but not the Annex III scope definition."
+    bidirectional: false
+
+  - id: eu-ai-act--annex-iii-2--iso42001--a-6-1-2-a-5-2
+    source_framework: eu-ai-act
+    source_ref: "Annex III, Critical infrastructure"
+    source_title: "Critical infrastructure"
+    target_framework: iso42001
+    target_ref: "A.6.1.2; A.5.2"
+    target_title: "AI system impact assessment; AI risk assessment"
+    relationship: partial-satisfaction
+    confidence: medium
+    citation_sources:
+      - publication: "ISO/IEC 27001 layering consensus"
+        date: "2024"
+    notes: "Critical-infrastructure treatment depends on ISO 27001 layering in addition to ISO 42001."
+    bidirectional: false
+
+  - id: eu-ai-act--annex-iii-3--iso42001--a-6-1-2
+    source_framework: eu-ai-act
+    source_ref: "Annex III, Education and vocational training"
+    source_title: "Education and vocational training"
+    target_framework: iso42001
+    target_ref: "A.6.1.2"
+    target_title: "AI system impact assessment"
+    relationship: partial-satisfaction
+    confidence: medium
+    citation_sources:
+      - publication: "practitioner-inference"
+        date: "2024"
+    notes: "Impact assessment captures educational-AI risk but lacks Annex III sector specificity."
+    bidirectional: false
+
+  - id: eu-ai-act--annex-iii-4--iso42001--a-6-1-2
+    source_framework: eu-ai-act
+    source_ref: "Annex III, Employment, worker management"
+    source_title: "Employment, worker management"
+    target_framework: iso42001
+    target_ref: "A.6.1.2"
+    target_title: "AI system impact assessment"
+    relationship: partial-satisfaction
+    confidence: medium
+    citation_sources:
+      - publication: "IAPP AI Governance Professional body of knowledge"
+        date: "2024"
+    notes: "Impact assessment supports employment-AI review but lacks the worker-protection specificity of Annex III."
+    bidirectional: false
+
+  - id: eu-ai-act--annex-iii-5--iso42001--a-6-1-2
+    source_framework: eu-ai-act
+    source_ref: "Annex III, Access to essential services"
+    source_title: "Access to essential services"
+    target_framework: iso42001
+    target_ref: "A.6.1.2"
+    target_title: "AI system impact assessment"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "ENISA, Cybersecurity of AI and Standardisation"
+        date: "2023"
+    notes: "Impact assessment addresses essential-services access-risk analysis."
+    bidirectional: false
+
+  - id: eu-ai-act--annex-iii-6--iso42001--a-6-1-2
+    source_framework: eu-ai-act
+    source_ref: "Annex III, Law enforcement"
+    source_title: "Law enforcement"
+    target_framework: iso42001
+    target_ref: "A.6.1.2"
+    target_title: "AI system impact assessment"
+    relationship: partial-satisfaction
+    confidence: medium
+    citation_sources:
+      - publication: "practitioner-inference"
+        date: "2024"
+    notes: "Impact assessment applies generically; ISO lacks law-enforcement specific controls."
+    bidirectional: false
+
+  - id: eu-ai-act--annex-iii-7--iso42001--a-6-1-2
+    source_framework: eu-ai-act
+    source_ref: "Annex III, Migration, asylum, border"
+    source_title: "Migration, asylum, border"
+    target_framework: iso42001
+    target_ref: "A.6.1.2"
+    target_title: "AI system impact assessment"
+    relationship: partial-satisfaction
+    confidence: medium
+    citation_sources:
+      - publication: "practitioner-inference"
+        date: "2024"
+    notes: "Impact assessment applies generically; ISO lacks migration-context specific controls."
+    bidirectional: false
+
+  - id: eu-ai-act--annex-iii-8--iso42001--a-6-1-2
+    source_framework: eu-ai-act
+    source_ref: "Annex III, Administration of justice"
+    source_title: "Administration of justice"
+    target_framework: iso42001
+    target_ref: "A.6.1.2"
+    target_title: "AI system impact assessment"
+    relationship: partial-satisfaction
+    confidence: medium
+    citation_sources:
+      - publication: "practitioner-inference"
+        date: "2024"
+    notes: "Impact assessment applies generically; ISO lacks judicial-context specific controls."
+    bidirectional: false
+
+  # Gap entries: EU AI Act requirements with no ISO 42001 equivalent
+
+  - id: eu-ai-act--art-43-annex-vi-vii--iso42001--no-equivalent
+    source_framework: eu-ai-act
+    source_ref: "Article 43, Annex VI and VII"
+    source_title: "Conformity assessment procedures"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "EU AI Act prescribes internal-control and notified-body conformity assessment routes. ISO 42001 is a management-system certification and does not confer or replace EU conformity assessment."
+    bidirectional: false
+
+  - id: eu-ai-act--art-47-48--iso42001--no-equivalent
+    source_framework: eu-ai-act
+    source_ref: "Articles 47-48"
+    source_title: "CE marking and EU declaration of conformity"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "CE marking and EU declaration of conformity are regulatory artefacts with no ISO management-system equivalent."
+    bidirectional: false
+
+  - id: eu-ai-act--art-49-art-71--iso42001--no-equivalent
+    source_framework: eu-ai-act
+    source_ref: "Articles 49 and 71"
+    source_title: "EU database registration"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "EU-level high-risk database registration is a public registry obligation absent from ISO 42001."
+    bidirectional: false
+
+  - id: eu-ai-act--art-22--iso42001--no-equivalent
+    source_framework: eu-ai-act
+    source_ref: "Article 22"
+    source_title: "Authorised representative for non-EU providers"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "EU market-entry representative mandate has no ISO 42001 counterpart."
+    bidirectional: false
+
+  - id: eu-ai-act--art-73-deadlines--iso42001--no-equivalent
+    source_framework: eu-ai-act
+    source_ref: "Article 73"
+    source_title: "Serious incident reporting deadlines (15/10/2 days)"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "ISO 42001 has no incident-reporting deadline equivalent to Article 73 windows (15 days generic, 10 days widespread infringement, 2 days death)."
+    bidirectional: false
+
+  - id: eu-ai-act--art-72-3--iso42001--no-equivalent
+    source_framework: eu-ai-act
+    source_ref: "Article 72, Paragraph 3"
+    source_title: "Post-market monitoring plan Commission template"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "EU Commission implementing-act template for PMM plans has no ISO 42001 equivalent."
+    bidirectional: false
+
+  - id: eu-ai-act--art-19-retention--iso42001--no-equivalent
+    source_framework: eu-ai-act
+    source_ref: "Article 19"
+    source_title: "Log retention minimum 6 months"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "ISO 42001 requires log retention proportionate to purpose but does not set the 6-month minimum floor of Article 19."
+    bidirectional: false
+
+  - id: eu-ai-act--art-27-methodology--iso42001--no-equivalent
+    source_framework: eu-ai-act
+    source_ref: "Article 27"
+    source_title: "FRIA methodology specificity"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+      - publication: "Council of Europe HUDERIA; Dutch FRAIA"
+        date: "2024"
+    notes: "Fundamental-rights-specific methodologies (HUDERIA, Dutch FRAIA) referenced for Article 27 implementation have no ISO 42001 analog."
+    bidirectional: false
+
+  - id: eu-ai-act--art-51-55--iso42001--no-equivalent
+    source_framework: eu-ai-act
+    source_ref: "Articles 51-55"
+    source_title: "GPAI systemic-risk obligations"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "General-purpose AI systemic-risk regime (model evaluation, adversarial testing, incident tracking, cybersecurity protection) has no ISO 42001 equivalent."
+    bidirectional: false
+
+  - id: eu-ai-act--art-53-1-c--iso42001--no-equivalent
+    source_framework: eu-ai-act
+    source_ref: "Article 53, Paragraph 1(c)"
+    source_title: "Copyright compliance policy for GPAI"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "EU GPAI copyright-policy requirement (including Article 4(3) CDSM opt-out) has no ISO 42001 analog."
+    bidirectional: false
+
+  - id: eu-ai-act--art-53-1-d--iso42001--no-equivalent
+    source_framework: eu-ai-act
+    source_ref: "Article 53, Paragraph 1(d)"
+    source_title: "Training data transparency summary"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "GPAI public training-data summary via AI Office template has no ISO 42001 equivalent."
+    bidirectional: false
+
+  - id: eu-ai-act--art-60-61--iso42001--no-equivalent
+    source_framework: eu-ai-act
+    source_ref: "Articles 60-61"
+    source_title: "Real-world testing outside sandboxes"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "Real-world testing plan, informed consent, and market-surveillance authority registration have no ISO 42001 analog."
+    bidirectional: false
+
+  - id: eu-ai-act--art-74-78--iso42001--no-equivalent
+    source_framework: eu-ai-act
+    source_ref: "Articles 74-78"
+    source_title: "Market surveillance cooperation and compelled access"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "Market surveillance authority cooperation duties and compelled source-code/training-data access have no ISO 42001 equivalent."
+    bidirectional: false
+
+  - id: eu-ai-act--art-5-enforcement--iso42001--no-equivalent
+    source_framework: eu-ai-act
+    source_ref: "Article 5"
+    source_title: "Prohibited practices enforcement"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "ISO 42001 is a voluntary management-system standard; it does not replicate the prohibition regime or its administrative fine tier (up to EUR 35 million or 7 percent turnover)."
+    bidirectional: false
+
+  - id: eu-ai-act--art-5-2-6--iso42001--no-equivalent
+    source_framework: eu-ai-act
+    source_ref: "Article 5, Paragraph 2-6"
+    source_title: "Law enforcement biometric derogation"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "Real-time remote biometric identification derogation regime for law enforcement has no ISO 42001 analog."
+    bidirectional: false
+
+  # Gap entries: ISO 42001 controls with no EU AI Act equivalent
+
+  - id: iso42001--a-2-4--eu-ai-act--no-equivalent
+    source_framework: iso42001
+    source_ref: "A.2.4"
+    source_title: "Review of the AI policy"
+    target_framework: eu-ai-act
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "ISO/IEC 42001:2023 Annex A"
+        date: "2023-12"
+    notes: "ISO requires periodic AI policy review cadence. EU AI Act does not mandate a policy review cycle; Article 17 QMS obligations imply maintenance but no cadence."
+    bidirectional: false
+
+  - id: iso42001--a-3-3--eu-ai-act--no-equivalent
+    source_framework: iso42001
+    source_ref: "A.3.3"
+    source_title: "Reporting of concerns"
+    target_framework: eu-ai-act
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "ISO/IEC 42001:2023 Annex A"
+        date: "2023-12"
+    notes: "ISO mandates internal concern/whistleblower channel. EU AI Act has Article 73 external incident reporting but no internal channel requirement."
+    bidirectional: false
+
+  - id: iso42001--a-4--eu-ai-act--partial-coverage
+    source_framework: iso42001
+    source_ref: "A.4.2-A.4.6"
+    source_title: "Resource controls"
+    target_framework: eu-ai-act
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "ISO/IEC 42001:2023 Annex A"
+        date: "2023-12"
+    notes: "ISO specifies resource controls across human, tooling, systems, data, and compute. EU Article 17(1)(l) is less granular and does not break out resource categories."
+    bidirectional: false
+
+  - id: iso42001--a-6-1-4--eu-ai-act--no-equivalent
+    source_framework: iso42001
+    source_ref: "A.6.1.4"
+    source_title: "Impact assessment process documentation"
+    target_framework: eu-ai-act
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "ISO/IEC 42001:2023 Annex A"
+        date: "2023-12"
+    notes: "ISO requires documenting the impact-assessment process itself (methodology). EU AI Act Article 27 requires outputs (the FRIA) but not process-level documentation."
+    bidirectional: false
+
+  - id: iso42001--a-9-3--eu-ai-act--no-equivalent
+    source_framework: iso42001
+    source_ref: "A.9.3"
+    source_title: "Objectives for responsible use"
+    target_framework: eu-ai-act
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "ISO/IEC 42001:2023 Annex A"
+        date: "2023-12"
+    notes: "ISO requires setting responsible-use objectives. EU Article 26 imposes use obligations but does not require defined use-objectives."
+    bidirectional: false
+
+  - id: iso42001--a-9-4--eu-ai-act--no-equivalent
+    source_framework: iso42001
+    source_ref: "A.9.4"
+    source_title: "Intended use declaration"
+    target_framework: eu-ai-act
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "ISO/IEC 42001:2023 Annex A"
+        date: "2023-12"
+    notes: "ISO requires a managed intended-use declaration. EU Article 26(1) requires deployers to use per provider instructions but does not require a formal declaration artefact."
+    bidirectional: false
+
+  - id: iso42001--a-10-2-10-4--eu-ai-act--no-equivalent
+    source_framework: iso42001
+    source_ref: "A.10.2-A.10.4"
+    source_title: "Supplier, customer, third-party relationships"
+    target_framework: eu-ai-act
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "ISO/IEC 42001:2023 Annex A"
+        date: "2023-12"
+    notes: "ISO requires managed supplier, customer, and third-party relationships across the AI value chain. EU Article 25 addresses value-chain responsibility allocation but has a narrower scope."
+    bidirectional: false
+
+  - id: iso42001--clause-10-1--eu-ai-act--no-equivalent
+    source_framework: iso42001
+    source_ref: "Clause 10.1"
+    source_title: "Continual improvement"
+    target_framework: eu-ai-act
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "ISO management-system clause requires continual improvement as an ongoing discipline. EU AI Act Article 20 mandates corrective action on nonconformity but does not impose a continual-improvement obligation."
+    bidirectional: false

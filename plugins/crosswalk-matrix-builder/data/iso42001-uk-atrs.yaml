@@ -1,0 +1,1026 @@
+# UK ATRS -> ISO/IEC 42001:2023 crosswalk
+# Source: UK Algorithmic Transparency Recording Standard v2.1 (CDDO / DSIT, 2024-01)
+# Target: ISO/IEC 42001:2023
+# Includes bidirectional gap entries where either framework has no equivalent.
+
+mappings:
+
+  - id: uk-atrs--1-1-name--iso42001--a-6-2-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 1.1 Name"
+    source_title: "Short public-facing name (Tier 1)"
+    target_framework: iso42001
+    target_ref: "A.6.2.2"
+    target_title: "Documentation of AI system"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        url: "https://www.gov.uk/government/publications/algorithmic-transparency-recording-standard-guidance-for-public-sector-bodies"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "ATRS Tier 1 requires a short public-facing name for the tool. ISO A.6.2.2 requires documentation identifying the AI system but does not prescribe a public-facing short name."
+    bidirectional: false
+
+  - id: uk-atrs--1-2-description--iso42001--a-6-2-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 1.2 Description"
+    source_title: "Plain-English summary (Tier 1)"
+    target_framework: iso42001
+    target_ref: "A.6.2.2"
+    target_title: "Documentation of AI system"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "ATRS Tier 1 description is a plain-English summary for public audiences. ISO A.6.2.2 requires technical documentation of the AI system; audience and register differ."
+    bidirectional: false
+
+  - id: uk-atrs--1-2-description--iso42001--clause-6-1-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 1.2 Description"
+    source_title: "Plain-English summary (Tier 1)"
+    target_framework: iso42001
+    target_ref: "Clause 6.1.2"
+    target_title: "AI risk assessment"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "ATRS Tier 1 description implicitly communicates scope which overlaps with scope elements of ISO 6.1.2 risk assessment. Overlap is partial, not equivalent."
+    bidirectional: false
+
+  - id: uk-atrs--1-3-website-url--iso42001--no-equivalent
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 1.3 Website URL"
+    source_title: "Public URL (Tier 1)"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "ISO 42001 does not require publication of a public URL for the AI system. ATRS 1.3 is jurisdiction-specific public transparency."
+    bidirectional: false
+
+  - id: uk-atrs--1-4-contact-email--iso42001--a-3-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 1.4 Contact email"
+    source_title: "Public contact for queries (Tier 1)"
+    target_framework: iso42001
+    target_ref: "A.3.2"
+    target_title: "AI roles and responsibilities"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "ISO A.3.2 requires defined roles and responsibilities, which includes a point of contact. ATRS 1.4 specifically requires a public-facing email for external queries; ISO does not require the contact to be externally published."
+    bidirectional: false
+
+  - id: uk-atrs--1-4-contact-email--iso42001--a-9-3
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 1.4 Contact email"
+    source_title: "Public contact for queries (Tier 1)"
+    target_framework: iso42001
+    target_ref: "A.9.3"
+    target_title: "External reporting"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "ISO A.9.3 covers reporting processes for interested parties. ATRS 1.4 establishes an external inbound channel specifically; partial overlap."
+    bidirectional: false
+
+  - id: uk-atrs--2-1-how-and-why-used--iso42001--clause-6-1-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.1 How and why used"
+    source_title: "Purpose and justification (Tier 2)"
+    target_framework: iso42001
+    target_ref: "Clause 6.1.2"
+    target_title: "AI risk assessment"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "ATRS 2.1 documents the purpose of the AI system; ISO 6.1.2 requires identification of AI system purpose as part of risk assessment. Equivalent intent."
+    bidirectional: true
+
+  - id: uk-atrs--2-1-how-and-why-used--iso42001--a-5-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.1 How and why used"
+    source_title: "Purpose and justification (Tier 2)"
+    target_framework: iso42001
+    target_ref: "A.5.2"
+    target_title: "AI system impact assessment process"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "A.5.2 requires impact assessment including intended purpose and use context; ATRS 2.1 records same."
+    bidirectional: true
+
+  - id: uk-atrs--2-2-decision-making-process--iso42001--a-9-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.2 Decision making process"
+    source_title: "Human involvement (Tier 2)"
+    target_framework: iso42001
+    target_ref: "A.9.2"
+    target_title: "Processes for responsible use of AI"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "ATRS 2.2 documents human role in decisions; A.9.2 requires processes for responsible use including human oversight. Equivalent."
+    bidirectional: true
+
+  - id: uk-atrs--2-2-decision-making-process--iso42001--clause-8-4
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.2 Decision making process"
+    source_title: "Human involvement (Tier 2)"
+    target_framework: iso42001
+    target_ref: "Clause 8.4"
+    target_title: "AI system impact assessment"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "Clause 8.4 requires operational impact assessment including human-involvement posture; equivalent to ATRS 2.2."
+    bidirectional: true
+
+  - id: uk-atrs--2-3-alternatives-considered--iso42001--a-5-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.3 Alternatives considered"
+    source_title: "Non-algorithmic options (Tier 2)"
+    target_framework: iso42001
+    target_ref: "A.5.2"
+    target_title: "AI system impact assessment process"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "A.5.2 impact assessment includes consideration of alternatives and justification of AI approach; equivalent to ATRS 2.3."
+    bidirectional: true
+
+  - id: uk-atrs--2-4-scope--iso42001--a-5-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.4 Scope"
+    source_title: "Population and geographic scope (Tier 2)"
+    target_framework: iso42001
+    target_ref: "A.5.2"
+    target_title: "AI system impact assessment process"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "Scope definition (population, geography, deployment boundary) is a required input to A.5.2 impact assessment."
+    bidirectional: true
+
+  - id: uk-atrs--2-4-scope--iso42001--a-6-2-3
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.4 Scope"
+    source_title: "Population and geographic scope (Tier 2)"
+    target_framework: iso42001
+    target_ref: "A.6.2.3"
+    target_title: "AI system requirements and specification"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "A.6.2.3 requires intended-use and deployment-scope specification; equivalent to ATRS 2.4."
+    bidirectional: true
+
+  - id: uk-atrs--2-5-benefit--iso42001--clause-6-1-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.5 Benefit"
+    source_title: "Anticipated benefits (Tier 2)"
+    target_framework: iso42001
+    target_ref: "Clause 6.1.2"
+    target_title: "AI risk assessment"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "ISO 6.1.2 requires weighing benefits against risks; ATRS 2.5 documents the benefit side of that analysis."
+    bidirectional: true
+
+  - id: uk-atrs--2-5-benefit--iso42001--a-5-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.5 Benefit"
+    source_title: "Anticipated benefits (Tier 2)"
+    target_framework: iso42001
+    target_ref: "A.5.2"
+    target_title: "AI system impact assessment process"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "A.5.2 impact assessment includes benefit analysis; equivalent to ATRS 2.5."
+    bidirectional: true
+
+  - id: uk-atrs--2-6-public-engagement--iso42001--a-4-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.6 Public engagement"
+    source_title: "Consultation with affected groups (Tier 2)"
+    target_framework: iso42001
+    target_ref: "A.4.2"
+    target_title: "Resources for AI systems"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "A.4.2 identifies interested-party resources including affected communities; ATRS 2.6 records actual engagement with those parties."
+    bidirectional: true
+
+  - id: uk-atrs--2-6-public-engagement--iso42001--a-9-3
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.6 Public engagement"
+    source_title: "Consultation with affected groups (Tier 2)"
+    target_framework: iso42001
+    target_ref: "A.9.3"
+    target_title: "External reporting"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "A.9.3 covers two-way external communication with interested parties; ATRS 2.6 records that engagement."
+    bidirectional: true
+
+  - id: uk-atrs--2-7-risks-and-mitigations--iso42001--clause-6-1-1
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.7 Risks and mitigations"
+    source_title: "Identified risks and controls (Tier 2)"
+    target_framework: iso42001
+    target_ref: "Clause 6.1.1"
+    target_title: "Actions to address risks and opportunities"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "Clause 6.1.1 requires planning of risk actions; ATRS 2.7 documents the resulting risks and mitigations."
+    bidirectional: true
+
+  - id: uk-atrs--2-7-risks-and-mitigations--iso42001--a-5-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.7 Risks and mitigations"
+    source_title: "Identified risks and controls (Tier 2)"
+    target_framework: iso42001
+    target_ref: "A.5.2"
+    target_title: "AI system impact assessment process"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "A.5.2 impact assessment enumerates risks to individuals and groups; ATRS 2.7 records that output."
+    bidirectional: true
+
+  - id: uk-atrs--2-7-risks-and-mitigations--iso42001--a-5-4
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.7 Risks and mitigations"
+    source_title: "Identified risks and controls (Tier 2)"
+    target_framework: iso42001
+    target_ref: "A.5.4"
+    target_title: "AI system impact assessment"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "A.5.4 documents outcomes of impact assessment including mitigations; ATRS 2.7 records the same content."
+    bidirectional: true
+
+  - id: uk-atrs--2-8-impact-assessments--iso42001--a-5-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.8 Impact assessments"
+    source_title: "DPIA, EIA, equalities (Tier 2)"
+    target_framework: iso42001
+    target_ref: "A.5.2"
+    target_title: "AI system impact assessment process"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "ATRS 2.8 lists completed assessments; A.5.2 establishes the process that produces those artifacts."
+    bidirectional: true
+
+  - id: uk-atrs--2-8-impact-assessments--iso42001--a-5-3
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.8 Impact assessments"
+    source_title: "DPIA, EIA, equalities (Tier 2)"
+    target_framework: iso42001
+    target_ref: "A.5.3"
+    target_title: "Documentation of AI system impact assessments"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "A.5.3 requires documented impact-assessment records; ATRS 2.8 is a summary reference to those records."
+    bidirectional: true
+
+  - id: uk-atrs--3-1-technical-specification--iso42001--a-6-2-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 3.1 Technical specification"
+    source_title: "Model type and architecture (Tier 2)"
+    target_framework: iso42001
+    target_ref: "A.6.2.2"
+    target_title: "Documentation of AI system"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "A.6.2.2 mandates technical documentation of the AI system including architecture; ATRS 3.1 records the same content."
+    bidirectional: true
+
+  - id: uk-atrs--3-1-technical-specification--iso42001--a-7-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 3.1 Technical specification"
+    source_title: "Model type and architecture (Tier 2)"
+    target_framework: iso42001
+    target_ref: "A.7.2"
+    target_title: "Data for development and enhancement of AI system"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "ATRS 3.1 captures data-driven architecture attributes that A.7.2 also requires be documented."
+    bidirectional: true
+
+  - id: uk-atrs--3-2-model-performance--iso42001--a-6-2-4
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 3.2 Model performance"
+    source_title: "Accuracy, precision, recall (Tier 2)"
+    target_framework: iso42001
+    target_ref: "A.6.2.4"
+    target_title: "Verification and validation of AI system"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "A.6.2.4 requires verification and validation metrics; ATRS 3.2 records those metrics."
+    bidirectional: true
+
+  - id: uk-atrs--3-2-model-performance--iso42001--clause-9-1
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 3.2 Model performance"
+    source_title: "Accuracy, precision, recall (Tier 2)"
+    target_framework: iso42001
+    target_ref: "Clause 9.1"
+    target_title: "Monitoring, measurement, analysis and evaluation"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "Clause 9.1 requires measurement of AIMS performance including AI system performance; ATRS 3.2 records the model metrics."
+    bidirectional: true
+
+  - id: uk-atrs--3-3-datasets--iso42001--a-7-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 3.3 Datasets"
+    source_title: "Training, test, operational data (Tier 2)"
+    target_framework: iso42001
+    target_ref: "A.7.2"
+    target_title: "Data for development and enhancement of AI system"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "A.7.2 covers datasets used for development; ATRS 3.3 records training and test datasets."
+    bidirectional: true
+
+  - id: uk-atrs--3-3-datasets--iso42001--a-7-3
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 3.3 Datasets"
+    source_title: "Training, test, operational data (Tier 2)"
+    target_framework: iso42001
+    target_ref: "A.7.3"
+    target_title: "Acquisition of data"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "A.7.3 covers data acquisition; ATRS 3.3 records the data sources."
+    bidirectional: true
+
+  - id: uk-atrs--3-3-datasets--iso42001--a-7-4
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 3.3 Datasets"
+    source_title: "Training, test, operational data (Tier 2)"
+    target_framework: iso42001
+    target_ref: "A.7.4"
+    target_title: "Quality of data for AI systems"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "A.7.4 requires data-quality documentation; ATRS 3.3 documents dataset properties relevant to quality."
+    bidirectional: true
+
+  - id: uk-atrs--3-4-dataset-completeness--iso42001--a-7-3
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 3.4 Dataset completeness"
+    source_title: "Gaps and known biases (Tier 2)"
+    target_framework: iso42001
+    target_ref: "A.7.3"
+    target_title: "Acquisition of data"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "A.7.3 requires documentation of data provenance and representativeness; ATRS 3.4 records gaps and biases arising from acquisition."
+    bidirectional: true
+
+  - id: uk-atrs--3-4-dataset-completeness--iso42001--a-7-4
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 3.4 Dataset completeness"
+    source_title: "Gaps and known biases (Tier 2)"
+    target_framework: iso42001
+    target_ref: "A.7.4"
+    target_title: "Quality of data for AI systems"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "A.7.4 requires disclosure of data-quality limitations; ATRS 3.4 records those limitations."
+    bidirectional: true
+
+  - id: uk-atrs--3-4-dataset-completeness--iso42001--a-5-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 3.4 Dataset completeness"
+    source_title: "Gaps and known biases (Tier 2)"
+    target_framework: iso42001
+    target_ref: "A.5.2"
+    target_title: "AI system impact assessment process"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "A.5.2 impact assessment must consider bias arising from data; ATRS 3.4 provides the bias input."
+    bidirectional: true
+
+  - id: uk-atrs--3-5-data-collection--iso42001--a-7-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 3.5 Data collection"
+    source_title: "Legal basis and consent (Tier 2)"
+    target_framework: iso42001
+    target_ref: "A.7.2"
+    target_title: "Data for development and enhancement of AI system"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "A.7.2 covers data used for development; ATRS 3.5 adds UK GDPR legal-basis and consent requirements that A.7.2 does not fully cover."
+    bidirectional: false
+
+  - id: uk-atrs--3-5-data-collection--iso42001--a-7-4
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 3.5 Data collection"
+    source_title: "Legal basis and consent (Tier 2)"
+    target_framework: iso42001
+    target_ref: "A.7.4"
+    target_title: "Quality of data for AI systems"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "A.7.4 addresses data quality; ATRS 3.5 adds lawful basis which is partially out of scope for A.7.4."
+    bidirectional: false
+
+  - id: uk-atrs--3-6-data-sharing-agreements--iso42001--a-10-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 3.6 Data sharing agreements"
+    source_title: "Third-party data flows (Tier 2)"
+    target_framework: iso42001
+    target_ref: "A.10.2"
+    target_title: "Allocating responsibilities"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "A.10.2 requires allocated responsibilities across the value chain; ATRS 3.6 documents the sharing arrangements embodying those allocations."
+    bidirectional: true
+
+  - id: uk-atrs--3-6-data-sharing-agreements--iso42001--a-10-3
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 3.6 Data sharing agreements"
+    source_title: "Third-party data flows (Tier 2)"
+    target_framework: iso42001
+    target_ref: "A.10.3"
+    target_title: "Suppliers"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "A.10.3 requires documented supplier arrangements; ATRS 3.6 documents the data-sharing form of those arrangements."
+    bidirectional: true
+
+  - id: uk-atrs--3-7-data-access-and-security--iso42001--a-7-5
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 3.7 Data access and security"
+    source_title: "Access controls (Tier 2)"
+    target_framework: iso42001
+    target_ref: "A.7.5"
+    target_title: "Data provenance"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "A.7.5 addresses provenance and related security considerations. ATRS 3.7 covers access controls more fully via expected ISO 27001 layering. Partial overlap."
+    bidirectional: false
+
+  - id: uk-atrs--4-1-governance--iso42001--clause-5-1
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 4.1 Governance"
+    source_title: "Internal oversight body (Tier 2)"
+    target_framework: iso42001
+    target_ref: "Clause 5.1"
+    target_title: "Leadership and commitment"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "Clause 5.1 requires top-management leadership for AI governance; ATRS 4.1 records the oversight arrangements enacting that leadership."
+    bidirectional: true
+
+  - id: uk-atrs--4-1-governance--iso42001--clause-5-3
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 4.1 Governance"
+    source_title: "Internal oversight body (Tier 2)"
+    target_framework: iso42001
+    target_ref: "Clause 5.3"
+    target_title: "Organizational roles, responsibilities and authorities"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "Clause 5.3 defines roles and responsibilities; ATRS 4.1 identifies the internal oversight body."
+    bidirectional: true
+
+  - id: uk-atrs--4-1-governance--iso42001--a-3-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 4.1 Governance"
+    source_title: "Internal oversight body (Tier 2)"
+    target_framework: iso42001
+    target_ref: "A.3.2"
+    target_title: "AI roles and responsibilities"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "A.3.2 requires documented AI roles; ATRS 4.1 records the oversight roles."
+    bidirectional: true
+
+  - id: uk-atrs--4-2-documentation-and-review--iso42001--clause-7-5
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 4.2 Documentation and review"
+    source_title: "Version control and review cadence (Tier 2)"
+    target_framework: iso42001
+    target_ref: "Clause 7.5"
+    target_title: "Documented information"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "Clause 7.5 requires control of documented information including versioning; ATRS 4.2 records the cadence."
+    bidirectional: true
+
+  - id: uk-atrs--4-2-documentation-and-review--iso42001--a-6-2-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 4.2 Documentation and review"
+    source_title: "Version control and review cadence (Tier 2)"
+    target_framework: iso42001
+    target_ref: "A.6.2.2"
+    target_title: "Documentation of AI system"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "A.6.2.2 mandates maintained AI system documentation; ATRS 4.2 is the artefact control regime."
+    bidirectional: true
+
+  - id: uk-atrs--4-2-documentation-and-review--iso42001--clause-9-3
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 4.2 Documentation and review"
+    source_title: "Version control and review cadence (Tier 2)"
+    target_framework: iso42001
+    target_ref: "Clause 9.3"
+    target_title: "Management review"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "Clause 9.3 requires periodic management review; ATRS 4.2 records review cadence."
+    bidirectional: true
+
+  - id: uk-atrs--4-3-incident-response--iso42001--a-6-2-6
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 4.3 Incident response and monitoring"
+    source_title: "Post-deployment handling (Tier 2)"
+    target_framework: iso42001
+    target_ref: "A.6.2.6"
+    target_title: "AI system operation and monitoring"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "A.6.2.6 requires operation and monitoring in production; ATRS 4.3 documents the monitoring and incident handling."
+    bidirectional: true
+
+  - id: uk-atrs--4-3-incident-response--iso42001--clause-10-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 4.3 Incident response and monitoring"
+    source_title: "Post-deployment handling (Tier 2)"
+    target_framework: iso42001
+    target_ref: "Clause 10.2"
+    target_title: "Nonconformity and corrective action"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "Clause 10.2 requires corrective action for nonconformities; ATRS 4.3 records incident response arrangements."
+    bidirectional: true
+
+  - id: uk-atrs--4-4-redress-and-appeal--iso42001--a-9-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 4.4 Redress and appeal"
+    source_title: "How individuals challenge outcomes (Tier 2)"
+    target_framework: iso42001
+    target_ref: "A.9.2"
+    target_title: "Processes for responsible use of AI"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "A.9.2 includes mechanisms for affected persons to contest outputs; ATRS 4.4 documents the redress path."
+    bidirectional: true
+
+  - id: uk-atrs--4-4-redress-and-appeal--iso42001--a-9-3
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 4.4 Redress and appeal"
+    source_title: "How individuals challenge outcomes (Tier 2)"
+    target_framework: iso42001
+    target_ref: "A.9.3"
+    target_title: "External reporting"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "A.9.3 addresses external channels for reporting concerns; ATRS 4.4 documents the appeal route."
+    bidirectional: true
+
+  - id: uk-atrs--4-5-supplier-details--iso42001--a-10-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 4.5 Supplier details"
+    source_title: "Third-party vendor and procurement (Tier 2)"
+    target_framework: iso42001
+    target_ref: "A.10.2"
+    target_title: "Allocating responsibilities"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "A.10.2 requires allocation of responsibilities across value chain; ATRS 4.5 identifies supplier and contract arrangements."
+    bidirectional: true
+
+  - id: uk-atrs--4-5-supplier-details--iso42001--a-10-3
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 4.5 Supplier details"
+    source_title: "Third-party vendor and procurement (Tier 2)"
+    target_framework: iso42001
+    target_ref: "A.10.3"
+    target_title: "Suppliers"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "A.10.3 governs supplier management; ATRS 4.5 records the supplier identity and procurement detail."
+    bidirectional: true
+
+  # UK-specific gap entries: source uk-atrs, no ISO equivalent
+
+  - id: uk-atrs--2-8-public-sector-equality-duty--iso42001--no-equivalent
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.8 Public Sector Equality Duty"
+    source_title: "Equality Act 2010 s.149 integration in impact assessment"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "UK Equality Act 2010, section 149"
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "ATRS 2.8 expects documentation of Public Sector Equality Duty compliance under Equality Act 2010 s.149. ISO 42001 is jurisdiction-agnostic and does not reference UK statutory equality duties."
+    bidirectional: false
+
+  - id: uk-atrs--4-1-senior-responsible-owner--iso42001--no-equivalent
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 4.1 Senior Responsible Owner"
+    source_title: "SRO naming under UK GovS 005"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "UK Government Functional Standard GovS 005: Digital"
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "ATRS 4.1 expects a named Senior Responsible Owner consistent with UK GovS 005. ISO Clause 5.3 requires defined roles but does not require the SRO title or equivalent UK civil-service accountability construct."
+    bidirectional: false
+
+  - id: uk-atrs--tier-1-public-transparency-default--iso42001--no-equivalent
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section Tier 1 public transparency default"
+    source_title: "CDDO December 2023 mandated public registry"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "UK CDDO transparency mandate"
+        date: "2023-12"
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "ATRS Tier 1 is a public-registry default mandated by CDDO in December 2023. ISO A.9.3 requires external communication with interested parties but does not require publication to a public registry."
+    bidirectional: false
+
+  - id: uk-atrs--2-1-data-ethics-framework--iso42001--no-equivalent
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.1 Data Ethics Framework"
+    source_title: "Data Ethics Framework and ETAF cross-references"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "UK Data Ethics Framework"
+      - publication: "Ethics, Transparency and Accountability Framework (ETAF)"
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "ATRS 2.1 expects ethics reasoning referencing UK Data Ethics Framework and ETAF. ISO 42001 references generic AI ethics principles but not these UK-specific frameworks."
+    bidirectional: false
+
+  - id: uk-atrs--2-8-dpia-under-uk-gdpr--iso42001--no-equivalent
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.8 DPIA under UK GDPR"
+    source_title: "ICO-format DPIA under DPA 2018"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "UK Data Protection Act 2018"
+      - publication: "ICO DPIA guidance"
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "ATRS 2.8 expects a DPIA in the form anticipated by UK GDPR and ICO guidance. ISO 42001 defers privacy management to ISO 27701 and does not prescribe DPIA format under UK DPA 2018."
+    bidirectional: false
+
+  # ATRS-lighter gap entries: source iso42001 or nist, target uk-atrs
+
+  - id: iso42001--aims-organisation-wide--uk-atrs--no-equivalent
+    source_framework: iso42001
+    source_ref: "Clauses 4-10"
+    source_title: "AI Management System organisation-wide requirements"
+    target_framework: uk-atrs
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+    notes: "ISO 42001 Clauses 4 to 10 require an organisation-wide management system (context, leadership, planning, support, operation, performance evaluation, improvement). ATRS documents a single tool and does not constitute an AIMS."
+    bidirectional: false
+
+  - id: iso42001--clause-9-1-continuous-measurement--uk-atrs--no-equivalent
+    source_framework: iso42001
+    source_ref: "Clause 9.1"
+    source_title: "Continuous monitoring and measurement"
+    target_framework: uk-atrs
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+    notes: "ISO Clause 9.1 and the NIST MEASURE function both require ongoing measurement with defined metrics. ATRS Tier 1 does not require continuous measurement metrics as a published artefact."
+    bidirectional: false
+
+  - id: iso42001--a-10-3-supplier-audit-rights--uk-atrs--no-equivalent
+    source_framework: iso42001
+    source_ref: "A.10.3"
+    source_title: "Supplier audit rights documentation"
+    target_framework: uk-atrs
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+    notes: "ISO A.10.3 expects documented supplier controls including audit rights. ATRS 4.5 asks for supplier name and procurement route but does not require audit-right documentation."
+    bidirectional: false
+
+  - id: iso42001--a-6-2-2-model-card-depth--uk-atrs--no-equivalent
+    source_framework: iso42001
+    source_ref: "A.6.2.2"
+    source_title: "Model and data card depth"
+    target_framework: uk-atrs
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+      - publication: "NIST AI 600-1 Generative AI Profile"
+        date: "2024-07"
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+    notes: "ISO A.6.2.2 and the NIST GenAI Profile anticipate model, data, and system cards with defined depth. ATRS Tier 1 fields are shorter-form and do not mandate full model-card depth."
+    bidirectional: false
+
+  - id: iso42001--lifecycle-stage-mapping--uk-atrs--no-equivalent
+    source_framework: iso42001
+    source_ref: "Clause 8"
+    source_title: "Lifecycle stage mapping"
+    target_framework: uk-atrs
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+    notes: "ISO Clause 8 and the NIST AI RMF require AI lifecycle-stage mapping (design, development, deployment, operation, decommissioning). ATRS treats the tool as a static published artefact without lifecycle-stage labelling."
+    bidirectional: false

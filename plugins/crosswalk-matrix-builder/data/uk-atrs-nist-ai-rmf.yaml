@@ -1,0 +1,1020 @@
+# UK ATRS -> NIST AI RMF 1.0 crosswalk
+# Source: UK Algorithmic Transparency Recording Standard v2.1 (CDDO / DSIT, 2024-01)
+# Target: NIST AI Risk Management Framework 1.0
+
+mappings:
+
+  - id: uk-atrs--1-1-name--nist-ai-rmf--map-1-1
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 1.1 Name"
+    source_title: "Short public-facing name (Tier 1)"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 1.1"
+    target_title: "Intended purposes and context of use are understood and documented"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MAP 1.1 documents system identification and purpose; ATRS 1.1 names the system for public identification. Partial overlap."
+    bidirectional: false
+
+  - id: uk-atrs--1-2-description--nist-ai-rmf--map-1-1
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 1.2 Description"
+    source_title: "Plain-English summary (Tier 1)"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 1.1"
+    target_title: "Intended purposes and context of use are understood and documented"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MAP 1.1 requires documented intent and context; ATRS 1.2 records this in plain English for a public audience. Register differs."
+    bidirectional: false
+
+  - id: uk-atrs--1-2-description--nist-ai-rmf--map-1-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 1.2 Description"
+    source_title: "Plain-English summary (Tier 1)"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 1.2"
+    target_title: "Inter-disciplinary AI actors established"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MAP 1.2 requires that plain-language descriptions exist across disciplines; ATRS 1.2 produces the public-facing description."
+    bidirectional: false
+
+  - id: uk-atrs--1-3-website-url--nist-ai-rmf--govern-1-4
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 1.3 Website URL"
+    source_title: "Public URL (Tier 1)"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 1.4"
+    target_title: "Processes for transparent information sharing"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "GOVERN 1.4 promotes processes for transparent information sharing; ATRS 1.3 provides a public URL to that information. NIST does not require a URL specifically."
+    bidirectional: false
+
+  - id: uk-atrs--1-4-contact-email--nist-ai-rmf--govern-5-1
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 1.4 Contact email"
+    source_title: "Public contact for queries (Tier 1)"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 5.1"
+    target_title: "Organizational practices for stakeholder engagement"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "GOVERN 5.1 requires practices to engage stakeholders; ATRS 1.4 provides a specific inbound channel."
+    bidirectional: false
+
+  - id: uk-atrs--2-1-how-and-why-used--nist-ai-rmf--map-1-1
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.1 How and why used"
+    source_title: "Purpose and justification (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 1.1"
+    target_title: "Intended purposes and context of use are understood and documented"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MAP 1.1 and ATRS 2.1 both document purpose and context of use. Equivalent."
+    bidirectional: true
+
+  - id: uk-atrs--2-1-how-and-why-used--nist-ai-rmf--map-1-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.1 How and why used"
+    source_title: "Purpose and justification (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 1.2"
+    target_title: "Inter-disciplinary AI actors established"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MAP 1.2 documents the rationale across disciplines; ATRS 2.1 records the justification for why AI is used."
+    bidirectional: true
+
+  - id: uk-atrs--2-1-how-and-why-used--nist-ai-rmf--map-3-1
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.1 How and why used"
+    source_title: "Purpose and justification (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 3.1"
+    target_title: "Benefits and costs are documented"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MAP 3.1 documents benefits and costs informing deployment decisions; ATRS 2.1 records the justification basis."
+    bidirectional: true
+
+  - id: uk-atrs--2-2-decision-making-process--nist-ai-rmf--manage-2-1
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.2 Decision making process"
+    source_title: "Human involvement (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MANAGE 2.1"
+    target_title: "Resources to respond to AI risks including human oversight"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MANAGE 2.1 requires human oversight resources; ATRS 2.2 records the decision-making and human involvement arrangements."
+    bidirectional: true
+
+  - id: uk-atrs--2-2-decision-making-process--nist-ai-rmf--measure-3-3
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.2 Decision making process"
+    source_title: "Human involvement (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 3.3"
+    target_title: "Measurable performance improvements in human-AI configurations"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MEASURE 3.3 evaluates human-AI teaming; ATRS 2.2 defines the human-AI decision architecture being measured."
+    bidirectional: true
+
+  - id: uk-atrs--2-3-alternatives-considered--nist-ai-rmf--map-3-1
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.3 Alternatives considered"
+    source_title: "Non-algorithmic options (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 3.1"
+    target_title: "Benefits and costs are documented"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MAP 3.1 requires comparison with alternatives; ATRS 2.3 records the non-algorithmic options considered."
+    bidirectional: true
+
+  - id: uk-atrs--2-4-scope--nist-ai-rmf--map-1-6
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.4 Scope"
+    source_title: "Population and geographic scope (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 1.6"
+    target_title: "System requirements specified and documented"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MAP 1.6 requires documented system requirements and scope; ATRS 2.4 records population and geography."
+    bidirectional: true
+
+  - id: uk-atrs--2-4-scope--nist-ai-rmf--map-3-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.4 Scope"
+    source_title: "Population and geographic scope (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 3.2"
+    target_title: "Potential costs of errors to downstream users"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MAP 3.2 requires understanding the affected population; ATRS 2.4 identifies that population and deployment boundary."
+    bidirectional: true
+
+  - id: uk-atrs--2-5-benefit--nist-ai-rmf--map-3-1
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.5 Benefit"
+    source_title: "Anticipated benefits (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 3.1"
+    target_title: "Benefits and costs are documented"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MAP 3.1 and ATRS 2.5 both capture anticipated benefits of deployment."
+    bidirectional: true
+
+  - id: uk-atrs--2-6-public-engagement--nist-ai-rmf--govern-5-1
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.6 Public engagement"
+    source_title: "Consultation with affected groups (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 5.1"
+    target_title: "Organizational practices for stakeholder engagement"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "GOVERN 5.1 requires stakeholder engagement practices; ATRS 2.6 records the specific consultations."
+    bidirectional: true
+
+  - id: uk-atrs--2-6-public-engagement--nist-ai-rmf--govern-5-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.6 Public engagement"
+    source_title: "Consultation with affected groups (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 5.2"
+    target_title: "Mechanisms for stakeholder input and feedback"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "GOVERN 5.2 requires mechanisms to gather stakeholder feedback; ATRS 2.6 documents the engagement events."
+    bidirectional: true
+
+  - id: uk-atrs--2-7-risks-and-mitigations--nist-ai-rmf--map-5-1
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.7 Risks and mitigations"
+    source_title: "Identified risks and controls (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 5.1"
+    target_title: "Likelihood and magnitude of impact identified"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MAP 5.1 identifies impact likelihood and magnitude; ATRS 2.7 records the resulting risks."
+    bidirectional: true
+
+  - id: uk-atrs--2-7-risks-and-mitigations--nist-ai-rmf--measure-2-7
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.7 Risks and mitigations"
+    source_title: "Identified risks and controls (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 2.7"
+    target_title: "Security and resilience evaluated"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MEASURE 2.7 evaluates risk controls including security posture; ATRS 2.7 records those controls."
+    bidirectional: true
+
+  - id: uk-atrs--2-7-risks-and-mitigations--nist-ai-rmf--manage-1-3
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.7 Risks and mitigations"
+    source_title: "Identified risks and controls (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MANAGE 1.3"
+    target_title: "Responses to identified risks prioritized and implemented"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MANAGE 1.3 prioritizes and implements risk responses; ATRS 2.7 records the resulting mitigation set."
+    bidirectional: true
+
+  - id: uk-atrs--2-8-impact-assessments--nist-ai-rmf--map-5-1
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.8 Impact assessments"
+    source_title: "DPIA, EIA, equalities (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 5.1"
+    target_title: "Likelihood and magnitude of impact identified"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MAP 5.1 feeds impact analysis; ATRS 2.8 names the formal assessments embodying that analysis."
+    bidirectional: true
+
+  - id: uk-atrs--2-8-impact-assessments--nist-ai-rmf--map-5-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.8 Impact assessments"
+    source_title: "DPIA, EIA, equalities (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 5.2"
+    target_title: "Practices to document impacts to individuals and groups"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MAP 5.2 requires documented impacts; ATRS 2.8 lists the impact assessment artefacts."
+    bidirectional: true
+
+  - id: uk-atrs--2-8-impact-assessments--nist-ai-rmf--measure-2-11
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.8 Impact assessments"
+    source_title: "DPIA, EIA, equalities (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 2.11"
+    target_title: "Fairness and bias are evaluated"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MEASURE 2.11 evaluates fairness and bias; ATRS 2.8 equalities assessment records that evaluation."
+    bidirectional: true
+
+  - id: uk-atrs--3-1-technical-specification--nist-ai-rmf--map-4-1
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 3.1 Technical specification"
+    source_title: "Model type and architecture (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 4.1"
+    target_title: "Legal and technical requirements tracked"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MAP 4.1 tracks technical requirements; ATRS 3.1 records model architecture specifications."
+    bidirectional: true
+
+  - id: uk-atrs--3-1-technical-specification--nist-ai-rmf--measure-1-1
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 3.1 Technical specification"
+    source_title: "Model type and architecture (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 1.1"
+    target_title: "Approaches and metrics for measurement identified"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MEASURE 1.1 selects measurement approaches for the model; ATRS 3.1 technical spec conditions those approaches."
+    bidirectional: true
+
+  - id: uk-atrs--3-2-model-performance--nist-ai-rmf--measure-2-3
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 3.2 Model performance"
+    source_title: "Accuracy, precision, recall (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 2.3"
+    target_title: "AI system performance evaluated"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MEASURE 2.3 evaluates AI system performance; ATRS 3.2 records the resulting metrics."
+    bidirectional: true
+
+  - id: uk-atrs--3-2-model-performance--nist-ai-rmf--measure-2-5
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 3.2 Model performance"
+    source_title: "Accuracy, precision, recall (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 2.5"
+    target_title: "AI system validity and reliability"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MEASURE 2.5 documents validity and reliability; ATRS 3.2 records accuracy, precision, and recall."
+    bidirectional: true
+
+  - id: uk-atrs--3-3-datasets--nist-ai-rmf--map-2-3
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 3.3 Datasets"
+    source_title: "Training, test, operational data (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 2.3"
+    target_title: "Scientific integrity and TEVV considerations"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MAP 2.3 requires TEVV-aligned dataset selection; ATRS 3.3 records the datasets used."
+    bidirectional: true
+
+  - id: uk-atrs--3-3-datasets--nist-ai-rmf--measure-2-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 3.3 Datasets"
+    source_title: "Training, test, operational data (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 2.2"
+    target_title: "Evaluations involve test sets representative of deployment"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MEASURE 2.2 uses representative test sets; ATRS 3.3 records those sets."
+    bidirectional: true
+
+  - id: uk-atrs--3-3-datasets--nist-ai-rmf--measure-2-10
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 3.3 Datasets"
+    source_title: "Training, test, operational data (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 2.10"
+    target_title: "Privacy risk evaluated"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MEASURE 2.10 evaluates privacy risk; ATRS 3.3 dataset record enables that evaluation."
+    bidirectional: true
+
+  - id: uk-atrs--3-4-dataset-completeness--nist-ai-rmf--measure-2-11
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 3.4 Dataset completeness"
+    source_title: "Gaps and known biases (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 2.11"
+    target_title: "Fairness and bias are evaluated"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MEASURE 2.11 evaluates fairness and bias; ATRS 3.4 records known dataset bias and gaps."
+    bidirectional: true
+
+  - id: uk-atrs--3-4-dataset-completeness--nist-ai-rmf--map-2-3
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 3.4 Dataset completeness"
+    source_title: "Gaps and known biases (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 2.3"
+    target_title: "Scientific integrity and TEVV considerations"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MAP 2.3 scientific integrity requires dataset-limitation documentation; ATRS 3.4 provides that documentation."
+    bidirectional: true
+
+  - id: uk-atrs--3-5-data-collection--nist-ai-rmf--map-4-1
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 3.5 Data collection"
+    source_title: "Legal basis and consent (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 4.1"
+    target_title: "Legal and technical requirements tracked"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MAP 4.1 tracks legal requirements which includes lawful data-collection bases; ATRS 3.5 records UK GDPR specifics that NIST leaves abstract."
+    bidirectional: false
+
+  - id: uk-atrs--3-5-data-collection--nist-ai-rmf--measure-2-10
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 3.5 Data collection"
+    source_title: "Legal basis and consent (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 2.10"
+    target_title: "Privacy risk evaluated"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MEASURE 2.10 evaluates privacy risk; ATRS 3.5 provides the lawful-basis record that informs it."
+    bidirectional: false
+
+  - id: uk-atrs--3-6-data-sharing-agreements--nist-ai-rmf--govern-6-1
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 3.6 Data sharing agreements"
+    source_title: "Third-party data flows (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 6.1"
+    target_title: "Policies for third-party risks"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "GOVERN 6.1 governs third-party risk; ATRS 3.6 documents the data-sharing instruments enacting that policy."
+    bidirectional: true
+
+  - id: uk-atrs--3-6-data-sharing-agreements--nist-ai-rmf--map-4-1
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 3.6 Data sharing agreements"
+    source_title: "Third-party data flows (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 4.1"
+    target_title: "Legal and technical requirements tracked"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MAP 4.1 tracks contractual and legal requirements; ATRS 3.6 records third-party data-sharing terms."
+    bidirectional: true
+
+  - id: uk-atrs--3-7-data-access-and-security--nist-ai-rmf--manage-3-1
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 3.7 Data access and security"
+    source_title: "Access controls (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MANAGE 3.1"
+    target_title: "AI risks responded to via documented risk controls"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MANAGE 3.1 documents risk controls including access-control regimes; ATRS 3.7 records them at a summary level."
+    bidirectional: false
+
+  - id: uk-atrs--3-7-data-access-and-security--nist-ai-rmf--measure-2-6
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 3.7 Data access and security"
+    source_title: "Access controls (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 2.6"
+    target_title: "AI system safety and security"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MEASURE 2.6 evaluates safety and security posture; ATRS 3.7 records access controls contributing to that posture."
+    bidirectional: false
+
+  - id: uk-atrs--4-1-governance--nist-ai-rmf--govern-1-1
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 4.1 Governance"
+    source_title: "Internal oversight body (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 1.1"
+    target_title: "Legal and regulatory requirements understood and managed"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "GOVERN 1.1 requires governance around legal and regulatory requirements; ATRS 4.1 identifies the body that performs it."
+    bidirectional: true
+
+  - id: uk-atrs--4-1-governance--nist-ai-rmf--govern-2-1
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 4.1 Governance"
+    source_title: "Internal oversight body (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 2.1"
+    target_title: "Roles and responsibilities documented"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "GOVERN 2.1 documents roles and responsibilities; ATRS 4.1 names the oversight body."
+    bidirectional: true
+
+  - id: uk-atrs--4-1-governance--nist-ai-rmf--govern-2-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 4.1 Governance"
+    source_title: "Internal oversight body (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 2.2"
+    target_title: "Organizational AI knowledge and expertise established"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "GOVERN 2.2 requires AI expertise structures; ATRS 4.1 identifies the oversight body that carries that expertise."
+    bidirectional: true
+
+  - id: uk-atrs--4-2-documentation-and-review--nist-ai-rmf--govern-1-4
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 4.2 Documentation and review"
+    source_title: "Version control and review cadence (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 1.4"
+    target_title: "Processes for transparent information sharing"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "GOVERN 1.4 requires transparent information-sharing processes, including maintained documentation; ATRS 4.2 records the cadence."
+    bidirectional: true
+
+  - id: uk-atrs--4-2-documentation-and-review--nist-ai-rmf--manage-4-1
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 4.2 Documentation and review"
+    source_title: "Version control and review cadence (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MANAGE 4.1"
+    target_title: "Post-deployment monitoring and review"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MANAGE 4.1 requires periodic review post-deployment; ATRS 4.2 records the review cadence."
+    bidirectional: true
+
+  - id: uk-atrs--4-3-incident-response--nist-ai-rmf--manage-4-1
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 4.3 Incident response and monitoring"
+    source_title: "Post-deployment handling (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MANAGE 4.1"
+    target_title: "Post-deployment monitoring and review"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MANAGE 4.1 post-deployment monitoring aligns with ATRS 4.3 monitoring arrangements."
+    bidirectional: true
+
+  - id: uk-atrs--4-3-incident-response--nist-ai-rmf--manage-4-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 4.3 Incident response and monitoring"
+    source_title: "Post-deployment handling (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MANAGE 4.2"
+    target_title: "Mechanisms to improve AI system based on feedback"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MANAGE 4.2 requires feedback-driven improvement; ATRS 4.3 covers incident lessons feeding into that improvement."
+    bidirectional: true
+
+  - id: uk-atrs--4-3-incident-response--nist-ai-rmf--manage-4-3
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 4.3 Incident response and monitoring"
+    source_title: "Post-deployment handling (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MANAGE 4.3"
+    target_title: "Incidents and errors communicated"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MANAGE 4.3 communicates incidents and errors; ATRS 4.3 documents the incident-response route."
+    bidirectional: true
+
+  - id: uk-atrs--4-4-redress-and-appeal--nist-ai-rmf--govern-5-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 4.4 Redress and appeal"
+    source_title: "How individuals challenge outcomes (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 5.2"
+    target_title: "Mechanisms for stakeholder input and feedback"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "GOVERN 5.2 establishes feedback channels; ATRS 4.4 documents the challenge and appeal process."
+    bidirectional: true
+
+  - id: uk-atrs--4-4-redress-and-appeal--nist-ai-rmf--manage-2-3
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 4.4 Redress and appeal"
+    source_title: "How individuals challenge outcomes (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "MANAGE 2.3"
+    target_title: "Mechanisms for appeal and override"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "MANAGE 2.3 requires mechanisms for appeal and override; ATRS 4.4 records those mechanisms."
+    bidirectional: true
+
+  - id: uk-atrs--4-5-supplier-details--nist-ai-rmf--govern-6-1
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 4.5 Supplier details"
+    source_title: "Third-party vendor and procurement (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 6.1"
+    target_title: "Policies for third-party risks"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "GOVERN 6.1 requires policies for third-party risk; ATRS 4.5 records the supplier involved."
+    bidirectional: true
+
+  - id: uk-atrs--4-5-supplier-details--nist-ai-rmf--govern-6-2
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 4.5 Supplier details"
+    source_title: "Third-party vendor and procurement (Tier 2)"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 6.2"
+    target_title: "Contingency processes for third-party failures"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "GOVERN 6.2 covers contingency for third-party disruption; ATRS 4.5 supplier record informs that contingency."
+    bidirectional: true
+
+  # UK-specific gap entries: source uk-atrs, target nist-ai-rmf
+
+  - id: uk-atrs--2-8-public-sector-equality-duty--nist-ai-rmf--no-equivalent
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.8 Public Sector Equality Duty"
+    source_title: "Equality Act 2010 s.149 integration in impact assessment"
+    target_framework: nist-ai-rmf
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "UK Equality Act 2010, section 149"
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "ATRS 2.8 records Public Sector Equality Duty compliance under UK Equality Act 2010 s.149. NIST AI RMF MEASURE 2.11 evaluates fairness abstractly; it does not invoke the UK statutory equality duty."
+    bidirectional: false
+
+  - id: uk-atrs--4-1-senior-responsible-owner--nist-ai-rmf--no-equivalent
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 4.1 Senior Responsible Owner"
+    source_title: "SRO naming under UK GovS 005"
+    target_framework: nist-ai-rmf
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "UK Government Functional Standard GovS 005: Digital"
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "ATRS 4.1 expects a named Senior Responsible Owner consistent with UK GovS 005. NIST GOVERN 2.1 requires documented roles but does not require the UK SRO title or equivalent civil-service accountability construct."
+    bidirectional: false
+
+  - id: uk-atrs--tier-1-public-transparency-default--nist-ai-rmf--no-equivalent
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section Tier 1 public transparency default"
+    source_title: "CDDO December 2023 mandated public registry"
+    target_framework: nist-ai-rmf
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "UK CDDO transparency mandate"
+        date: "2023-12"
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "ATRS Tier 1 is a public-registry default mandated by CDDO in December 2023. NIST GOVERN 1.4 requires transparent information-sharing processes but does not require publication to a public registry."
+    bidirectional: false
+
+  - id: uk-atrs--2-1-data-ethics-framework--nist-ai-rmf--no-equivalent
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.1 Data Ethics Framework"
+    source_title: "Data Ethics Framework and ETAF cross-references"
+    target_framework: nist-ai-rmf
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "UK Data Ethics Framework"
+      - publication: "Ethics, Transparency and Accountability Framework (ETAF)"
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "ATRS 2.1 expects ethics reasoning referencing UK Data Ethics Framework and ETAF. NIST AI RMF addresses trustworthy AI characteristics generically and does not cite these UK-specific ethics frameworks."
+    bidirectional: false
+
+  - id: uk-atrs--2-8-dpia-under-uk-gdpr--nist-ai-rmf--no-equivalent
+    source_framework: uk-atrs
+    source_ref: "UK ATRS, Section 2.8 DPIA under UK GDPR"
+    source_title: "ICO-format DPIA under DPA 2018"
+    target_framework: nist-ai-rmf
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "UK Data Protection Act 2018"
+      - publication: "ICO DPIA guidance"
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+    notes: "ATRS 2.8 expects a DPIA in the form anticipated by UK GDPR and ICO guidance. NIST MEASURE 2.10 evaluates privacy risk generically; it does not prescribe UK DPA 2018 DPIA format."
+    bidirectional: false
+
+  # ATRS-lighter gap entries: source iso42001 or nist-ai-rmf, target uk-atrs
+
+  - id: iso42001--aims-organisation-wide--uk-atrs--no-equivalent-nist-file
+    source_framework: iso42001
+    source_ref: "Clauses 4-10"
+    source_title: "AI Management System organisation-wide requirements"
+    target_framework: uk-atrs
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+    notes: "ISO 42001 Clauses 4 to 10 require an organisation-wide management system. ATRS documents a single tool and does not constitute an AIMS."
+    bidirectional: false
+
+  - id: nist-ai-rmf--measure-continuous-metrics--uk-atrs--no-equivalent
+    source_framework: nist-ai-rmf
+    source_ref: "MEASURE 2.3"
+    source_title: "Continuous measurement metrics"
+    target_framework: uk-atrs
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+    notes: "NIST MEASURE and ISO Clause 9.1 require ongoing performance measurement with defined metrics. ATRS Tier 1 does not require continuous measurement metrics as a published artefact."
+    bidirectional: false
+
+  - id: iso42001--a-10-3-supplier-audit-rights--uk-atrs--no-equivalent-nist-file
+    source_framework: iso42001
+    source_ref: "A.10.3"
+    source_title: "Supplier audit rights documentation"
+    target_framework: uk-atrs
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+    notes: "ISO A.10.3 expects documented supplier audit rights. ATRS 4.5 asks for supplier name and procurement route but does not require audit-right documentation."
+    bidirectional: false
+
+  - id: nist-ai-600-1--model-card-depth--uk-atrs--no-equivalent
+    source_framework: nist-ai-600-1
+    source_ref: "NIST AI 600-1, Section model cards"
+    source_title: "Model, data, and system card depth"
+    target_framework: uk-atrs
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Generative AI Profile"
+        date: "2024-07"
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+    notes: "The NIST GenAI Profile expects model, data, and system cards with defined depth. ATRS Tier 1 fields are shorter-form and do not mandate full model-card depth."
+    bidirectional: false
+
+  - id: nist-ai-rmf--lifecycle-stage-mapping--uk-atrs--no-equivalent
+    source_framework: nist-ai-rmf
+    source_ref: "MAP 1.1"
+    source_title: "AI lifecycle stage mapping"
+    target_framework: uk-atrs
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI Risk Management Framework 1.0"
+        date: "2023-01"
+      - publication: "UK Algorithmic Transparency Recording Standard v2.1"
+        date: "2024-01"
+    notes: "NIST AI RMF requires mapping to AI lifecycle stages (design, development, deployment, operation, decommissioning). ATRS treats the tool as a static published artefact without lifecycle-stage labelling."
+    bidirectional: false

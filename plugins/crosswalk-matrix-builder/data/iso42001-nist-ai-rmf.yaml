@@ -1,0 +1,994 @@
+mappings:
+  - id: iso42001--a-2-2--nist-ai-rmf--govern-1-1
+    source_framework: iso42001
+    source_ref: "A.2.2"
+    source_title: "Policies for AI"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 1.1"
+    target_title: "Legal and regulatory requirements understood"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-2-2--nist-ai-rmf--govern-1-2
+    source_framework: iso42001
+    source_ref: "A.2.2"
+    source_title: "Policies for AI"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 1.2"
+    target_title: "Trustworthy AI characteristics in policies"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "Schellman crosswalk"
+    bidirectional: true
+
+  - id: iso42001--a-2-3--nist-ai-rmf--govern-1-3
+    source_framework: iso42001
+    source_ref: "A.2.3"
+    source_title: "Alignment with other organizational policies"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 1.3"
+    target_title: "Risk prioritization"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST Playbook GOVERN 1.3"
+    bidirectional: true
+
+  - id: iso42001--a-2-4--nist-ai-rmf--govern-1-7
+    source_framework: iso42001
+    source_ref: "A.2.4"
+    source_title: "Review of the AI policy"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 1.7"
+    target_title: "Decommissioning procedures"
+    relationship: partial-match
+    confidence: medium
+    citation_sources:
+      - publication: "BDO crosswalk"
+    bidirectional: true
+
+  - id: iso42001--a-3-2--nist-ai-rmf--govern-2-1
+    source_framework: iso42001
+    source_ref: "A.3.2"
+    source_title: "AI roles and responsibilities"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 2.1"
+    target_title: "Roles and responsibilities documented"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-3-2--nist-ai-rmf--govern-2-2
+    source_framework: iso42001
+    source_ref: "A.3.2"
+    source_title: "AI roles and responsibilities"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 2.2"
+    target_title: "Personnel AI risk training"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-3-3--nist-ai-rmf--govern-4-3
+    source_framework: iso42001
+    source_ref: "A.3.3"
+    source_title: "Reporting of concerns"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 4.3"
+    target_title: "Incident reporting, information sharing"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST Playbook GOVERN 4.3"
+    bidirectional: true
+
+  - id: iso42001--a-4-2--nist-ai-rmf--govern-1-4
+    source_framework: iso42001
+    source_ref: "A.4.2"
+    source_title: "Resources for AI systems"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 1.4"
+    target_title: "Risk management process communicated"
+    relationship: partial-match
+    confidence: medium
+    citation_sources:
+      - publication: "A-LIGN crosswalk"
+    bidirectional: true
+
+  - id: iso42001--a-4-3--nist-ai-rmf--map-2-3
+    source_framework: iso42001
+    source_ref: "A.4.3"
+    source_title: "Data resources"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 2.3"
+    target_title: "Scientific integrity and TEVV"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST Playbook MAP 2.3"
+    bidirectional: true
+
+  - id: iso42001--a-4-3--nist-ai-rmf--measure-2-2
+    source_framework: iso42001
+    source_ref: "A.4.3"
+    source_title: "Data resources"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 2.2"
+    target_title: "Performance on representative data"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-4-4--nist-ai-rmf--map-4-1
+    source_framework: iso42001
+    source_ref: "A.4.4"
+    source_title: "Tooling resources"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 4.1"
+    target_title: "Approaches for mapping risks"
+    relationship: complementary
+    confidence: medium
+    citation_sources:
+      - publication: "practitioner-inference"
+    bidirectional: true
+
+  - id: iso42001--a-4-5--nist-ai-rmf--map-4-1
+    source_framework: iso42001
+    source_ref: "A.4.5"
+    source_title: "System and computing resources"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 4.1"
+    target_title: "Approaches for mapping risks"
+    relationship: complementary
+    confidence: medium
+    citation_sources:
+      - publication: "practitioner-inference"
+    bidirectional: true
+
+  - id: iso42001--a-4-6--nist-ai-rmf--govern-3-2
+    source_framework: iso42001
+    source_ref: "A.4.6"
+    source_title: "Human resources"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 3.2"
+    target_title: "Human-AI configuration competencies"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST Playbook GOVERN 3.2"
+    bidirectional: true
+
+  - id: iso42001--a-5-2--nist-ai-rmf--map-1-1
+    source_framework: iso42001
+    source_ref: "A.5.2"
+    source_title: "AI system impact assessment process"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 1.1"
+    target_title: "Context established"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-5-2--nist-ai-rmf--map-5-1
+    source_framework: iso42001
+    source_ref: "A.5.2"
+    source_title: "AI system impact assessment process"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 5.1"
+    target_title: "Likelihood and magnitude of impacts"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-5-3--nist-ai-rmf--map-5-2
+    source_framework: iso42001
+    source_ref: "A.5.3"
+    source_title: "Documentation of AI system impact assessments"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 5.2"
+    target_title: "Practices for responsible use"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "Schellman crosswalk"
+    bidirectional: true
+
+  - id: iso42001--a-5-4--nist-ai-rmf--map-1-2
+    source_framework: iso42001
+    source_ref: "A.5.4"
+    source_title: "Assessing impact on individuals/groups"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 1.2"
+    target_title: "Interdisciplinary AI actors"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST Playbook MAP 1.2"
+    bidirectional: true
+
+  - id: iso42001--a-5-4--nist-ai-rmf--map-3-1
+    source_framework: iso42001
+    source_ref: "A.5.4"
+    source_title: "Assessing impact on individuals/groups"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 3.1"
+    target_title: "Potential benefits examined"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-5-4--nist-ai-rmf--map-5-1
+    source_framework: iso42001
+    source_ref: "A.5.4"
+    source_title: "Assessing impact on individuals/groups"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 5.1"
+    target_title: "Likelihood and magnitude of impacts"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-5-5--nist-ai-rmf--map-3-2
+    source_framework: iso42001
+    source_ref: "A.5.5"
+    source_title: "Assessing societal impacts"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 3.2"
+    target_title: "Potential costs including non-monetary"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-6-1-2--nist-ai-rmf--govern-1-2
+    source_framework: iso42001
+    source_ref: "A.6.1.2"
+    source_title: "Objectives for responsible AI development"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 1.2"
+    target_title: "Trustworthy AI characteristics in policies"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST Playbook GOVERN 1.2"
+    bidirectional: true
+
+  - id: iso42001--a-6-1-3--nist-ai-rmf--map-2-1
+    source_framework: iso42001
+    source_ref: "A.6.1.3"
+    source_title: "Processes for responsible AI design"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 2.1"
+    target_title: "Specific tasks and methods defined"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-6-1-3--nist-ai-rmf--map-4-1
+    source_framework: iso42001
+    source_ref: "A.6.1.3"
+    source_title: "Processes for responsible AI design"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 4.1"
+    target_title: "Approaches for mapping risks"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "Schellman crosswalk"
+    bidirectional: true
+
+  - id: iso42001--a-6-2-2--nist-ai-rmf--map-2-1
+    source_framework: iso42001
+    source_ref: "A.6.2.2"
+    source_title: "AI system requirements and specification"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 2.1"
+    target_title: "Specific tasks and methods defined"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-6-2-2--nist-ai-rmf--map-3-4
+    source_framework: iso42001
+    source_ref: "A.6.2.2"
+    source_title: "AI system requirements and specification"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 3.4"
+    target_title: "Operator proficiency processes"
+    relationship: partial-match
+    confidence: medium
+    citation_sources:
+      - publication: "BDO crosswalk"
+    bidirectional: true
+
+  - id: iso42001--a-6-2-3--nist-ai-rmf--map-4-2
+    source_framework: iso42001
+    source_ref: "A.6.2.3"
+    source_title: "Documentation of AI system design"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 4.2"
+    target_title: "Internal risk controls documented"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-6-2-4--nist-ai-rmf--measure-1-1
+    source_framework: iso42001
+    source_ref: "A.6.2.4"
+    source_title: "AI system verification and validation"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 1.1"
+    target_title: "Metrics for measurement identified"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-6-2-4--nist-ai-rmf--measure-2-5
+    source_framework: iso42001
+    source_ref: "A.6.2.4"
+    source_title: "AI system verification and validation"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 2.5"
+    target_title: "AI system deemed valid and reliable"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-6-2-4--nist-ai-rmf--measure-2-7
+    source_framework: iso42001
+    source_ref: "A.6.2.4"
+    source_title: "AI system verification and validation"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 2.7"
+    target_title: "Security and resilience evaluated"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST Playbook MEASURE 2.7"
+    bidirectional: true
+
+  - id: iso42001--a-6-2-5--nist-ai-rmf--manage-1-2
+    source_framework: iso42001
+    source_ref: "A.6.2.5"
+    source_title: "AI system deployment"
+    target_framework: nist-ai-rmf
+    target_ref: "MANAGE 1.2"
+    target_title: "Treatment of documented risks"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-6-2-5--nist-ai-rmf--manage-4-1
+    source_framework: iso42001
+    source_ref: "A.6.2.5"
+    source_title: "AI system deployment"
+    target_framework: nist-ai-rmf
+    target_ref: "MANAGE 4.1"
+    target_title: "Post-deployment monitoring planned"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-6-2-6--nist-ai-rmf--measure-2-4
+    source_framework: iso42001
+    source_ref: "A.6.2.6"
+    source_title: "AI system operation and monitoring"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 2.4"
+    target_title: "Deployment measured against pre-deployment metrics"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-6-2-6--nist-ai-rmf--manage-4-1
+    source_framework: iso42001
+    source_ref: "A.6.2.6"
+    source_title: "AI system operation and monitoring"
+    target_framework: nist-ai-rmf
+    target_ref: "MANAGE 4.1"
+    target_title: "Post-deployment monitoring planned"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-6-2-6--nist-ai-rmf--manage-4-2
+    source_framework: iso42001
+    source_ref: "A.6.2.6"
+    source_title: "AI system operation and monitoring"
+    target_framework: nist-ai-rmf
+    target_ref: "MANAGE 4.2"
+    target_title: "Continual improvement activities"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST Playbook MANAGE 4.2"
+    bidirectional: true
+
+  - id: iso42001--a-6-2-7--nist-ai-rmf--map-4-2
+    source_framework: iso42001
+    source_ref: "A.6.2.7"
+    source_title: "Technical documentation"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 4.2"
+    target_title: "Internal risk controls documented"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-6-2-7--nist-ai-rmf--measure-1-3
+    source_framework: iso42001
+    source_ref: "A.6.2.7"
+    source_title: "Technical documentation"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 1.3"
+    target_title: "Expert consultation on metrics"
+    relationship: partial-match
+    confidence: medium
+    citation_sources:
+      - publication: "practitioner-inference"
+    bidirectional: true
+
+  - id: iso42001--a-6-2-8--nist-ai-rmf--measure-2-8
+    source_framework: iso42001
+    source_ref: "A.6.2.8"
+    source_title: "AI system recording of event logs"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 2.8"
+    target_title: "Transparency and accountability"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST Playbook MEASURE 2.8"
+    bidirectional: true
+
+  - id: iso42001--a-6-2-8--nist-ai-rmf--manage-4-1
+    source_framework: iso42001
+    source_ref: "A.6.2.8"
+    source_title: "AI system recording of event logs"
+    target_framework: nist-ai-rmf
+    target_ref: "MANAGE 4.1"
+    target_title: "Post-deployment monitoring"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-7-2--nist-ai-rmf--map-2-3
+    source_framework: iso42001
+    source_ref: "A.7.2"
+    source_title: "Data for development"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 2.3"
+    target_title: "Scientific integrity and TEVV"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-7-3--nist-ai-rmf--measure-2-2
+    source_framework: iso42001
+    source_ref: "A.7.3"
+    source_title: "Acquisition of data"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 2.2"
+    target_title: "Data representative of deployment"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-7-4--nist-ai-rmf--measure-2-2
+    source_framework: iso42001
+    source_ref: "A.7.4"
+    source_title: "Quality of data for AI systems"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 2.2"
+    target_title: "Data representative of deployment"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-7-4--nist-ai-rmf--measure-4-2
+    source_framework: iso42001
+    source_ref: "A.7.4"
+    source_title: "Quality of data for AI systems"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 4.2"
+    target_title: "Measurement informed by experts"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST Playbook MEASURE 4.2"
+    bidirectional: true
+
+  - id: iso42001--a-7-5--nist-ai-rmf--measure-2-10
+    source_framework: iso42001
+    source_ref: "A.7.5"
+    source_title: "Data provenance"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 2.10"
+    target_title: "Privacy risk examined"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 GAI-specific"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-7-5--nist-ai-rmf--govern-6-1
+    source_framework: iso42001
+    source_ref: "A.7.5"
+    source_title: "Data provenance"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 6.1"
+    target_title: "Third-party risk policies"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-7-6--nist-ai-rmf--measure-2-2
+    source_framework: iso42001
+    source_ref: "A.7.6"
+    source_title: "Data preparation"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 2.2"
+    target_title: "Data representative"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "Schellman crosswalk"
+    bidirectional: true
+
+  - id: iso42001--a-8-2--nist-ai-rmf--govern-5-1
+    source_framework: iso42001
+    source_ref: "A.8.2"
+    source_title: "System documentation and information for users"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 5.1"
+    target_title: "Stakeholder engagement policies"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-8-2--nist-ai-rmf--measure-2-8
+    source_framework: iso42001
+    source_ref: "A.8.2"
+    source_title: "System documentation and information for users"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 2.8"
+    target_title: "Transparency and accountability"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-8-3--nist-ai-rmf--govern-5-2
+    source_framework: iso42001
+    source_ref: "A.8.3"
+    source_title: "External reporting"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 5.2"
+    target_title: "Stakeholder feedback mechanisms"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST Playbook GOVERN 5.2"
+    bidirectional: true
+
+  - id: iso42001--a-8-4--nist-ai-rmf--manage-4-3
+    source_framework: iso42001
+    source_ref: "A.8.4"
+    source_title: "Communication of incidents"
+    target_framework: nist-ai-rmf
+    target_ref: "MANAGE 4.3"
+    target_title: "Incidents communicated to AI actors"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-8-5--nist-ai-rmf--govern-5-1
+    source_framework: iso42001
+    source_ref: "A.8.5"
+    source_title: "Information for interested parties"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 5.1"
+    target_title: "Stakeholder engagement policies"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-9-2--nist-ai-rmf--map-5-2
+    source_framework: iso42001
+    source_ref: "A.9.2"
+    source_title: "Processes for responsible use of AI systems"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 5.2"
+    target_title: "Practices for responsible use"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-9-3--nist-ai-rmf--govern-1-2
+    source_framework: iso42001
+    source_ref: "A.9.3"
+    source_title: "Objectives for responsible use"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 1.2"
+    target_title: "Trustworthy AI characteristics"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "Schellman crosswalk"
+    bidirectional: true
+
+  - id: iso42001--a-9-4--nist-ai-rmf--map-1-1
+    source_framework: iso42001
+    source_ref: "A.9.4"
+    source_title: "Intended use of the AI system"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 1.1"
+    target_title: "Context established"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-9-4--nist-ai-rmf--map-3-4
+    source_framework: iso42001
+    source_ref: "A.9.4"
+    source_title: "Intended use of the AI system"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 3.4"
+    target_title: "Operator proficiency processes"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST Playbook MAP 3.4"
+    bidirectional: true
+
+  - id: iso42001--a-10-2--nist-ai-rmf--govern-6-1
+    source_framework: iso42001
+    source_ref: "A.10.2"
+    source_title: "Allocation of responsibilities"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 6.1"
+    target_title: "Third-party risk policies"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-10-2--nist-ai-rmf--govern-6-2
+    source_framework: iso42001
+    source_ref: "A.10.2"
+    source_title: "Allocation of responsibilities"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 6.2"
+    target_title: "Contingency for third-party failures"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-10-3--nist-ai-rmf--govern-6-1
+    source_framework: iso42001
+    source_ref: "A.10.3"
+    source_title: "Suppliers"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 6.1"
+    target_title: "Third-party risk policies"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    bidirectional: true
+
+  - id: iso42001--a-10-3--nist-ai-rmf--map-4-1
+    source_framework: iso42001
+    source_ref: "A.10.3"
+    source_title: "Suppliers"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 4.1"
+    target_title: "Third-party risk mapping"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST Playbook MAP 4.1"
+    bidirectional: true
+
+  - id: iso42001--a-10-4--nist-ai-rmf--govern-5-1
+    source_framework: iso42001
+    source_ref: "A.10.4"
+    source_title: "Customers"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 5.1"
+    target_title: "Stakeholder engagement"
+    relationship: partial-match
+    confidence: medium
+    citation_sources:
+      - publication: "practitioner-inference"
+    bidirectional: true
+
+  - id: iso42001--a-10-4--nist-ai-rmf--manage-4-3
+    source_framework: iso42001
+    source_ref: "A.10.4"
+    source_title: "Customers"
+    target_framework: nist-ai-rmf
+    target_ref: "MANAGE 4.3"
+    target_title: "Incidents communicated to AI actors"
+    relationship: partial-match
+    confidence: medium
+    citation_sources:
+      - publication: "BDO crosswalk"
+    bidirectional: true
+
+  - id: iso42001--a-2-4--nist-ai-rmf--no-equivalent
+    source_framework: iso42001
+    source_ref: "A.2.4"
+    source_title: "Review of the AI policy"
+    target_framework: nist-ai-rmf
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    notes: "NIST AI RMF does not mandate a periodic AI policy review cadence. This is a management-system artifact inherited from the ISO 27001 structure. The closest analog is GOVERN 1.7 (decommissioning procedures), which is not equivalent."
+    bidirectional: false
+
+  - id: iso42001--a-4-2--nist-ai-rmf--no-equivalent
+    source_framework: iso42001
+    source_ref: "A.4.2"
+    source_title: "Resources for AI systems"
+    target_framework: nist-ai-rmf
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    notes: "NIST AI RMF contains no resource-provision subcategory. ISO 42001 treats resource identification and allocation as a distinct management-system requirement."
+    bidirectional: false
+
+  - id: iso42001--a-4-4--nist-ai-rmf--no-equivalent
+    source_framework: iso42001
+    source_ref: "A.4.4"
+    source_title: "Tooling resources"
+    target_framework: nist-ai-rmf
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    notes: "NIST AI RMF contains no dedicated tooling-resources subcategory. MAP 4.1 is complementary but scoped to third-party risk rather than internal tooling provision."
+    bidirectional: false
+
+  - id: iso42001--a-4-5--nist-ai-rmf--no-equivalent
+    source_framework: iso42001
+    source_ref: "A.4.5"
+    source_title: "System and computing resources"
+    target_framework: nist-ai-rmf
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    notes: "NIST AI RMF contains no compute-resources subcategory. ISO 42001 treats computing-capacity planning as a distinct management-system control."
+    bidirectional: false
+
+  - id: iso42001--a-6-2-3-process--nist-ai-rmf--no-equivalent
+    source_framework: iso42001
+    source_ref: "A.6.2.3"
+    source_title: "Documentation of AI system design (process-level)"
+    target_framework: nist-ai-rmf
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    notes: "NIST AI RMF documents controls but not the design process itself. ISO 42001 A.6.2.3 requires process-level documentation of design decisions that NIST subcategories do not specify."
+    bidirectional: false
+
+  - id: iso42001--a-9-3-distinct--nist-ai-rmf--no-equivalent
+    source_framework: iso42001
+    source_ref: "A.9.3"
+    source_title: "Objectives for responsible use (distinct from A.6.1.2)"
+    target_framework: nist-ai-rmf
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    notes: "NIST AI RMF conflates deployment and development objectives. ISO 42001 separates A.6.1.2 (development objectives) from A.9.3 (use objectives). NIST has no use-phase-specific objectives control."
+    bidirectional: false
+
+  - id: nist-ai-rmf--measure-2-6--iso42001--no-equivalent
+    source_framework: nist-ai-rmf
+    source_ref: "MEASURE 2.6"
+    source_title: "AI system safety"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    notes: "ISO 42001 has no dedicated safety-testing control. Safety considerations are distributed across A.6.2.4 (verification and validation) and A.5.4 (impact assessment) without a discrete safety subcategory."
+    bidirectional: false
+
+  - id: nist-ai-rmf--measure-2-9--iso42001--no-equivalent
+    source_framework: nist-ai-rmf
+    source_ref: "MEASURE 2.9"
+    source_title: "Model explained and interpretable"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    notes: "ISO 42001 contains no explicit explainability or interpretability mandate. A.8.2 (system documentation) addresses transparency to users but not model-level explainability."
+    bidirectional: false
+
+  - id: nist-ai-rmf--measure-2-11--iso42001--no-equivalent
+    source_framework: nist-ai-rmf
+    source_ref: "MEASURE 2.11"
+    source_title: "Fairness and bias evaluated"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    notes: "ISO 42001 has no dedicated bias-testing control. Fairness considerations are implicit in A.5.4 (impact assessment) but no subcategory requires bias evaluation metrics."
+    bidirectional: false
+
+  - id: nist-ai-rmf--measure-2-12--iso42001--no-equivalent
+    source_framework: nist-ai-rmf
+    source_ref: "MEASURE 2.12"
+    source_title: "Environmental impact"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    notes: "ISO 42001 contains no control on environmental impact of AI systems. A.5.5 (societal impacts) can be interpreted to include environmental concerns but does not require measurement."
+    bidirectional: false
+
+  - id: nist-ai-rmf--measure-3-1-3-3--iso42001--no-equivalent
+    source_framework: nist-ai-rmf
+    source_ref: "MEASURE 3.1-3.3"
+    source_title: "Risk-tracking mechanisms at NIST subcategory granularity"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    notes: "ISO 42001 treats risk tracking under Clause 6.1 (actions to address risks and opportunities) at the management-system level, not at the subcategory granularity NIST specifies in MEASURE 3.1-3.3."
+    bidirectional: false
+
+  - id: nist-ai-rmf--measure-4-1-4-3--iso42001--no-equivalent
+    source_framework: nist-ai-rmf
+    source_ref: "MEASURE 4.1-4.3"
+    source_title: "Measurement feedback"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    notes: "ISO 42001 treats measurement feedback under Clause 9 (performance evaluation) at the management-system level. NIST subcategory-level feedback mechanisms have no direct equivalent in Annex A controls."
+    bidirectional: false

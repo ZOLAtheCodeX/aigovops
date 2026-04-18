@@ -1,0 +1,107 @@
+frameworks:
+  - id: iso42001
+    name: "ISO/IEC 42001:2023"
+    jurisdiction: international
+    authority: "ISO/IEC"
+    published: "2023-12"
+    url: "https://www.iso.org/standard/81230.html"
+    citation_format: "ISO/IEC 42001:2023, Clause X.X.X"
+    annex_a_citation_format: "ISO/IEC 42001:2023, Annex A, Control A.X.Y"
+
+  - id: nist-ai-rmf
+    name: "NIST AI Risk Management Framework 1.0"
+    jurisdiction: usa-federal
+    authority: "NIST"
+    published: "2023-01"
+    url: "https://www.nist.gov/itl/ai-risk-management-framework"
+    citation_format: "<FUNCTION> <Subcategory>"
+
+  - id: nist-ai-600-1
+    name: "NIST AI 600-1 Generative AI Profile"
+    jurisdiction: usa-federal
+    authority: "NIST"
+    published: "2024-07"
+    url: "https://airc.nist.gov/airmf-resources/"
+    citation_format: "NIST AI 600-1, Section <section>"
+
+  - id: eu-ai-act
+    name: "Regulation (EU) 2024/1689 (EU AI Act)"
+    jurisdiction: eu
+    authority: "European Parliament and Council"
+    published: "2024-06"
+    url: "https://eur-lex.europa.eu/eli/reg/2024/1689/oj"
+    citation_format: "EU AI Act, Article XX, Paragraph X"
+    annex_citation_format: "EU AI Act, Annex <N>, <category>"
+
+  - id: uk-atrs
+    name: "UK Algorithmic Transparency Recording Standard v2.1"
+    jurisdiction: uk
+    authority: "UK CDDO / DSIT"
+    published: "2024-01"
+    url: "https://www.gov.uk/government/publications/algorithmic-transparency-recording-standard-guidance-for-public-sector-bodies"
+    citation_format: "UK ATRS, Section <name>"
+
+  - id: colorado-sb-205
+    name: "Colorado SB24-205 (Colorado AI Act)"
+    jurisdiction: usa-co
+    authority: "Colorado General Assembly"
+    published: "2024-05"
+    operative: "2026-06-30"
+    url: "https://leg.colorado.gov/bills/sb24-205"
+    citation_format: "Colorado SB 205, Section <section>"
+
+  - id: nyc-ll144
+    name: "NYC Local Law 144 (AEDT)"
+    jurisdiction: usa-nyc
+    authority: "NYC Council; NYC DCWP"
+    published: "2021-12"
+    operative: "2023-07-05"
+    url: "https://rules.cityofnewyork.us/rule/automated-employment-decision-tools/"
+    citation_format: "NYC LL144"
+    rule_citation_format: "NYC DCWP AEDT Rules, 6 RCNY Section 5-<n>"
+
+  - id: cppa-admt
+    name: "CPPA Automated Decisionmaking Technology regulations"
+    jurisdiction: usa-ca
+    authority: "California Privacy Protection Agency"
+    published: "2025-09"
+    operative: "2026-01-01"
+    url: "https://cppa.ca.gov/regulations/"
+    citation_format: "Cal. Code Regs. tit. 11, Section 7<nnn>"
+
+  - id: ccpa-cpra
+    name: "California Consumer Privacy Act / California Privacy Rights Act"
+    jurisdiction: usa-ca
+    citation_format: "Cal. Civ. Code Section 1798.<nnn>"
+
+  - id: ca-sb-942
+    name: "California AI Transparency Act"
+    jurisdiction: usa-ca
+    published: "2024-09"
+    url: "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240SB942"
+    citation_format: "Cal. Bus. & Prof. Code Section <nnn>"
+
+  - id: ca-ab-2013
+    name: "California Training Data Transparency"
+    jurisdiction: usa-ca
+    published: "2024-09"
+    url: "https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=202320240AB2013"
+    citation_format: "California AB 2013, Section <section>"
+
+  - id: ca-ab-1008
+    name: "California AB 1008 (PII in AI systems)"
+    jurisdiction: usa-ca
+    published: "2024-09"
+    citation_format: "Cal. Civ. Code Section 1798.140(v)"
+
+  - id: ca-sb-1001
+    name: "California Bot Disclosure Act"
+    jurisdiction: usa-ca
+    published: "2018"
+    citation_format: "Cal. Bus. & Prof. Code Section 17940"
+
+  - id: ca-ab-1836
+    name: "California Digital Replica of Deceased Personalities Act"
+    jurisdiction: usa-ca
+    published: "2024-09"
+    citation_format: "Cal. Civ. Code Section 3344.1"

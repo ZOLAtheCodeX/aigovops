@@ -49,6 +49,7 @@ If one of these jumps in enforceability, it can graduate to secondary.
 - Every plugin accepting a `framework` parameter supports at minimum `iso42001`, `nist`, and `dual`. Plugins that operationalize EU-specific text also accept `eu-ai-act`.
 - New framework parameters (UK, Singapore, Colorado, NYC LL144, and similar) require a sponsor or grant before they ship. No speculative jurisdiction expansion.
 - Citations from tertiary jurisdictions may appear in plugin output `citations` lists where a practitioner has added them to the input, but the plugin itself does not author them.
+- The cross-framework crosswalk at `plugins/crosswalk-matrix-builder/` is the canonical surface for auditors, grant reviewers, and sponsors to verify which frameworks a given control satisfies. The crosswalk holds 434 cited mapping rows across the 14 framework identifiers listed in `plugins/crosswalk-matrix-builder/data/frameworks.yaml`, each row carrying a relationship label, confidence rating, and at least one citation source. Secondary-jurisdiction expansion is coherent only because the crosswalk is the backbone: one implementation pass against ISO 42001 and NIST AI RMF generates auditable coverage claims against EU AI Act Chapter III, UK ATRS, Colorado SB 205, NYC LL144, and the 7 California instruments, so AIGovOps does not need to ship per-jurisdiction duplicate documentation for each secondary overlay.
 
 ## How this shapes grant and sponsorship targeting
 

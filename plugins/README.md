@@ -23,6 +23,7 @@ Plugins differ from skills in execution semantics. A skill is loaded as knowledg
 | [uk-atrs-recorder](uk-atrs-recorder/) | UK Algorithmic Transparency Recording Standard record, Tier 1 and Tier 2 (JSON + Markdown + CSV) | 0.1.0 |
 | [colorado-ai-act-compliance](colorado-ai-act-compliance/) | Colorado SB 205 developer and deployer compliance record (JSON + Markdown + CSV) | 0.1.0 |
 | [nyc-ll144-audit-packager](nyc-ll144-audit-packager/) | NYC Local Law 144 bias audit public-disclosure and candidate-notice bundle (JSON + Markdown + CSV) | 0.1.0 |
+| [crosswalk-matrix-builder](crosswalk-matrix-builder/) | Cross-framework coverage, gap, or matrix query result (JSON + Markdown + CSV) | 0.1.0 |
 
 ## Plugin requirements
 

@@ -1,0 +1,1111 @@
+# California AI and privacy instruments crosswalk to ISO/IEC 42001, NIST AI RMF, EU AI Act.
+# Source frameworks: cppa-admt, ca-ab-1008, ca-sb-942, ca-ab-2013, ca-sb-1001, ca-ab-1836.
+# Citation formats: Cal. Code Regs. tit. 11, Section 7<nnn>; Cal. Civ. Code Section <nnn>;
+#                   Cal. Bus. & Prof. Code Section <nnn>; California AB 2013, Section <section>.
+# Excluded: SB 1047 (vetoed), AB 2655 (enjoined 2025), AB 2602 (no reliable ISO mapping yet).
+
+mappings:
+
+  # CA1 CPPA ADMT Pre-use notice for Significant Decisions
+  - id: cppa-admt--section-7220-pre-use-notice--iso42001--a-8-2
+    source_framework: cppa-admt
+    source_ref: "Cal. Code Regs. tit. 11, Section 7220"
+    source_title: "Pre-use notice for Significant Decisions"
+    target_framework: iso42001
+    target_ref: "A.8.2"
+    target_title: "Information to interested parties"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "CPPA ADMT Regulations"
+        date: "2025-09"
+    notes: "Interested-party information control satisfies pre-use notice when scoped to Significant Decision ADMT."
+    bidirectional: false
+
+  - id: cppa-admt--section-7220-pre-use-notice--nist-ai-rmf--map-5-2
+    source_framework: cppa-admt
+    source_ref: "Cal. Code Regs. tit. 11, Section 7220"
+    source_title: "Pre-use notice for Significant Decisions"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 5.2"
+    target_title: "Transparency and engagement with affected individuals"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "CPPA ADMT Regulations"
+        date: "2025-09"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "MAP 5.2 supports CPPA ADMT pre-use notice content and timing."
+    bidirectional: false
+
+  - id: cppa-admt--section-7220-pre-use-notice--eu-ai-act--article-26-11
+    source_framework: cppa-admt
+    source_ref: "Cal. Code Regs. tit. 11, Section 7220"
+    source_title: "Pre-use notice for Significant Decisions"
+    target_framework: eu-ai-act
+    target_ref: "Article 26(11); GDPR Article 22"
+    target_title: "Deployer notification and rights re automated decisions"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "CPPA ADMT Regulations"
+        date: "2025-09"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+      - publication: "Regulation (EU) 2016/679 (GDPR)"
+        date: "2016-04"
+    notes: "EU deployer notification and GDPR Article 22 together cover pre-use ADMT notice functionality."
+    bidirectional: false
+
+  # CA2 CPPA ADMT opt-out
+  - id: cppa-admt--section-7221-opt-out--iso42001--a-9-2
+    source_framework: cppa-admt
+    source_ref: "Cal. Code Regs. tit. 11, Section 7221"
+    source_title: "Consumer right to opt-out of ADMT"
+    target_framework: iso42001
+    target_ref: "A.9.2"
+    target_title: "Human oversight of AI systems"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "CPPA ADMT Regulations"
+        date: "2025-09"
+    notes: "Human oversight partially supports an opt-out workflow; statutory right itself is additional."
+    bidirectional: false
+
+  - id: cppa-admt--section-7221-opt-out--nist-ai-rmf--manage-2-3
+    source_framework: cppa-admt
+    source_ref: "Cal. Code Regs. tit. 11, Section 7221"
+    source_title: "Consumer right to opt-out of ADMT"
+    target_framework: nist-ai-rmf
+    target_ref: "MANAGE 2.3"
+    target_title: "Response mechanisms for affected individuals"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "CPPA ADMT Regulations"
+        date: "2025-09"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "MANAGE 2.3 response mechanisms support the operational side of an opt-out right."
+    bidirectional: false
+
+  - id: cppa-admt--section-7221-opt-out--eu-ai-act--gdpr-article-22
+    source_framework: cppa-admt
+    source_ref: "Cal. Code Regs. tit. 11, Section 7221"
+    source_title: "Consumer right to opt-out of ADMT"
+    target_framework: eu-ai-act
+    target_ref: "GDPR Article 22; AI Act Article 14"
+    target_title: "Right not to be subject to solely automated decisions; human oversight"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "CPPA ADMT Regulations"
+        date: "2025-09"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+      - publication: "Regulation (EU) 2016/679 (GDPR)"
+        date: "2016-04"
+    notes: "GDPR Article 22 plus AI Act human oversight overlap with the CPPA opt-out right."
+    bidirectional: false
+
+  # CA3 CPPA ADMT right of access
+  - id: cppa-admt--section-7222-right-of-access--iso42001--a-8-2
+    source_framework: cppa-admt
+    source_ref: "Cal. Code Regs. tit. 11, Section 7222"
+    source_title: "Consumer right of access"
+    target_framework: iso42001
+    target_ref: "A.8.2; A.6.2.8"
+    target_title: "Information to interested parties and AI system explanation"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "CPPA ADMT Regulations"
+        date: "2025-09"
+    notes: "A.8.2 plus explanation controls support the CPPA access-right content."
+    bidirectional: false
+
+  - id: cppa-admt--section-7222-right-of-access--nist-ai-rmf--map-5-2
+    source_framework: cppa-admt
+    source_ref: "Cal. Code Regs. tit. 11, Section 7222"
+    source_title: "Consumer right of access"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 5.2, MEASURE 2.9"
+    target_title: "Stakeholder engagement and explainability"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "CPPA ADMT Regulations"
+        date: "2025-09"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "NIST MAP 5.2 and MEASURE 2.9 support access and explanation to affected individuals."
+    bidirectional: false
+
+  - id: cppa-admt--section-7222-right-of-access--eu-ai-act--article-86
+    source_framework: cppa-admt
+    source_ref: "Cal. Code Regs. tit. 11, Section 7222"
+    source_title: "Consumer right of access"
+    target_framework: eu-ai-act
+    target_ref: "Article 86; GDPR Article 15"
+    target_title: "Right to explanation of individual decisions and access to personal data"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "CPPA ADMT Regulations"
+        date: "2025-09"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+      - publication: "Regulation (EU) 2016/679 (GDPR)"
+        date: "2016-04"
+    notes: "AI Act Article 86 explanation and GDPR Article 15 access together cover the CPPA access right."
+    bidirectional: false
+
+  # CA4 CPPA ADMT Risk assessment 7-factor
+  - id: cppa-admt--section-7150-risk-assessment-7-factor--iso42001--a-5-2
+    source_framework: cppa-admt
+    source_ref: "Cal. Code Regs. tit. 11, Section 7150"
+    source_title: "Risk assessment 7-factor"
+    target_framework: iso42001
+    target_ref: "A.5.2-A.5.5"
+    target_title: "AI system impact assessment process and documentation"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "CPPA ADMT Regulations"
+        date: "2025-09"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "ISO 42001 A.5 impact assessment controls operationally cover the 7-factor CPPA risk assessment."
+    bidirectional: false
+
+  - id: cppa-admt--section-7150-risk-assessment-7-factor--nist-ai-rmf--map-5-1
+    source_framework: cppa-admt
+    source_ref: "Cal. Code Regs. tit. 11, Section 7150"
+    source_title: "Risk assessment 7-factor"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 5.1, MEASURE 2.11"
+    target_title: "Impacts characterization and fairness measurement"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "CPPA ADMT Regulations"
+        date: "2025-09"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "NIST impacts-and-fairness subcategories satisfy the 7-factor CPPA content."
+    bidirectional: false
+
+  - id: cppa-admt--section-7150-risk-assessment-7-factor--eu-ai-act--article-9
+    source_framework: cppa-admt
+    source_ref: "Cal. Code Regs. tit. 11, Section 7150"
+    source_title: "Risk assessment 7-factor"
+    target_framework: eu-ai-act
+    target_ref: "Article 9; Article 27"
+    target_title: "Risk management system and FRIA"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "CPPA ADMT Regulations"
+        date: "2025-09"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "Articles 9 and 27 together operationalize a risk assessment equivalent to CPPA 7-factor analysis."
+    bidirectional: false
+
+  # CA5 CPPA ADMT Risk assessment annual Agency certification
+  - id: cppa-admt--section-7150-annual-agency-certification--iso42001--a-5-5
+    source_framework: cppa-admt
+    source_ref: "Cal. Code Regs. tit. 11, Section 7150"
+    source_title: "Risk assessment annual Agency certification"
+    target_framework: iso42001
+    target_ref: "A.5.5"
+    target_title: "AI system impact assessment documentation and review"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "CPPA ADMT Regulations"
+        date: "2025-09"
+    notes: "ISO 42001 review cycle partially supports annual CPPA certification submission; submission itself is statutory."
+    bidirectional: false
+
+  - id: cppa-admt--section-7150-annual-agency-certification--nist-ai-rmf--govern-1-4
+    source_framework: cppa-admt
+    source_ref: "Cal. Code Regs. tit. 11, Section 7150"
+    source_title: "Risk assessment annual Agency certification"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 1.4"
+    target_title: "Documentation of risk approach"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "CPPA ADMT Regulations"
+        date: "2025-09"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "GOVERN 1.4 documentation partially covers the certification payload though not the submission obligation."
+    bidirectional: false
+
+  - id: cppa-admt--section-7150-annual-agency-certification--eu-ai-act--article-49
+    source_framework: cppa-admt
+    source_ref: "Cal. Code Regs. tit. 11, Section 7150"
+    source_title: "Risk assessment annual Agency certification"
+    target_framework: eu-ai-act
+    target_ref: "Article 49"
+    target_title: "EU database registration"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "CPPA ADMT Regulations"
+        date: "2025-09"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "EU registration is a parallel submission obligation; scope and content differ from CPPA certification."
+    bidirectional: false
+
+  # CA6 CPPA ADMT Cybersecurity audit
+  - id: cppa-admt--section-7120-cybersecurity-audit--iso42001--a-6-2-7
+    source_framework: cppa-admt
+    source_ref: "Cal. Code Regs. tit. 11, Section 7120"
+    source_title: "Cybersecurity audit for high-risk"
+    target_framework: iso42001
+    target_ref: "A.6.2.7"
+    target_title: "AI system evaluation"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "CPPA ADMT Regulations"
+        date: "2025-09"
+    notes: "ISO 42001 evaluation partially supports annual cybersecurity audit; ISO 27001 controls may be required for full coverage."
+    bidirectional: false
+
+  - id: cppa-admt--section-7120-cybersecurity-audit--nist-ai-rmf--measure-2-7
+    source_framework: cppa-admt
+    source_ref: "Cal. Code Regs. tit. 11, Section 7120"
+    source_title: "Cybersecurity audit for high-risk"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 2.7, MANAGE 1.2"
+    target_title: "AI security testing and risk prioritization"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "CPPA ADMT Regulations"
+        date: "2025-09"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "NIST security-testing and risk-prioritization subcategories partially cover CPPA cybersecurity audit."
+    bidirectional: false
+
+  - id: cppa-admt--section-7120-cybersecurity-audit--eu-ai-act--article-15
+    source_framework: cppa-admt
+    source_ref: "Cal. Code Regs. tit. 11, Section 7120"
+    source_title: "Cybersecurity audit for high-risk"
+    target_framework: eu-ai-act
+    target_ref: "Article 15"
+    target_title: "Cybersecurity and robustness for high-risk AI"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "CPPA ADMT Regulations"
+        date: "2025-09"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "Article 15 cybersecurity duties overlap with CPPA cybersecurity audit; audit mechanics differ."
+    bidirectional: false
+
+  # CA7 CPPA ADMT definition
+  - id: cppa-admt--section-7220-admt-definition--iso42001--a-2-scoping
+    source_framework: cppa-admt
+    source_ref: "Cal. Code Regs. tit. 11, Section 7220"
+    source_title: "ADMT definition"
+    target_framework: iso42001
+    target_ref: "A.2 scoping"
+    target_title: "AI system scoping"
+    relationship: complementary
+    confidence: high
+    citation_sources:
+      - publication: "CPPA ADMT Regulations"
+        date: "2025-09"
+    notes: "ADMT scoping is regulator-specific; ISO scoping is complementary process."
+    bidirectional: false
+
+  - id: cppa-admt--section-7220-admt-definition--nist-ai-rmf--map-1-1
+    source_framework: cppa-admt
+    source_ref: "Cal. Code Regs. tit. 11, Section 7220"
+    source_title: "ADMT definition"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 1.1"
+    target_title: "AI system context and categorization"
+    relationship: complementary
+    confidence: high
+    citation_sources:
+      - publication: "CPPA ADMT Regulations"
+        date: "2025-09"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "MAP 1.1 categorization complements the CPPA ADMT statutory scope."
+    bidirectional: false
+
+  - id: cppa-admt--section-7220-admt-definition--eu-ai-act--article-3-1
+    source_framework: cppa-admt
+    source_ref: "Cal. Code Regs. tit. 11, Section 7220"
+    source_title: "ADMT definition"
+    target_framework: eu-ai-act
+    target_ref: "Article 3(1)"
+    target_title: "AI system definition"
+    relationship: complementary
+    confidence: high
+    citation_sources:
+      - publication: "CPPA ADMT Regulations"
+        date: "2025-09"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "CPPA ADMT and EU AI Act use distinct but overlapping definitions; complementary scoping."
+    bidirectional: false
+
+  # CA8 AB 1008 PII in AI
+  - id: ca-ab-1008--section-1798-140-v-pii-in-ai--iso42001--a-7-4
+    source_framework: ca-ab-1008
+    source_ref: "Cal. Civ. Code Section 1798.140(v)"
+    source_title: "PII in AI via AB 1008"
+    target_framework: iso42001
+    target_ref: "A.7.4"
+    target_title: "Data quality and personal data handling"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "California AB 1008"
+        date: "2024-09"
+    notes: "Data-quality control partially supports PII handling in AI systems; does not by itself implement CCPA subject rights."
+    bidirectional: false
+
+  - id: ca-ab-1008--section-1798-140-v-pii-in-ai--nist-ai-rmf--map-4-1
+    source_framework: ca-ab-1008
+    source_ref: "Cal. Civ. Code Section 1798.140(v)"
+    source_title: "PII in AI via AB 1008"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 4.1, MANAGE 2.3"
+    target_title: "Privacy risk identification and response"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "California AB 1008"
+        date: "2024-09"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "NIST privacy-risk subcategories partially support AB 1008 scope extension."
+    bidirectional: false
+
+  - id: ca-ab-1008--section-1798-140-v-pii-in-ai--eu-ai-act--gdpr-articles-15-22
+    source_framework: ca-ab-1008
+    source_ref: "Cal. Civ. Code Section 1798.140(v)"
+    source_title: "PII in AI via AB 1008"
+    target_framework: eu-ai-act
+    target_ref: "GDPR Articles 15-22"
+    target_title: "Data subject rights over personal data in AI"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "California AB 1008"
+        date: "2024-09"
+      - publication: "Regulation (EU) 2016/679 (GDPR)"
+        date: "2016-04"
+    notes: "GDPR data-subject rights parallel the extension of CCPA rights to PI held in AI systems."
+    bidirectional: false
+
+  # CA9 AB 1008 PI can exist in AI systems
+  - id: ca-ab-1008--section-1798-140-v-pi-in-ai-systems--iso42001--a-7-4
+    source_framework: ca-ab-1008
+    source_ref: "Cal. Civ. Code Section 1798.140(v)"
+    source_title: "PI can exist in AI systems"
+    target_framework: iso42001
+    target_ref: "A.7.4"
+    target_title: "Data quality and personal data handling"
+    relationship: complementary
+    confidence: high
+    citation_sources:
+      - publication: "California AB 1008"
+        date: "2024-09"
+    notes: "AB 1008 is a definitional clarification; ISO 42001 data-quality control is complementary."
+    bidirectional: false
+
+  - id: ca-ab-1008--section-1798-140-v-pi-in-ai-systems--nist-ai-rmf--map-4-1
+    source_framework: ca-ab-1008
+    source_ref: "Cal. Civ. Code Section 1798.140(v)"
+    source_title: "PI can exist in AI systems"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 4.1"
+    target_title: "Privacy risk identification in AI systems"
+    relationship: complementary
+    confidence: high
+    citation_sources:
+      - publication: "California AB 1008"
+        date: "2024-09"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "NIST privacy-risk identification complements AB 1008 scope clarification."
+    bidirectional: false
+
+  - id: ca-ab-1008--section-1798-140-v-pi-in-ai-systems--eu-ai-act--gdpr-article-4-1
+    source_framework: ca-ab-1008
+    source_ref: "Cal. Civ. Code Section 1798.140(v)"
+    source_title: "PI can exist in AI systems"
+    target_framework: eu-ai-act
+    target_ref: "GDPR Article 4(1)"
+    target_title: "Definition of personal data"
+    relationship: complementary
+    confidence: high
+    citation_sources:
+      - publication: "California AB 1008"
+        date: "2024-09"
+      - publication: "Regulation (EU) 2016/679 (GDPR)"
+        date: "2016-04"
+    notes: "GDPR Article 4(1) personal-data definition complements AB 1008 clarification that PI may exist within AI systems."
+    bidirectional: false
+
+  # CA10 SB 942 manifest disclosure
+  - id: ca-sb-942--section-22757-manifest-disclosure--iso42001--a-8-2
+    source_framework: ca-sb-942
+    source_ref: "Cal. Bus. & Prof. Code Section 22757"
+    source_title: "AI Transparency Act manifest disclosure"
+    target_framework: iso42001
+    target_ref: "A.8.2"
+    target_title: "Information to interested parties"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "California SB 942"
+        date: "2024-09"
+    notes: "Interested-party information control satisfies manifest-disclosure obligation for AI-generated content."
+    bidirectional: false
+
+  - id: ca-sb-942--section-22757-manifest-disclosure--nist-ai-rmf--map-3-4
+    source_framework: ca-sb-942
+    source_ref: "Cal. Bus. & Prof. Code Section 22757"
+    source_title: "AI Transparency Act manifest disclosure"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 3.4, GOVERN 5.1"
+    target_title: "Transparency about AI-generated content"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "California SB 942"
+        date: "2024-09"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "NIST transparency subcategories satisfy SB 942 manifest-disclosure content requirements."
+    bidirectional: false
+
+  - id: ca-sb-942--section-22757-manifest-disclosure--eu-ai-act--article-50-2
+    source_framework: ca-sb-942
+    source_ref: "Cal. Bus. & Prof. Code Section 22757"
+    source_title: "AI Transparency Act manifest disclosure"
+    target_framework: eu-ai-act
+    target_ref: "Article 50(2)"
+    target_title: "Marking of AI-generated content"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "California SB 942"
+        date: "2024-09"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "EU AI Act Article 50(2) AI-generated content marking is substantively equivalent to SB 942 manifest disclosure."
+    bidirectional: false
+
+  # CA11 SB 942 latent watermark
+  - id: ca-sb-942--section-22757-latent-watermark--iso42001--a-6-2-6
+    source_framework: ca-sb-942
+    source_ref: "Cal. Bus. & Prof. Code Section 22757"
+    source_title: "Latent watermark with provider ID, system, timestamp"
+    target_framework: iso42001
+    target_ref: "A.6.2.6"
+    target_title: "AI system documentation and traceability"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "California SB 942"
+        date: "2024-09"
+    notes: "Documentation and traceability controls satisfy latent watermark embedding obligation."
+    bidirectional: false
+
+  - id: ca-sb-942--section-22757-latent-watermark--nist-ai-rmf--manage-4-2
+    source_framework: ca-sb-942
+    source_ref: "Cal. Bus. & Prof. Code Section 22757"
+    source_title: "Latent watermark with provider ID, system, timestamp"
+    target_framework: nist-ai-rmf
+    target_ref: "MANAGE 4.2"
+    target_title: "Content provenance and post-deployment monitoring"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "California SB 942"
+        date: "2024-09"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "MANAGE 4.2 supports content provenance infrastructure consistent with SB 942 latent watermark."
+    bidirectional: false
+
+  - id: ca-sb-942--section-22757-latent-watermark--eu-ai-act--article-50-2
+    source_framework: ca-sb-942
+    source_ref: "Cal. Bus. & Prof. Code Section 22757"
+    source_title: "Latent watermark with provider ID, system, timestamp"
+    target_framework: eu-ai-act
+    target_ref: "Article 50(2)"
+    target_title: "Marking of AI-generated or manipulated content"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "California SB 942"
+        date: "2024-09"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "Article 50(2) machine-readable marking requirement is substantively equivalent to SB 942 latent watermark."
+    bidirectional: false
+
+  # CA12 SB 942 free public detection tool
+  - id: ca-sb-942--section-22757-detection-tool--iso42001--a-8-3
+    source_framework: ca-sb-942
+    source_ref: "Cal. Bus. & Prof. Code Section 22757"
+    source_title: "Free public AI detection tool"
+    target_framework: iso42001
+    target_ref: "A.8.3"
+    target_title: "External reporting and public-facing mechanisms"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "California SB 942"
+        date: "2024-09"
+    notes: "External-reporting control partially supports a public detection tool; tool itself is statutory-specific."
+    bidirectional: false
+
+  - id: ca-sb-942--section-22757-detection-tool--nist-ai-rmf--measure-3-3
+    source_framework: ca-sb-942
+    source_ref: "Cal. Bus. & Prof. Code Section 22757"
+    source_title: "Free public AI detection tool"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 3.3"
+    target_title: "Mechanisms for third-party validation"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "California SB 942"
+        date: "2024-09"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "MEASURE 3.3 third-party validation mechanisms partially align with public detection tool requirement."
+    bidirectional: false
+
+  - id: ca-sb-942--section-22757-detection-tool--eu-ai-act--article-50-2
+    source_framework: ca-sb-942
+    source_ref: "Cal. Bus. & Prof. Code Section 22757"
+    source_title: "Free public AI detection tool"
+    target_framework: eu-ai-act
+    target_ref: "Article 50(2)"
+    target_title: "Machine-readable marking supporting detection"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "California SB 942"
+        date: "2024-09"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "Article 50(2) machine-readable marking supports detection ecosystem but does not mandate provider-hosted public tool."
+    bidirectional: false
+
+  # CA13 SB 942 licensee contract
+  - id: ca-sb-942--section-22757-licensee-contract--iso42001--a-6-2-5
+    source_framework: ca-sb-942
+    source_ref: "Cal. Bus. & Prof. Code Section 22757"
+    source_title: "Licensee contract to preserve watermarks"
+    target_framework: iso42001
+    target_ref: "A.6.2.5"
+    target_title: "Supplier and third-party AI relationships"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "California SB 942"
+        date: "2024-09"
+    notes: "Supplier/third-party AI relationship control satisfies contractual watermark preservation."
+    bidirectional: false
+
+  - id: ca-sb-942--section-22757-licensee-contract--nist-ai-rmf--govern-6-1
+    source_framework: ca-sb-942
+    source_ref: "Cal. Bus. & Prof. Code Section 22757"
+    source_title: "Licensee contract to preserve watermarks"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 6.1"
+    target_title: "Third-party and supply-chain risk management"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "California SB 942"
+        date: "2024-09"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "GOVERN 6.1 third-party risk management satisfies licensee contract watermark-preservation duties."
+    bidirectional: false
+
+  - id: ca-sb-942--section-22757-licensee-contract--eu-ai-act--article-25
+    source_framework: ca-sb-942
+    source_ref: "Cal. Bus. & Prof. Code Section 22757"
+    source_title: "Licensee contract to preserve watermarks"
+    target_framework: eu-ai-act
+    target_ref: "Article 25"
+    target_title: "Allocation of responsibilities along the AI value chain"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "California SB 942"
+        date: "2024-09"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "Article 25 value-chain allocation supports contractual propagation of watermark preservation duties."
+    bidirectional: false
+
+  # CA14 SB 942 penalty
+  - id: ca-sb-942--section-22757-penalty--iso42001--no-equivalent
+    source_framework: ca-sb-942
+    source_ref: "Cal. Bus. & Prof. Code Section 22757"
+    source_title: "Penalty 5000 USD per day per violation"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "California SB 942"
+        date: "2024-09"
+    notes: "ISO 42001 is voluntary and carries no statutory penalty."
+    bidirectional: false
+
+  - id: ca-sb-942--section-22757-penalty--nist-ai-rmf--no-equivalent
+    source_framework: ca-sb-942
+    source_ref: "Cal. Bus. & Prof. Code Section 22757"
+    source_title: "Penalty 5000 USD per day per violation"
+    target_framework: nist-ai-rmf
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "California SB 942"
+        date: "2024-09"
+    notes: "NIST AI RMF is voluntary guidance and carries no penalty regime."
+    bidirectional: false
+
+  - id: ca-sb-942--section-22757-penalty--eu-ai-act--article-99
+    source_framework: ca-sb-942
+    source_ref: "Cal. Bus. & Prof. Code Section 22757"
+    source_title: "Penalty 5000 USD per day per violation"
+    target_framework: eu-ai-act
+    target_ref: "Article 99"
+    target_title: "Penalties under EU AI Act"
+    relationship: complementary
+    confidence: high
+    citation_sources:
+      - publication: "California SB 942"
+        date: "2024-09"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "Both impose public-enforcement fines; SB 942 is per-day-flat while AI Act is tiered turnover-based."
+    bidirectional: true
+
+  # CA15 AB 2013 training data public summary
+  - id: ca-ab-2013--section-1-training-data-public-summary--iso42001--a-7-2
+    source_framework: ca-ab-2013
+    source_ref: "California AB 2013, Section 1"
+    source_title: "Training Data Transparency public summary since 2022-01-01"
+    target_framework: iso42001
+    target_ref: "A.7.2, A.7.3"
+    target_title: "Data acquisition and preparation documentation"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "California AB 2013"
+        date: "2024-09"
+    notes: "Data acquisition and preparation controls satisfy the public-summary content required by AB 2013."
+    bidirectional: false
+
+  - id: ca-ab-2013--section-1-training-data-public-summary--nist-ai-rmf--map-2-3
+    source_framework: ca-ab-2013
+    source_ref: "California AB 2013, Section 1"
+    source_title: "Training Data Transparency public summary since 2022-01-01"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 2.3, MEASURE 2.8"
+    target_title: "Data provenance and integrity documentation"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "California AB 2013"
+        date: "2024-09"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "NIST provenance and integrity documentation satisfies AB 2013 public training-data summary."
+    bidirectional: false
+
+  - id: ca-ab-2013--section-1-training-data-public-summary--eu-ai-act--article-53-1-d
+    source_framework: ca-ab-2013
+    source_ref: "California AB 2013, Section 1"
+    source_title: "Training Data Transparency public summary since 2022-01-01"
+    target_framework: eu-ai-act
+    target_ref: "Article 53(1)(d)"
+    target_title: "GPAI provider public summary of training data"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "California AB 2013"
+        date: "2024-09"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "Article 53(1)(d) GPAI training-data public summary is substantively equivalent to AB 2013 public summary."
+    bidirectional: false
+
+  # CA16 AB 2013 sources/purpose/PII disclosure
+  - id: ca-ab-2013--section-1-training-data-disclosure-fields--iso42001--a-7-2
+    source_framework: ca-ab-2013
+    source_ref: "California AB 2013, Section 1"
+    source_title: "Disclose sources, purpose, data points, copyrighted content, PII"
+    target_framework: iso42001
+    target_ref: "A.7.2, A.7.4"
+    target_title: "Data acquisition and data quality"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "California AB 2013"
+        date: "2024-09"
+    notes: "Data acquisition plus data-quality controls cover AB 2013 content fields."
+    bidirectional: false
+
+  - id: ca-ab-2013--section-1-training-data-disclosure-fields--nist-ai-rmf--map-2-3
+    source_framework: ca-ab-2013
+    source_ref: "California AB 2013, Section 1"
+    source_title: "Disclose sources, purpose, data points, copyrighted content, PII"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 2.3"
+    target_title: "Data provenance including copyrighted and personal data flags"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "California AB 2013"
+        date: "2024-09"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "MAP 2.3 provenance documentation satisfies AB 2013 disclosure-field requirements."
+    bidirectional: false
+
+  - id: ca-ab-2013--section-1-training-data-disclosure-fields--eu-ai-act--article-53-1-d
+    source_framework: ca-ab-2013
+    source_ref: "California AB 2013, Section 1"
+    source_title: "Disclose sources, purpose, data points, copyrighted content, PII"
+    target_framework: eu-ai-act
+    target_ref: "Article 53(1)(d); Annex XI"
+    target_title: "GPAI training data summary content"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "California AB 2013"
+        date: "2024-09"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "Article 53(1)(d) and Annex XI content requirements overlap with AB 2013 disclosure fields."
+    bidirectional: false
+
+  # CA17 AB 2013 update on substantial modification
+  - id: ca-ab-2013--section-1-substantial-modification-update--iso42001--a-6-2-2
+    source_framework: ca-ab-2013
+    source_ref: "California AB 2013, Section 1"
+    source_title: "Update on substantial modification"
+    target_framework: iso42001
+    target_ref: "A.6.2.2"
+    target_title: "AI system impact assessment process for changes"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "California AB 2013"
+        date: "2024-09"
+    notes: "Change-management control satisfies AB 2013 substantial-modification update obligation."
+    bidirectional: false
+
+  - id: ca-ab-2013--section-1-substantial-modification-update--nist-ai-rmf--manage-4-2
+    source_framework: ca-ab-2013
+    source_ref: "California AB 2013, Section 1"
+    source_title: "Update on substantial modification"
+    target_framework: nist-ai-rmf
+    target_ref: "MANAGE 4.2"
+    target_title: "Post-deployment monitoring and reassessment on change"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "California AB 2013"
+        date: "2024-09"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "MANAGE 4.2 reassessment on change satisfies the AB 2013 substantial-modification update cadence."
+    bidirectional: false
+
+  - id: ca-ab-2013--section-1-substantial-modification-update--eu-ai-act--article-53-update
+    source_framework: ca-ab-2013
+    source_ref: "California AB 2013, Section 1"
+    source_title: "Update on substantial modification"
+    target_framework: eu-ai-act
+    target_ref: "Article 53"
+    target_title: "GPAI provider update obligations"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "California AB 2013"
+        date: "2024-09"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "Article 53 update duties substantively cover the AB 2013 substantial-modification update."
+    bidirectional: false
+
+  # CA18 AB 2013 UCL enforcement
+  - id: ca-ab-2013--section-1-ucl-enforcement--iso42001--no-equivalent
+    source_framework: ca-ab-2013
+    source_ref: "California AB 2013, Section 1"
+    source_title: "UCL enforcement"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "California AB 2013"
+        date: "2024-09"
+    notes: "ISO 42001 is voluntary; no analog to UCL public enforcement."
+    bidirectional: false
+
+  - id: ca-ab-2013--section-1-ucl-enforcement--nist-ai-rmf--no-equivalent
+    source_framework: ca-ab-2013
+    source_ref: "California AB 2013, Section 1"
+    source_title: "UCL enforcement"
+    target_framework: nist-ai-rmf
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "California AB 2013"
+        date: "2024-09"
+    notes: "NIST AI RMF is voluntary; no analog to UCL enforcement."
+    bidirectional: false
+
+  - id: ca-ab-2013--section-1-ucl-enforcement--eu-ai-act--article-99
+    source_framework: ca-ab-2013
+    source_ref: "California AB 2013, Section 1"
+    source_title: "UCL enforcement"
+    target_framework: eu-ai-act
+    target_ref: "Article 99"
+    target_title: "Penalties under EU AI Act"
+    relationship: complementary
+    confidence: high
+    citation_sources:
+      - publication: "California AB 2013"
+        date: "2024-09"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "Both establish public-enforcement regimes with different procedural routes (UCL civil action vs authority-imposed fines)."
+    bidirectional: true
+
+  # CA19 SB 1001 Bot disclosure
+  - id: ca-sb-1001--section-17940-bot-disclosure--iso42001--a-8-2
+    source_framework: ca-sb-1001
+    source_ref: "Cal. Bus. & Prof. Code Section 17940"
+    source_title: "Bot disclosure"
+    target_framework: iso42001
+    target_ref: "A.8.2"
+    target_title: "Information to interested parties on AI interaction"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "California SB 1001"
+        date: "2018-09"
+    notes: "Interested-party information control satisfies bot-disclosure obligation in covered contexts."
+    bidirectional: false
+
+  - id: ca-sb-1001--section-17940-bot-disclosure--nist-ai-rmf--map-3-4
+    source_framework: ca-sb-1001
+    source_ref: "Cal. Bus. & Prof. Code Section 17940"
+    source_title: "Bot disclosure"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 3.4"
+    target_title: "Transparency about AI interactions with users"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "California SB 1001"
+        date: "2018-09"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "MAP 3.4 transparency subcategory satisfies bot-disclosure obligation."
+    bidirectional: false
+
+  - id: ca-sb-1001--section-17940-bot-disclosure--eu-ai-act--article-50-1
+    source_framework: ca-sb-1001
+    source_ref: "Cal. Bus. & Prof. Code Section 17940"
+    source_title: "Bot disclosure"
+    target_framework: eu-ai-act
+    target_ref: "Article 50(1)"
+    target_title: "Transparency for AI systems interacting with natural persons"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "California SB 1001"
+        date: "2018-09"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "Article 50(1) is substantively equivalent to SB 1001 bot-disclosure where scope overlaps."
+    bidirectional: false
+
+  # CA20 AB 1836 digital replica of deceased
+  - id: ca-ab-1836--section-3344-1-digital-replica-deceased--iso42001--a-6-2-6
+    source_framework: ca-ab-1836
+    source_ref: "Cal. Civ. Code Section 3344.1"
+    source_title: "Digital replica of deceased, consent"
+    target_framework: iso42001
+    target_ref: "A.6.2.6"
+    target_title: "AI system documentation of authorized use"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "California AB 1836"
+        date: "2024-09"
+    notes: "Documentation controls partially support consent-traceability for digital replicas; statutory right is additional."
+    bidirectional: false
+
+  - id: ca-ab-1836--section-3344-1-digital-replica-deceased--nist-ai-rmf--govern-5-1
+    source_framework: ca-ab-1836
+    source_ref: "Cal. Civ. Code Section 3344.1"
+    source_title: "Digital replica of deceased, consent"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 5.1, MAP 3.4"
+    target_title: "Disclosure and content-provenance practices"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "California AB 1836"
+        date: "2024-09"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "NIST disclosure and provenance subcategories partially support AB 1836 consent-governance."
+    bidirectional: false
+
+  - id: ca-ab-1836--section-3344-1-digital-replica-deceased--eu-ai-act--article-50-4
+    source_framework: ca-ab-1836
+    source_ref: "Cal. Civ. Code Section 3344.1"
+    source_title: "Digital replica of deceased, consent"
+    target_framework: eu-ai-act
+    target_ref: "Article 50(4)"
+    target_title: "Deep fake disclosure"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "California AB 1836"
+        date: "2024-09"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "Article 50(4) deep-fake disclosure partially overlaps; AB 1836 imposes consent and postmortem-rights regime not covered by AI Act."
+    bidirectional: false
+
+  # CA21 CPPA opt-out exceptions narrowly defined
+  - id: cppa-admt--section-7221-opt-out-exceptions--iso42001--a-5-3
+    source_framework: cppa-admt
+    source_ref: "Cal. Code Regs. tit. 11, Section 7221"
+    source_title: "Opt-out exceptions narrowly defined (security, fraud, safety)"
+    target_framework: iso42001
+    target_ref: "A.5.3"
+    target_title: "AI system impact assessment scope decisions"
+    relationship: complementary
+    confidence: medium
+    citation_sources:
+      - publication: "CPPA ADMT Regulations"
+        date: "2025-09"
+    notes: "ISO scoping practice complements CPPA narrowly defined opt-out exceptions."
+    bidirectional: false
+
+  - id: cppa-admt--section-7221-opt-out-exceptions--nist-ai-rmf--map-1-6
+    source_framework: cppa-admt
+    source_ref: "Cal. Code Regs. tit. 11, Section 7221"
+    source_title: "Opt-out exceptions narrowly defined (security, fraud, safety)"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 1.6"
+    target_title: "System purpose and scope documentation"
+    relationship: complementary
+    confidence: medium
+    citation_sources:
+      - publication: "CPPA ADMT Regulations"
+        date: "2025-09"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "NIST MAP 1.6 purpose documentation complements statutory narrowing of opt-out exceptions."
+    bidirectional: false
+
+  - id: cppa-admt--section-7221-opt-out-exceptions--eu-ai-act--article-2-scope
+    source_framework: cppa-admt
+    source_ref: "Cal. Code Regs. tit. 11, Section 7221"
+    source_title: "Opt-out exceptions narrowly defined (security, fraud, safety)"
+    target_framework: eu-ai-act
+    target_ref: "Article 2"
+    target_title: "Scope exclusions"
+    relationship: complementary
+    confidence: medium
+    citation_sources:
+      - publication: "CPPA ADMT Regulations"
+        date: "2025-09"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "AI Act scope exclusions under Article 2 complement narrowly defined CPPA opt-out exceptions; mechanism differs."
+    bidirectional: false
+
+  # CA22 CPPA ADMT human appeal right
+  - id: cppa-admt--section-7222-human-appeal-right--iso42001--a-9-2
+    source_framework: cppa-admt
+    source_ref: "Cal. Code Regs. tit. 11, Section 7222"
+    source_title: "Human appeal right for Significant Decisions"
+    target_framework: iso42001
+    target_ref: "A.9.2"
+    target_title: "Human oversight of AI systems"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "CPPA ADMT Regulations"
+        date: "2025-09"
+    notes: "Human-oversight control satisfies human-appeal mechanism for Significant Decisions."
+    bidirectional: false
+
+  - id: cppa-admt--section-7222-human-appeal-right--nist-ai-rmf--manage-2-3
+    source_framework: cppa-admt
+    source_ref: "Cal. Code Regs. tit. 11, Section 7222"
+    source_title: "Human appeal right for Significant Decisions"
+    target_framework: nist-ai-rmf
+    target_ref: "MANAGE 2.3"
+    target_title: "Response mechanisms including human review"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "CPPA ADMT Regulations"
+        date: "2025-09"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "MANAGE 2.3 response mechanism satisfies human-appeal workflow for Significant Decisions."
+    bidirectional: false
+
+  - id: cppa-admt--section-7222-human-appeal-right--eu-ai-act--article-86
+    source_framework: cppa-admt
+    source_ref: "Cal. Code Regs. tit. 11, Section 7222"
+    source_title: "Human appeal right for Significant Decisions"
+    target_framework: eu-ai-act
+    target_ref: "Article 86"
+    target_title: "Right to explanation of individual decision-making"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "CPPA ADMT Regulations"
+        date: "2025-09"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "Article 86 individual-decision explanation supports the substantive function of CPPA human-appeal right."
+    bidirectional: false

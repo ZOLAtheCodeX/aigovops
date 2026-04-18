@@ -1,0 +1,609 @@
+# NYC Local Law 144 (AEDT) crosswalk to ISO/IEC 42001, NIST AI RMF, EU AI Act.
+# Source framework: nyc-ll144. Operative: 2023-07-05.
+# Citation formats: NYC LL144 and NYC DCWP AEDT Rules, 6 RCNY Section 5-<n>.
+
+mappings:
+
+  # N1 AEDT definition
+  - id: nyc-ll144--6-rcny-section-5-300-aedt-definition--iso42001--a-2-scoping
+    source_framework: nyc-ll144
+    source_ref: "NYC DCWP AEDT Rules, 6 RCNY Section 5-300"
+    source_title: "AEDT definition"
+    target_framework: iso42001
+    target_ref: "A.2 scoping"
+    target_title: "AI system scoping and identification"
+    relationship: complementary
+    confidence: high
+    citation_sources:
+      - publication: "NYC DCWP AEDT Rules"
+        date: "2023-04"
+    notes: "AEDT definition scopes regulated systems; ISO 42001 Annex A.2 scoping approach is complementary but not an obligations substitute."
+    bidirectional: false
+
+  - id: nyc-ll144--6-rcny-section-5-300-aedt-definition--nist-ai-rmf--map-1-1
+    source_framework: nyc-ll144
+    source_ref: "NYC DCWP AEDT Rules, 6 RCNY Section 5-300"
+    source_title: "AEDT definition"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 1.1"
+    target_title: "AI system context and categorization"
+    relationship: complementary
+    confidence: high
+    citation_sources:
+      - publication: "NYC DCWP AEDT Rules"
+        date: "2023-04"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "MAP 1.1 context documentation parallels AEDT scoping but carries no statutory trigger."
+    bidirectional: false
+
+  - id: nyc-ll144--6-rcny-section-5-300-aedt-definition--eu-ai-act--annex-iii-4
+    source_framework: nyc-ll144
+    source_ref: "NYC DCWP AEDT Rules, 6 RCNY Section 5-300"
+    source_title: "AEDT definition"
+    target_framework: eu-ai-act
+    target_ref: "Annex III(4)"
+    target_title: "High-risk AI in employment and worker management"
+    relationship: complementary
+    confidence: high
+    citation_sources:
+      - publication: "NYC DCWP AEDT Rules"
+        date: "2023-04"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "Annex III(4) lists employment AI as high-risk; AEDT scoping is narrower and triggers specific city-level audit obligations."
+    bidirectional: false
+
+  # N2 Annual independent bias audit
+  - id: nyc-ll144--6-rcny-section-5-301-annual-bias-audit--iso42001--a-6-2-7
+    source_framework: nyc-ll144
+    source_ref: "NYC DCWP AEDT Rules, 6 RCNY Section 5-301"
+    source_title: "Annual independent bias audit before use"
+    target_framework: iso42001
+    target_ref: "A.6.2.7; Clause 9.2"
+    target_title: "AI system evaluation and internal audit"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "NYC LL144"
+        date: "2021-12"
+      - publication: "NYC DCWP AEDT Rules"
+        date: "2023-04"
+    notes: "ISO 42001 internal audit and AI system evaluation partially support the LL144 bias audit; LL144 requires external independence which ISO 42001 does not mandate."
+    bidirectional: false
+
+  - id: nyc-ll144--6-rcny-section-5-301-annual-bias-audit--nist-ai-rmf--measure-2-11
+    source_framework: nyc-ll144
+    source_ref: "NYC DCWP AEDT Rules, 6 RCNY Section 5-301"
+    source_title: "Annual independent bias audit before use"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 2.11, MEASURE 3.2"
+    target_title: "Fairness measurement and independent review"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "NYC LL144"
+        date: "2021-12"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "NIST fairness measurement supports bias audit content; independence requirement is statutory-specific."
+    bidirectional: false
+
+  - id: nyc-ll144--6-rcny-section-5-301-annual-bias-audit--eu-ai-act--article-15
+    source_framework: nyc-ll144
+    source_ref: "NYC DCWP AEDT Rules, 6 RCNY Section 5-301"
+    source_title: "Annual independent bias audit before use"
+    target_framework: eu-ai-act
+    target_ref: "Article 15; Article 43"
+    target_title: "Accuracy/robustness and conformity assessment"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "NYC LL144"
+        date: "2021-12"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "EU conformity assessment and accuracy testing partially cover the LL144 bias audit function; scope and cadence differ."
+    bidirectional: false
+
+  # N3 Auditor independence
+  - id: nyc-ll144--6-rcny-section-5-300-auditor-independence--iso42001--a-6-2-7
+    source_framework: nyc-ll144
+    source_ref: "NYC DCWP AEDT Rules, 6 RCNY Section 5-300"
+    source_title: "Auditor independence"
+    target_framework: iso42001
+    target_ref: "A.6.2.7"
+    target_title: "AI system evaluation with appropriate independence"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "NYC DCWP AEDT Rules"
+        date: "2023-04"
+    notes: "ISO 42001 evaluator objectivity expectations partially align with LL144 statutory independence definition."
+    bidirectional: false
+
+  - id: nyc-ll144--6-rcny-section-5-300-auditor-independence--nist-ai-rmf--measure-2-11
+    source_framework: nyc-ll144
+    source_ref: "NYC DCWP AEDT Rules, 6 RCNY Section 5-300"
+    source_title: "Auditor independence"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 2.11"
+    target_title: "Independent review of AI system fairness"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "NYC DCWP AEDT Rules"
+        date: "2023-04"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "NIST supports independent review but does not codify auditor independence criteria as LL144 does."
+    bidirectional: false
+
+  - id: nyc-ll144--6-rcny-section-5-300-auditor-independence--eu-ai-act--article-43
+    source_framework: nyc-ll144
+    source_ref: "NYC DCWP AEDT Rules, 6 RCNY Section 5-300"
+    source_title: "Auditor independence"
+    target_framework: eu-ai-act
+    target_ref: "Article 43"
+    target_title: "Third-party conformity assessment by notified bodies"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "NYC DCWP AEDT Rules"
+        date: "2023-04"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "EU notified-body independence under Article 43 parallels but is not equivalent to LL144 independent-auditor definition."
+    bidirectional: false
+
+  # N4 Selection rate and impact ratio by demographic group
+  - id: nyc-ll144--6-rcny-section-5-301-selection-rate-impact-ratio--iso42001--a-7-4
+    source_framework: nyc-ll144
+    source_ref: "NYC DCWP AEDT Rules, 6 RCNY Section 5-301"
+    source_title: "Selection rate and impact ratio by sex, race/ethnicity, intersectional"
+    target_framework: iso42001
+    target_ref: "A.7.4; A.6.2.4"
+    target_title: "Data quality and fairness assessment"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "NYC DCWP AEDT Rules"
+        date: "2023-04"
+    notes: "ISO 42001 data-quality and fairness controls operationally satisfy selection-rate and impact-ratio computation when applied to LL144 scope."
+    bidirectional: false
+
+  - id: nyc-ll144--6-rcny-section-5-301-selection-rate-impact-ratio--nist-ai-rmf--measure-2-11
+    source_framework: nyc-ll144
+    source_ref: "NYC DCWP AEDT Rules, 6 RCNY Section 5-301"
+    source_title: "Selection rate and impact ratio by sex, race/ethnicity, intersectional"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 2.11"
+    target_title: "Fairness metrics including disparate impact"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "NYC DCWP AEDT Rules"
+        date: "2023-04"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "MEASURE 2.11 supports computing disparate impact metrics that satisfy LL144 selection-rate methodology."
+    bidirectional: false
+
+  - id: nyc-ll144--6-rcny-section-5-301-selection-rate-impact-ratio--eu-ai-act--article-10-2-f
+    source_framework: nyc-ll144
+    source_ref: "NYC DCWP AEDT Rules, 6 RCNY Section 5-301"
+    source_title: "Selection rate and impact ratio by sex, race/ethnicity, intersectional"
+    target_framework: eu-ai-act
+    target_ref: "Article 10(2)(f); Article 15"
+    target_title: "Bias examination in training data and robustness"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "NYC DCWP AEDT Rules"
+        date: "2023-04"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "Article 10(2)(f) bias examination and Article 15 robustness cover the selection-rate disparate-impact analysis required by LL144."
+    bidirectional: false
+
+  # N5 Continuous output AEDT methodology
+  - id: nyc-ll144--6-rcny-section-5-301-b-continuous-output--iso42001--a-7-4
+    source_framework: nyc-ll144
+    source_ref: "NYC DCWP AEDT Rules, 6 RCNY Section 5-301(b)"
+    source_title: "Continuous output AEDT methodology"
+    target_framework: iso42001
+    target_ref: "A.7.4"
+    target_title: "Data quality for AI systems"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "NYC DCWP AEDT Rules"
+        date: "2023-04"
+    notes: "ISO 42001 data-quality control supports continuous-score evaluation methodology."
+    bidirectional: false
+
+  - id: nyc-ll144--6-rcny-section-5-301-b-continuous-output--nist-ai-rmf--measure-2-11
+    source_framework: nyc-ll144
+    source_ref: "NYC DCWP AEDT Rules, 6 RCNY Section 5-301(b)"
+    source_title: "Continuous output AEDT methodology"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 2.11"
+    target_title: "Fairness metrics for scoring models"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "NYC DCWP AEDT Rules"
+        date: "2023-04"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "NIST fairness metrics accommodate continuous-score methodology specified by LL144."
+    bidirectional: false
+
+  - id: nyc-ll144--6-rcny-section-5-301-b-continuous-output--eu-ai-act--article-10
+    source_framework: nyc-ll144
+    source_ref: "NYC DCWP AEDT Rules, 6 RCNY Section 5-301(b)"
+    source_title: "Continuous output AEDT methodology"
+    target_framework: eu-ai-act
+    target_ref: "Article 10; Article 15"
+    target_title: "Data governance and accuracy for high-risk AI"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "NYC DCWP AEDT Rules"
+        date: "2023-04"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "EU data governance and accuracy controls cover continuous-output AEDT evaluation methodology."
+    bidirectional: false
+
+  # N6 Historical data required; test data if insufficient
+  - id: nyc-ll144--6-rcny-section-5-301-c-historical-data--iso42001--a-7-2
+    source_framework: nyc-ll144
+    source_ref: "NYC DCWP AEDT Rules, 6 RCNY Section 5-301(c)"
+    source_title: "Historical data required; test data if insufficient"
+    target_framework: iso42001
+    target_ref: "A.7.2, A.7.3"
+    target_title: "Data acquisition and preparation for AI systems"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "NYC DCWP AEDT Rules"
+        date: "2023-04"
+    notes: "Data acquisition and preparation controls support LL144 historical-data-first methodology with test-data fallback."
+    bidirectional: false
+
+  - id: nyc-ll144--6-rcny-section-5-301-c-historical-data--nist-ai-rmf--map-2-3
+    source_framework: nyc-ll144
+    source_ref: "NYC DCWP AEDT Rules, 6 RCNY Section 5-301(c)"
+    source_title: "Historical data required; test data if insufficient"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 2.3, MEASURE 2.8"
+    target_title: "Data provenance and integrity"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "NYC DCWP AEDT Rules"
+        date: "2023-04"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "NIST data provenance and integrity subcategories support LL144 historical-data methodology."
+    bidirectional: false
+
+  - id: nyc-ll144--6-rcny-section-5-301-c-historical-data--eu-ai-act--article-10-3
+    source_framework: nyc-ll144
+    source_ref: "NYC DCWP AEDT Rules, 6 RCNY Section 5-301(c)"
+    source_title: "Historical data required; test data if insufficient"
+    target_framework: eu-ai-act
+    target_ref: "Article 10(3)"
+    target_title: "Training, validation and testing data set requirements"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "NYC DCWP AEDT Rules"
+        date: "2023-04"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "Article 10(3) covers representative training and testing data consistent with LL144 data-hierarchy rules."
+    bidirectional: false
+
+  # N7 Public website publication of audit summary
+  - id: nyc-ll144--6-rcny-section-5-302-public-audit-summary--iso42001--a-8-2
+    source_framework: nyc-ll144
+    source_ref: "NYC DCWP AEDT Rules, 6 RCNY Section 5-302"
+    source_title: "Public website publication of audit summary"
+    target_framework: iso42001
+    target_ref: "A.8.2, A.8.3"
+    target_title: "Information to interested parties and external reporting"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "NYC DCWP AEDT Rules"
+        date: "2023-04"
+    notes: "Public-information controls partially satisfy the LL144 website-publication obligation; LL144 mandates specific content."
+    bidirectional: false
+
+  - id: nyc-ll144--6-rcny-section-5-302-public-audit-summary--nist-ai-rmf--govern-1-4
+    source_framework: nyc-ll144
+    source_ref: "NYC DCWP AEDT Rules, 6 RCNY Section 5-302"
+    source_title: "Public website publication of audit summary"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 1.4"
+    target_title: "Public documentation and transparency of AI risk management"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "NYC DCWP AEDT Rules"
+        date: "2023-04"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "GOVERN 1.4 public documentation partially overlaps with the LL144 website audit-summary obligation."
+    bidirectional: false
+
+  - id: nyc-ll144--6-rcny-section-5-302-public-audit-summary--eu-ai-act--article-49
+    source_framework: nyc-ll144
+    source_ref: "NYC DCWP AEDT Rules, 6 RCNY Section 5-302"
+    source_title: "Public website publication of audit summary"
+    target_framework: eu-ai-act
+    target_ref: "Article 49"
+    target_title: "EU database registration for high-risk AI"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "NYC DCWP AEDT Rules"
+        date: "2023-04"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "EU database registration is public disclosure but differs from LL144 site-specific audit publication."
+    bidirectional: false
+
+  # N8 Candidate notice at least 10 business days before use
+  - id: nyc-ll144--6-rcny-section-5-303-a-b-candidate-notice--iso42001--a-8-2
+    source_framework: nyc-ll144
+    source_ref: "NYC DCWP AEDT Rules, 6 RCNY Section 5-303(a)-(b)"
+    source_title: "Candidate notice at least 10 business days before use"
+    target_framework: iso42001
+    target_ref: "A.8.2"
+    target_title: "Information to interested parties"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "NYC LL144"
+        date: "2021-12"
+      - publication: "NYC DCWP AEDT Rules"
+        date: "2023-04"
+    notes: "Interested-party information control satisfies LL144 candidate-notice timing and content requirements when scoped to employment AEDT."
+    bidirectional: false
+
+  - id: nyc-ll144--6-rcny-section-5-303-a-b-candidate-notice--nist-ai-rmf--map-5-2
+    source_framework: nyc-ll144
+    source_ref: "NYC DCWP AEDT Rules, 6 RCNY Section 5-303(a)-(b)"
+    source_title: "Candidate notice at least 10 business days before use"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 5.2"
+    target_title: "Transparency and engagement with affected individuals"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "NYC DCWP AEDT Rules"
+        date: "2023-04"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "MAP 5.2 supports pre-use notice to affected individuals consistent with LL144 candidate-notice timing."
+    bidirectional: false
+
+  - id: nyc-ll144--6-rcny-section-5-303-a-b-candidate-notice--eu-ai-act--article-26-11
+    source_framework: nyc-ll144
+    source_ref: "NYC DCWP AEDT Rules, 6 RCNY Section 5-303(a)-(b)"
+    source_title: "Candidate notice at least 10 business days before use"
+    target_framework: eu-ai-act
+    target_ref: "Article 26(11)"
+    target_title: "Deployer notification of affected persons"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "NYC DCWP AEDT Rules"
+        date: "2023-04"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "Article 26(11) deployer notification covers the pre-use candidate-notice role under LL144."
+    bidirectional: false
+
+  # N9 Notice identifies job qualifications and characteristics
+  - id: nyc-ll144--6-rcny-section-5-303-c-job-qualifications--iso42001--a-8-2
+    source_framework: nyc-ll144
+    source_ref: "NYC DCWP AEDT Rules, 6 RCNY Section 5-303(c)"
+    source_title: "Notice identifies job qualifications and characteristics"
+    target_framework: iso42001
+    target_ref: "A.8.2"
+    target_title: "Information to interested parties on AI system purpose"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "NYC DCWP AEDT Rules"
+        date: "2023-04"
+    notes: "Purpose-disclosure under A.8.2 partially covers LL144 requirement to identify job qualifications and characteristics."
+    bidirectional: false
+
+  - id: nyc-ll144--6-rcny-section-5-303-c-job-qualifications--nist-ai-rmf--map-5-2
+    source_framework: nyc-ll144
+    source_ref: "NYC DCWP AEDT Rules, 6 RCNY Section 5-303(c)"
+    source_title: "Notice identifies job qualifications and characteristics"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 5.2"
+    target_title: "Stakeholder engagement about system purpose"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "NYC DCWP AEDT Rules"
+        date: "2023-04"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "MAP 5.2 partially supports explicit disclosure of job qualifications and characteristics assessed by the AEDT."
+    bidirectional: false
+
+  - id: nyc-ll144--6-rcny-section-5-303-c-job-qualifications--eu-ai-act--article-13
+    source_framework: nyc-ll144
+    source_ref: "NYC DCWP AEDT Rules, 6 RCNY Section 5-303(c)"
+    source_title: "Notice identifies job qualifications and characteristics"
+    target_framework: eu-ai-act
+    target_ref: "Article 13; Article 26(11)"
+    target_title: "Transparency and deployer information to affected persons"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "NYC DCWP AEDT Rules"
+        date: "2023-04"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "EU AI Act transparency overlaps with LL144 content-specific notice requirement but does not mandate identical content fields."
+    bidirectional: false
+
+  # N10 Alternative process or reasonable accommodation
+  - id: nyc-ll144--6-rcny-section-5-303-d-alternative-process--iso42001--a-9-2
+    source_framework: nyc-ll144
+    source_ref: "NYC DCWP AEDT Rules, 6 RCNY Section 5-303(d)"
+    source_title: "Alternative process / reasonable accommodation on request"
+    target_framework: iso42001
+    target_ref: "A.9.2"
+    target_title: "Human oversight of AI systems"
+    relationship: partial-satisfaction
+    confidence: medium
+    citation_sources:
+      - publication: "NYC DCWP AEDT Rules"
+        date: "2023-04"
+    notes: "Human-oversight control partially supports alternative-process availability; statutory accommodation right is additional."
+    bidirectional: false
+
+  - id: nyc-ll144--6-rcny-section-5-303-d-alternative-process--nist-ai-rmf--manage-2-3
+    source_framework: nyc-ll144
+    source_ref: "NYC DCWP AEDT Rules, 6 RCNY Section 5-303(d)"
+    source_title: "Alternative process / reasonable accommodation on request"
+    target_framework: nist-ai-rmf
+    target_ref: "MANAGE 2.3"
+    target_title: "Response mechanisms for affected individuals"
+    relationship: partial-satisfaction
+    confidence: medium
+    citation_sources:
+      - publication: "NYC DCWP AEDT Rules"
+        date: "2023-04"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "MANAGE 2.3 response mechanisms support an alternative-process workflow though LL144 adds a statutory right."
+    bidirectional: false
+
+  - id: nyc-ll144--6-rcny-section-5-303-d-alternative-process--eu-ai-act--article-14
+    source_framework: nyc-ll144
+    source_ref: "NYC DCWP AEDT Rules, 6 RCNY Section 5-303(d)"
+    source_title: "Alternative process / reasonable accommodation on request"
+    target_framework: eu-ai-act
+    target_ref: "Article 14; GDPR Article 16"
+    target_title: "Human oversight and right to rectification"
+    relationship: partial-satisfaction
+    confidence: medium
+    citation_sources:
+      - publication: "NYC DCWP AEDT Rules"
+        date: "2023-04"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+      - publication: "Regulation (EU) 2016/679 (GDPR)"
+        date: "2016-04"
+    notes: "EU human oversight and GDPR rectification rights overlap with LL144 alternative-process requirement."
+    bidirectional: false
+
+  # N11 Annual re-audit
+  - id: nyc-ll144--section-20-871-a-1-annual-reaudit--iso42001--clause-9-2
+    source_framework: nyc-ll144
+    source_ref: "NYC LL144, Section 20-871(a)(1)"
+    source_title: "Annual re-audit"
+    target_framework: iso42001
+    target_ref: "Clause 9.2, 10.1"
+    target_title: "Internal audit and continual improvement"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "NYC LL144"
+        date: "2021-12"
+    notes: "Annual internal audit clause plus continual improvement cycle satisfies LL144 re-audit cadence."
+    bidirectional: false
+
+  - id: nyc-ll144--section-20-871-a-1-annual-reaudit--nist-ai-rmf--manage-4-2
+    source_framework: nyc-ll144
+    source_ref: "NYC LL144, Section 20-871(a)(1)"
+    source_title: "Annual re-audit"
+    target_framework: nist-ai-rmf
+    target_ref: "MANAGE 4.2"
+    target_title: "Continuous monitoring and reassessment"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "NYC LL144"
+        date: "2021-12"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "MANAGE 4.2 reassessment cadence supports annual re-audit obligation."
+    bidirectional: false
+
+  - id: nyc-ll144--section-20-871-a-1-annual-reaudit--eu-ai-act--article-72
+    source_framework: nyc-ll144
+    source_ref: "NYC LL144, Section 20-871(a)(1)"
+    source_title: "Annual re-audit"
+    target_framework: eu-ai-act
+    target_ref: "Article 72"
+    target_title: "Post-market monitoring by providers"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "NYC LL144"
+        date: "2021-12"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "Article 72 post-market monitoring supports recurring re-audit practice consistent with LL144."
+    bidirectional: false
+
+  # N12 Civil penalties
+  - id: nyc-ll144--section-20-872-civil-penalties--iso42001--no-equivalent
+    source_framework: nyc-ll144
+    source_ref: "NYC LL144, Section 20-872"
+    source_title: "Civil penalties"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "NYC LL144"
+        date: "2021-12"
+    notes: "ISO 42001 is voluntary and has no civil-penalty regime."
+    bidirectional: false
+
+  - id: nyc-ll144--section-20-872-civil-penalties--nist-ai-rmf--no-equivalent
+    source_framework: nyc-ll144
+    source_ref: "NYC LL144, Section 20-872"
+    source_title: "Civil penalties"
+    target_framework: nist-ai-rmf
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "NYC LL144"
+        date: "2021-12"
+    notes: "NIST AI RMF is voluntary guidance and carries no penalties."
+    bidirectional: false
+
+  - id: nyc-ll144--section-20-872-civil-penalties--eu-ai-act--article-99
+    source_framework: nyc-ll144
+    source_ref: "NYC LL144, Section 20-872"
+    source_title: "Civil penalties"
+    target_framework: eu-ai-act
+    target_ref: "Article 99"
+    target_title: "Penalties under EU AI Act"
+    relationship: complementary
+    confidence: high
+    citation_sources:
+      - publication: "NYC LL144"
+        date: "2021-12"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "Both establish public-enforcement penalties; scale and structure differ (flat-per-violation vs tiered turnover-based)."
+    bidirectional: true
