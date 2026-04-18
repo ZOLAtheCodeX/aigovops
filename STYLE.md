@@ -49,6 +49,68 @@ Examples:
 
 For Recitals: `EU AI Act, Recital XX`. For Annexes: `EU AI Act, Annex X, Point Y`.
 
+### Colorado AI Act (Senate Bill 24-205)
+
+Format: `Colorado SB 205, Section <section>` where `<section>` follows the Colorado Revised Statutes codification under Title 6, Article 1, Part 17 (sections 6-1-1701 through 6-1-1707). Sub-paragraphs use parentheses as in the codified text.
+
+Examples:
+
+- `Colorado SB 205, Section 6-1-1701(3)`
+- `Colorado SB 205, Section 6-1-1702(2)`
+- `Colorado SB 205, Section 6-1-1703(4)(b)`
+- `Colorado SB 205, Section 6-1-1706(4)`
+
+Short-form `SB 205 s. 6-1-1703(3)` is acceptable in tabular contexts after the first full reference in the same document.
+
+### UK Algorithmic Transparency Recording Standard (ATRS)
+
+Format: `UK ATRS, Section <name>` where `<name>` is one of the eight canonical ATRS template v2.0 section names: `Owner and contact`, `Tool description`, `Tool details`, `Impact assessment`, `Data`, `Risks`, `Governance`, `Benefits`.
+
+Examples:
+
+- `UK ATRS, Section Owner and contact`
+- `UK ATRS, Section Tool description`
+- `UK ATRS, Section Impact assessment`
+
+On first reference in any document, include the authoritative source URL: `https://www.gov.uk/government/publications/algorithmic-transparency-recording-standard-guidance-for-public-sector-bodies`. When pinning to a specific template version, append the version string (for example `ATRS Template v2.0`).
+
+### NYC Local Law 144 of 2021 (bias audit for AEDTs)
+
+Three citation forms are accepted and each has a fixed prefix:
+
+- For the law itself: `NYC LL144`.
+- For sections of the DCWP Final Rule (6 RCNY Chapter 5, Subchapter T, Sections 5-300 through 5-304): `NYC LL144 Final Rule, Section <n>`.
+- For the implementing regulation chapter as a whole: `NYC DCWP AEDT Rules, Subchapter T`.
+
+Examples:
+
+- `NYC LL144`
+- `NYC LL144 Final Rule, Section 5-301`
+- `NYC LL144 Final Rule, Section 5-303`
+- `NYC LL144 Final Rule, Section 5-304`
+- `NYC DCWP AEDT Rules, Subchapter T`
+
+On first reference in a document, include the authoritative source URL for the rule: `https://rules.cityofnewyork.us/rule/automated-employment-decision-tools/`.
+
+### California AI regulatory instruments
+
+California has multiple instruments, each with its own citation format:
+
+- CPPA Automated Decisionmaking Technology regulations: `CCPA Regulations (CPPA), Section <section>`.
+- CCPA as amended by CPRA (statute): `California Civil Code, Section 1798.<section>`.
+- SB 942 (AI Transparency Act) and AB 2013 (Training Data Transparency) provisions codified in the Business and Professions Code: `California Business and Professions Code, Section <section>`.
+- California Attorney General AI guidance: `California Attorney General Guidance (YYYY-MM-DD)`.
+- Vetoed SB 1047 referenced for completeness only: `California SB 1047 (vetoed)`.
+
+Examples:
+
+- `CCPA Regulations (CPPA), Section 7150`
+- `California Civil Code, Section 1798.100`
+- `California Business and Professions Code, Section 22757.1`
+- `California Attorney General Guidance (2024-12-18)`
+
+On first reference in a document, include the relevant portal URL: CPPA regulations (https://cppa.ca.gov/regulations/), California Legislative Information (https://leginfo.legislature.ca.gov/), California Attorney General AI hub (https://oag.ca.gov/ai).
+
 ## Prohibited language
 
 The following are not acceptable in any output produced by a skill, plugin, or contributor in this repository.

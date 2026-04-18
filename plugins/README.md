@@ -20,6 +20,9 @@ Plugins differ from skills in execution semantics. A skill is loaded as knowledg
 | [data-register-builder](data-register-builder/) | ISO 42001 A.7 and EU AI Act Article 10 data register (JSON + Markdown + CSV) | 0.1.0 |
 | [applicability-checker](applicability-checker/) | EU AI Act applicability by target date + system classification (JSON + Markdown) | 0.1.0 |
 | [high-risk-classifier](high-risk-classifier/) | EU AI Act Article 5, 6, Annex I, Annex III risk-tier classification (JSON + Markdown) | 0.1.0 |
+| [uk-atrs-recorder](uk-atrs-recorder/) | UK Algorithmic Transparency Recording Standard record, Tier 1 and Tier 2 (JSON + Markdown + CSV) | 0.1.0 |
+| [colorado-ai-act-compliance](colorado-ai-act-compliance/) | Colorado SB 205 developer and deployer compliance record (JSON + Markdown + CSV) | 0.1.0 |
+| [nyc-ll144-audit-packager](nyc-ll144-audit-packager/) | NYC Local Law 144 bias audit public-disclosure and candidate-notice bundle (JSON + Markdown + CSV) | 0.1.0 |
 
 ## Plugin requirements
 

@@ -1,0 +1,127 @@
+# AIGovOps Skill Evaluation Harness
+# Skill: colorado-ai-act
+# Purpose: validate skill outputs against Colorado SB 205 (Colorado AI Act) provisions.
+# Format: input scenario produces expected output structure and section references.
+# Schema: see ../README.md
+# Citation format: see ../../STYLE.md
+#
+# Test cases target SKILL.md v0.1.0 (released). Scenarios below exercise the
+# `colorado-ai-act-compliance` plugin in the employment context: one deployer
+# (employer adopting a resume-screening system) and one developer (vendor
+# providing the model). Validated against SB 205 as signed on 17 May 2024 and
+# effective on 1 February 2026.
+# Validated by Zola Valashiya on 2026-04-18.
+
+test_cases:
+  - id: colorado-ai-act-001
+    tier: T1
+    description: |
+      Happy-path deployer scenario: a Colorado employer using a resume-screening
+      AI system to make or substantially influence hiring decisions. Exercises
+      section 6-1-1703 duties including impact assessment, consumer notice, and
+      consumer appeal.
+    input:
+      actor_role: "deployer"
+      system_description:
+        system_name: "ResumeRank"
+        substantial_factor: true
+        impact_assessment_inputs:
+          ia-purpose-use: "Rank applicants by role fit for non-exempt positions at a Colorado employer."
+          ia-risk-analysis: "Foreseeable risks of disparate impact on race, sex, and age assessed; mitigation via threshold calibration and human review."
+          ia-data-description: "Inputs: resume text, application metadata. Outputs: ranked list with fit scores."
+          ia-customization: "Customized for employer-specific role taxonomy and screening criteria."
+          ia-metrics: "Accuracy, false-positive rate, and false-negative rate reported by protected class."
+          ia-transparency: "Candidate notice at application stage 1 explaining AI use."
+          ia-oversight: "Recruiter reviews every candidate before hire or reject decision."
+        consumer_notice_content:
+          text: "This hiring process uses an artificial intelligence system to evaluate applications."
+          delivery: "candidate portal, application stage 1"
+      consequential_decision_domains:
+        - "employment"
+      reviewed_by: "Zola Valashiya (AIGP; LL.M)"
+    expected_outputs:
+      - "is_high_risk = true"
+      - "impact_assessment_required = true"
+      - "consumer_notice_required = true"
+      - "consumer_appeal_required = true"
+      - "deployer_obligations all with applicability = 'applies'"
+      - "developer_obligations all with applicability = 'not-applicable'"
+      - "documentation_checklist 'present' for all impact assessment items"
+      - "citations include Colorado SB 205, Section 6-1-1703"
+      - "citations include Colorado SB 205, Section 6-1-1706(4) (affirmative defense: recognized AI risk management framework)"
+    clause_references:
+      - "Colorado SB 205, Section 6-1-1701(3)"
+      - "Colorado SB 205, Section 6-1-1703(2)"
+      - "Colorado SB 205, Section 6-1-1703(3)"
+      - "Colorado SB 205, Section 6-1-1703(4)(a)"
+      - "Colorado SB 205, Section 6-1-1703(4)(b)"
+      - "Colorado SB 205, Section 6-1-1703(4)(c)"
+      - "Colorado SB 205, Section 6-1-1706"
+    status: validated
+    validated_by: "Zola Valashiya (LL.M Innovation and Technology Law; AIGP) - 2026-04-18"
+    authored_by: "AIGovOps Contributors (Claude Code draft, validated 2026-04-18)"
+
+  - id: colorado-ai-act-002
+    tier: T1
+    description: |
+      Happy-path developer scenario: a vendor developing a resume-screening model
+      for US employers, including Colorado employers. Exercises section 6-1-1702
+      developer duties: reasonable care, deployer documentation, public statement,
+      AG and deployer disclosure, post-deployment monitoring, and data governance.
+    input:
+      actor_role: "developer"
+      system_description:
+        system_name: "ResumeRank model"
+        substantial_factor: true
+        developer_documentation:
+          doc-intended-uses: "Rank applicants by job fit for US employers across general office, retail, and tech-adjacent roles."
+          doc-known-harms: "Disparate impact on protected classes, especially for underrepresented job-history patterns; risks of proxy discrimination via education or zip code features."
+          doc-training-data-summary: "20 million resumes from 2015 through 2023; public and licensed sources; documented source registry."
+          doc-data-governance: "Representativeness testing by race, sex, and age categories; removal of protected-class proxies; periodic re-sampling."
+          doc-evaluation: "Bias audit methodology: four-fifths rule plus demographic parity; accuracy and fairness metrics quarterly."
+          doc-limitations: "Not validated for healthcare, financial, or legal-services roles. Not validated for non-US labor markets."
+          doc-post-deployment: "Monthly drift and fairness reports delivered to deployers; quarterly third-party bias audit."
+      consequential_decision_domains:
+        - "employment"
+      reviewed_by: "Zola Valashiya (AIGP; LL.M)"
+    expected_outputs:
+      - "is_high_risk = true"
+      - "actor_role = 'developer'"
+      - "developer_obligations all with applicability = 'applies'"
+      - "deployer_obligations all with applicability = 'not-applicable'"
+      - "impact_assessment_required = false"
+      - "consumer_notice_required = false"
+      - "documentation_checklist 'present' for all developer documentation items"
+      - "citations include Colorado SB 205, Section 6-1-1702"
+    clause_references:
+      - "Colorado SB 205, Section 6-1-1702(1)"
+      - "Colorado SB 205, Section 6-1-1702(2)"
+      - "Colorado SB 205, Section 6-1-1702(2)(b)"
+      - "Colorado SB 205, Section 6-1-1702(2)(c)"
+      - "Colorado SB 205, Section 6-1-1702(3)"
+      - "Colorado SB 205, Section 6-1-1702(4)"
+    status: validated
+    validated_by: "Zola Valashiya (LL.M Innovation and Technology Law; AIGP) - 2026-04-18"
+    authored_by: "AIGovOps Contributors (Claude Code draft, validated 2026-04-18)"
+
+  - id: colorado-ai-act-003
+    tier: T1
+    description: |
+      Non-high-risk confirmation path: a system with no consequential-decision
+      domains declared. Validates that the plugin emits is_high_risk = false
+      and a confirmation warning rather than silently producing an empty record.
+    input:
+      actor_role: "deployer"
+      system_description:
+        system_name: "InternalSearchAssistant"
+      consequential_decision_domains: []
+    expected_outputs:
+      - "is_high_risk = false"
+      - "impact_assessment_required = false"
+      - "consumer_notice_required = false"
+      - "warnings includes 'non-high-risk' confirmation prompt"
+    clause_references:
+      - "Colorado SB 205, Section 6-1-1701(9)"
+    status: validated
+    validated_by: "Zola Valashiya (LL.M Innovation and Technology Law; AIGP) - 2026-04-18"
+    authored_by: "AIGovOps Contributors (Claude Code draft, validated 2026-04-18)"

@@ -27,6 +27,10 @@ AIGovOps turns AI governance frameworks (NIST AI RMF, ISO/IEC 42001, EU AI Act, 
 | [iso42001](skills/iso42001/SKILL.md) | ISO/IEC 42001:2023 | 0.2.0 |
 | [nist-ai-rmf](skills/nist-ai-rmf/SKILL.md) | NIST AI RMF 1.0 | 0.2.0 |
 | [eu-ai-act](skills/eu-ai-act/SKILL.md) | EU AI Act (Regulation (EU) 2024/1689) | 0.2.0 |
+| [colorado-ai-act](skills/colorado-ai-act/SKILL.md) | Colorado Senate Bill 24-205 (Colorado AI Act) | 0.1.0 |
+| [uk-atrs](skills/uk-atrs/SKILL.md) | UK Algorithmic Transparency Recording Standard | 0.1.0 |
+| [nyc-ll144](skills/nyc-ll144/SKILL.md) | NYC Local Law 144 of 2021 (bias audit for AEDTs) | 0.1.0 |
+| [california-ai](skills/california-ai/SKILL.md) | California AI regulatory landscape primer (CPPA ADMT, CCPA/CPRA, SB 942, AB 2013, AB 1008, SB 1001, AB 1836) | 0.1.0 |
 
 ## Plugins
 
@@ -44,6 +48,9 @@ AIGovOps turns AI governance frameworks (NIST AI RMF, ISO/IEC 42001, EU AI Act, 
 | [data-register-builder](plugins/data-register-builder/) | ISO 42001 A.7 and EU AI Act Article 10 data register (JSON + Markdown + CSV) | 0.1.0 |
 | [applicability-checker](plugins/applicability-checker/) | EU AI Act applicability by target date + system classification (JSON + Markdown) | 0.1.0 |
 | [high-risk-classifier](plugins/high-risk-classifier/) | EU AI Act Article 5, 6, Annex I, Annex III risk-tier classification (JSON + Markdown) | 0.1.0 |
+| [uk-atrs-recorder](plugins/uk-atrs-recorder/) | UK Algorithmic Transparency Recording Standard record, Tier 1 and Tier 2 (JSON + Markdown + CSV) | 0.1.0 |
+| [colorado-ai-act-compliance](plugins/colorado-ai-act-compliance/) | Colorado SB 205 developer and deployer compliance record (JSON + Markdown + CSV) | 0.1.0 |
+| [nyc-ll144-audit-packager](plugins/nyc-ll144-audit-packager/) | NYC Local Law 144 bias audit public-disclosure and candidate-notice bundle (JSON + Markdown + CSV) | 0.1.0 |
 
 ## Bundles
 

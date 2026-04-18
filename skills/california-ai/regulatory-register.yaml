@@ -1,0 +1,276 @@
+# California AI Regulatory Register
+# Maintained alongside skills/california-ai/SKILL.md.
+# Validation date: 2026-04-18.
+#
+# This register is machine-readable. Each entry summarizes one California
+# AI regulatory instrument. California does not have a single controlling
+# AI law; practitioners layer these instruments based on their specific
+# system and operating context.
+#
+# Citation format for entries: see STYLE.md.
+# Refresh cadence: every 90 days under the framework-drift playbook.
+
+instruments:
+  - id: cppa-admt
+    name: CPPA Automated Decisionmaking Technology (ADMT) regulations
+    status: effective
+    effective_date: "2026-01-01"
+    scope_keywords:
+      - automated decision
+      - significant decision
+      - profiling
+      - pre-use notice
+      - access request
+      - opt-out
+      - risk assessment
+    applies_to:
+      - deployer
+      - processor-covered-business
+      - covered-business
+    primary_obligations:
+      - pre-use notice
+      - access request handling
+      - opt-out of ADMT for significant decisions
+      - risk assessment for high-risk ADMT processing
+    authoritative_url: https://cppa.ca.gov/regulations/
+    aigovops_artifacts:
+      - aisia
+      - data-register
+      - audit-log
+      - role-matrix
+    priority: high
+    citation_format: "CCPA Regulations (CPPA), Section <section>"
+    notes: >
+      Approved by the California Privacy Protection Agency in 2024;
+      operative in staged form through 2026. Applies to significant
+      decisions about California residents: employment, housing,
+      credit, education access, healthcare access. Extraterritorial
+      reach through CCPA applicability (businesses that process CA
+      resident data at qualifying thresholds).
+
+  - id: ccpa-cpra
+    name: California Consumer Privacy Act as amended by the California Privacy Rights Act
+    status: effective
+    effective_date: "2023-01-01"
+    scope_keywords:
+      - personal information
+      - profiling
+      - automated decision-making
+      - sensitive personal information
+      - consumer rights
+    applies_to:
+      - covered-business
+    primary_obligations:
+      - notice at collection
+      - right to know
+      - right to delete
+      - right to correct
+      - right to limit use of sensitive personal information
+      - profiling disclosure
+    authoritative_url: https://cppa.ca.gov/
+    aigovops_artifacts:
+      - data-register
+      - aisia
+    priority: high
+    citation_format: "California Civil Code, Section 1798.<section>"
+    notes: >
+      The baseline privacy regime. CPPA ADMT regulations operationalize
+      the profiling and automated decision-making provisions. AIGovOps
+      data-register output satisfies the AI-facing elements of
+      CCPA/CPRA transparency.
+
+  - id: sb-942
+    name: California AI Transparency Act
+    status: effective
+    effective_date: "2026-01-01"
+    scope_keywords:
+      - generative AI
+      - watermarking
+      - provenance
+      - synthetic content
+      - content authenticity
+    applies_to:
+      - generative-ai-provider
+    primary_obligations:
+      - free AI-detection tool
+      - manifest provenance disclosure
+      - latent content provenance disclosure
+      - licensee contract requirements
+    authoritative_url: https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240SB942
+    aigovops_artifacts:
+      - audit-log
+      - data-register
+    priority: high
+    citation_format: "California Business and Professions Code, Section <section>"
+    notes: >
+      Signed 2024. Requires covered generative AI providers to offer a
+      free AI-detection tool and to include both manifest and latent
+      provenance disclosures on generated content. Applies to providers
+      reaching California users.
+
+  - id: ab-2013
+    name: California Training Data Transparency
+    status: effective
+    effective_date: "2026-01-01"
+    scope_keywords:
+      - generative AI
+      - training data
+      - transparency
+      - documentation
+    applies_to:
+      - generative-ai-developer
+    primary_obligations:
+      - publish documentation about training data sources
+      - publish documentation about training data purpose
+      - publish documentation about training data protection
+    authoritative_url: https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240AB2013
+    aigovops_artifacts:
+      - data-register
+      - aisia
+    priority: high
+    citation_format: "California Business and Professions Code, Section <section>"
+    notes: >
+      Signed 2024. Requires developers of generative AI systems made
+      available to Californians to publish, on their website,
+      documentation about the data used to train the system.
+      AIGovOps data-register output produces the backbone for this
+      disclosure.
+
+  - id: ab-1008
+    name: California AB 1008 (Personal Information in AI Training Data)
+    status: effective
+    effective_date: "2025-01-01"
+    scope_keywords:
+      - personal information
+      - AI training data
+      - CCPA applicability
+    applies_to:
+      - covered-business
+      - generative-ai-developer
+    primary_obligations:
+      - treat personal information in AI training data as personal information under CCPA
+      - respect CCPA consumer rights over training-data personal information
+    authoritative_url: https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240AB1008
+    aigovops_artifacts:
+      - data-register
+      - aisia
+    priority: medium
+    citation_format: "California Civil Code, Section 1798.<section>"
+    notes: >
+      Signed 2024. Clarifies that personal information embedded in AI
+      training datasets is still personal information subject to CCPA
+      consumer rights. Interacts directly with AB 2013 disclosure
+      obligations.
+
+  - id: sb-1001
+    name: SB 1001 (Bolstering Online Transparency Act)
+    status: effective
+    effective_date: "2019-07-01"
+    scope_keywords:
+      - bot disclosure
+      - commercial transaction
+      - election influence
+    applies_to:
+      - bot-operator
+    primary_obligations:
+      - disclose use of automated bot to communicate with Californians when the bot attempts to incentivize a commercial transaction or influence an election
+    authoritative_url: https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=201720180SB1001
+    aigovops_artifacts:
+      - role-matrix
+      - audit-log
+    priority: medium
+    citation_format: "California Business and Professions Code, Section 17940 et seq."
+    notes: >
+      Older but still in force. Narrow in application (commercial
+      transactions and election influence). Operationally addressed by
+      conversational-AI disclosure defaults in the deployer role
+      matrix.
+
+  - id: ab-1836
+    name: AB 1836 (Replica Rights for Deceased Personalities)
+    status: effective
+    effective_date: "2025-01-01"
+    scope_keywords:
+      - digital replica
+      - deceased personality
+      - right of publicity
+      - generative AI
+    applies_to:
+      - generative-ai-provider
+      - deployer
+    primary_obligations:
+      - obtain consent of estate for use of deceased personality's likeness in AI-generated digital replica
+    authoritative_url: https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240AB1836
+    aigovops_artifacts:
+      - aisia
+      - data-register
+    priority: low
+    citation_format: "California Civil Code, Section 3344.1"
+    notes: >
+      Signed 2024. Narrow scope (deceased personalities). Expands the
+      California right of publicity into the generative AI context.
+
+  - id: sb-1047
+    name: SB 1047 (Safe and Secure Innovation for Frontier Artificial Intelligence Models Act)
+    status: vetoed
+    effective_date: null
+    scope_keywords:
+      - frontier AI
+      - safety
+      - kill switch
+      - red-teaming
+    applies_to: []
+    primary_obligations: []
+    authoritative_url: https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240SB1047
+    aigovops_artifacts: []
+    priority: not-applicable
+    citation_format: "California SB 1047 (vetoed)"
+    notes: >
+      VETOED by Governor Newsom on 29 September 2024. NOT LAW.
+      Practitioners should not apply SB 1047 as a compliance source.
+      Follow-up legislation is under discussion; track via the
+      proposed-bills entry below.
+
+  - id: ca-ag-guidance
+    name: California Attorney General AI guidance
+    status: advisory
+    effective_date: null
+    scope_keywords:
+      - AI enforcement
+      - consumer protection
+      - civil rights
+    applies_to:
+      - covered-business
+      - deployer
+    primary_obligations:
+      - read periodic AG guidance as it issues
+    authoritative_url: https://oag.ca.gov/ai
+    aigovops_artifacts:
+      - audit-log
+    priority: medium
+    citation_format: "California Attorney General Guidance (YYYY-MM-DD)"
+    notes: >
+      The AG hub for AI guidance. Periodic advisory letters clarify
+      how existing California consumer protection and civil rights
+      law apply to AI deployments. Not binding rulemaking but
+      enforcement-relevant.
+
+  - id: proposed-2025-2026
+    name: Proposed California AI bills under active tracking
+    status: proposed
+    effective_date: null
+    scope_keywords:
+      - active legislation
+      - tracking
+    applies_to: []
+    primary_obligations: []
+    authoritative_url: https://leginfo.legislature.ca.gov/faces/billSearchClient.xhtml
+    aigovops_artifacts: []
+    priority: track
+    citation_format: "California <bill number> (proposed)"
+    notes: >
+      The 2025-2026 legislative session contains multiple AI-adjacent
+      bills (successor frontier-safety bills, sector-specific AI
+      requirements, civil rights overlays). Practitioners must track
+      these through the Legislature's bill search. This register is
+      refreshed every 90 days under the framework-drift playbook.

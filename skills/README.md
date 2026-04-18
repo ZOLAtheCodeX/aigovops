@@ -11,6 +11,9 @@ A skill is a knowledge package that operationalizes a specific AI governance fra
 | [iso42001](iso42001/SKILL.md) | ISO/IEC 42001:2023 | 0.2.0 | released |
 | [nist-ai-rmf](nist-ai-rmf/SKILL.md) | NIST AI RMF 1.0 | 0.2.0 | released |
 | [eu-ai-act](eu-ai-act/SKILL.md) | EU AI Act (Regulation (EU) 2024/1689) | 0.2.0 | released |
+| [colorado-ai-act](colorado-ai-act/SKILL.md) | Colorado Senate Bill 24-205 (Colorado AI Act) | 0.1.0 | released |
+| [nyc-ll144](nyc-ll144/SKILL.md) | NYC Local Law 144 of 2021 (bias audit for AEDTs) | 0.1.0 | released |
+| [california-ai](california-ai/SKILL.md) | California AI regulatory landscape primer | 0.1.0 | released |
 
 ## Adding a new skill
 

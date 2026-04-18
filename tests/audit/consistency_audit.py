@@ -44,6 +44,9 @@ PLUGIN_PUBLIC_FUNCTIONS = {
     "gap-assessment": ["generate_gap_assessment", "render_markdown", "render_csv"],
     "data-register-builder": ["generate_data_register", "render_markdown", "render_csv"],
     "applicability-checker": ["check_applicability", "render_markdown"],
+    "uk-atrs-recorder": ["generate_atrs_record", "render_markdown", "render_csv"],
+    "colorado-ai-act-compliance": ["generate_compliance_record", "render_markdown", "render_csv"],
+    "nyc-ll144-audit-packager": ["generate_audit_package", "render_markdown", "render_csv"],
 }
 
 
@@ -202,9 +205,14 @@ def audit_em_dashes_and_hedging(findings: list[dict]) -> None:
                     for phrase in hedging:
                         if phrase in line.lower():
                             # Skip files where the phrases are DEFINED as prohibited,
-                            # or files that ARE the audit script itself.
+                            # or files that ARE the audit script itself, or test
+                            # files asserting that prohibited phrases do not appear
+                            # in rendered output.
                             lower_path = str(f).lower()
-                            if any(token in lower_path for token in ("agents.md", "style.md", "consistency_audit.py")):
+                            if any(token in lower_path for token in (
+                                "agents.md", "style.md", "consistency_audit.py",
+                                "tests/test_plugin.py",
+                            )):
                                 continue
                             findings.append({"level": "WARN", "area": "style",
                                              "item": f"{f.relative_to(REPO_ROOT)}:{line_no}",

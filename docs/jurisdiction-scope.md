@@ -27,9 +27,10 @@ These are on the roadmap once primary coverage is stable. Each becomes its own p
 
 | Jurisdiction | Instrument | Why secondary |
 |---|---|---|
-| UK | UK AI Safety Institute evaluations framework; UK Algorithmic Transparency Recording Standard (ATRS); ICO AI auditing framework | Post-Brexit divergence from EU. Influential through AI Safety Institute; non-binding but referenced. |
-| USA state: New York City | Local Law 144 (bias audit) | Enforceable. First US bias-audit requirement. Narrow scope (employment decisions). |
-| USA state: Colorado | Colorado AI Act (SB 205) | Enforceable. First US comprehensive AI consumer protection law. |
+| UK | UK AI Safety Institute evaluations framework; UK Algorithmic Transparency Recording Standard (ATRS, shipping, plugin `uk-atrs-recorder`); ICO AI auditing framework | Post-Brexit divergence from EU. Influential through AI Safety Institute; non-binding but referenced. |
+| USA state: New York City | Local Law 144 (bias audit, shipping, plugin `nyc-ll144-audit-packager`) | Enforceable. First US bias-audit requirement. Narrow scope (employment decisions). |
+| USA state: California | CPPA ADMT regulations, CCPA/CPRA, SB 942, AB 2013, AB 1008, SB 1001, AB 1836 (primer skill `california-ai`; no plugin yet, California is a constellation rather than a single controlling instrument) | Enforceable in parts; large market. The primer skill navigates which instrument applies to which AI system. |
+| USA state: Colorado | Colorado AI Act (SB 205, shipping, plugin `colorado-ai-act-compliance`) | Enforceable. First US comprehensive AI consumer protection law. |
 | Canada | Artificial Intelligence and Data Act (AIDA) | Legislative progress uncertain; framework language already influential. |
 | Singapore | Model AI Governance Framework (MAS / IMDA) | Influential in APAC. Referenced by regional regulators and multinational compliance programs. |
 

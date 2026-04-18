@@ -1,0 +1,103 @@
+# AIGovOps Skill Evaluation Harness
+# Skill: nyc-ll144
+# Purpose: validate skill outputs against known-correct framework mappings
+# Format: input scenario produces expected output structure and section references
+# Schema: see ../README.md
+# Citation format: see ../../STYLE.md
+#
+# Test cases target SKILL.md v0.1.0 (released). Cases cover the Tier 1
+# operationalization: bias-audit packaging and public disclosure under
+# DCWP Final Rule Sections 5-301, 5-303, 5-304. Input scenarios remain
+# placeholder-level; citation references and expected-output structure
+# are validated against the published DCWP Final Rule text.
+# Validated by Zola Valashiya on 2026-04-18.
+
+test_cases:
+  - id: nyc-ll144-001
+    tier: T1
+    description: |
+      In-scope resume-screening AEDT used by a NYC employer. Validates
+      applicability determination, selection-rate packaging, impact-ratio
+      computation, candidate-notice generation, and next-audit-due-by.
+    input: "PLACEHOLDER: AEDT description with substantially_assists_decision=True, used_for_nyc_candidates_or_employees=True; employer role; full audit_data with intersectional breakdown"
+    expected_outputs:
+      - "PLACEHOLDER: in_scope = True"
+      - "PLACEHOLDER: candidate_notices contains three notices (aedt-use, job-qualifications, data-type-source-retention)"
+      - "PLACEHOLDER: next_audit_due_by = audit_date + 365 days"
+      - "PLACEHOLDER: impact_ratios for race_ethnicity computed against most-selected group"
+    clause_references:
+      - "NYC LL144"
+      - "NYC LL144 Final Rule, Section 5-301"
+      - "NYC LL144 Final Rule, Section 5-303"
+      - "NYC LL144 Final Rule, Section 5-304"
+    status: validated
+    validated_by: "Zola Valashiya (LL.M Innovation and Technology Law; AIGP) - 2026-04-18"
+    authored_by: "AIGovOps Contributors (Claude Code draft, validated 2026-04-18)"
+
+  - id: nyc-ll144-002
+    tier: T1
+    description: |
+      Out-of-scope AEDT (tool does not substantially assist discretionary
+      decision-making). Validates that applicability returns False, no
+      candidate notices are required, and the warning surface flags the
+      determination for counsel confirmation.
+    input: "PLACEHOLDER: AEDT description with substantially_assists_decision=False, used_for_nyc_candidates_or_employees=True"
+    expected_outputs:
+      - "PLACEHOLDER: in_scope = False"
+      - "PLACEHOLDER: candidate_notices = []"
+      - "PLACEHOLDER: warnings contains out-of-scope determination notice"
+    clause_references:
+      - "NYC LL144 Final Rule, Section 5-300"
+    status: validated
+    validated_by: "Zola Valashiya (LL.M Innovation and Technology Law; AIGP) - 2026-04-18"
+    authored_by: "AIGovOps Contributors (Claude Code draft, validated 2026-04-18)"
+
+  - id: nyc-ll144-003
+    tier: T1
+    description: |
+      In-scope AEDT used by employment agency (not direct employer).
+      Validates that employer_role='employment-agency' produces the same
+      candidate-notice set and disclosure bundle as 'employer'.
+    input: "PLACEHOLDER: employer_role=employment-agency; otherwise as case 001"
+    expected_outputs:
+      - "PLACEHOLDER: in_scope = True"
+      - "PLACEHOLDER: employer_role echo = employment-agency"
+      - "PLACEHOLDER: three candidate notices present"
+    clause_references:
+      - "NYC LL144"
+      - "NYC LL144 Final Rule, Section 5-303"
+    status: validated
+    validated_by: "Zola Valashiya (LL.M Innovation and Technology Law; AIGP) - 2026-04-18"
+    authored_by: "AIGovOps Contributors (Claude Code draft, validated 2026-04-18)"
+
+  - id: nyc-ll144-004
+    tier: T1
+    description: |
+      Incomplete audit data: missing intersectional breakdown required
+      by Section 5-301. Validates that the plugin warns rather than
+      halts, preserving caller's ability to see all gaps at once.
+    input: "PLACEHOLDER: audit_data.selection_rates missing 'intersectional' key"
+    expected_outputs:
+      - "PLACEHOLDER: warnings contains intersectional-missing warning"
+      - "PLACEHOLDER: selection_rates_analysis still emitted for provided categories"
+    clause_references:
+      - "NYC LL144 Final Rule, Section 5-301"
+    status: validated
+    validated_by: "Zola Valashiya (LL.M Innovation and Technology Law; AIGP) - 2026-04-18"
+    authored_by: "AIGovOps Contributors (Claude Code draft, validated 2026-04-18)"
+
+  - id: nyc-ll144-005
+    tier: T1
+    description: |
+      Missing auditor identity. Validates that the public_disclosure_bundle
+      carries a REQUIRES AUDITOR IDENTIFICATION placeholder and the
+      warning surface flags the gap, per Section 5-304.
+    input: "PLACEHOLDER: audit_data without auditor_identity field"
+    expected_outputs:
+      - "PLACEHOLDER: auditor_identity echo = REQUIRES AUDITOR IDENTIFICATION"
+      - "PLACEHOLDER: warnings contains auditor_identity-missing warning"
+    clause_references:
+      - "NYC LL144 Final Rule, Section 5-304"
+    status: validated
+    validated_by: "Zola Valashiya (LL.M Innovation and Technology Law; AIGP) - 2026-04-18"
+    authored_by: "AIGovOps Contributors (Claude Code draft, validated 2026-04-18)"

@@ -1,0 +1,134 @@
+# AIGovOps Skill Evaluation Harness
+# Skill: uk-atrs
+# Purpose: validate skill outputs against the UK Algorithmic Transparency
+#          Recording Standard template v2.0.
+# Format: input scenario produces expected ATRS record structure and
+#         section citations.
+# Schema: see ../README.md
+# Citation format: see ../../STYLE.md and skills/uk-atrs/SKILL.md
+#
+# Test case status legend:
+#   stub      placeholder content, no validation against standard
+#   validated content grounded in the published ATRS template; validated_by populated
+#   deprecated superseded; kept for history
+
+test_cases:
+  - id: uk-atrs-001
+    tier: T1
+    description: |
+      Tier 2 ATRS record for a hypothetical Department for Work and Pensions
+      (DWP) benefits-eligibility decision-support tool. Validates that the
+      uk-atrs-recorder plugin emits a structured record with all eight
+      canonical sections populated, per-section citations in the
+      "UK ATRS, Section <name>" format, and no warnings for a fully-populated
+      tier-2 input. Hypothetical; DWP is referenced for realism only.
+    input:
+      tier: "tier-2"
+      owner:
+        organization: "Department for Work and Pensions"
+        parent_organization: "UK Government"
+        contact_point: "atrs@dwp.gov.uk"
+        senior_responsible_owner: "DWP Digital Director"
+      tool_description:
+        name: "Benefits Eligibility Decision Support"
+        purpose: "Risk-score working-age benefits applications to prioritise caseworker review."
+        how_tool_works: "A gradient-boosted model assigns a risk score to each application based on historical outcome patterns. The caseworker reviews the score alongside the full application and makes the final eligibility determination. The tool does not auto-decide any application."
+        decision_subject_scope: "Working-age benefits applicants across England, Scotland, and Wales."
+        phase: "production"
+      tool_details:
+        model_family: "gradient-boosted decision trees"
+        model_type: "binary classifier (eligible / requires deeper review)"
+        system_architecture: "Batch scoring service behind an internal REST API; scored records written to caseworker queue."
+        training_data_summary: "Five years of anonymised historical claims with outcome labels. Training-stage data quality and representativeness verified per ISO/IEC 42001:2023 Annex A Control A.7.4."
+        model_performance_metrics:
+          auc_roc: 0.87
+          f1: 0.72
+          calibration_error: 0.04
+        third_party_components:
+          - "xgboost v2.0"
+          - "scikit-learn v1.4"
+      impact_assessment:
+        assessments_completed:
+          - "DPIA-2026-03-DWP-BED"
+          - "EIA-2026-03-DWP-BED"
+        citizen_impact_dimensions:
+          - "financial"
+          - "access to benefits"
+          - "dignity and autonomy"
+        severity: "medium"
+        affected_groups:
+          - "working-age claimants"
+          - "disability claimants"
+          - "claimants with limited English proficiency"
+        consultation_summary: "Consulted with disability rights advocates and claimant representative bodies between January and February 2026. Feedback incorporated into the human-oversight model and explainability surface."
+      data:
+        source: "DWP internal claims database"
+        processing_basis: "UK GDPR Article 6(1)(e) public task; Article 9(2)(b) social protection law where special-category data are processed."
+        data_categories:
+          - "claim history"
+          - "household composition"
+          - "income"
+          - "disability status (special category)"
+        collection_method: "submitted on application forms by the claimant."
+        sharing:
+          - recipient: "HMRC"
+            purpose: "income verification"
+          - recipient: "Local authority housing teams"
+            purpose: "housing benefit coordination where applicable"
+        retention: "7 years post-decision per DWP retention schedule."
+      risks:
+        - category: "equity"
+          description: "Potential score disparity across disability status and ethnicity."
+          mitigation: "Equality Impact Assessment with quarterly fairness monitoring; protected-attribute monitoring per EIA-2026-03-DWP-BED."
+          residual_risk: "low"
+        - category: "data quality"
+          description: "Missing-field rate on application forms may bias scoring."
+          mitigation: "Data completeness checks at ingestion; forms with incomplete mandatory fields are routed to caseworker review without a score."
+          residual_risk: "low"
+        - category: "explainability"
+          description: "Caseworkers may rely on the score without understanding drivers."
+          mitigation: "SHAP-value summaries displayed with each score; caseworker training on interpretation; quarterly audit of override rates."
+          residual_risk: "medium"
+      governance:
+        oversight_body: "DWP AI Ethics Committee"
+        escalation_path: "Caseworker to Senior Caseworker to Regional Lead to Ethics Committee"
+        review_cadence: "quarterly"
+        incident_response: "Incident Management Team with a 48-hour response SLA and a 10-working-day resolution target."
+        human_oversight_model: "caseworker-in-the-loop. The tool outputs a score. The caseworker makes every eligibility decision. The tool does not auto-decide."
+      benefits:
+        benefit_categories:
+          - "caseworker processing throughput"
+          - "decision consistency across caseworkers"
+          - "reduced wait time for straightforward eligible applications"
+        measurement_approach: "Month-over-month comparison of median handling time, decision-reversal rate, and wait-time quartiles. Baseline captured pre-deployment."
+        realised_benefits_summary: "First-quarter post-deployment data shows median handling time reduced by 18 percent and decision-reversal rate unchanged within statistical noise."
+      reviewed_by: "Zola Valashiya (ISO/IEC 42001 Lead Implementer; AIGP; CIPT) - 2026-04-18"
+    expected_outputs:
+      - "Record tier equals 'tier-2' and contains exactly eight sections."
+      - "Every section citation list contains a string matching 'UK ATRS, Section <name>'."
+      - "Top-level citations include the authoritative gov.uk URL and the string 'ATRS Template v2.0'."
+      - "Owner and contact section content.organization equals 'Department for Work and Pensions'."
+      - "Tool description section content.name equals 'Benefits Eligibility Decision Support'."
+      - "Tool details section content.model_family equals 'gradient-boosted decision trees'."
+      - "Impact assessment section content.assessments_completed contains 'DPIA-2026-03-DWP-BED' and 'EIA-2026-03-DWP-BED'."
+      - "Data section content.processing_basis references UK GDPR Article 6(1)(e)."
+      - "Risks section content.risks has length 3 covering equity, data quality, and explainability."
+      - "Governance section content.oversight_body equals 'DWP AI Ethics Committee'."
+      - "Benefits section content.benefit_categories has three entries and measurement_approach is populated."
+      - "summary.total_warnings is zero or low; any warning is a caller-side gap, not a plugin error."
+      - "Record-level warnings list is empty (all required tier-2 sections are supplied)."
+      - "render_markdown output contains '## Owner and contact', '## Tool description', '## Tool details', '## Impact assessment', '## Data', '## Risks', '## Governance', '## Benefits'."
+      - "render_csv output has a header row plus eight section rows."
+      - "No em-dash (U+2014), emoji, or hedging phrase present in rendered output."
+    citation_references:
+      - "UK ATRS, Section Owner and contact"
+      - "UK ATRS, Section Tool description"
+      - "UK ATRS, Section Tool details"
+      - "UK ATRS, Section Impact assessment"
+      - "UK ATRS, Section Data"
+      - "UK ATRS, Section Risks"
+      - "UK ATRS, Section Governance"
+      - "UK ATRS, Section Benefits"
+    status: validated
+    validated_by: "Zola Valashiya (ISO/IEC 42001 Lead Implementer; AIGP; CIPT) - 2026-04-18"
+    authored_by: "AIGovOps Contributors (Claude Code draft)"
