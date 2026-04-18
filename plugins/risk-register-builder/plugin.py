@@ -24,10 +24,66 @@ Status: Phase 3 minimum-viable implementation.
 
 from __future__ import annotations
 
+import importlib.util
+import sys
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any
 
-AGENT_SIGNATURE = "risk-register-builder/0.1.0"
+AGENT_SIGNATURE = "risk-register-builder/0.2.0"
+
+# Sibling-plugin path for crosswalk-matrix-builder. Imported lazily inside
+# the enrichment helper so basic risk-register calls (enrich_with_crosswalk=False)
+# pay no import cost and are unaffected by crosswalk load failures.
+_CROSSWALK_DIR = Path(__file__).resolve().parent.parent / "crosswalk-matrix-builder"
+if str(_CROSSWALK_DIR) not in sys.path:
+    sys.path.insert(0, str(_CROSSWALK_DIR))
+
+# Framework ids accepted in crosswalk_target_frameworks. Sourced from
+# plugins/crosswalk-matrix-builder/data/frameworks.yaml.
+VALID_CROSSWALK_TARGET_FRAMEWORKS = (
+    "iso42001",
+    "nist-ai-rmf",
+    "eu-ai-act",
+    "uk-atrs",
+    "colorado-sb-205",
+    "nyc-ll144",
+    "cppa-admt",
+    "ccpa-cpra",
+    "ca-sb-942",
+    "ca-ab-2013",
+    "ca-ab-1008",
+    "ca-sb-1001",
+    "ca-ab-1836",
+)
+
+DEFAULT_CROSSWALK_TARGET_FRAMEWORKS = ("nist-ai-rmf", "eu-ai-act")
+
+# Map risk category -> ordered list of ISO/IEC 42001 Annex A control ids used
+# as the intermediate anchor for cross-framework citation. Categories without
+# a direct ISO anchor use an empty list; for those the enrichment falls back
+# to NIST-sourced no-mapping entries.
+CATEGORY_TO_ISO_ANCHORS: dict[str, tuple[str, ...]] = {
+    "bias": ("A.7.4", "A.6.2.4", "A.5.2"),
+    "robustness": ("A.6.2.4", "A.6.2.5"),
+    "privacy": ("A.7.5", "A.7.2"),
+    "security": ("A.6.2.5",),
+    "accountability": ("A.3.2", "A.10.2"),
+    "transparency": ("A.8.2", "A.8.5"),
+    "environmental": (),
+    "safety": ("A.5.2", "A.6.2.4"),
+    "explainability": ("A.8.2", "A.6.2.3"),
+    "human-oversight": ("A.9.2",),
+}
+
+# Fallback NIST subcategories for categories with no ISO anchor, or as an
+# adjunct citation where the ISO framework has no dedicated control. These
+# are matched against NIST-sourced no-mapping entries in the crosswalk data.
+CATEGORY_TO_NIST_FALLBACK: dict[str, tuple[str, ...]] = {
+    "environmental": ("MEASURE 2.12",),
+    "safety": ("MEASURE 2.6",),
+    "explainability": ("MEASURE 2.9",),
+}
 
 # ISO 42001 default risk taxonomy aligned with trustworthy-AI concerns and
 # ISO/IEC 23894:2023 risk-source categories.
@@ -100,6 +156,25 @@ def _validate_inputs(inputs: dict[str, Any]) -> None:
     if rubric is not None:
         if not isinstance(rubric, dict) or "likelihood_scale" not in rubric or "impact_scale" not in rubric:
             raise ValueError("risk_scoring_rubric must be a dict with 'likelihood_scale' and 'impact_scale'")
+
+    enrich = inputs.get("enrich_with_crosswalk")
+    if enrich is not None and not isinstance(enrich, bool):
+        raise ValueError("enrich_with_crosswalk, when provided, must be a bool")
+
+    targets = inputs.get("crosswalk_target_frameworks")
+    if targets is not None:
+        if not isinstance(targets, list):
+            raise ValueError("crosswalk_target_frameworks, when provided, must be a list of framework ids")
+        for t in targets:
+            if not isinstance(t, str):
+                raise ValueError(
+                    f"crosswalk_target_frameworks entries must be strings; got {type(t).__name__}"
+                )
+            if t not in VALID_CROSSWALK_TARGET_FRAMEWORKS:
+                raise ValueError(
+                    f"Unknown crosswalk target framework '{t}'. "
+                    f"Must be one of {sorted(VALID_CROSSWALK_TARGET_FRAMEWORKS)}."
+                )
 
 
 def _utc_now_iso() -> str:
@@ -280,6 +355,133 @@ def _enrich_risk(
     return row
 
 
+def _load_crosswalk_module():
+    """Import the sibling crosswalk-matrix-builder plugin module.
+
+    Lazy import so risk-register generation with enrich_with_crosswalk=False
+    does not pay the YAML-load cost and is immune to crosswalk-side failures.
+    """
+    plugin_path = _CROSSWALK_DIR / "plugin.py"
+    if not plugin_path.exists():
+        raise ImportError(f"crosswalk plugin not found at {plugin_path}")
+    spec = importlib.util.spec_from_file_location(
+        "_aigovops_crosswalk_plugin", plugin_path
+    )
+    if spec is None or spec.loader is None:
+        raise ImportError(f"could not build import spec for {plugin_path}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def _first_citation_label(mapping: dict[str, Any]) -> str:
+    citations = mapping.get("citation_sources") or []
+    if not citations:
+        return ""
+    pub = (citations[0].get("publication") or "").strip()
+    return pub
+
+
+def _enrich_rows_with_crosswalk(
+    rows: list[dict[str, Any]],
+    target_frameworks: list[str],
+) -> tuple[list[str], dict[str, int]]:
+    """Attach cross_framework_citations to each row in-place.
+
+    For each row's category the helper looks up the mapped ISO 42001 Annex A
+    anchors, then filters the pre-loaded crosswalk mappings for matches into
+    the requested target frameworks. Categories with no ISO anchor fall back
+    to NIST-sourced no-mapping entries naming the appropriate subcategory.
+
+    Returns (top_level_warnings, summary_counts). On crosswalk load failure,
+    returns a single warning and leaves rows unenriched (no key added).
+    """
+    try:
+        crosswalk = _load_crosswalk_module()
+    except Exception as exc:
+        return (
+            [f"Crosswalk enrichment skipped: {type(exc).__name__}: {exc}"],
+            {"rows_with_enriched_citations": 0, "total_citations_added": 0},
+        )
+
+    try:
+        data = crosswalk.load_crosswalk_data()
+    except Exception as exc:
+        return (
+            [f"Crosswalk enrichment skipped: {type(exc).__name__}: {exc}"],
+            {"rows_with_enriched_citations": 0, "total_citations_added": 0},
+        )
+
+    # Index ISO-sourced mappings by source_ref for O(1) lookup per row.
+    iso_by_source_ref: dict[str, list[dict[str, Any]]] = {}
+    # Index NIST-sourced no-mapping mappings by source_ref for fallback.
+    nist_nomap_by_source_ref: dict[str, list[dict[str, Any]]] = {}
+    for m in data.get("mappings", []):
+        src_fw = m.get("source_framework")
+        if src_fw == "iso42001":
+            iso_by_source_ref.setdefault(m["source_ref"], []).append(m)
+        elif src_fw == "nist-ai-rmf" and m.get("relationship") == "no-mapping":
+            nist_nomap_by_source_ref.setdefault(m["source_ref"], []).append(m)
+
+    allowed = set(target_frameworks)
+    rows_with = 0
+    total_added = 0
+
+    for row in rows:
+        category = row.get("category")
+        iso_anchors = CATEGORY_TO_ISO_ANCHORS.get(category, ())
+        citations_out: list[dict[str, Any]] = []
+
+        for anchor in iso_anchors:
+            matches = iso_by_source_ref.get(anchor, [])
+            for m in matches:
+                if m.get("target_framework") not in allowed:
+                    continue
+                citations_out.append({
+                    "target_framework": m.get("target_framework"),
+                    "target_ref": m.get("target_ref"),
+                    "target_title": m.get("target_title"),
+                    "iso_anchor": anchor,
+                    "relationship": m.get("relationship"),
+                    "confidence": m.get("confidence"),
+                    "citation": _first_citation_label(m),
+                })
+
+        # Fallback or adjunct NIST subcategory for categories flagged as
+        # having no ISO anchor or needing a NIST-specific supplement.
+        nist_refs = CATEGORY_TO_NIST_FALLBACK.get(category, ())
+        if nist_refs and "nist-ai-rmf" in allowed:
+            for nist_ref in nist_refs:
+                for m in nist_nomap_by_source_ref.get(nist_ref, []):
+                    citations_out.append({
+                        "target_framework": "nist-ai-rmf",
+                        "target_ref": nist_ref,
+                        "target_title": m.get("source_title"),
+                        "iso_anchor": None,
+                        "relationship": m.get("relationship"),
+                        "confidence": m.get("confidence"),
+                        "citation": _first_citation_label(m),
+                    })
+
+        row["cross_framework_citations"] = citations_out
+        if citations_out:
+            rows_with += 1
+            total_added += len(citations_out)
+        else:
+            row.setdefault("warnings", []).append(
+                f"No cross-framework citations found for category '{category}' "
+                f"in target_frameworks={sorted(allowed)}."
+            )
+
+    return (
+        [],
+        {
+            "rows_with_enriched_citations": rows_with,
+            "total_citations_added": total_added,
+        },
+    )
+
+
 def generate_risk_register(inputs: dict[str, Any]) -> dict[str, Any]:
     """
     Generate a structured AI risk register.
@@ -365,6 +567,24 @@ def generate_risk_register(inputs: dict[str, Any]) -> dict[str, Any]:
             "No risks provided. An empty risk register is not audit-acceptable; run risk identification per Clause 6.1.2 and supply risks."
         )
 
+    # Optional crosswalk enrichment (opt-out, default on).
+    enrich = inputs.get("enrich_with_crosswalk")
+    if enrich is None:
+        enrich = True
+    target_frameworks = list(
+        inputs.get("crosswalk_target_frameworks") or DEFAULT_CROSSWALK_TARGET_FRAMEWORKS
+    )
+
+    crosswalk_summary: dict[str, Any] | None = None
+    if enrich:
+        crosswalk_warnings, counts = _enrich_rows_with_crosswalk(rows, target_frameworks)
+        warnings.extend(crosswalk_warnings)
+        crosswalk_summary = {
+            "target_frameworks": target_frameworks,
+            "rows_with_enriched_citations": counts["rows_with_enriched_citations"],
+            "total_citations_added": counts["total_citations_added"],
+        }
+
     summary = {
         "total_rows": len(rows),
         "systems_covered": len({row["system_ref"] for row in rows}),
@@ -373,7 +593,7 @@ def generate_risk_register(inputs: dict[str, Any]) -> dict[str, Any]:
         "scaffold_count": len(scaffold_rows),
     }
 
-    return {
+    output: dict[str, Any] = {
         "timestamp": _utc_now_iso(),
         "agent_signature": AGENT_SIGNATURE,
         "framework": framework,
@@ -385,6 +605,9 @@ def generate_risk_register(inputs: dict[str, Any]) -> dict[str, Any]:
         "summary": summary,
         "reviewed_by": inputs.get("reviewed_by"),
     }
+    if crosswalk_summary is not None:
+        output["crosswalk_summary"] = crosswalk_summary
+    return output
 
 
 def render_markdown(register: dict[str, Any]) -> str:
@@ -445,6 +668,43 @@ def render_markdown(register: dict[str, Any]) -> str:
                 f"{row.get('treatment_option') or ''} | {row.get('owner_role') or ''} |"
             )
 
+    # Per-row cross-framework citations section (only when enrichment ran).
+    if any("cross_framework_citations" in r for r in register["rows"]):
+        lines.extend(["", "## Cross-framework citations", ""])
+        for row in rows_sorted:
+            if "cross_framework_citations" not in row:
+                continue
+            citations = row.get("cross_framework_citations") or []
+            header = f"### {row['id']} ({row['category']})"
+            lines.append(header)
+            if not citations:
+                lines.append("")
+                lines.append("- (no cross-framework citations)")
+                lines.append("")
+                continue
+            lines.append("")
+            for entry in citations:
+                anchor = entry.get("iso_anchor")
+                anchor_str = f"ISO {anchor}" if anchor else "(no ISO anchor)"
+                conf = entry.get("confidence") or ""
+                badge = f"[{conf}]" if conf else ""
+                lines.append(
+                    f"- {row['category']} -> {anchor_str} -> {entry.get('target_framework')} "
+                    f"{entry.get('target_ref')} ({entry.get('relationship')}) {badge}".rstrip()
+                )
+            lines.append("")
+
+    if register.get("crosswalk_summary"):
+        cs = register["crosswalk_summary"]
+        lines.extend([
+            "## Crosswalk summary",
+            "",
+            f"- target_frameworks: {', '.join(cs.get('target_frameworks', []))}",
+            f"- rows_with_enriched_citations: {cs.get('rows_with_enriched_citations', 0)}",
+            f"- total_citations_added: {cs.get('total_citations_added', 0)}",
+            "",
+        ])
+
     if register.get("scaffold_rows"):
         lines.extend(["", "## Coverage gaps (scaffold placeholders)", ""])
         for scaf in register["scaffold_rows"]:
@@ -473,12 +733,30 @@ def render_csv(register: dict[str, Any]) -> str:
     """
     if "rows" not in register:
         raise ValueError("register missing 'rows' field")
-    header = (
-        "id,system_ref,system_name,category,description,"
-        "likelihood,impact,inherent_score,"
-        "residual_likelihood,residual_impact,residual_score,"
-        "treatment_option,owner_role,citations"
-    )
+    enriched = any("cross_framework_citations" in r for r in register["rows"])
+    header_cols = [
+        "id",
+        "system_ref",
+        "system_name",
+        "category",
+        "description",
+        "likelihood",
+        "impact",
+        "inherent_score",
+        "residual_likelihood",
+        "residual_impact",
+        "residual_score",
+        "treatment_option",
+        "owner_role",
+        "citations",
+    ]
+    if enriched:
+        header_cols.extend([
+            "crosswalk_nist_ref",
+            "crosswalk_eu_ai_act_ref",
+            "crosswalk_iso_anchor",
+        ])
+    header = ",".join(header_cols)
     lines = [header]
     for row in register["rows"]:
         fields = [
@@ -497,6 +775,33 @@ def render_csv(register: dict[str, Any]) -> str:
             _csv_escape(str(row.get("owner_role", "") or "")),
             _csv_escape("; ".join(row.get("citations", []))),
         ]
+        if enriched:
+            citations = row.get("cross_framework_citations") or []
+            nist_ref = ""
+            eu_ref = ""
+            iso_anchor = ""
+            for entry in citations:
+                tf = entry.get("target_framework")
+                if tf == "nist-ai-rmf" and not nist_ref:
+                    nist_ref = entry.get("target_ref") or ""
+                    if not iso_anchor and entry.get("iso_anchor"):
+                        iso_anchor = entry.get("iso_anchor") or ""
+                elif tf == "eu-ai-act" and not eu_ref:
+                    eu_ref = entry.get("target_ref") or ""
+                    if not iso_anchor and entry.get("iso_anchor"):
+                        iso_anchor = entry.get("iso_anchor") or ""
+            # If no anchor captured from the ref-selected entries, take the
+            # first citation that carries one.
+            if not iso_anchor:
+                for entry in citations:
+                    if entry.get("iso_anchor"):
+                        iso_anchor = entry.get("iso_anchor") or ""
+                        break
+            fields.extend([
+                _csv_escape(nist_ref),
+                _csv_escape(eu_ref),
+                _csv_escape(iso_anchor),
+            ])
         lines.append(",".join(fields))
     return "\n".join(lines) + "\n"
 

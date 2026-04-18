@@ -294,7 +294,7 @@ def test_audit_log_entries_reference_plugin_agent_signature():
         "governance_decisions": ["Deployed after Phase 2 review."],
         "responsible_parties": ["AI Governance Officer"],
     })
-    assert entry["agent_signature"] == "audit-log-generator/0.1.0"
+    assert entry["agent_signature"].startswith("audit-log-generator/")
     # Every Annex A mapping must cite in STYLE.md format.
     for m in entry["annex_a_mappings"]:
         assert m["citation"].startswith("ISO/IEC 42001:2023, Annex A, Control ")

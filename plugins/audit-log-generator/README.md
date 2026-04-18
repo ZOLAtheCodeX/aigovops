@@ -19,8 +19,10 @@ A single dictionary describing an AI system and a governance event:
 | `deployment_context` | string | yes | Where and how the system is deployed. |
 | `governance_decisions` | list of strings | yes | Decisions made in the governance event being logged. May be empty. |
 | `responsible_parties` | list of strings | yes | Parties accountable for the decisions. May be empty. |
+| `enrich_with_crosswalk` | bool | no | Attach cross-framework equivalents for every primary ISO 42001 citation on the event. Default `True`. Set `False` to skip the crosswalk lookup entirely. |
+| `crosswalk_target_frameworks` | list of strings | no | Framework ids against which to resolve cross-references. Default `["nist-ai-rmf", "eu-ai-act"]`. Must be a subset of the framework ids declared in `plugins/crosswalk-matrix-builder/data/frameworks.yaml`. |
 
-Missing required fields raise `ValueError`. No silent defaults.
+Missing required fields raise `ValueError`. No silent defaults. An unknown `crosswalk_target_frameworks` entry raises `ValueError` with the offending id.
 
 ## Outputs
 
@@ -32,7 +34,11 @@ A structured audit log entry dict with:
 - `annex_a_mappings`: list of dicts with `control_id`, `citation`, `rationale`. Rule-based mapping against the input.
 - `evidence_items`: list of governance decisions, each with its citation anchor.
 - `human_readable_summary`: natural-language summary.
-- `agent_signature`: identifier of the generating agent (currently `audit-log-generator/0.1.0`).
+- `agent_signature`: identifier of the generating agent (currently `audit-log-generator/0.2.0`).
+- `cross_framework_citations` (present when enrichment ran): list of dicts, each with `target_framework`, `target_ref`, `target_title`, `relationship`, `confidence`, `citation_source`. Populated by querying the sibling `crosswalk-matrix-builder` plugin for every primary ISO 42001 citation on the event (main-body clauses plus Annex A controls).
+- `citation_coverage` (present when enrichment ran): `{primary_framework, enrichment_target_frameworks, citations_added_count}`. The citation_added_count equals `len(cross_framework_citations)`.
+- `crosswalk_summary` (present when enrichment ran): `{target_frameworks, events_enriched, total_citations_added}`.
+- `warnings` (present only on graceful failure): list of strings describing any crosswalk load or data-integrity failure. The entry is still returned, annex and clause mappings are unaffected, and `cross_framework_citations` is absent from the event.
 
 Two rendering modes:
 
@@ -95,7 +101,35 @@ AI governance event recorded for system ResumeScreen...
 
 - Deployed to production after Phase 2 review. [ISO/IEC 42001:2023, Clause 9.3]
 - Quarterly equity audit schedule established. [ISO/IEC 42001:2023, Clause 9.3]
+
+## Cross-framework references
+
+- nist-ai-rmf -> GOVERN 1.2 (exact-match) [high] (NIST AI 100-1, GOVERN 1.2)
+- eu-ai-act -> Article 14 (partial-match) [medium] (Regulation (EU) 2024/1689, Art. 14)
+
+### Citation coverage
+
+- primary_framework: iso42001
+- enrichment_target_frameworks: nist-ai-rmf, eu-ai-act
+- citations_added_count: 2
+
+## Crosswalk summary
+
+- target_frameworks: nist-ai-rmf, eu-ai-act
+- events_enriched: 1
+- total_citations_added: 2
 ```
+
+## Cross-framework enrichment
+
+The plugin resolves every primary ISO 42001 citation on the event (both main-body clauses and Annex A controls) against the sibling `crosswalk-matrix-builder` plugin and attaches the resulting equivalents. The purpose: a single audit-log entry is interpretable by an ISO auditor, a NIST AI RMF practitioner, and an EU AI Act compliance officer simultaneously, without re-running a separate crosswalk query at review time.
+
+Behavior:
+
+- `enrich_with_crosswalk=True` (default): loads crosswalk data once per call, attaches `cross_framework_citations`, `citation_coverage`, and `crosswalk_summary`.
+- `enrich_with_crosswalk=False`: no crosswalk import, no YAML load, no new fields added.
+- Crosswalk load failure (missing file, schema violation, other error): the entry is returned without `cross_framework_citations`; a `warnings` list is attached naming the failure. Primary ISO citation output is unaffected.
+- Unknown `crosswalk_target_frameworks` entry: `ValueError` raised before any work runs.
 
 ## Control mapping rules
 
@@ -122,7 +156,7 @@ The rules are conservative: the plugin does not claim applicability without inpu
 python plugins/audit-log-generator/tests/test_plugin.py
 ```
 
-Runs 18 tests covering happy path, input validation, clause and control mapping rules, citation format compliance per STYLE.md, rendering correctness, and output-content enforcement (no em-dashes in generated strings).
+Runs 23 tests covering happy path, input validation, clause and control mapping rules, citation format compliance per STYLE.md, rendering correctness, output-content enforcement (no em-dashes in generated strings), and cross-framework enrichment (default-on behavior, opt-out, the ISO Clause 9.1 / NIST MANAGE 4.1 cross-reference path, target-framework validation, and graceful failure on crosswalk load error).
 
 ## Related
 

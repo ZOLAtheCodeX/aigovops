@@ -326,6 +326,95 @@ def test_render_csv_header_and_row_count():
     assert len(lines) == 3  # header + 2 rows
 
 
+def test_enrich_with_crosswalk_default_true():
+    result = plugin.generate_risk_register({
+        "ai_system_inventory": _inventory(),
+        "risks": [_minimal_risk()],
+    })
+    row = result["rows"][0]
+    assert "cross_framework_citations" in row
+    assert isinstance(row["cross_framework_citations"], list)
+    assert "crosswalk_summary" in result
+    assert set(result["crosswalk_summary"]["target_frameworks"]) == {"nist-ai-rmf", "eu-ai-act"}
+
+
+def test_enrich_with_crosswalk_false_skips():
+    result = plugin.generate_risk_register({
+        "ai_system_inventory": _inventory(),
+        "risks": [_minimal_risk()],
+        "enrich_with_crosswalk": False,
+    })
+    row = result["rows"][0]
+    assert "cross_framework_citations" not in row
+    assert "crosswalk_summary" not in result
+
+
+def test_bias_category_maps_to_a_7_4():
+    result = plugin.generate_risk_register({
+        "ai_system_inventory": _inventory(),
+        "risks": [_minimal_risk(category="bias")],
+    })
+    row = result["rows"][0]
+    citations = row["cross_framework_citations"]
+    anchors = {c["iso_anchor"] for c in citations if c.get("iso_anchor")}
+    assert "A.7.4" in anchors, f"expected A.7.4 in anchors; got {anchors}"
+
+
+def test_environmental_category_maps_to_nist_measure_2_12():
+    result = plugin.generate_risk_register({
+        "ai_system_inventory": _inventory(),
+        "risks": [_minimal_risk(category="environmental")],
+    })
+    row = result["rows"][0]
+    citations = row["cross_framework_citations"]
+    # The environmental category has no ISO anchor; expect the NIST MEASURE
+    # 2.12 fallback entry with iso_anchor=None.
+    nist_refs = [
+        c for c in citations
+        if c.get("target_framework") == "nist-ai-rmf"
+        and c.get("target_ref") == "MEASURE 2.12"
+    ]
+    assert nist_refs, f"expected MEASURE 2.12 citation; got {citations}"
+    assert nist_refs[0]["iso_anchor"] is None
+
+
+def test_invalid_target_framework_raises():
+    try:
+        plugin.generate_risk_register({
+            "ai_system_inventory": _inventory(),
+            "risks": [_minimal_risk()],
+            "crosswalk_target_frameworks": ["not-a-framework"],
+        })
+    except ValueError as exc:
+        assert "not-a-framework" in str(exc)
+        return
+    raise AssertionError("expected ValueError")
+
+
+def test_graceful_failure_on_broken_crosswalk():
+    # Monkey-patch the lazy-loader to simulate a broken crosswalk. The plugin
+    # must emit a top-level warning and continue without 'cross_framework_citations'.
+    original_loader = plugin._load_crosswalk_module
+
+    def broken_loader():
+        raise RuntimeError("simulated crosswalk failure")
+
+    plugin._load_crosswalk_module = broken_loader
+    try:
+        result = plugin.generate_risk_register({
+            "ai_system_inventory": _inventory(),
+            "risks": [_minimal_risk()],
+        })
+    finally:
+        plugin._load_crosswalk_module = original_loader
+
+    warning_text = " ".join(result["warnings"])
+    assert "simulated crosswalk failure" in warning_text
+    # Rows must not carry citations when enrichment failed at load time.
+    for row in result["rows"]:
+        assert "cross_framework_citations" not in row
+
+
 def test_output_has_no_em_dashes():
     result = plugin.generate_risk_register({
         "ai_system_inventory": _inventory(),

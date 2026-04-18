@@ -239,6 +239,150 @@ def test_output_no_em_dashes():
     assert "\u2014" not in md
 
 
+# ---------------------------------------------------------------------------
+# Crosswalk enrichment and EU Article 27 FRIA coverage tests.
+# ---------------------------------------------------------------------------
+
+
+def test_enrich_with_crosswalk_default_true():
+    """Sections carry a cross_framework_coverage list by default."""
+    result = plugin.run_aisia(_base_inputs())
+    section = result["sections"][0]
+    assert "cross_framework_coverage" in section
+    assert isinstance(section["cross_framework_coverage"], list)
+    # The A.5.4 anchor has high-confidence mappings to NIST AI RMF, so this
+    # section should carry at least one entry.
+    assert len(section["cross_framework_coverage"]) > 0
+    entry = section["cross_framework_coverage"][0]
+    for field in ("target_framework", "target_ref", "target_title", "relationship", "confidence", "citation"):
+        assert field in entry
+    assert "crosswalk_summary" in result
+    cs = result["crosswalk_summary"]
+    assert cs["target_frameworks"] == ["nist-ai-rmf", "eu-ai-act"]
+    assert cs["total_mappings_included"] > 0
+
+
+def test_enrich_with_crosswalk_false_skips():
+    """When enrich_with_crosswalk is False the key is absent from every section."""
+    inputs = _base_inputs()
+    inputs["enrich_with_crosswalk"] = False
+    result = plugin.run_aisia(inputs)
+    for section in result["sections"]:
+        assert "cross_framework_coverage" not in section
+    assert "crosswalk_summary" not in result
+
+
+def test_eu_fria_coverage_all_present():
+    """Synthetic input with all six Article 27(1) elements populated shows total_present=6."""
+    inputs = _base_inputs()
+    inputs["system_description"]["process_description"] = (
+        "Real-time ingestion of chief-complaint text and vitals; feature encoding; "
+        "gradient-boosted decision tree; RN review of suggested acuity."
+    )
+    inputs["assessment_period"] = "2026-Q2"
+    inputs["frequency"] = "annual and on material change"
+    inputs["affected_persons"] = [
+        {"category": "presenting patients", "estimated_count_per_year": 45000},
+        {"category": "protected subgroups"},
+    ]
+    inputs["human_oversight"] = {
+        "measures": "RN reviews every suggestion; RN assigns final acuity; override rate tracked monthly.",
+        "owner": "ED Clinical Informatics",
+    }
+    inputs["mitigations"] = [
+        "Monthly override-rate review by Clinical Informatics.",
+        "Quarterly subgroup-performance review.",
+    ]
+    inputs["risks_if_materialised"] = {
+        "incident_response": "Revert to non-assisted triage; notify AI Governance Committee within 24 hours.",
+    }
+    result = plugin.run_aisia(inputs)
+    fria = result["eu_fria_coverage"]
+    assert fria["total_present"] == 6
+    assert fria["total_missing"] == 0
+    assert fria["compliance_gap"] == []
+    for key in (
+        "article_27_1_a_process_description",
+        "article_27_1_b_period_frequency",
+        "article_27_1_c_affected_persons",
+        "article_27_1_d_harms",
+        "article_27_1_e_human_oversight",
+        "article_27_1_f_if_materialised",
+    ):
+        assert fria[key]["present"] is True
+        assert fria[key]["evidence_refs"]
+
+
+def test_eu_fria_coverage_missing_elements():
+    """Input missing (b) and (f) elements surfaces them in compliance_gap."""
+    inputs = _base_inputs()
+    inputs["system_description"]["process_description"] = "ED triage inference pipeline."
+    inputs["human_oversight"] = {"measures": "RN reviews every suggestion."}
+    # Deliberately omit assessment_period, frequency, mitigations, risks_if_materialised.
+    result = plugin.run_aisia(inputs)
+    fria = result["eu_fria_coverage"]
+    assert fria["article_27_1_b_period_frequency"]["present"] is False
+    assert fria["article_27_1_f_if_materialised"]["present"] is False
+    assert "article_27_1_b_period_frequency" in fria["compliance_gap"]
+    assert "article_27_1_f_if_materialised" in fria["compliance_gap"]
+    # (a), (c), (d), (e) should be present.
+    assert fria["article_27_1_a_process_description"]["present"] is True
+    assert fria["article_27_1_c_affected_persons"]["present"] is True
+    assert fria["article_27_1_d_harms"]["present"] is True
+    assert fria["article_27_1_e_human_oversight"]["present"] is True
+    assert fria["total_missing"] == 2
+    assert any("Article 27, Paragraph 1(b)" in w for w in fria["warnings"])
+    assert any("Article 27, Paragraph 1(f)" in w for w in fria["warnings"])
+
+
+def test_verify_eu_fria_coverage_false_skips():
+    """When verify_eu_fria_coverage is False, the key is absent from output."""
+    inputs = _base_inputs()
+    inputs["verify_eu_fria_coverage"] = False
+    result = plugin.run_aisia(inputs)
+    assert "eu_fria_coverage" not in result
+
+
+def test_invalid_target_framework_raises():
+    """Unknown crosswalk target framework id raises ValueError during validation."""
+    inputs = _base_inputs()
+    inputs["crosswalk_target_frameworks"] = ["nist-ai-rmf", "imaginary-framework"]
+    try:
+        plugin.run_aisia(inputs)
+    except ValueError as exc:
+        assert "imaginary-framework" in str(exc)
+        return
+    raise AssertionError("expected ValueError")
+
+
+def test_crosswalk_graceful_failure(monkeypatch=None):
+    """When crosswalk data fails to load, AISIA generation still succeeds."""
+    inputs = _base_inputs()
+
+    # Patch the crosswalk loader to raise; AISIA must emit a top-level warning
+    # and leave sections without the cross_framework_coverage key.
+    original_loader = plugin._load_crosswalk_module
+
+    def _broken_loader():
+        raise RuntimeError("simulated crosswalk data path failure")
+
+    plugin._load_crosswalk_module = _broken_loader
+    try:
+        result = plugin.run_aisia(inputs)
+    finally:
+        plugin._load_crosswalk_module = original_loader
+
+    # AISIA generation succeeded despite crosswalk failure.
+    assert result["sections"]
+    assert "crosswalk_summary" in result
+    # Each section lacks cross_framework_coverage since enrichment aborted.
+    for section in result["sections"]:
+        assert "cross_framework_coverage" not in section
+    # Top-level warning records the skip reason.
+    assert any("Crosswalk enrichment skipped" in w for w in result["warnings"])
+    assert any("simulated crosswalk data path failure" in w for w in result["warnings"])
+
+
 def _run_all():
     import inspect
     tests = [(n, o) for n, o in inspect.getmembers(sys.modules[__name__]) if n.startswith("test_") and callable(o)]

@@ -195,6 +195,91 @@ def test_output_contains_no_em_dashes_or_emojis():
         assert "\u2014" not in m["rationale"], f"rationale contains em-dash: {m}"
 
 
+def test_enrich_with_crosswalk_default_true():
+    entry = plugin.generate_audit_log(_base_input())
+    assert "cross_framework_citations" in entry, (
+        "enrich_with_crosswalk defaults to True; cross_framework_citations must be present"
+    )
+    assert "citation_coverage" in entry, "citation_coverage must be present when enrichment runs"
+    assert "crosswalk_summary" in entry, "crosswalk_summary must be present when enrichment runs"
+    cov = entry["citation_coverage"]
+    assert cov["primary_framework"] == "iso42001"
+    assert "nist-ai-rmf" in cov["enrichment_target_frameworks"]
+    assert "eu-ai-act" in cov["enrichment_target_frameworks"]
+    assert cov["citations_added_count"] == len(entry["cross_framework_citations"])
+    cs = entry["crosswalk_summary"]
+    assert set(cs["target_frameworks"]) == {"nist-ai-rmf", "eu-ai-act"}
+    assert cs["total_citations_added"] == len(entry["cross_framework_citations"])
+
+
+def test_enrich_with_crosswalk_false_skips():
+    inp = _base_input()
+    inp["enrich_with_crosswalk"] = False
+    entry = plugin.generate_audit_log(inp)
+    assert "cross_framework_citations" not in entry, (
+        "cross_framework_citations must be absent when enrich_with_crosswalk=False"
+    )
+    assert "citation_coverage" not in entry
+    assert "crosswalk_summary" not in entry
+
+
+def test_clause_9_1_has_nist_manage_4_1_cross_ref():
+    # High-risk event emits Annex A controls A.6.2.6 (operational monitoring),
+    # which crosswalks to NIST AI RMF MANAGE 4.1. The event also carries the
+    # primary Clause 9.1 citation, so the enriched event is interpretable by
+    # a NIST AI RMF practitioner via the MANAGE 4.1 post-deployment monitoring
+    # equivalent.
+    hi = _base_input()
+    hi["risk_tier"] = "high"
+    entry = plugin.generate_audit_log(hi)
+    assert any("Clause 9.1" in c for c in entry["clause_mappings"]), (
+        "event must carry the primary Clause 9.1 citation"
+    )
+    refs = entry.get("cross_framework_citations") or []
+    nist_targets = [
+        r["target_ref"] for r in refs if r.get("target_framework") == "nist-ai-rmf"
+    ]
+    assert any("MANAGE 4.1" in t for t in nist_targets), (
+        f"expected NIST MANAGE 4.1 cross-ref for high-risk event; got {nist_targets}"
+    )
+
+
+def test_invalid_target_framework_raises():
+    inp = _base_input()
+    inp["crosswalk_target_frameworks"] = ["nist-ai-rmf", "not-a-real-framework"]
+    try:
+        plugin.generate_audit_log(inp)
+    except ValueError as exc:
+        assert "not-a-real-framework" in str(exc)
+        return
+    raise AssertionError("expected ValueError for unknown crosswalk target framework")
+
+
+def test_graceful_failure(monkeypatch=None):
+    # Monkey-patch the crosswalk loader to raise, confirming the plugin still
+    # returns a renderable entry with a warning instead of propagating the
+    # error.
+    original = plugin._load_crosswalk_module
+
+    def boom():
+        raise RuntimeError("simulated crosswalk load failure")
+
+    plugin._load_crosswalk_module = boom  # type: ignore[assignment]
+    try:
+        entry = plugin.generate_audit_log(_base_input())
+        assert "warnings" in entry, "graceful failure must surface warnings on the entry"
+        assert any("Crosswalk enrichment skipped" in w for w in entry["warnings"])
+        # The entry is still renderable.
+        rendered = plugin.render_markdown(entry)
+        assert "# AI Governance Audit Log Entry" in rendered
+        assert "\u2014" not in rendered
+        # Crosswalk summary is present with zero counts.
+        assert entry["crosswalk_summary"]["events_enriched"] == 0
+        assert entry["crosswalk_summary"]["total_citations_added"] == 0
+    finally:
+        plugin._load_crosswalk_module = original  # type: ignore[assignment]
+
+
 def _run_all():
     import inspect
     current_module = sys.modules[__name__]
