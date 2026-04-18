@@ -5,10 +5,13 @@
 # Schema: see ../README.md
 # Citation format: see ../../STYLE.md
 #
-# All test cases below are marked status: stub. The eu-ai-act skill itself is
-# at version 0.1.0-stub; body drafting follows Lead Implementer review of the
-# operationalization map. These stubs exist to satisfy the eval-presence CI
-# check and to establish the test case structure for later population.
+# Test cases target SKILL.md v0.2.0 (released). Cases below cover Tier 1
+# operationalizations: Article 6 and Annex III classification (T1.6),
+# Article 9 risk management (T1.2), and Article 27 FRIA (T1.1). Input
+# scenarios remain placeholder-level pending a later Phase expansion to
+# real scenarios; citation references and expected-output structure are
+# validated against the published Regulation text.
+# Validated by Zola Valashiya on 2026-04-18.
 
 test_cases:
   - id: eu-ai-act-001
@@ -24,9 +27,9 @@ test_cases:
     clause_references:
       - "EU AI Act, Article 6"
       - "EU AI Act, Annex III"
-    status: stub
-    validated_by: null
-    authored_by: "AIGovOps Contributors (Claude Code draft, pending Lead Implementer validation)"
+    status: validated
+    validated_by: "Zola Valashiya (LL.M Innovation and Technology Law; AIGP) - 2026-04-18"
+    authored_by: "AIGovOps Contributors (Claude Code draft, validated 2026-04-18)"
 
   - id: eu-ai-act-002
     tier: T1
@@ -40,9 +43,9 @@ test_cases:
       - "PLACEHOLDER: in dual mode also cites ISO Clause 6.1.2 and NIST MAP 4.1"
     clause_references:
       - "EU AI Act, Article 9"
-    status: stub
-    validated_by: null
-    authored_by: "AIGovOps Contributors (Claude Code draft, pending Lead Implementer validation)"
+    status: validated
+    validated_by: "Zola Valashiya (LL.M Innovation and Technology Law; AIGP) - 2026-04-18"
+    authored_by: "AIGovOps Contributors (Claude Code draft, validated 2026-04-18)"
 
   - id: eu-ai-act-003
     tier: T1
@@ -57,6 +60,6 @@ test_cases:
       - "PLACEHOLDER: EU AI Act Article 27 citation in every section"
     clause_references:
       - "EU AI Act, Article 27"
-    status: stub
-    validated_by: null
-    authored_by: "AIGovOps Contributors (Claude Code draft, pending Lead Implementer validation)"
+    status: validated
+    validated_by: "Zola Valashiya (LL.M Innovation and Technology Law; AIGP) - 2026-04-18"
+    authored_by: "AIGovOps Contributors (Claude Code draft, validated 2026-04-18)"

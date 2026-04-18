@@ -1,0 +1,10 @@
+[
+  {"role_name": "Chief Executive Officer"},
+  {"role_name": "Chief Risk Officer", "reports_to": "Chief Executive Officer"},
+  {"role_name": "Chief Technology Officer", "reports_to": "Chief Executive Officer"},
+  {"role_name": "Chief Legal Officer", "reports_to": "Chief Executive Officer"},
+  {"role_name": "AI Governance Officer", "reports_to": "Chief Risk Officer"},
+  {"role_name": "Data Protection Officer", "reports_to": "Chief Risk Officer"},
+  {"role_name": "Chief Information Security Officer", "reports_to": "Chief Risk Officer"},
+  {"role_name": "Head of AI Engineering", "reports_to": "Chief Technology Officer"}
+]

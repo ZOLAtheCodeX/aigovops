@@ -1,0 +1,55 @@
+[
+  {
+    "id": "KPI-DEMO-001",
+    "system_ref": "SYS-001",
+    "metric_family": "validity-reliability",
+    "metric_id": "f1",
+    "value": 0.89,
+    "window_start": "2026-04-01T00:00:00Z",
+    "window_end": "2026-04-30T23:59:59Z",
+    "measurement_method_ref": "METHOD-HOLDOUT-2026Q1",
+    "test_set_ref": "TS-holdout-2026Q1"
+  },
+  {
+    "id": "KPI-DEMO-002",
+    "system_ref": "SYS-001",
+    "metric_family": "fairness",
+    "metric_id": "demographic_parity_difference",
+    "value": 0.04,
+    "window_start": "2026-04-01T00:00:00Z",
+    "window_end": "2026-04-30T23:59:59Z",
+    "measurement_method_ref": "METHOD-FAIRNESS-2026Q2",
+    "test_set_ref": "TS-fairness-2026Q2"
+  },
+  {
+    "id": "KPI-DEMO-003",
+    "system_ref": "SYS-001",
+    "metric_family": "privacy",
+    "metric_id": "pii_in_outputs_rate",
+    "value": 0.0002,
+    "window_start": "2026-04-01T00:00:00Z",
+    "window_end": "2026-04-30T23:59:59Z",
+    "measurement_method_ref": "METHOD-PRIVACY-PROBE-2026Q2",
+    "test_set_ref": "TS-privacy-probe-2026Q2"
+  },
+  {
+    "id": "KPI-DEMO-004",
+    "system_ref": "SYS-001",
+    "metric_family": "in-context-performance",
+    "metric_id": "latency_p95_ms",
+    "value": 143,
+    "window_start": "2026-04-01T00:00:00Z",
+    "window_end": "2026-04-30T23:59:59Z",
+    "measurement_method_ref": "METHOD-PROD-TELEMETRY"
+  },
+  {
+    "id": "KPI-DEMO-005",
+    "system_ref": "SYS-001",
+    "metric_family": "safety",
+    "metric_id": "incident_count",
+    "value": 4,
+    "window_start": "2026-04-01T00:00:00Z",
+    "window_end": "2026-04-30T23:59:59Z",
+    "measurement_method_ref": "METHOD-INCIDENT-LOG"
+  }
+]

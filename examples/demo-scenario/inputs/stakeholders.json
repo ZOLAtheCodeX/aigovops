@@ -1,0 +1,6 @@
+[
+  "Candidates submitting resumes",
+  "HR reviewers using the system",
+  {"name": "Candidates from protected groups (language, age, disability, ethnicity)", "protected_attributes": ["primary-language", "age", "disability-status", "ethnicity"]},
+  "Hiring managers receiving reviewer-screened queues"
+]

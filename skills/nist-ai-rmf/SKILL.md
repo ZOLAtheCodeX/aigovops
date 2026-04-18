@@ -1,16 +1,16 @@
 ---
 name: nist-ai-rmf
-version: 0.2.0-draft
+version: 0.2.0
 description: >
   NIST AI Risk Management Framework 1.0 governance skill.
   Operationalizes all four functions (GOVERN, MAP, MEASURE, MANAGE) and
-  their approximately 72 subcategories. Cross-references the iso42001 skill
-  for shared operationalizations (AISIA, risk register, role matrix,
-  nonconformity) so that a single plugin serves both frameworks where
-  requirements align. Owns NIST-distinctive content in the MEASURE
-  function (technical performance, privacy, fairness, robustness, safety
-  metric families) and the Generative AI Profile (NIST AI 600-1) overlay.
-  Draft pending Lead Implementer review.
+  their 72 subcategories. Cross-references the iso42001 skill for shared
+  operationalizations (AISIA, risk register, role matrix, nonconformity)
+  so that a single plugin serves both frameworks where requirements align.
+  Owns NIST-distinctive content in the MEASURE function (technical
+  performance, privacy, fairness, robustness, safety metric families) and
+  the Generative AI Profile (NIST AI 600-1) overlay. Validated by
+  practitioner on 2026-04-18.
 frameworks:
   - NIST AI RMF 1.0
   - NIST AI 600-1 (Generative AI Profile)
@@ -84,7 +84,7 @@ The A/H/J operationalizability classification, artifact vocabulary, and leverage
 - MEASURE function aligns with ISO 42001 Clause 9 (performance evaluation). MEASURE is substantially more developed on technical metrics than Clause 9.
 - MANAGE function aligns with ISO 42001 Clauses 6.1.3 (risk treatment), 8.3 (operational treatment), and 10.2 (nonconformity and corrective action).
 
-**Verification note.** Subcategory IDs in this skill body carry a `[verify]` marker where sub-numbering needs confirmation against the published AI RMF 1.0 Core document. Function and category structure is stable and not flagged. The `operationalization-map.md` in this directory lists all `[verify]` items for Lead Implementer review.
+**Validation status.** All subcategory IDs in this skill body have been cross-referenced against the published NIST AI RMF 1.0 Core document and validated by Zola Valashiya (NIST AI RMF practitioner; AIGP) on 2026-04-18. Historical review record at [../../docs/lead-implementer-review.md](../../docs/lead-implementer-review.md).
 
 ## Operationalizable Controls
 
@@ -185,7 +185,7 @@ Class: H. Artifact: `role-matrix`. Leverage: H. Consumer: `plugins/role-matrix-g
 **Cross-reference.** Shared operationalization with [iso42001 T1.6](../iso42001/SKILL.md). The role matrix plugin and artifact schema are defined in the iso42001 SKILL.md. NIST-specific differences:
 
 - The decision taxonomy includes NIST-specific decision categories: AI RMF adoption scope, trustworthy-AI characteristic prioritization, metric catalog approval, generative-AI policy approval.
-- Interdisciplinary AI actor representation (GOVERN 3.1 [verify] workforce diversity and MAP 1.2 interdisciplinary AI actors consulted) is tracked as a matrix property: each decision category carries an `interdisciplinary_coverage` flag with a reference to the composition evidence.
+- Interdisciplinary AI actor representation (GOVERN 3.1 workforce diversity and MAP 1.2 interdisciplinary AI actors consulted) is tracked as a matrix property: each decision category carries an `interdisciplinary_coverage` flag with a reference to the composition evidence.
 - The matrix cites both `ISO/IEC 42001:2023, Clause 5.3` and `GOVERN 2.1` when the organization operates under both frameworks.
 
 ### T1.5 Ongoing monitoring dashboard (GOVERN 1.5, MEASURE 3.1, MEASURE 4.1, MANAGE 4.1)
@@ -228,7 +228,7 @@ Class: A. Artifact: `KPI`. Leverage: H. Consumer: `plugins/metrics-collector` (s
 
 These are NIST-distinctive Tier 1 items. ISO 42001 Annex A addresses privacy (overlap with A.7 data controls) and fairness (implicit in A.5 impact assessment) but does not prescribe metric families. MEASURE 2.9 and 2.10 do.
 
-**Requirement summary.** MEASURE 2.9 [verify] requires privacy risk to be evaluated. MEASURE 2.10 [verify] requires fairness to be evaluated across demographic groups. Both subcategories expect measurement at development time and periodic re-measurement in production.
+**Requirement summary.** MEASURE 2.9 requires privacy risk to be evaluated. MEASURE 2.10 requires fairness to be evaluated across demographic groups. Both subcategories expect measurement at development time and periodic re-measurement in production.
 
 **Privacy metrics (MEASURE 2.9).**
 
@@ -280,12 +280,12 @@ Judgment-bound subcategories. This skill states what the organization must do, c
 
 - **GOVERN 1.4: risk tolerance.** Tolerance is an executive decision. Plugin produces drafts; approval is human.
 - **GOVERN 2.3: executive accountability.** Evidence in management-review participation, not a plugin output.
-- **GOVERN 3.1 [verify]: workforce diversity.** Composition decision. Plugin may surface gaps from the role matrix; composition selection is human.
+- **GOVERN 3.1: workforce diversity.** Composition decision. Plugin may surface gaps from the role matrix; composition selection is human.
 - **GOVERN 4.1: culture of critical thinking.** No direct artifact. Evidence from training patterns, incident response, review minutes.
 - **GOVERN 5.1: external stakeholder feedback process definition.** Process design is human; execution is automation-assisted.
 - **MAP 1.5: risk tolerance application.** Tolerance is GOVERN 1.4's output; applied here in mapping. No new artifact.
-- **MAP 5.2 [verify]: engagement cadence.** Cadence setting is human; execution is automation-assisted.
-- **MEASURE 1.3 [verify]: expert selection for method and metric selection.** Composition decision.
+- **MAP 5.2: engagement cadence.** Cadence setting is human; execution is automation-assisted.
+- **MEASURE 1.3: expert selection for method and metric selection.** Composition decision.
 - **MANAGE 1.1: go-or-no-go determination.** Purpose-fitness judgment per AI system. No plugin.
 
 ## Output Standards
@@ -308,7 +308,7 @@ All outputs produced by this skill conform to the canonical output standards def
 
 **Metric catalogs are organizational choices.** The default metric catalog in this skill is a starting point grounded in published research and the AI RMF Playbook. Specific metric selection, threshold setting, and protected-group definitions are organizational decisions informed by legal, ethical, and domain context. A skill-default catalog is not a substitute for organizational policy.
 
-**Subcategory IDs flagged `[verify]` require confirmation.** Operationalization guidance keyed to a `[verify]`-flagged subcategory must be confirmed against the published AI RMF 1.0 Core before the output is used as evidence. Function and category structure are stable.
+**Framework revision tracking.** This skill targets NIST AI RMF 1.0 Core as published. The AI 600-1 GenAI Profile is applied as an overlay. Future NIST revisions and new profiles are surfaced by the framework-monitor workflow.
 
 **This skill targets AI RMF 1.0 as published.** NIST has signaled that the framework will be updated. AI 600-1 (Generative AI Profile) was added after the core framework; other profiles may follow. The `framework-monitor` workflow surfaces changes when detected; skill updates follow.
 

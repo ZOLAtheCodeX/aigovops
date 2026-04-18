@@ -1,0 +1,44 @@
+[
+  {
+    "id": "AISIA-DEMO-001",
+    "stakeholder_group": "Candidates submitting resumes",
+    "impact_dimension": "fundamental-rights",
+    "impact_description": "Ranking disparity could impair fair access to employment opportunities.",
+    "severity": "major",
+    "likelihood": "unlikely",
+    "existing_controls": ["A.5.4", "A.7.4"],
+    "residual_severity": "moderate",
+    "residual_likelihood": "rare",
+    "additional_controls_recommended": ["Continuous fairness metric monitoring", "Documented appeals process"],
+    "assessor": "AI Governance Officer",
+    "assessment_date": "2026-04-15"
+  },
+  {
+    "id": "AISIA-DEMO-002",
+    "stakeholder_group": "Candidates from protected groups (language, age, disability, ethnicity)",
+    "impact_dimension": "group-fairness",
+    "impact_description": "Training-data imbalance may produce systematic ranking disparity across protected groups.",
+    "severity": "major",
+    "likelihood": "possible",
+    "existing_controls": ["A.5.4", "A.7.4"],
+    "residual_severity": "moderate",
+    "residual_likelihood": "unlikely",
+    "additional_controls_recommended": ["Quarterly equity audit", "Ground-truth relabeling program"],
+    "assessor": "AI Governance Officer",
+    "assessment_date": "2026-04-15"
+  },
+  {
+    "id": "AISIA-DEMO-003",
+    "stakeholder_group": "HR reviewers using the system",
+    "impact_dimension": "societal",
+    "impact_description": "Reviewer over-reliance could shift labor-market outcomes at scale within the hiring funnel.",
+    "severity": "moderate",
+    "likelihood": "possible",
+    "existing_controls": ["A.8.2"],
+    "residual_severity": "minor",
+    "residual_likelihood": "possible",
+    "additional_controls_recommended": ["Reviewer training module", "Scheduled human-override audit"],
+    "assessor": "AI Governance Officer",
+    "assessment_date": "2026-04-15"
+  }
+]

@@ -213,6 +213,16 @@ def _classify_target(
             if status == "included-planned":
                 return "not-covered", justification, "Execute the planned implementation per the SoA's plan reference.", warnings
             if status == "excluded":
+                # Distinguish real exclusions from placeholder exclusions that
+                # soa-generator emits when it lacks evidence. The latter are
+                # genuine gaps, not applicability decisions.
+                if justification and "REQUIRES REVIEWER DECISION" in justification:
+                    return (
+                        "not-covered",
+                        "SoA emitted excluded-with-review-required: no evidence of inclusion and no exclusion justification.",
+                        "Either document evidence of coverage or justify not-applicable.",
+                        warnings,
+                    )
                 return "not-applicable", justification, "None; control excluded per SoA.", warnings
 
     # Evidence reference lookup.

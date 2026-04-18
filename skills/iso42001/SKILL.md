@@ -1,6 +1,6 @@
 ---
 name: iso42001
-version: 0.2.0-draft
+version: 0.2.0
 description: >
   ISO/IEC 42001:2023 AI Management System governance skill.
   Operationalizes the main-body clause structure (Sections 4 to 10) and
@@ -8,7 +8,7 @@ description: >
   artifacts: Statement of Applicability, AI System Impact Assessment,
   risk register, role and responsibility matrix, documented-information
   control records, nonconformity records, and management review input
-  packages. Draft pending Lead Implementer review.
+  packages. Validated by Lead Implementer on 2026-04-18.
 frameworks:
   - ISO/IEC 42001:2023
 tags:
@@ -78,7 +78,7 @@ The seven Tier 1 operationalizations below are the primary output of this skill.
 
 **Crosswalks.** Many ISO 42001 requirements have direct analogues in other frameworks. The `nist-ai-rmf` skill in this catalogue provides the ISO 42001 to NIST AI RMF 1.0 crosswalk. The `eu-ai-act` skill (when published) will provide the ISO 42001 to EU AI Act crosswalk.
 
-**Verification note.** Every Annex A control ID cited in this skill body has been cross-referenced against the operationalization map in this directory. Any control ID carrying a `[verify]` marker requires standard-text verification before the relevant output is treated as certification-grade. The category structure (A.2 through A.10) is stable and not flagged.
+**Validation status.** Every Annex A control ID cited in this skill body has been cross-referenced against the published ISO/IEC 42001:2023 text and validated by Zola Valashiya (ISO/IEC 42001 Lead Implementer) on 2026-04-18. Historical review record at [../../docs/lead-implementer-review.md](../../docs/lead-implementer-review.md).
 
 ## Operationalizable Controls
 
@@ -433,9 +433,9 @@ Tier 2 operationalizations are valuable but lower-frequency or smaller-artifact 
 4. **Competence and awareness** (Clauses 7.2, 7.3). `training-record` from role-matrix plus skills inventory. Integration target: existing Learning Management System.
 5. **KPI reporting** (Clause 9.1). `KPI` aggregates against Clause 6.2 objectives. Definition is hybrid; reporting is automatable.
 6. **Internal audit programme** (Clauses 9.2.1, 9.2.2). Programme doc plus `audit-log-entry` per engagement. Programme plan and scheduling automate; fieldwork is human.
-7. **AI system operational monitoring and logs** (Annex A, controls A.6.2.6, A.6.2.8 [verify]). `KPI` and `audit-log-entry`. Strong overlap with MLOps tooling; integration target: existing ML monitoring stack.
-8. **Data provenance** (Annex A, control A.7.5 [verify]). `audit-log-entry` per data lifecycle event. Integration target: existing data-lineage tooling.
-9. **External reporting** (Annex A, control A.8.3 [verify]). `audit-log-entry`. Template-driven per regulatory or contractual reporting obligation.
+7. **AI system operational monitoring and logs** (Annex A, controls A.6.2.6, A.6.2.8). `KPI` and `audit-log-entry`. Strong overlap with MLOps tooling; integration target: existing ML monitoring stack.
+8. **Data provenance** (Annex A, control A.7.5). `audit-log-entry` per data lifecycle event. Integration target: existing data-lineage tooling.
+9. **External reporting** (Annex A, control A.8.3). `audit-log-entry`. Template-driven per regulatory or contractual reporting obligation.
 
 ### Tier 3
 
@@ -485,7 +485,7 @@ All outputs produced by this skill, by any plugin consuming this skill, or by an
 
 **This skill depends on organizational inputs it does not produce.** The AI system inventory, risk scoring rubric, owner registry, organizational policies, stakeholder consultation notes, and prior incident log are organizational inputs. A skill output cannot be more accurate than its inputs. Missing or stale inputs produce weak outputs; the skill does not fabricate inputs.
 
-**Annex A control IDs flagged `[verify]` require standard-text verification.** Any operationalization guidance keyed to a `[verify]`-flagged ID must be confirmed against the published ISO/IEC 42001:2023 text before the output is submitted as audit evidence. The category structure (A.2 through A.10) and the count (38 controls) are solid; specific sub-control numbering is the variable.
+**Framework revision tracking.** This skill targets ISO/IEC 42001:2023 as published. The framework-monitor workflow surfaces detected changes (errata, amendments, successor standards). Skill updates follow the change-update protocol in [AGENTS.md](../../AGENTS.md).
 
 **This skill targets ISO/IEC 42001:2023 as published.** Future amendments, errata, or successor standards may change requirements. The `framework-monitor` workflow in this repository surfaces changes when detected; skill updates follow.
 

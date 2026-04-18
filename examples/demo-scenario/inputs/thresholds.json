@@ -1,0 +1,7 @@
+{
+  "f1": {"operator": "min", "value": 0.85},
+  "demographic_parity_difference": {"operator": "max", "value": 0.05},
+  "pii_in_outputs_rate": {"operator": "max", "value": 0.001},
+  "latency_p95_ms": {"operator": "max", "value": 200},
+  "incident_count": {"operator": "max", "value": 3}
+}

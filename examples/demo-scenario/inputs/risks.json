@@ -1,0 +1,47 @@
+[
+  {
+    "id": "RR-0001",
+    "system_ref": "SYS-001",
+    "category": "bias",
+    "description": "Protected-group disparity in ranking outputs where training data over-represents one demographic cohort.",
+    "likelihood": "possible",
+    "impact": "major",
+    "scoring_rationale": ["Quarterly equity audit 2026-Q1 output", "Stakeholder consultation: HR operations lead concern"],
+    "existing_controls": ["A.5.4", "A.7.4"],
+    "residual_likelihood": "unlikely",
+    "residual_impact": "moderate",
+    "treatment_option": "reduce",
+    "owner_role": "AI Governance Officer",
+    "planned_treatment_actions": ["Retrain with rebalanced dataset 2026-Q3", "Continue quarterly equity audit"]
+  },
+  {
+    "id": "RR-0002",
+    "system_ref": "SYS-001",
+    "category": "privacy",
+    "description": "Candidate PII exposure if resume text is logged verbatim in inference telemetry.",
+    "likelihood": "unlikely",
+    "impact": "major",
+    "scoring_rationale": ["Data Protection Officer review 2026-Q1"],
+    "existing_controls": ["A.7.5", "A.7.4"],
+    "residual_likelihood": "rare",
+    "residual_impact": "minor",
+    "treatment_option": "reduce",
+    "owner_role": "Data Protection Officer",
+    "planned_treatment_actions": ["Redact PII in telemetry pipeline", "Rotate telemetry retention policy to 30 days"]
+  },
+  {
+    "id": "RR-0003",
+    "system_ref": "SYS-001",
+    "category": "transparency",
+    "description": "Reviewers may over-rely on the ranking order without understanding its basis.",
+    "likelihood": "likely",
+    "impact": "moderate",
+    "scoring_rationale": ["Stakeholder consultation with HR reviewers"],
+    "existing_controls": ["A.8.2"],
+    "residual_likelihood": "possible",
+    "residual_impact": "moderate",
+    "treatment_option": "reduce",
+    "owner_role": "AI Governance Officer",
+    "planned_treatment_actions": ["Reviewer-facing explanation of ranking factors", "Mandatory reviewer training before access"]
+  }
+]

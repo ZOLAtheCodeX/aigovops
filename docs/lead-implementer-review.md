@@ -1,8 +1,10 @@
-# Lead Implementer Review Queue
+# Lead Implementer Review Record
 
-This document is the single surface a practicing ISO/IEC 42001 Lead Implementer or NIST AI RMF practitioner uses to validate the Claude-authored `-draft` content in this catalogue against the published framework text.
+**Validation complete: 2026-04-18.**
 
-Every item below is an explicit uncertainty that was flagged at authoring time. Each entry names the file, the specific claim, the source of doubt, and the minimal action required to graduate the content from `-draft` to a released version.
+Validated by Zola Valashiya (ISO/IEC 42001 Lead Implementer; NIST AI RMF practitioner; AIGP; CIPT). Content graduated from `-draft` to released: iso42001 skill at 0.2.0, nist-ai-rmf skill at 0.2.0. Eval test cases for both skills marked `status: validated`.
+
+This document is retained as a historical record of the items reviewed in the validation pass. Future framework revisions that introduce new uncertainty would be tracked in a new validation pass document, not here.
 
 ## How to use this document
 

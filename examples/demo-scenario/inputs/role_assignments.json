@@ -1,0 +1,49 @@
+{
+  "AI policy approval::propose": "AI Governance Officer",
+  "AI policy approval::review": "Chief Risk Officer",
+  "AI policy approval::approve": "Chief Executive Officer",
+  "AI policy approval::consulted": "Chief Legal Officer",
+  "AI policy approval::informed": "Head of AI Engineering",
+
+  "Risk acceptance::propose": "AI Governance Officer",
+  "Risk acceptance::review": "Chief Information Security Officer",
+  "Risk acceptance::approve": "Chief Risk Officer",
+  "Risk acceptance::consulted": "Data Protection Officer",
+  "Risk acceptance::informed": "Head of AI Engineering",
+
+  "SoA approval::propose": "AI Governance Officer",
+  "SoA approval::review": "Chief Information Security Officer",
+  "SoA approval::approve": "Chief Risk Officer",
+  "SoA approval::consulted": "Data Protection Officer",
+  "SoA approval::informed": "Head of AI Engineering",
+
+  "AISIA sign-off::propose": "Head of AI Engineering",
+  "AISIA sign-off::review": "AI Governance Officer",
+  "AISIA sign-off::approve": "Chief Risk Officer",
+  "AISIA sign-off::consulted": "Data Protection Officer",
+  "AISIA sign-off::informed": "Chief Executive Officer",
+
+  "Control implementation::propose": "Head of AI Engineering",
+  "Control implementation::review": "AI Governance Officer",
+  "Control implementation::approve": "Chief Technology Officer",
+  "Control implementation::consulted": "Chief Information Security Officer",
+  "Control implementation::informed": "Chief Risk Officer",
+
+  "Incident response::propose": "Chief Information Security Officer",
+  "Incident response::review": "AI Governance Officer",
+  "Incident response::approve": "Chief Risk Officer",
+  "Incident response::consulted": "Chief Legal Officer",
+  "Incident response::informed": "Chief Executive Officer",
+
+  "Audit programme approval::propose": "AI Governance Officer",
+  "Audit programme approval::review": "Chief Risk Officer",
+  "Audit programme approval::approve": "Chief Executive Officer",
+  "Audit programme approval::consulted": "Chief Legal Officer",
+  "Audit programme approval::informed": "Head of AI Engineering",
+
+  "External reporting::propose": "AI Governance Officer",
+  "External reporting::review": "Chief Legal Officer",
+  "External reporting::approve": "Chief Executive Officer",
+  "External reporting::consulted": "Chief Risk Officer",
+  "External reporting::informed": "Head of AI Engineering"
+}

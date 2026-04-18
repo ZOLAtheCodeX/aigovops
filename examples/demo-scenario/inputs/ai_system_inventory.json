@@ -1,0 +1,14 @@
+[
+  {
+    "system_ref": "SYS-001",
+    "system_name": "ResumeScreen",
+    "risk_tier": "limited",
+    "system_type": "classical-ml",
+    "intended_use": "Rank candidate resumes against a job posting to surface a reviewer queue.",
+    "purpose": "Rank candidate resumes against a job posting.",
+    "deployment_context": "Internal HR workflow; no automated advance or reject; human reviews every surfaced candidate.",
+    "data_processed": ["candidate resume text", "job posting text", "candidate-supplied demographic fields (where provided voluntarily)"],
+    "decision_authority": "decision-support",
+    "reversibility": "outputs are suggestions; human makes every advance-or-reject decision"
+  }
+]

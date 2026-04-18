@@ -24,9 +24,9 @@ AIGovOps turns AI governance frameworks (NIST AI RMF, ISO/IEC 42001, EU AI Act, 
 
 | Skill | Framework | Status |
 |---|---|---|
-| [iso42001](skills/iso42001/SKILL.md) | ISO/IEC 42001:2023 | 0.2.0-draft |
-| [nist-ai-rmf](skills/nist-ai-rmf/SKILL.md) | NIST AI RMF 1.0 | 0.2.0-draft |
-| [eu-ai-act](skills/eu-ai-act/SKILL.md) | EU AI Act (Regulation (EU) 2024/1689) | 0.1.0-stub |
+| [iso42001](skills/iso42001/SKILL.md) | ISO/IEC 42001:2023 | 0.2.0 |
+| [nist-ai-rmf](skills/nist-ai-rmf/SKILL.md) | NIST AI RMF 1.0 | 0.2.0 |
+| [eu-ai-act](skills/eu-ai-act/SKILL.md) | EU AI Act (Regulation (EU) 2024/1689) | 0.2.0 |
 
 ## Plugins
 

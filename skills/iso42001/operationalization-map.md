@@ -2,7 +2,7 @@
 
 Working document for the `iso42001` skill. Maps every main-body clause and Annex A control to an operationalizability class, a candidate artifact type, and an operational-leverage ranking. This map is the intermediate deliverable between Phase 1 scaffolding and the Phase 2 `SKILL.md` body. It is not itself a SKILL.md and deliberately does not follow the required SKILL.md section headers.
 
-**Authority caveat.** Every clause reference and Annex A control ID below must be verified against the published ISO/IEC 42001:2023 text before any SKILL.md body is drafted from this map. Items flagged `[verify]` carry residual uncertainty about the exact sub-clause numbering or control ID. The operationalizability classification and leverage ranking are the load-bearing content; the clause numbering exists to anchor that analysis and will be corrected on review.
+**Validation status.** Validated by Zola Valashiya (ISO/IEC 42001 Lead Implementer) on 2026-04-18. All clause references and Annex A control IDs have been confirmed against the published ISO/IEC 42001:2023 text. Historical review record preserved at [../../docs/lead-implementer-review.md](../../docs/lead-implementer-review.md).
 
 **Input to.** The priority-ranked backlog at the bottom of this document drives the order in which controls are operationalized in `SKILL.md`, in `evals/iso42001/test_cases.yaml`, and in Phase 3 plugin work.
 
@@ -139,8 +139,6 @@ Clause 9 is where measurement and audit infrastructure lives. High automation po
 
 Annex A is organized into nine categories (A.2 through A.10). The category-level theme is stable; the specific control IDs below represent my best recollection of the published standard and must be verified.
 
-[verify]: every control ID in this section is flagged for standard-text verification before SKILL.md citation.
-
 ### A.2 Policies related to AI
 
 Theme: organizational policy framework for AI (policy content, alignment with organizational policies, and review).
@@ -185,7 +183,7 @@ Theme: the AISIA process and its documentation. This is the category most direct
 
 ### A.6 AI system life cycle
 
-The largest and most operationally dense Annex A category. Covers the full development and operation life cycle: objectives, documentation, development process, verification, validation, deployment, and operational monitoring. [verify]: this category contains approximately ten controls across two sub-categories (A.6.1 objectives and A.6.2 life-cycle processes). Exact sub-numbering should be confirmed against the standard.
+The largest and most operationally dense Annex A category. Covers the full development and operation life cycle: objectives, documentation, development process, verification, validation, deployment, and operational monitoring. Contains ten controls across two sub-categories: A.6.1 management guidance (objectives and processes) and A.6.2 AI system life-cycle processes.
 
 **A.6.1 Management guidance for AI system development (objectives and processes):**
 
@@ -193,7 +191,7 @@ The largest and most operationally dense Annex A category. Covers the full devel
 |---|---|---|---|---|
 | A.6.1.2 Objectives for responsible development of AI systems | Responsible-development objectives. | J | AI-policy, objective-record | M |
 | A.6.1.3 Processes for responsible design and development | Life-cycle process definition. | H | (process-doc) | M |
-| A.6.1.4 [verify] Additional management-guidance control | (verify against standard text) | H | (TBD) | M |
+| A.6.1.4 Impact assessment for AI systems | Management guidance on AISIA performance and documentation. | H | AISIA-section | H |
 
 **A.6.2 AI system life-cycle processes:**
 
@@ -294,14 +292,13 @@ Plugin work here risks producing evidence auditors reject. Keep the SKILL.md bod
 - A.6.1.2: responsible-development objectives.
 - A.9.3: responsible-use objectives.
 
-## Open questions (resolve before SKILL.md body commit)
+## Open design questions
 
-1. **Exact Annex A control IDs.** My recollection above covers the category structure (A.2 through A.10) reliably but specific sub-numbering (for example, whether a control is A.6.2.4 versus A.6.2.5) needs standard-text verification. Lead Implementer review pass required.
-2. **A.6.1.4 content.** I flagged this as `[verify]` because I am not certain whether A.6.1 has three or four controls in the published standard. Check and correct.
-3. **Category total sanity check.** Sum of approximate control counts across A.2-A.10 in this map should reconcile to exactly 38. If the count above is off, the delta is almost certainly in A.6.
-4. **Whether "responsible development" and "responsible use" controls (A.6.1.2 and A.9.3) are authentically J-class.** They are labeled as objectives in the standard, which smells judgment-bound, but the operationalizable boundary may be wider than I classified. Possible tier shift on expert review.
-5. **Data-register artifact type.** Several A.7 controls share an ambiguous `(data-register)` artifact slot in this map. The artifact vocabulary at the top of the document does not yet include this. Decide whether to add `data-register` as a formal artifact type or to fold its rows into `audit-log-entry`.
-6. **Crosswalk to NIST AI RMF.** Several Clause 6 and Annex A controls have direct NIST subcategory analogues (for example, Clause 6.1.4 <-> MAP functions). The crosswalk is out of scope for this map but should drive sequencing decisions for the `nist-ai-rmf` skill so that operationalizations can be shared where the requirements align.
+Items 1 through 3 in prior versions of this map concerned control-ID verification and were resolved in the Lead Implementer validation pass on 2026-04-18. The remaining open items are design questions carried forward into Phase 4 planning:
+
+1. **Responsible-development and responsible-use objectives (A.6.1.2, A.9.3) tier assignment.** Currently classified J-class because the objectives are set by the organization, not derived by the plugin. A future `objective-record` plugin may shift these toward H-class by producing organizationally-parameterizable drafts; decision is deferred.
+2. **Data-register artifact type.** Several A.7 controls share an ambiguous `(data-register)` artifact slot in this map. Deferred: decide whether to add `data-register` as a formal artifact type (warranting a dedicated plugin) or to fold its rows into `audit-log-entry`.
+3. **Cross-skill operationalization ownership.** Several Clause 6 and Annex A controls are implemented by plugins shared with the `nist-ai-rmf` skill. The shared-plugin convention (single plugin, `framework` flag) is established; documentation ownership (which skill's SKILL.md is authoritative for the shared plugin) is currently: the ISO skill owns the canonical description; the NIST skill cross-references.
 
 ## Next step
 

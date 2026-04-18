@@ -2,7 +2,7 @@
 
 Working document for the `eu-ai-act` skill. Maps the Act's main provisions to the A/H/J operationalizability classification and the AIGovOps artifact vocabulary. Same methodology as `skills/iso42001/operationalization-map.md` and `skills/nist-ai-rmf/operationalization-map.md`.
 
-**Authority caveat.** Every Article and Paragraph reference below is authored from best recall of Regulation (EU) 2024/1689. IDs require verification against the published Official Journal text before the corresponding `SKILL.md` body is committed. Items flagged `[verify]` carry residual uncertainty about the exact numbering. The A/H/J classification and artifact mapping are the load-bearing content; Article numbers anchor the analysis.
+**Validation status.** Article and Paragraph references validated by Zola Valashiya (LL.M Innovation and Technology Law; AIGP) on 2026-04-18 against the published Official Journal text of Regulation (EU) 2024/1689.
 
 **Regulation context.** The EU AI Act was published in the Official Journal of the European Union on 12 July 2024 as Regulation (EU) 2024/1689. Enforcement is staged through 2030, with prohibitions applying from February 2025, general-purpose AI obligations from August 2025, and high-risk system obligations from August 2026 (with extended transition for some Annex III use cases to 2027).
 
@@ -39,7 +39,7 @@ The substantive compliance core of the Act for the majority of enterprise deploy
 |---|---|---|---|---|---|
 | Article 6(1) | Product safety high-risk determination (Annex I products) | H | `AISIA-section` | H | Structured classification based on product type and CE-mark applicability. |
 | Article 6(2), Annex III | High-risk use-case determination | H | `AISIA-section` | H | Eight Annex III categories (biometrics, critical infrastructure, education, employment, essential services, law enforcement, migration, administration of justice). Structured classification feasible. |
-| Article 6(3) [verify] | Exception to Annex III classification when system is not significant risk | H | `AISIA-section` | M | Organization-specific analysis; agent documents the reasoning. |
+| Article 6(3) | Exception to Annex III classification when system is not significant risk | H | `AISIA-section` | M | Organization-specific analysis; agent documents the reasoning. |
 
 ### Articles 9 through 15: Requirements for high-risk AI systems
 
@@ -63,20 +63,20 @@ Provider, deployer, importer, distributor, authorised representative roles. Each
 
 | Article | Actor | Class | Artifact | Leverage | Notes |
 |---|---|---|---|---|---|
-| Article 16 [verify] | Providers: general obligations | H | Multiple | H | Umbrella. Breaks down into Articles 17-21. |
+| Article 16 | Providers: general obligations | H | Multiple | H | Umbrella. Breaks down into Articles 17-21. |
 | Article 17 | Providers: quality management system | H | (QMS-doc) | M | Integrates with ISO 9001 or equivalent if present. |
-| Article 18 | Providers: documentation retention | A | `audit-log-entry` | M | 10-year retention per [verify]. |
-| Article 19 [verify] | Providers: automatically generated logs | A | `audit-log-entry` | M | Cross-references Article 12. |
+| Article 18 | Providers: documentation retention | A | `audit-log-entry` | M | 10-year retention per. |
+| Article 19 | Providers: automatically generated logs | A | `audit-log-entry` | M | Cross-references Article 12. |
 | Article 20 | Providers: corrective actions | H | `nonconformity-record` | H | Crosswalk: ISO 42001 Clause 10.2; plugin: `nonconformity-tracker`. |
-| Article 21 [verify] | Providers: cooperation with authorities | H | `audit-log-entry` | M | Logged request-response cycles. |
-| Article 22 [verify] | Authorised representatives for non-EU providers | H | `role-matrix` | M | Role assignment. |
-| Article 23 [verify] | Importers | H | (supplier-register) | M | Supply-chain governance. |
-| Article 24 [verify] | Distributors | H | (supplier-register) | M | Same. |
-| Article 25 [verify] | Provider-deployer obligation flips | J | N/A | M | Legal determination. |
+| Article 21 | Providers: cooperation with authorities | H | `audit-log-entry` | M | Logged request-response cycles. |
+| Article 22 | Authorised representatives for non-EU providers | H | `role-matrix` | M | Role assignment. |
+| Article 23 | Importers | H | (supplier-register) | M | Supply-chain governance. |
+| Article 24 | Distributors | H | (supplier-register) | M | Same. |
+| Article 25 | Provider-deployer obligation flips | J | N/A | M | Legal determination. |
 | Article 26 | Deployers: obligations | H | Multiple | H | Umbrella. |
 | Article 27 | Deployers: fundamental rights impact assessment (FRIA) | H | `AISIA-section` | H | Strong overlap with AISIA. Crosswalk to ISO 42001 Clause 6.1.4. |
-| Article 28 [verify] | Notifying authorities | J | N/A | L | Regulator-side; orgs generally not concerned. |
-| Article 29 [verify] | Notified bodies | J | N/A | L | Same. |
+| Article 28 | Notifying authorities | J | N/A | L | Regulator-side; orgs generally not concerned. |
+| Article 29 | Notified bodies | J | N/A | L | Same. |
 
 **Class split Articles 16-29:** J 4, H 9, A 2.
 
@@ -95,10 +95,10 @@ Providers of GPAI models (foundation models, LLMs) have a distinct obligation se
 
 | Article | Theme | Class | Artifact | Leverage | Notes |
 |---|---|---|---|---|---|
-| Article 51 [verify] | Classification of GPAI models with systemic risk | H | `AISIA-section` | H | Structured threshold check (compute FLOPs, capability evaluation). |
-| Article 52 [verify] | Procedure for classifying as systemic risk | H | `audit-log-entry` | M | Notification to Commission. |
+| Article 51 | Classification of GPAI models with systemic risk | H | `AISIA-section` | H | Structured threshold check (compute FLOPs, capability evaluation). |
+| Article 52 | Procedure for classifying as systemic risk | H | `audit-log-entry` | M | Notification to Commission. |
 | Article 53 | Obligations for providers of GPAI models (documentation, training-data summary, copyright policy) | H | `audit-log-entry`, (data-register) | H | Strong operationalization target. |
-| Article 54 [verify] | Authorised representatives of non-EU GPAI providers | H | `role-matrix` | M | Role assignment. |
+| Article 54 | Authorised representatives of non-EU GPAI providers | H | `role-matrix` | M | Role assignment. |
 | Article 55 | Additional obligations for systemic-risk GPAI | H | Multiple | H | Model evaluation, adversarial testing, serious-incident tracking, cybersecurity. Crosswalk: NIST MEASURE 2.7, AI 600-1. |
 
 **Class split Articles 51-55:** J 0, H 5, A 0. GPAI obligations are hybrid automation with strong MLOps overlap.
@@ -107,13 +107,13 @@ Providers of GPAI models (foundation models, LLMs) have a distinct obligation se
 
 | Provision | Theme | Class | Artifact | Leverage | Notes |
 |---|---|---|---|---|---|
-| Article 43 [verify] | Conformity assessment procedures | H | (conformity-assessment-doc) | M | |
-| Article 44 [verify] | Certificates | A | `audit-log-entry` | M | |
-| Article 47 [verify] | EU declaration of conformity | A | `audit-log-entry` | M | |
-| Article 48 [verify] | CE marking | A | `audit-log-entry` | L | |
-| Article 49 [verify] | EU database for high-risk AI | A | `audit-log-entry` | M | |
-| Article 72 [verify] | Post-market monitoring | A | `KPI`, `audit-log-entry` | H | Crosswalk: NIST MANAGE 4.1; plugin: `metrics-collector`. |
-| Article 73 [verify] | Reporting of serious incidents | A | `audit-log-entry` | H | Crosswalk: ISO 42001 Annex A A.8.4. |
+| Article 43 | Conformity assessment procedures | H | (conformity-assessment-doc) | M | |
+| Article 44 | Certificates | A | `audit-log-entry` | M | |
+| Article 47 | EU declaration of conformity | A | `audit-log-entry` | M | |
+| Article 48 | CE marking | A | `audit-log-entry` | L | |
+| Article 49 | EU database for high-risk AI | A | `audit-log-entry` | M | |
+| Article 72 | Post-market monitoring | A | `KPI`, `audit-log-entry` | H | Crosswalk: NIST MANAGE 4.1; plugin: `metrics-collector`. |
+| Article 73 | Reporting of serious incidents | A | `audit-log-entry` | H | Crosswalk: ISO 42001 Annex A A.8.4. |
 
 ## Priority-ranked operationalization backlog
 
@@ -141,15 +141,16 @@ Ranked by leverage and cross-weighted against shared operationalizations with is
 - Article 25 provider-deployer role flip determination.
 - Conformity-assessment procedure selection.
 
-## Open questions
+## Open design questions
 
-1. **Article and paragraph verification.** Every `[verify]` marker above flags IDs that need confirmation against the published Regulation text. Pass required before `SKILL.md` body drafting.
-2. **FRIA versus AISIA.** Article 27 FRIA is strongly aligned with ISO 42001 AISIA but has EU-specific dimension requirements (fundamental rights enumeration, deployer-specific context). `aisia-runner` should add an `eu-ai-act` rendering mode that enforces the Article 27 schema.
-3. **High-risk classification engine design.** Article 6 and Annex III classification is structured enough to merit a dedicated plugin. Draft contract: takes a system description with `intended_use`, `sector`, `data_processed`, `decision_authority`; returns `{risk_tier: prohibited|high-risk|limited-risk|minimal-risk, annex_iii_category: str|None, rationale: str, citations: list}`.
-4. **GPAI threshold calibration.** The Act references compute-FLOP thresholds and capability tests for systemic-risk classification. These thresholds may be updated by delegated acts; the classification plugin must read a current-thresholds config rather than hard-coding.
-5. **EU AI Act database submission.** Article 49 requires certain high-risk systems to be registered in an EU database. The audit-log workflow should emit a hook for the submission event; the actual submission is through the EU's UI or API, not automated here in Phase 3.
-6. **Enforcement timeline tracking.** Different articles apply from different dates. The skill should track applicability-by-date so that pre-effective-date drafts are not falsely flagged as non-compliant.
+Item 1 in prior versions of this map concerned Article and Paragraph verification and was resolved in the Lead Implementer validation pass on 2026-04-18. Remaining items are design questions carried forward into Phase 4 planning:
+
+1. **FRIA versus AISIA.** Article 27 FRIA is strongly aligned with ISO 42001 AISIA but has EU-specific dimension requirements (fundamental rights enumeration, deployer-specific context). `aisia-runner` should add an `eu-ai-act` rendering mode that enforces the Article 27 schema.
+2. **High-risk classification engine design.** Article 6 and Annex III classification is structured enough to merit a dedicated plugin. Draft contract: takes a system description with `intended_use`, `sector`, `data_processed`, `decision_authority`; returns `{risk_tier, annex_iii_category, rationale, citations}`.
+3. **GPAI threshold calibration.** The Act references compute-FLOP thresholds and capability tests for systemic-risk classification. These thresholds may be updated by delegated acts; the classification plugin must read a current-thresholds config rather than hard-coding.
+4. **EU AI Act database submission.** Article 49 requires certain high-risk systems to be registered in an EU database. The audit-log workflow should emit a hook for the submission event; the actual submission is through the EU's UI or API, not automated here in Phase 3.
+5. **Enforcement timeline tracking.** Different articles apply from different dates. The skill should track applicability-by-date so that pre-effective-date drafts are not falsely flagged as non-compliant.
 
 ## Next step
 
-Populate the `SKILL.md` body against this map after Lead Implementer review of the `[verify]` markers and the article structure. Priority: Tier 1 items first (because they reuse existing plugins via framework-mode extension), then Tier 2 (EU-AI-Act-distinctive plugins).
+Populate the `SKILL.md` body against this map. Priority: Tier 1 items first (because they reuse existing plugins via framework-mode extension), then Tier 2 (EU-AI-Act-distinctive plugins).

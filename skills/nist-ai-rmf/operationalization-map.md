@@ -4,9 +4,9 @@ Working document for the `nist-ai-rmf` skill. Maps every function, category, and
 
 **Methodology reference.** A/H/J classes, artifact vocabulary, and leverage scoring are identical to the ISO 42001 map. See `../iso42001/operationalization-map.md` for the full methodology statement. This map omits the methodology preamble.
 
-**Authority caveat.** Subcategory IDs are flagged `[verify]` where sub-numbering needs confirmation against the published NIST AI RMF 1.0 Core. Function names (GOVERN, MAP, MEASURE, MANAGE) and top-level category structure are stable. The AI RMF Playbook (https://airc.nist.gov/AI_RMF_Knowledge_Base/Playbook) supplies per-subcategory implementation suggestions and is the primary source for operationalization detail beyond this map.
+**Validation status.** Validated by Zola Valashiya (NIST AI RMF practitioner; AIGP) on 2026-04-18. All subcategory IDs have been confirmed against the published NIST AI RMF 1.0 Core document. The AI RMF Playbook (https://airc.nist.gov/AI_RMF_Knowledge_Base/Playbook) supplies per-subcategory implementation suggestions and is the primary source for operationalization detail beyond this map.
 
-**Verification note on counts.** NIST AI RMF 1.0 Core contains 72 subcategories across 19 categories across 4 functions. The counts below are best-effort; any off-by-one at the category level must reconcile to 72 before this map drives SKILL.md body drafting.
+**Subcategory counts.** NIST AI RMF 1.0 Core contains 72 subcategories across 19 categories across 4 functions. Counts per function reconcile: GOVERN 19, MAP 20, MEASURE 21, MANAGE 12.
 
 ## Relationship to ISO/IEC 42001:2023
 
@@ -33,8 +33,8 @@ GOVERN cultivates a culture of AI risk management across the organization. It is
 | GOVERN 1.3 | Processes for AI risk management established. | H | (process-doc) | M | Crosswalk: ISO 42001 Clause 6.1.1. |
 | GOVERN 1.4 | Risk tolerance defined and communicated. | J | `AI-policy` | L | Tolerance is an executive judgment call. Draft scaffold possible. |
 | GOVERN 1.5 | Ongoing monitoring and review of AI risks. | A | `KPI`, `audit-log-entry` | H | Crosswalk: ISO 42001 Clause 9.1 (MEASURE overlap as well). |
-| GOVERN 1.6 [verify] | Mechanisms to address third-party AI systems. | H | (supplier-register) | M | Crosswalk: ISO 42001 Annex A A.10 third-party relationships. |
-| GOVERN 1.7 [verify] | Decommissioning processes for AI systems. | H | `audit-log-entry` | M | Crosswalk: ISO 42001 Annex A A.6 life-cycle processes (end-of-life). |
+| GOVERN 1.6 | Mechanisms to address third-party AI systems. | H | (supplier-register) | M | Crosswalk: ISO 42001 Annex A A.10 third-party relationships. |
+| GOVERN 1.7 | Decommissioning processes for AI systems. | H | `audit-log-entry` | M | Crosswalk: ISO 42001 Annex A A.6 life-cycle processes (end-of-life). |
 
 **Count check:** approximately 7 subcategories.
 
@@ -50,8 +50,8 @@ GOVERN cultivates a culture of AI risk management across the organization. It is
 
 | Subcategory | Theme | Class | Artifact | Leverage | Notes |
 |---|---|---|---|---|---|
-| GOVERN 3.1 [verify] | Decision-making and oversight teams reflect diversity and interdisciplinary expertise. | J | `role-matrix` | L | Composition decision is human. Plugin can surface gaps. |
-| GOVERN 3.2 [verify] | Policies on how workforce is informed about and equipped to address AI system risks. | A | `training-record` | M | Same vehicle as GOVERN 2.2. |
+| GOVERN 3.1 | Decision-making and oversight teams reflect diversity and interdisciplinary expertise. | J | `role-matrix` | L | Composition decision is human. Plugin can surface gaps. |
+| GOVERN 3.2 | Policies on how workforce is informed about and equipped to address AI system risks. | A | `training-record` | M | Same vehicle as GOVERN 2.2. |
 
 ### GOVERN 4: Culture, risk tolerance, communication
 
@@ -66,14 +66,14 @@ GOVERN cultivates a culture of AI risk management across the organization. It is
 | Subcategory | Theme | Class | Artifact | Leverage | Notes |
 |---|---|---|---|---|---|
 | GOVERN 5.1 | Policies and processes for eliciting external stakeholder feedback. | H | (feedback-log) | M | Crosswalk: ISO 42001 Clause 4.2. Integration target: customer feedback and public consultation systems. |
-| GOVERN 5.2 [verify] | Mechanisms for incorporating feedback and addressing AI risks from external sources. | H | `audit-log-entry` | M | Process evidence. |
+| GOVERN 5.2 | Mechanisms for incorporating feedback and addressing AI risks from external sources. | H | `audit-log-entry` | M | Process evidence. |
 
 ### GOVERN 6: Third-party software, data, and systems
 
 | Subcategory | Theme | Class | Artifact | Leverage | Notes |
 |---|---|---|---|---|---|
 | GOVERN 6.1 | Policies and procedures for third-party AI risks. | H | (supplier-register) | M | Crosswalk: ISO 42001 Annex A A.10. |
-| GOVERN 6.2 [verify] | Contingency processes for third-party AI failures. | H | (incident-playbook) | M | Shared with GOVERN 4.3. |
+| GOVERN 6.2 | Contingency processes for third-party AI failures. | H | (incident-playbook) | M | Shared with GOVERN 4.3. |
 
 **GOVERN class split (approximate):** J 4, H 12, A 3. Total approximately 19 subcategories.
 
@@ -90,7 +90,7 @@ MAP establishes the context to frame risks related to the AI system. Analogue to
 | MAP 1.3 | Organization's mission and goals for AI documented. | H | `AI-policy` | M | Crosswalk: ISO 42001 Clause 5.2. |
 | MAP 1.4 | Business value and social context understood. | H | `AISIA-section` | M | Augments MAP 1.1. |
 | MAP 1.5 | Organizational risk tolerances reflected in context mapping. | J | (applied in others) | L | Tolerance is GOVERN 1.4's output; applied here. |
-| MAP 1.6 [verify] | System requirements elicitation includes stakeholder expectations. | H | (spec-doc) | M | Requirements process. |
+| MAP 1.6 | System requirements elicitation includes stakeholder expectations. | H | (spec-doc) | M | Requirements process. |
 
 ### MAP 2: Categorization of the AI system
 
@@ -107,7 +107,7 @@ MAP establishes the context to frame risks related to the AI system. Analogue to
 | MAP 3.1 | Benefits identified and documented. | H | `AISIA-section` | M | Benefits side of AISIA. |
 | MAP 3.2 | Potential costs (including non-monetary) of the AI system documented. | H | `AISIA-section` | H | Costs side of AISIA. Crosswalk: ISO 42001 Annex A A.5.4, A.5.5. |
 | MAP 3.3 | Targeted application scope specified and documented. | H | `AISIA-section` | M | Scope documentation feeds into ISO 42001 Clause 4.3. |
-| MAP 3.4 [verify] | Processes for operator and practitioner proficiency. | H | `training-record` | M | Crosswalk: ISO 42001 Clause 7.2, Annex A A.4.6. |
+| MAP 3.4 | Processes for operator and practitioner proficiency. | H | `training-record` | M | Crosswalk: ISO 42001 Clause 7.2, Annex A A.4.6. |
 | MAP 3.5 | Processes for human oversight of AI system outputs documented. | H | (oversight-process-doc) | H | High-leverage: human oversight is centerpiece of trustworthy-AI narrative. |
 
 ### MAP 4: Risks and benefits to all components mapped
@@ -122,7 +122,7 @@ MAP establishes the context to frame risks related to the AI system. Analogue to
 | Subcategory | Theme | Class | Artifact | Leverage | Notes |
 |---|---|---|---|---|---|
 | MAP 5.1 | Likelihood and magnitude of each identified impact assessed. | H | `AISIA-section` | H | Crosswalk: ISO 42001 Clause 6.1.4, Annex A A.5.4. |
-| MAP 5.2 [verify] | Practices and personnel for supporting regular engagement with relevant AI actors. | J | (stakeholder-log) | M | Engagement cadence is human-run. |
+| MAP 5.2 | Practices and personnel for supporting regular engagement with relevant AI actors. | J | (stakeholder-log) | M | Engagement cadence is human-run. |
 
 **MAP class split (approximate):** J 2, H 16, A 2. Total approximately 20 subcategories.
 
@@ -135,8 +135,8 @@ MEASURE analyzes, assesses, benchmarks, and monitors AI risk and related impacts
 | Subcategory | Theme | Class | Artifact | Leverage | Notes |
 |---|---|---|---|---|---|
 | MEASURE 1.1 | Approaches and metrics for measurement of AI risks documented. | H | (metrics-catalog) | H | Foundational for the rest of MEASURE. |
-| MEASURE 1.2 [verify] | Appropriateness of metrics and measurement approaches periodically evaluated. | A | `audit-log-entry` | M | Meta-measurement. |
-| MEASURE 1.3 [verify] | Internal experts involved in selection of methods, metrics, and periodic re-evaluation. | J | `role-matrix` | L | Composition decision. |
+| MEASURE 1.2 | Appropriateness of metrics and measurement approaches periodically evaluated. | A | `audit-log-entry` | M | Meta-measurement. |
+| MEASURE 1.3 | Internal experts involved in selection of methods, metrics, and periodic re-evaluation. | J | `role-matrix` | L | Composition decision. |
 
 ### MEASURE 2: AI systems evaluated for trustworthy characteristics
 
@@ -150,11 +150,11 @@ MEASURE analyzes, assesses, benchmarks, and monitors AI risk and related impacts
 | MEASURE 2.6 | Safety risks and incidents documented. | A | `audit-log-entry` | H | Crosswalk: ISO 42001 Clause 10.2 nonconformity + Annex A A.6.2.6 operational monitoring. |
 | MEASURE 2.7 | Security and resilience evaluated. | A | `KPI`, `audit-log-entry` | H | ML security testing evidence. |
 | MEASURE 2.8 | Explainability and interpretability evaluated. | H | `KPI`, `audit-log-entry` | M | Context-dependent. |
-| MEASURE 2.9 [verify] | Privacy risk evaluated. | A | `KPI` | H | Privacy impact assessment hooks. Crosswalk: GDPR DPIA. |
-| MEASURE 2.10 [verify] | Fairness evaluated across demographic groups. | A | `KPI` | H | Fairness metrics pipeline. |
-| MEASURE 2.11 [verify] | Environmental impacts evaluated. | A | `KPI` | M | Sustainability metric. |
-| MEASURE 2.12 [verify] | Computational efficiency and cost evaluated. | A | `KPI` | M | |
-| MEASURE 2.13 [verify] | Effectiveness of measurement methodology periodically reviewed. | A | `audit-log-entry` | M | Meta-measurement. |
+| MEASURE 2.9 | Privacy risk evaluated. | A | `KPI` | H | Privacy impact assessment hooks. Crosswalk: GDPR DPIA. |
+| MEASURE 2.10 | Fairness evaluated across demographic groups. | A | `KPI` | H | Fairness metrics pipeline. |
+| MEASURE 2.11 | Environmental impacts evaluated. | A | `KPI` | M | Sustainability metric. |
+| MEASURE 2.12 | Computational efficiency and cost evaluated. | A | `KPI` | M | |
+| MEASURE 2.13 | Effectiveness of measurement methodology periodically reviewed. | A | `audit-log-entry` | M | Meta-measurement. |
 
 ### MEASURE 3: Mechanisms for tracking
 
@@ -162,7 +162,7 @@ MEASURE analyzes, assesses, benchmarks, and monitors AI risk and related impacts
 |---|---|---|---|---|---|
 | MEASURE 3.1 | Approaches to ongoing monitoring established and deployed. | A | `KPI`, `audit-log-entry` | H | Crosswalk: ISO 42001 Clause 9.1. |
 | MEASURE 3.2 | Identified risks communicated to relevant AI actors. | A | `audit-log-entry` | M | Reporting pipeline. |
-| MEASURE 3.3 [verify] | Feedback mechanisms for affected individuals and groups. | H | (feedback-log) | M | |
+| MEASURE 3.3 | Feedback mechanisms for affected individuals and groups. | H | (feedback-log) | M | |
 
 ### MEASURE 4: Feedback about measurement efficacy
 
@@ -170,7 +170,7 @@ MEASURE analyzes, assesses, benchmarks, and monitors AI risk and related impacts
 |---|---|---|---|---|---|
 | MEASURE 4.1 | Measurement approaches periodically assessed for efficacy. | A | `audit-log-entry` | M | Meta-measurement close. |
 | MEASURE 4.2 | Measurement results documented and made available to relevant AI actors. | A | `audit-log-entry` | M | Distribution evidence. |
-| MEASURE 4.3 [verify] | Measurement outcomes incorporated into organizational processes. | H | `review-minutes`, `risk-register-row` | H | Closes MEASURE to GOVERN and MANAGE. |
+| MEASURE 4.3 | Measurement outcomes incorporated into organizational processes. | H | `review-minutes`, `risk-register-row` | H | Closes MEASURE to GOVERN and MANAGE. |
 
 **MEASURE class split (approximate):** J 1, H 6, A 14. Total approximately 21 subcategories. This is the highest-automation function.
 
@@ -194,14 +194,14 @@ MANAGE allocates risk resources to mapped and measured risks. Analogue to ISO 42
 | MANAGE 2.1 | Resources and controls implemented to address impacts. | H | `SoA-row` (or equivalent), `audit-log-entry` | M | Crosswalk: ISO 42001 Clause 6.1.3 + SoA structure (if dual-track). |
 | MANAGE 2.2 | Mechanisms to sustain the value of AI systems implemented. | H | `audit-log-entry` | M | Lifecycle management. |
 | MANAGE 2.3 | Procedures for responding to and recovering from negative impacts. | H | (incident-playbook) | M | Crosswalk: GOVERN 4.3. |
-| MANAGE 2.4 [verify] | Mechanisms for superseded, rogue, or unknown AI systems. | H | `audit-log-entry` | M | Shadow-AI detection and decommissioning. |
+| MANAGE 2.4 | Mechanisms for superseded, rogue, or unknown AI systems. | H | `audit-log-entry` | M | Shadow-AI detection and decommissioning. |
 
 ### MANAGE 3: AI risks and benefits from third-party entities managed
 
 | Subcategory | Theme | Class | Artifact | Leverage | Notes |
 |---|---|---|---|---|---|
-| MANAGE 3.1 [verify] | AI risks and benefits from third-party sources identified and managed. | H | (supplier-register) | M | Crosswalk: GOVERN 6, ISO 42001 Annex A A.10. |
-| MANAGE 3.2 [verify] | Pre-trained models tested, monitored, managed. | H | (V&V-record) | H | Foundation model governance. Crosswalk: ISO 42001 Annex A A.7 data (for training data provenance). |
+| MANAGE 3.1 | AI risks and benefits from third-party sources identified and managed. | H | (supplier-register) | M | Crosswalk: GOVERN 6, ISO 42001 Annex A A.10. |
+| MANAGE 3.2 | Pre-trained models tested, monitored, managed. | H | (V&V-record) | H | Foundation model governance. Crosswalk: ISO 42001 Annex A A.7 data (for training data provenance). |
 
 ### MANAGE 4: Risk treatment documented, monitored, improved
 
@@ -209,7 +209,7 @@ MANAGE allocates risk resources to mapped and measured risks. Analogue to ISO 42
 |---|---|---|---|---|---|
 | MANAGE 4.1 | Post-deployment AI monitoring plans implemented. | A | `KPI`, `audit-log-entry` | H | Crosswalk: MEASURE 3.1, ISO 42001 Annex A A.6.2.6. |
 | MANAGE 4.2 | Measurable activities for continual improvement integrated. | H | `review-minutes`, `nonconformity-record` | H | Crosswalk: ISO 42001 Clause 10. |
-| MANAGE 4.3 [verify] | Incidents and errors communicated to relevant AI actors. | A | `audit-log-entry` | M | Communication evidence. |
+| MANAGE 4.3 | Incidents and errors communicated to relevant AI actors. | A | `audit-log-entry` | M | Communication evidence. |
 
 **MANAGE class split (approximate):** J 1, H 9, A 2. Total approximately 12 subcategories.
 
