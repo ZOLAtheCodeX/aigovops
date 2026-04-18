@@ -34,7 +34,6 @@ jobs:
           import hashlib
           import json
           import os
-          import sys
           import requests
 
           # Source list. Expand as new frameworks are added to skills/.
