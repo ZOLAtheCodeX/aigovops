@@ -1,0 +1,62 @@
+# AIGovOps Skill Evaluation Harness
+# Skill: eu-ai-act
+# Purpose: validate skill outputs against known-correct framework mappings
+# Format: input scenario produces expected output structure and article references
+# Schema: see ../README.md
+# Citation format: see ../../STYLE.md
+#
+# All test cases below are marked status: stub. The eu-ai-act skill itself is
+# at version 0.1.0-stub; body drafting follows Lead Implementer review of the
+# operationalization map. These stubs exist to satisfy the eval-presence CI
+# check and to establish the test case structure for later population.
+
+test_cases:
+  - id: eu-ai-act-001
+    tier: T1
+    description: |
+      High-risk classification for an AI system used in employment context.
+      Validates Article 6 and Annex III category determination.
+    input: "PLACEHOLDER: system description (employment domain)"
+    expected_outputs:
+      - "PLACEHOLDER: risk_tier = high-risk"
+      - "PLACEHOLDER: annex_iii_category = employment_workers_management"
+      - "PLACEHOLDER: rationale references Annex III, Point 4"
+    clause_references:
+      - "EU AI Act, Article 6"
+      - "EU AI Act, Annex III"
+    status: stub
+    validated_by: null
+    authored_by: "AIGovOps Contributors (Claude Code draft, pending Lead Implementer validation)"
+
+  - id: eu-ai-act-002
+    tier: T1
+    description: |
+      Article 9 risk management system test: ensures risk-register output
+      for a high-risk AI system carries EU AI Act citations alongside ISO
+      and NIST citations in dual mode.
+    input: "PLACEHOLDER: high-risk AI system with initial risks identified"
+    expected_outputs:
+      - "PLACEHOLDER: risk-register-row per risk with EU AI Act Article 9 citation"
+      - "PLACEHOLDER: in dual mode also cites ISO Clause 6.1.2 and NIST MAP 4.1"
+    clause_references:
+      - "EU AI Act, Article 9"
+    status: stub
+    validated_by: null
+    authored_by: "AIGovOps Contributors (Claude Code draft, pending Lead Implementer validation)"
+
+  - id: eu-ai-act-003
+    tier: T1
+    description: |
+      Article 27 FRIA: Fundamental Rights Impact Assessment for deployer
+      of a high-risk AI system. Validates that the aisia-runner output
+      in eu-ai-act mode includes fundamental-rights dimension coverage
+      across all identified stakeholder groups.
+    input: "PLACEHOLDER: deployer context, affected stakeholder groups, fundamental rights in scope"
+    expected_outputs:
+      - "PLACEHOLDER: AISIA-section per stakeholder x fundamental-rights dimension"
+      - "PLACEHOLDER: EU AI Act Article 27 citation in every section"
+    clause_references:
+      - "EU AI Act, Article 27"
+    status: stub
+    validated_by: null
+    authored_by: "AIGovOps Contributors (Claude Code draft, pending Lead Implementer validation)"

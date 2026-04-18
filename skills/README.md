@@ -8,8 +8,9 @@ A skill is a knowledge package that operationalizes a specific AI governance fra
 
 | Skill | Framework | Version | Status |
 |---|---|---|---|
-| [iso42001](iso42001/SKILL.md) | ISO/IEC 42001:2023 | 0.1.0-stub | stub |
-| [nist-ai-rmf](nist-ai-rmf/SKILL.md) | NIST AI RMF 1.0 | 0.1.0-stub | stub |
+| [iso42001](iso42001/SKILL.md) | ISO/IEC 42001:2023 | 0.2.0-draft | draft |
+| [nist-ai-rmf](nist-ai-rmf/SKILL.md) | NIST AI RMF 1.0 | 0.2.0-draft | draft |
+| [eu-ai-act](eu-ai-act/SKILL.md) | EU AI Act (Regulation (EU) 2024/1689) | 0.1.0-stub | stub |
 
 ## Adding a new skill
 

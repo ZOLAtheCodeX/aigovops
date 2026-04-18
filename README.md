@@ -24,8 +24,9 @@ AIGovOps turns AI governance frameworks (NIST AI RMF, ISO/IEC 42001, EU AI Act, 
 
 | Skill | Framework | Status |
 |---|---|---|
-| [iso42001](skills/iso42001/SKILL.md) | ISO/IEC 42001:2023 | stub |
-| [nist-ai-rmf](skills/nist-ai-rmf/SKILL.md) | NIST AI RMF 1.0 | stub |
+| [iso42001](skills/iso42001/SKILL.md) | ISO/IEC 42001:2023 | 0.2.0-draft |
+| [nist-ai-rmf](skills/nist-ai-rmf/SKILL.md) | NIST AI RMF 1.0 | 0.2.0-draft |
+| [eu-ai-act](skills/eu-ai-act/SKILL.md) | EU AI Act (Regulation (EU) 2024/1689) | 0.1.0-stub |
 
 ## Plugins
 
@@ -39,6 +40,7 @@ AIGovOps turns AI governance frameworks (NIST AI RMF, ISO/IEC 42001, EU AI Act, 
 | [nonconformity-tracker](plugins/nonconformity-tracker/) | ISO 42001 Clause 10.2 and NIST MANAGE 4.2 nonconformity and corrective-action records (JSON + Markdown) | 0.1.0 |
 | [management-review-packager](plugins/management-review-packager/) | ISO 42001 Clause 9.3.2 management review input package (JSON + Markdown) | 0.1.0 |
 | [metrics-collector](plugins/metrics-collector/) | NIST AI RMF MEASURE 2.x metrics + AI 600-1 overlay with threshold-breach routing (JSON + Markdown + CSV) | 0.1.0 |
+| [gap-assessment](plugins/gap-assessment/) | Framework gap assessment for ISO 42001, NIST AI RMF, or EU AI Act (JSON + Markdown + CSV) | 0.1.0 |
 
 ## Bundles
 
