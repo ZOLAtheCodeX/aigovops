@@ -30,7 +30,9 @@ test_cases:
     description: "STUB: AI system impact assessment (AISIA) outputs map to required Clause 6.1.4 elements"
     input: "PLACEHOLDER: AI system context, intended use, and affected stakeholders"
     expected_outputs:
-      - "PLACEHOLDER: expected AISIA structure"
+      - "Potential impacts to individuals"
+      - "Potential impacts to groups of individuals"
+      - "Potential societal impacts"
     clause_references:
       - "ISO/IEC 42001:2023, Clause 6.1.4"
     status: stub
