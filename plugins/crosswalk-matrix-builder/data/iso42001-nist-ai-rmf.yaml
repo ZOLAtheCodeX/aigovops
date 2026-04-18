@@ -978,7 +978,7 @@ mappings:
     notes: "ISO 42001 treats risk tracking under Clause 6.1 (actions to address risks and opportunities) at the management-system level, not at the subcategory granularity NIST specifies in MEASURE 3.1-3.3."
     bidirectional: false
 
-  - id: nist-ai-rmf--measure-4-1-4-3--iso42001--no-equivalent
+  - id: nist-ai-rmf--measure-4-1-4-3--iso42001--no-annex-a-equivalent
     source_framework: nist-ai-rmf
     source_ref: "MEASURE 4.1-4.3"
     source_title: "Measurement feedback"
@@ -990,5 +990,47 @@ mappings:
     citation_sources:
       - publication: "NIST AI 600-1 Appendix A"
         date: "2024-07"
-    notes: "ISO 42001 treats measurement feedback under Clause 9 (performance evaluation) at the management-system level. NIST subcategory-level feedback mechanisms have no direct equivalent in Annex A controls."
+    notes: "ISO 42001 treats measurement feedback under Clause 9 (performance evaluation) at the management-system level. NIST subcategory-level feedback mechanisms have no direct equivalent in Annex A controls. See the paired Clause 9.2 to MEASURE 4.1, 4.2, 4.3 partial-match entries below for the clause-level relationship."
     bidirectional: false
+
+  - id: iso42001--clause-9-2--nist-ai-rmf--measure-4-1
+    source_framework: iso42001
+    source_ref: "Clause 9.2"
+    source_title: "Internal audit"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 4.1"
+    target_title: "Measurement approaches for identifying AI risks are connected to deployment context(s) and informed through consultation with domain experts and other end users"
+    relationship: partial-match
+    confidence: medium
+    citation_sources:
+      - publication: "AIGovOps practitioner-inference mapping; no published crosswalk from primary sources"
+    notes: "practitioner-inference. ISO 9.2 internal audit findings feed risk and metric updates, which aligns with the intent of MEASURE 4.1 measurement feedback; however NIST does not require a formal audit programme."
+    bidirectional: true
+
+  - id: iso42001--clause-9-2--nist-ai-rmf--measure-4-2
+    source_framework: iso42001
+    source_ref: "Clause 9.2"
+    source_title: "Internal audit"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 4.2"
+    target_title: "Measurement results regarding AI system trustworthiness are informed by input from domain experts and relevant AI actors"
+    relationship: partial-match
+    confidence: medium
+    citation_sources:
+      - publication: "AIGovOps practitioner-inference mapping; no published crosswalk from primary sources"
+    notes: "practitioner-inference. ISO 9.2.2(c) impartiality and competence requirements align with expert-informed measurement."
+    bidirectional: true
+
+  - id: iso42001--clause-9-2--nist-ai-rmf--measure-4-3
+    source_framework: iso42001
+    source_ref: "Clause 9.2"
+    source_title: "Internal audit"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 4.3"
+    target_title: "Measurable performance improvements or declines based on consultations with relevant AI actors are identified and documented"
+    relationship: partial-match
+    confidence: medium
+    citation_sources:
+      - publication: "AIGovOps practitioner-inference mapping; no published crosswalk from primary sources"
+    notes: "practitioner-inference. ISO 9.2.2(d) reporting-to-management requirement aligns with the NIST feedback-mechanism posture."
+    bidirectional: true

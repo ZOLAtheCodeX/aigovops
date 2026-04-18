@@ -31,6 +31,7 @@ AIGovOps turns AI governance frameworks (NIST AI RMF, ISO/IEC 42001, EU AI Act, 
 | [uk-atrs](skills/uk-atrs/SKILL.md) | UK Algorithmic Transparency Recording Standard | 0.1.0 |
 | [nyc-ll144](skills/nyc-ll144/SKILL.md) | NYC Local Law 144 of 2021 (bias audit for AEDTs) | 0.1.0 |
 | [california-ai](skills/california-ai/SKILL.md) | California AI regulatory landscape primer (CPPA ADMT, CCPA/CPRA, SB 942, AB 2013, AB 1008, SB 1001, AB 1836) | 0.1.0 |
+| [canada-aida](skills/canada-aida/SKILL.md) | Canada AI regulatory landscape primer (AIDA draft, PIPEDA, OSFI E-23, Treasury Board Directive, Quebec Law 25, Voluntary Code) | 0.1.0 |
 | [singapore-ai-governance](skills/singapore-ai-governance/SKILL.md) | Singapore MAGF 2e, MAS FEAT Principles, AI Verify | 0.1.0 |
 
 ## Plugins
@@ -44,6 +45,7 @@ AIGovOps turns AI governance frameworks (NIST AI RMF, ISO/IEC 42001, EU AI Act, 
 | [aisia-runner](plugins/aisia-runner/) | ISO 42001 and NIST AI RMF-compliant AI System Impact Assessment (JSON + Markdown) | 0.1.0 |
 | [nonconformity-tracker](plugins/nonconformity-tracker/) | ISO 42001 Clause 10.2 and NIST MANAGE 4.2 nonconformity and corrective-action records (JSON + Markdown) | 0.1.0 |
 | [management-review-packager](plugins/management-review-packager/) | ISO 42001 Clause 9.3.2 management review input package (JSON + Markdown) | 0.1.0 |
+| [internal-audit-planner](plugins/internal-audit-planner/) | ISO 42001 Clause 9.2 internal audit programme + schedule + criteria + impartiality assessment (JSON + Markdown + CSV) | 0.1.0 |
 | [metrics-collector](plugins/metrics-collector/) | NIST AI RMF MEASURE 2.x metrics + AI 600-1 overlay with threshold-breach routing (JSON + Markdown + CSV) | 0.1.0 |
 | [gap-assessment](plugins/gap-assessment/) | Framework gap assessment for ISO 42001, NIST AI RMF, or EU AI Act (JSON + Markdown + CSV) | 0.1.0 |
 | [data-register-builder](plugins/data-register-builder/) | ISO 42001 A.7 and EU AI Act Article 10 data register (JSON + Markdown + CSV) | 0.1.0 |

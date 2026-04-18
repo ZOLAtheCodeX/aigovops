@@ -14,8 +14,10 @@ A skill is a knowledge package that operationalizes a specific AI governance fra
 | [colorado-ai-act](colorado-ai-act/SKILL.md) | Colorado Senate Bill 24-205 (Colorado AI Act) | 0.1.0 | released |
 | [nyc-ll144](nyc-ll144/SKILL.md) | NYC Local Law 144 of 2021 (bias audit for AEDTs) | 0.1.0 | released |
 | [california-ai](california-ai/SKILL.md) | California AI regulatory landscape primer | 0.1.0 | released |
+| [canada-aida](canada-aida/SKILL.md) | Canada AI regulatory landscape primer (AIDA, PIPEDA, OSFI E-23, Treasury Board Directive, Quebec Law 25, Voluntary Code) | 0.1.0 | released |
 | [cross-framework-crosswalk](cross-framework-crosswalk/SKILL.md) | Cross-framework coverage, gaps, and matrix queries (ISO 42001, NIST AI RMF, EU AI Act, UK ATRS, Colorado SB 205, NYC LL144, California) | 0.1.0 | released |
 | [singapore-ai-governance](singapore-ai-governance/SKILL.md) | Singapore MAGF 2e, MAS FEAT Principles, AI Verify | 0.1.0 | released |
+| [internal-audit](internal-audit/SKILL.md) | ISO/IEC 42001:2023, Clause 9.2 (Internal audit) | 0.1.0 | released |
 
 ## Adding a new skill
 

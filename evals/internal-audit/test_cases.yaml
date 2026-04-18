@@ -1,0 +1,123 @@
+# AIGovOps Skill Evaluation Harness
+# Skill: internal-audit
+# Purpose: validate internal-audit-planner output against ISO/IEC 42001:2023 Clause 9.2
+# Format: input scenario produces expected artifact structure and clause references
+# Schema: see ../README.md
+# Citation format: see ../../STYLE.md
+#
+# Test case status legend:
+#   stub      placeholder content, no validation against standard
+#   validated content grounded in ISO/IEC 42001:2023 text; validated_by populated
+#   deprecated superseded; kept for history
+#
+# Test cases below target SKILL.md v0.1.0 (released). Validated against
+# the published ISO/IEC 42001:2023 Clause 9.2 text. Validated by Zola
+# Valashiya on 2026-04-18.
+
+test_cases:
+  - id: internal-audit-001
+    tier: T1.1
+    status: validated
+    validated_by: "Zola Valashiya"
+    validated_on: "2026-04-18"
+    description: |
+      Annual internal audit plan for a 3-system AIMS with 2 qualified
+      auditors. Covers all nine Annex A categories and the core main-body
+      clauses (4.1, 6.1, 7.5, 8.3, 9.1, 10.2). Validates the default
+      Clause 9.2.2 programme structure with a 12-month cadence.
+    input:
+      scope:
+        aims_boundaries: "All production AI systems operated by Acme Health, excluding experimental R&D prototypes."
+        systems_in_scope: ["ResumeScreen", "ClinicalTriage", "FraudDetect"]
+        clauses_in_scope: ["4.1", "6.1", "7.5", "8.3", "9.1", "10.2"]
+        annex_a_in_scope: ["A.2", "A.3", "A.4", "A.5", "A.6", "A.7", "A.8", "A.9", "A.10"]
+      audit_frequency_months: 12
+      audit_criteria:
+        - "ISO/IEC 42001:2023"
+        - "Acme AI Governance Policy v1.2"
+        - "Acme AIMS Statement of Applicability 2026-Q1"
+      audit_type: "first-party"
+      auditor_pool:
+        - name: "Alice Chen"
+          role: "Lead Auditor"
+          independence_level: "independent"
+          qualifications: ["ISO 42001 Lead Auditor", "CIPP/E"]
+        - name: "Bob Martinez"
+          role: "Auditor"
+          independence_level: "departmental-separation"
+          qualifications: ["CIPT", "ISO 27001 Internal Auditor"]
+      management_system_risk_register_ref: "RR-2026-Q1"
+      reporting_recipients: ["Chief AI Governance Officer", "CEO", "Audit Committee"]
+      enrich_with_crosswalk: true
+    expected_output_shape:
+      framework: "iso42001"
+      agent_signature: "internal-audit-planner/0.1.0"
+      summary:
+        cycles_planned: 1
+        audit_frequency_months: 12
+        auditor_pool_size: 2
+        areas_declared: 15
+      audit_schedule_length: 1
+      required_top_level_citations:
+        - "ISO/IEC 42001:2023, Clause 9.2.1"
+        - "ISO/IEC 42001:2023, Clause 9.2.2(a)"
+        - "ISO/IEC 42001:2023, Clause 9.2.2(b)"
+        - "ISO/IEC 42001:2023, Clause 9.2.2(c)"
+        - "ISO/IEC 42001:2023, Clause 9.2.2(d)"
+        - "ISO/IEC 42001:2023, Clause 9.2.2(e)"
+        - "ISO/IEC 42001:2023, Clause 7.5.3"
+        - "ISO/IEC 42001:2023, Clause 9.3"
+      required_keys:
+        - timestamp
+        - agent_signature
+        - framework
+        - scope_echo
+        - audit_schedule
+        - scope_coverage_summary
+        - impartiality_assessment
+        - criteria_mapping
+        - citations
+        - warnings
+        - summary
+        - cross_framework_audit_references
+      impartiality_expectation: "At least one assigned cycle must include an independent auditor per Clause 9.2.2(c)."
+
+  - id: internal-audit-002
+    tier: T1.3
+    status: validated
+    validated_by: "Zola Valashiya"
+    validated_on: "2026-04-18"
+    description: |
+      Quarterly audit plan with a known impartiality conflict. One auditor
+      is assigned to audit their own department (declared `own_areas`
+      overlaps the declared scope). Expected behaviour: plan generates
+      successfully but the impartiality-conflict warning fires per Clause
+      9.2.2(c). Governance-side human must reassign before the audit
+      notice is issued.
+    input:
+      scope:
+        aims_boundaries: "All production AI systems operated by Acme Health."
+        systems_in_scope: ["ResumeScreen", "ClinicalTriage"]
+        clauses_in_scope: ["6.1", "9.1"]
+        annex_a_in_scope: ["A.6", "A.7"]
+      audit_frequency_months: 3
+      audit_criteria:
+        - "ISO/IEC 42001:2023"
+        - "Acme AI Governance Policy v1.2"
+      audit_type: "first-party"
+      auditor_pool:
+        - name: "Dana Kim"
+          role: "Auditor"
+          independence_level: "departmental-separation"
+          own_areas: ["A.6"]
+          qualifications: ["CIPT"]
+      management_system_risk_register_ref: "RR-2026-Q1"
+      enrich_with_crosswalk: false
+    expected_output_shape:
+      summary:
+        cycles_planned: 4
+      warning_contains_any_of:
+        - "impartiality"
+        - "own_areas"
+      warning_must_reference_clause: "Clause 9.2.2(c)"
+      cross_framework_audit_references_absent: true

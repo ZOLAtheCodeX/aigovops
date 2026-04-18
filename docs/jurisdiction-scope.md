@@ -31,7 +31,7 @@ These are on the roadmap once primary coverage is stable. Each becomes its own p
 | USA state: New York City | Local Law 144 (bias audit, shipping, plugin `nyc-ll144-audit-packager`) | Enforceable. First US bias-audit requirement. Narrow scope (employment decisions). |
 | USA state: California | CPPA ADMT regulations, CCPA/CPRA, SB 942, AB 2013, AB 1008, SB 1001, AB 1836 (primer skill `california-ai`; no plugin yet, California is a constellation rather than a single controlling instrument) | Enforceable in parts; large market. The primer skill navigates which instrument applies to which AI system. |
 | USA state: Colorado | Colorado AI Act (SB 205, shipping, plugin `colorado-ai-act-compliance`) | Enforceable. First US comprehensive AI consumer protection law. |
-| Canada | Artificial Intelligence and Data Act (AIDA) | Legislative progress uncertain; framework language already influential. |
+| Canada | AIDA (Bill C-27, Part 3, drafting), PIPEDA (in force), OSFI Guideline E-23 (federally-regulated financial institutions), Treasury Board Directive on Automated Decision-Making (federal government), Quebec Law 25, Canada Voluntary AI Code 2023 (primer skill `canada-aida`; no plugin yet, Canada is a layered constellation and AIDA is still drafting) | Enforceable in parts; AIDA drafting-volatile. The primer skill navigates which instrument applies to which AI system. |
 | Singapore | Model AI Governance Framework (IMDA/PDPC MAGF 2e), MAS FEAT Principles, AI Verify (shipping, plugin `singapore-magf-assessor` + skill `singapore-ai-governance`) | Influential in APAC. Referenced by regional regulators and multinational compliance programs. |
 
 ## Tertiary and derivative

@@ -1,0 +1,273 @@
+# Canada AI Regulatory Register
+# Maintained alongside skills/canada-aida/SKILL.md.
+# Validation date: 2026-04-18.
+#
+# This register is machine-readable. Each entry summarizes one Canadian
+# AI regulatory instrument. Canada does not have a single in-force AI
+# law. AIDA is tabled as Bill C-27 Part 3 and remains in parliamentary
+# committee. Practitioners layer these instruments based on the specific
+# system and operating context.
+#
+# Citation formats for entries: see STYLE.md.
+# Refresh cadence: every 90 days under the framework-drift playbook.
+# AIDA and CPPA entries refresh on any material parliamentary event.
+
+instruments:
+  - id: canada-aida
+    name: Artificial Intelligence and Data Act (Bill C-27, Part 3)
+    status: drafting
+    effective_date: "TBD (2027-2028 estimated if passed)"
+    scope_keywords:
+      - high-impact AI
+      - significant harm
+      - risk management
+      - non-discriminatory design
+      - transparency
+      - record-keeping
+      - incident reporting
+    applies_to:
+      - provider
+      - deployer
+    primary_obligations:
+      - high-impact AI system designation
+      - risk identification, assessment, and mitigation
+      - non-discriminatory design measures
+      - transparency and plain-language description
+      - record-keeping
+      - incident and serious harm reporting
+    authoritative_url: https://ised-isde.canada.ca/site/innovation-better-canada/en/artificial-intelligence-and-data-act-aida-companion-document
+    aigovops_artifacts:
+      - risk-register
+      - aisia
+      - audit-log
+      - data-register
+    priority: high
+    citation_format: "Canada AIDA (Bill C-27, Part 3), Section <n>"
+    last_reviewed: "2026-04-18"
+    notes: >
+      Tabled as Part 3 of Bill C-27 in June 2022. Still in parliamentary
+      committee as of the validation date. Enforcement in the initial
+      period by the Minister of Innovation, Science and Industry; an
+      AIDA Commissioner role is to be established by regulation. The
+      companion document sets out the policy intent; the binding text
+      is the Bill C-27 language. Practitioners performing gap-assessment
+      against AIDA should treat the draft as volatile; committee
+      amendments have shifted the high-impact AI system definition
+      across revisions.
+
+  - id: canada-pipeda
+    name: Personal Information Protection and Electronic Documents Act
+    status: effective
+    effective_date: "2001-01-01"
+    scope_keywords:
+      - personal information
+      - commercial activity
+      - consent
+      - collection
+      - use
+      - disclosure
+      - safeguards
+      - breach notification
+    applies_to:
+      - private-sector-organization
+    primary_obligations:
+      - identify purposes for collection
+      - obtain meaningful consent
+      - limit collection, use, disclosure, retention
+      - maintain safeguards proportional to sensitivity
+      - provide individual access to personal information
+      - notify the OPC and affected individuals of breaches of security safeguards creating real risk of significant harm
+    authoritative_url: https://www.priv.gc.ca/
+    aigovops_artifacts:
+      - data-register
+      - audit-log
+      - risk-register
+    priority: high
+    citation_format: "PIPEDA, Section <n>"
+    last_reviewed: "2026-04-18"
+    notes: >
+      Federal private-sector privacy law. Applies to organizations that
+      collect, use, or disclose personal information in the course of
+      commercial activities. The ten fair-information principles in
+      Schedule 1 are the operational backbone. AI-specific application
+      rests on OPC guidance rather than statutory amendment. Modernization
+      proposed via the Consumer Privacy Protection Act in Bill C-27
+      Part 1. PIPEDA will remain in force until and unless CPPA passes.
+
+  - id: canada-cppa-proposed
+    name: Consumer Privacy Protection Act (proposed, Bill C-27, Part 1)
+    status: drafting
+    effective_date: "TBD (contingent on Bill C-27 passage)"
+    scope_keywords:
+      - privacy management program
+      - de-identification
+      - anonymization
+      - automated decision-system explanation
+      - codified enforcement
+    applies_to:
+      - private-sector-organization
+    primary_obligations:
+      - maintain a privacy management program
+      - apply de-identification and anonymization distinctions
+      - provide explanation of automated decision systems on request
+      - comply with codified enforcement by the Privacy Commissioner and the Personal Information and Data Protection Tribunal
+    authoritative_url: https://www.parl.ca/DocumentViewer/en/44-1/bill/C-27
+    aigovops_artifacts:
+      - data-register
+      - audit-log
+    priority: medium
+    citation_format: "CPPA (Bill C-27, Part 1), Section <n>"
+    last_reviewed: "2026-04-18"
+    notes: >
+      Proposed replacement for PIPEDA. Moves from principles-based to
+      codified rules. Introduces an explicit right to an explanation for
+      decisions made by automated decision systems that could have a
+      significant impact on an individual. Tracks AIDA through Bill C-27.
+
+  - id: canada-td-adm
+    name: Canada Directive on Automated Decision-Making (Treasury Board)
+    status: effective
+    effective_date: "2020-04-01"
+    scope_keywords:
+      - federal government
+      - automated decision system
+      - algorithmic impact assessment
+      - proportional controls
+      - notice
+      - recourse
+    applies_to:
+      - federal-government-department-or-agency
+    primary_obligations:
+      - complete an Algorithmic Impact Assessment
+      - apply proportional controls by impact level
+      - provide notice and explanation to affected individuals
+      - maintain recourse mechanisms
+      - apply quality assurance and peer review
+    authoritative_url: https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/responsible-use-ai.html
+    aigovops_artifacts:
+      - aisia
+      - risk-register
+      - audit-log
+      - role-matrix
+    priority: medium
+    citation_format: "Canada Directive on Automated Decision-Making, Subsection <n>"
+    last_reviewed: "2026-04-18"
+    notes: >
+      Treasury Board directive. Binds federal departments and agencies
+      under the Financial Administration Act. Not applicable to the
+      private sector. Private-sector practitioners use the Government of
+      Canada Algorithmic Impact Assessment questionnaire as a benchmark
+      tool; the Directive itself has no extraterritorial effect.
+
+  - id: canada-voluntary-code
+    name: Canada Voluntary Code of Conduct on the Responsible Development and Management of Advanced Generative AI Systems
+    status: voluntary
+    effective_date: "2023-09-27"
+    scope_keywords:
+      - generative AI
+      - self-regulation
+      - accountability
+      - safety
+      - fairness and equity
+      - transparency
+      - human oversight
+      - validity and robustness
+    applies_to:
+      - generative-ai-developer
+      - generative-ai-deployer
+    primary_obligations:
+      - implement measures against the six Code principles
+      - self-report against the Code
+    authoritative_url: https://ised-isde.canada.ca/site/innovation-better-canada/en/voluntary-code-conduct-responsible-development-and-management-advanced-generative-ai-systems
+    aigovops_artifacts:
+      - gap-assessment
+      - audit-log
+    priority: medium
+    citation_format: "Canada Voluntary AI Code (2023), Principle <n>"
+    last_reviewed: "2026-04-18"
+    notes: >
+      Non-binding industry code launched September 2023. Signed by
+      several major AI developers and deployers operating in Canada.
+      Regulators may reference the Code as an expectation benchmark.
+      Non-signatories are not in violation of law by not signing.
+      Signatories commit to measures against six principles:
+      accountability, safety, fairness and equity, transparency, human
+      oversight and monitoring, validity and robustness.
+
+  - id: canada-osfi-e23
+    name: OSFI Guideline E-23 (Model Risk Management)
+    status: effective
+    effective_date: "2017-09-01"
+    scope_keywords:
+      - model risk management
+      - federally-regulated financial institution
+      - model inventory
+      - model tiering
+      - independent validation
+      - ongoing monitoring
+    applies_to:
+      - federally-regulated-financial-institution
+    primary_obligations:
+      - maintain an enterprise-wide model inventory
+      - tier models by risk materiality
+      - apply independent model validation
+      - maintain ongoing monitoring and performance assessment
+      - assign clear governance and roles
+      - maintain documentation and audit trail
+    authoritative_url: https://www.osfi-bsif.gc.ca/
+    aigovops_artifacts:
+      - risk-register
+      - metrics-report
+      - aisia
+      - audit-log
+      - role-matrix
+    priority: high
+    citation_format: "OSFI Guideline E-23, Paragraph <n>"
+    last_reviewed: "2026-04-18"
+    notes: >
+      Model risk management guideline for federally-regulated financial
+      institutions (banks, insurers, trust and loan companies). Not an
+      AI-specific instrument, but applies directly to AI and machine
+      learning models used in risk-material functions at in-scope
+      institutions. Updated periodically through OSFI's supervisory
+      program. Provincially-regulated financial institutions follow
+      provincial regulator posture, not OSFI E-23.
+
+  - id: quebec-law-25
+    name: Quebec Law 25 (Act to modernize legislative provisions as regards the protection of personal information)
+    status: effective
+    effective_date: "2023-09-22"
+    scope_keywords:
+      - Quebec resident
+      - personal information
+      - automated decision-making notice
+      - privacy impact assessment
+      - person in charge of protection of personal information
+      - right of correction
+    applies_to:
+      - organization-processing-quebec-personal-information
+    primary_obligations:
+      - conduct privacy impact assessments for information-system projects involving personal information
+      - obtain consent and provide transparency for personal information use
+      - provide notice when a decision is rendered based exclusively on automated processing
+      - respect right to correction and right to submit observations
+      - appoint a person in charge of protection of personal information
+    authoritative_url: https://www.cai.gouv.qc.ca/
+    aigovops_artifacts:
+      - aisia
+      - data-register
+      - audit-log
+      - role-matrix
+    priority: high
+    citation_format: "Quebec Law 25, Section <n>"
+    last_reviewed: "2026-04-18"
+    notes: >
+      Quebec provincial privacy law. Came into force in stages from
+      September 2022 through September 2024. The automated
+      decision-making notice at Section 12.1 is the most operationally
+      distinct requirement relative to PIPEDA. Extraterritorial in
+      practice: any organization processing personal information of
+      Quebec residents is in scope, regardless of the organization's
+      location. Enforced by the Commission d'acces a l'information du
+      Quebec, with administrative monetary penalties and private right
+      of action available.

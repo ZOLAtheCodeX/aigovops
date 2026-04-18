@@ -40,6 +40,7 @@ PLUGIN_PUBLIC_FUNCTIONS = {
     "aisia-runner": ["run_aisia", "render_markdown"],
     "nonconformity-tracker": ["generate_nonconformity_register", "render_markdown"],
     "management-review-packager": ["generate_review_package", "render_markdown"],
+    "internal-audit-planner": ["generate_audit_plan", "render_markdown", "render_csv"],
     "metrics-collector": ["generate_metrics_report", "render_markdown", "render_csv"],
     "gap-assessment": ["generate_gap_assessment", "render_markdown", "render_csv"],
     "data-register-builder": ["generate_data_register", "render_markdown", "render_csv"],

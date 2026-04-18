@@ -111,6 +111,31 @@ Examples:
 
 On first reference in a document, include the relevant portal URL: CPPA regulations (https://cppa.ca.gov/regulations/), California Legislative Information (https://leginfo.legislature.ca.gov/), California Attorney General AI hub (https://oag.ca.gov/ai).
 
+### Canadian AI regulatory instruments
+
+Canada has multiple instruments, each with its own citation format:
+
+- AIDA (draft, Bill C-27, Part 3): `Canada AIDA (Bill C-27, Part 3), Section <n>`.
+- AIDA (once in force): `AIDA Section <n>`.
+- PIPEDA (statute): `PIPEDA, Section <n>`. Principles in Schedule 1: `PIPEDA, Schedule 1, Principle <n>`.
+- Consumer Privacy Protection Act (proposed, Bill C-27, Part 1): `CPPA (Bill C-27, Part 1), Section <n>`.
+- OSFI Guideline E-23 (Model Risk Management): `OSFI Guideline E-23, Paragraph <n>`.
+- Treasury Board Directive on Automated Decision-Making: `Canada Directive on Automated Decision-Making, Subsection <n>`.
+- Quebec Law 25: `Quebec Law 25, Section <n>`.
+- Canada Voluntary Code of Conduct on Advanced Generative AI Systems: `Canada Voluntary AI Code (2023), Principle <n>`.
+
+Examples:
+
+- `Canada AIDA (Bill C-27, Part 3), Section 7`
+- `PIPEDA, Section 6.1`
+- `PIPEDA, Schedule 1, Principle 4.3`
+- `OSFI Guideline E-23, Paragraph 18`
+- `Canada Directive on Automated Decision-Making, Subsection 6.1`
+- `Quebec Law 25, Section 12.1`
+- `Canada Voluntary AI Code (2023), Principle Transparency`
+
+On first reference in a document, include the relevant portal URL: ISED AIDA companion document (https://ised-isde.canada.ca/site/innovation-better-canada/en/artificial-intelligence-and-data-act-aida-companion-document), Parliament of Canada Bill C-27 (https://www.parl.ca/DocumentViewer/en/44-1/bill/C-27), Office of the Privacy Commissioner of Canada (https://www.priv.gc.ca/), OSFI (https://www.osfi-bsif.gc.ca/), Treasury Board Directive (https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/responsible-use-ai.html), Commission d'acces a l'information du Quebec (https://www.cai.gouv.qc.ca/).
+
 ### Singapore AI governance instruments
 
 Four Singapore instruments each have a fixed citation prefix:

@@ -1353,3 +1353,33 @@ mappings:
         date: "2023-12"
     notes: "ISO management-system clause requires continual improvement as an ongoing discipline. EU AI Act Article 20 mandates corrective action on nonconformity but does not impose a continual-improvement obligation."
     bidirectional: false
+
+  - id: iso42001--clause-9-2--eu-ai-act--art-17-1-d
+    source_framework: iso42001
+    source_ref: "Clause 9.2"
+    source_title: "Internal audit"
+    target_framework: eu-ai-act
+    target_ref: "Article 17, Paragraph 1, Point (d)"
+    target_title: "Examination, test and validation procedures to be carried out before, during and after the development of the high-risk AI system, and the frequency with which they have to be performed"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "CEN-CENELEC JTC 21 WG1 drafts"
+        date: "2024"
+    notes: "ISO 9.2 internal audit programme partially satisfies Article 17(1)(d) by testing and validating that AIMS procedures operate as designed. Does not itself produce the pre-deployment technical validation evidence Article 17(1)(d) demands."
+    bidirectional: false
+
+  - id: iso42001--clause-9-2--eu-ai-act--art-17-1-k
+    source_framework: iso42001
+    source_ref: "Clause 9.2"
+    source_title: "Internal audit"
+    target_framework: eu-ai-act
+    target_ref: "Article 17, Paragraph 1, Point (k)"
+    target_title: "Record-keeping of all relevant documentation and information"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "CEN-CENELEC JTC 21 WG1 drafts"
+        date: "2024"
+    notes: "ISO 9.2.2(e) retention of documented information as evidence of audit programme satisfies the Article 17(1)(k) record-keeping obligation for internal audit activity under the QMS."
+    bidirectional: false
