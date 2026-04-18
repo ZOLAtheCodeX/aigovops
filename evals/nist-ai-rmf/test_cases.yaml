@@ -1,37 +1,312 @@
 # AIGovOps Skill Evaluation Harness
 # Skill: nist-ai-rmf
 # Purpose: validate skill outputs against known-correct framework mappings
-# Format: input scenario produces expected function and subcategory mappings
-# All test cases must be validated against authoritative framework text before merging.
-# See ../README.md for the test case schema and ../../STYLE.md for citation formats.
+# Format: input scenario produces expected artifact structure and subcategory references
+# Schema: see ../README.md
+# Citation format: see ../../STYLE.md
+#
+# Test case status legend:
+#   stub      placeholder content, no validation against standard
+#   validated content grounded in NIST AI RMF 1.0 Core text; validated_by populated
+#   deprecated superseded; kept for history
+#
+# All test cases below are authored against the SKILL.md v0.2.0-draft content.
+# Status is stub because they have not been validated by a NIST AI RMF practitioner
+# against the published AI RMF 1.0 Core and AI RMF Playbook. Validation converts
+# status to validated and populates validated_by.
+#
+# Cases with "tier: T1.N" that reference a shared operationalization with the
+# iso42001 skill specifically test the NIST-specific differences (citation format,
+# input vocabulary, added fields), not the shared plugin behavior itself.
 
 test_cases:
   - id: nist-ai-rmf-001
-    description: "STUB: AI system context description maps to correct GOVERN subcategories"
-    input: "PLACEHOLDER: AI system context, intended use, deployment environment"
+    tier: T1.1
+    description: |
+      AI System Impact Assessment for a content moderation system. Tests
+      NIST-specific framing: trustworthy-AI characteristics replace ISO 42001
+      dimensions, MAP function subcategory citations, benefits and costs
+      documented with equal rigor per MAP 3.1 and MAP 3.2.
+    input:
+      system_description:
+        system_name: "CommunityMod-v3"
+        purpose: "Classify user-generated posts for policy violations across 18 categories."
+        intended_use: "Pre-filter flagged content for human moderator queue; auto-remove only for highest-confidence policy violations on a narrow list."
+        decision_authority: "mixed (auto for narrow high-confidence set, decision-support otherwise)"
+        data_processed: ["user post text", "image content", "metadata"]
+        deployment_environment: "Public-facing social platform, global user base."
+      affected_stakeholders:
+        - "Users whose content is auto-removed"
+        - "Users whose content is queued for review"
+        - "Users who report content"
+        - "Human moderators"
+        - "Protected-class users (language, political affiliation, identity groups)"
+      trustworthy_ai_characteristics_in_scope:
+        - "valid-and-reliable"
+        - "safe"
+        - "fair-with-bias-managed"
+        - "accountable-and-transparent"
+        - "explainable-and-interpretable"
     expected_outputs:
-      - "PLACEHOLDER: expected GOVERN subcategory mapping"
+      - "AISIA-section records cite MAP 1.1 (intended purpose), MAP 3.1 (benefits), MAP 3.2 (costs), MAP 5.1 (likelihood and magnitude per impact)."
+      - "Every identified impact is mapped to at least one NIST trustworthy-AI characteristic."
+      - "Benefits (MAP 3.1) are documented with comparable rigor to costs (MAP 3.2); both sides are populated, not asymmetric."
+      - "Representational-harm rate is flagged for the fair-with-bias-managed characteristic."
+      - "Output supports dual-citation rendering (NIST only, or NIST + ISO 42001 Clause 6.1.4) per organizational preference."
     clause_references:
-      - "GOVERN 1.1"
+      - "MAP 1.1"
+      - "MAP 3.1"
+      - "MAP 3.2"
+      - "MAP 5.1"
     status: stub
     validated_by: null
+    authored_by: "AIGovOps Contributors (Claude Code draft, pending practitioner validation)"
 
   - id: nist-ai-rmf-002
-    description: "STUB: AI risk identification produces complete MAP function coverage"
-    input: "PLACEHOLDER: AI system inventory and risk context"
+    tier: T1.2
+    description: |
+      Technical performance and safety measurement cycle for a deployed
+      fraud-detection model. NIST-distinctive Tier 1 case: tests that the
+      metric collection covers MEASURE 2.1, 2.3, 2.5, 2.6, and 2.7 with
+      subcategory-specific KPI records, that threshold breaches route to the
+      risk register or nonconformity workflow, and that meta-measurement
+      cadence is honored.
+    input:
+      ai_system:
+        system_name: "FraudScore-Prod"
+        system_type: "classical-ml"
+        purpose: "Score inbound payment transactions for fraud probability; auto-block above threshold, flag for review otherwise."
+      measurement_window:
+        start: "2026-04-01T00:00:00Z"
+        end: "2026-04-30T23:59:59Z"
+      test_sets:
+        - id: "TS-holdout-2026Q1"
+          provenance: "Sampled from production 2026-Q1 transactions, human-labeled by fraud ops."
+          size: 50000
+        - id: "TS-adversarial-2026Q2"
+          provenance: "Synthesized adversarial examples from known fraud-ring techniques."
+          size: 2000
+      deployment_telemetry:
+        latency_p95_ms: 42
+        error_rate_per_million: 3
+        drift_indicators: ["feature-distribution-psi=0.12"]
+      incident_log:
+        - id: "INC-2026-04-11"
+          severity: "minor"
+          description: "Short-lived spike in false-positive rate for one merchant category after a processor configuration change; resolved in 47 minutes."
+      organizational_thresholds:
+        validity_f1_min: 0.88
+        in_context_accuracy_min: 0.91
+        safety_incident_severity_ceiling: "moderate"
+        security_adversarial_robustness_min: 0.70
     expected_outputs:
-      - "PLACEHOLDER: expected MAP subcategory list with rationale"
+      - "KPI records for validity-reliability family cite MEASURE 2.5 and MEASURE 2.1."
+      - "KPI records for in-context-performance family cite MEASURE 2.3."
+      - "KPI records for safety family cite MEASURE 2.6; INC-2026-04-11 is linked from the corresponding KPI record."
+      - "KPI records for security-resilience family cite MEASURE 2.7; adversarial robustness measured against the TS-adversarial-2026Q2 set."
+      - "Every KPI record carries measurement_method_ref and test_set_ref."
+      - "V&V record summarizes the cycle with subcategory citations for every metric computed."
+      - "No threshold breaches in this input scenario, so no nonconformity-record is raised; but the KPI drift indicator (PSI=0.12) crosses a watch threshold and is surfaced to the risk register as a monitoring note."
     clause_references:
-      - "MAP 3.5"
-    status: stub
-    validated_by: null
-
-  - id: nist-ai-rmf-003
-    description: "STUB: AI system performance metric selection aligns with MEASURE subcategories"
-    input: "PLACEHOLDER: AI system type, risk tier, and stakeholder requirements"
-    expected_outputs:
-      - "PLACEHOLDER: expected MEASURE subcategory mapping"
-    clause_references:
+      - "MEASURE 2.1"
+      - "MEASURE 2.3"
+      - "MEASURE 2.5"
+      - "MEASURE 2.6"
       - "MEASURE 2.7"
     status: stub
     validated_by: null
+    authored_by: "AIGovOps Contributors (Claude Code draft, pending practitioner validation)"
+
+  - id: nist-ai-rmf-003
+    tier: T1.3
+    description: |
+      Risk register generation for a dual-track (NIST + ISO 42001)
+      organization. Tests NIST-specific additions: trustworthy-AI taxonomy,
+      MANAGE 1.4 negative_residual_disclosure_ref field populated for
+      residuals disclosed to affected parties, dual-citation rendering.
+    input:
+      ai_system:
+        system_name: "LoanDecisionAssist"
+        system_type: "classical-ml"
+        purpose: "Score loan applications for risk-adjusted approval recommendations."
+        deployment_context: "Consumer lending, FCRA-regulated, adverse-action notices required."
+      risk_taxonomy_mode: "nist-trustworthy-ai"
+      dual_track: true
+      stakeholder_consultation_notes: "Consumer advocates requested transparency on adverse-action reasoning; regulators flagged fair-lending compliance."
+      role_matrix_ref: "role-matrix-2026-03"
+    expected_outputs:
+      - "risk-register-row per identified (system, trustworthy-AI characteristic) pair with an identified risk."
+      - "Every row carries both MAP/MANAGE subcategory citations (MAP 4.1, MANAGE 1.2, MANAGE 1.3) and ISO/IEC 42001:2023, Clause 6.1.2 citations for the dual-track organization."
+      - "Rows where treatment option is retain carry negative_residual_disclosure_ref citing MANAGE 1.4; the referenced disclosure names the adverse-action notice content as the disclosure vehicle."
+      - "Fair-with-bias-managed risk row exists and links to MEASURE 2.10 fairness metrics as existing controls."
+      - "Accountable-and-transparent risk row links to the adverse-action notice process as an existing control."
+    clause_references:
+      - "MAP 4.1"
+      - "MANAGE 1.2"
+      - "MANAGE 1.3"
+      - "MANAGE 1.4"
+      - "ISO/IEC 42001:2023, Clause 6.1.2"
+      - "ISO/IEC 42001:2023, Clause 6.1.3"
+    status: stub
+    validated_by: null
+    authored_by: "AIGovOps Contributors (Claude Code draft, pending practitioner validation)"
+
+  - id: nist-ai-rmf-004
+    tier: T1.4
+    description: |
+      Role and responsibility matrix for a NIST AI RMF adopter. Tests
+      NIST-specific decision categories (RMF adoption scope, trustworthy-AI
+      characteristic prioritization, metric catalog approval, generative-AI
+      policy approval) and the interdisciplinary_coverage flag grounded in
+      GOVERN 3.1 and MAP 1.2.
+    input:
+      org_chart:
+        - role: "Chief Executive Officer"
+        - role: "Chief Risk Officer"
+          reports_to: "Chief Executive Officer"
+        - role: "AI Governance Officer"
+          reports_to: "Chief Risk Officer"
+        - role: "Chief Data Officer"
+          reports_to: "Chief Executive Officer"
+        - role: "Chief Legal Officer"
+          reports_to: "Chief Executive Officer"
+        - role: "Head of ML Platform"
+          reports_to: "Chief Technology Officer"
+        - role: "Head of Responsible AI"
+          reports_to: "Chief Risk Officer"
+      decision_categories:
+        - "AI RMF adoption scope"
+        - "Trustworthy-AI characteristic prioritization"
+        - "Metric catalog approval"
+        - "Generative-AI policy approval"
+        - "Risk acceptance"
+        - "Incident response"
+      interdisciplinary_composition_evidence_ref: "AI-Steering-Committee-Charter-2026"
+    expected_outputs:
+      - "role-matrix rows cover propose, review, approve, consulted, informed for each NIST-specific decision category."
+      - "Metric catalog approval row names AI Governance Officer or Head of Responsible AI as the approver; Head of ML Platform is consulted."
+      - "Generative-AI policy approval row includes Chief Legal Officer as consulted given regulatory exposure."
+      - "Each decision category row carries the interdisciplinary_coverage flag with a reference to AI-Steering-Committee-Charter-2026."
+      - "Matrix header cites both GOVERN 2.1 and (for dual-track orgs) ISO/IEC 42001:2023, Clause 5.3 and Annex A, Control A.3.2."
+    clause_references:
+      - "GOVERN 2.1"
+      - "GOVERN 3.1"
+      - "MAP 1.2"
+      - "ISO/IEC 42001:2023, Clause 5.3"
+      - "ISO/IEC 42001:2023, Annex A, Control A.3.2"
+    status: stub
+    validated_by: null
+    authored_by: "AIGovOps Contributors (Claude Code draft, pending practitioner validation)"
+
+  - id: nist-ai-rmf-005
+    tier: T1.5
+    description: |
+      Ongoing monitoring dashboard snapshot generation. Tests aggregate
+      KPI rendering across multiple systems and metric families, GOVERN 1.5
+      and MANAGE 4.1 citations, meta-measurement cadence at MEASURE 4.1
+      with an evaluation of measurement efficacy.
+    input:
+      monitoring_plan_ref: "MP-2026-Q2"
+      systems_in_scope:
+        - "FraudScore-Prod"
+        - "LoanDecisionAssist"
+        - "CommunityMod-v3"
+      surfacing_cadence: "weekly"
+      meta_measurement_cadence: "quarterly"
+      current_snapshot_period: "2026-04-14 to 2026-04-20"
+      kpi_record_source: "KPI-store-weekly-2026-04-20"
+      risk_register_ref: "RR-register-2026-04-20"
+      nonconformity_log_ref: "NC-log-2026-04-20"
+    expected_outputs:
+      - "Dashboard snapshot record covers every system in scope with KPI aggregates for every metric family designated for surfacing."
+      - "Snapshot cites MEASURE 3.1 at the snapshot level."
+      - "Executive view framing cites GOVERN 1.5."
+      - "Per-system post-deployment view cites MANAGE 4.1 per system."
+      - "At the quarterly meta-measurement boundary, a separate V&V record cites MEASURE 4.1 and evaluates whether the metrics detected what they should, whether thresholds are calibrated, and whether measurement drift is occurring."
+      - "Snapshot is linked to the risk register and nonconformity log for the same window, allowing cross-navigation from a breached KPI to the corresponding risk or nonconformity."
+    clause_references:
+      - "GOVERN 1.5"
+      - "MEASURE 3.1"
+      - "MEASURE 4.1"
+      - "MANAGE 4.1"
+    status: stub
+    validated_by: null
+    authored_by: "AIGovOps Contributors (Claude Code draft, pending practitioner validation)"
+
+  - id: nist-ai-rmf-006
+    tier: T1.6
+    description: |
+      Privacy and fairness metrics computation for a generative AI customer
+      support system. NIST-distinctive Tier 1 case: tests the default metric
+      catalog under MEASURE 2.9 (privacy) and MEASURE 2.10 (fairness) with
+      protected-group documentation, AI 600-1 overlay applied, and
+      disparity-triggered risk register update.
+    input:
+      ai_system:
+        system_name: "CS-GenAI-Assist"
+        system_type: "generative-ai"
+        deployment_context: "Customer-facing chat."
+      protected_groups:
+        - group: "primary-language-english"
+          legal_basis: "organizational inclusion policy; no jurisdictional protected-class status at this site"
+        - group: "primary-language-spanish"
+          legal_basis: "organizational inclusion policy"
+      test_sets:
+        - id: "TS-privacy-probe-2026Q2"
+          provenance: "Adversarial probes constructed from public prompt-injection research datasets."
+        - id: "TS-fairness-eval-2026Q2"
+          provenance: "Stratified sampling of production conversations labeled for outcome and language."
+      genai_overlay_enabled: true
+      organizational_thresholds:
+        demographic_parity_difference_max: 0.05
+        pii_in_outputs_rate_max: 0.001
+        training_data_regurgitation_rate_max: 0.0005
+      role_matrix_ref: "role-matrix-2026-03"
+    expected_outputs:
+      - "Privacy KPI records for training-data-exposure, membership-inference-risk, attribute-inference-risk, and pii-in-outputs cite MEASURE 2.9."
+      - "AI 600-1 overlay adds data-regurgitation metric; KPI citation reads 'MEASURE 2.6 (AI 600-1 overlay)' or similar with explicit overlay marker."
+      - "Fairness KPI records for demographic-parity-difference, equal-opportunity-difference, and calibration-parity cite MEASURE 2.10."
+      - "Representational-harm-rate metric present given system_type=generative-ai."
+      - "Protected-group definitions are persisted with their legal_basis."
+      - "Threshold breach on demographic-parity-difference routes to a risk-register update and raises a nonconformity-record citing MANAGE 4.2 equivalence."
+      - "DPO or equivalent role from role_matrix is named on the privacy KPI approval chain."
+    clause_references:
+      - "MEASURE 2.9"
+      - "MEASURE 2.10"
+      - "MEASURE 2.1"
+    status: stub
+    validated_by: null
+    authored_by: "AIGovOps Contributors (Claude Code draft, pending practitioner validation)"
+
+  - id: nist-ai-rmf-007
+    tier: T1.7
+    description: |
+      Continual improvement integration: nonconformity lifecycle with the
+      NIST-specific improvement_outcome field populated. Tests MANAGE 4.2
+      framing (measurable continual improvement) beyond the iso42001 T1.5
+      cause-elimination framing.
+    input:
+      nonconformity_ref: "NC-2026-04-15-001"
+      nonconformity_description: "Demographic-parity difference in CS-GenAI-Assist exceeded organizational threshold (0.07 observed vs 0.05 max) for primary-language-spanish group in advance-to-human-agent rate."
+      source_citation: "MEASURE 2.10"
+      corrective_actions:
+        - "Retrained routing classifier with balanced language representation in training data."
+        - "Added language-aware queue prioritization logic in production routing layer."
+      effectiveness_review_window: "30 days post-deployment"
+      measurement_post_deployment:
+        demographic_parity_difference_before: 0.07
+        demographic_parity_difference_after: 0.03
+        sample_size_after: 18000
+    expected_outputs:
+      - "nonconformity-record state progresses through the Clause 10.2 equivalent workflow (detected, investigated, root-cause-identified, corrective-action-planned, -in-progress, -complete, effectiveness-reviewed, closed)."
+      - "improvement_outcome field is populated with the positive-direction result (disparity reduced from 0.07 to 0.03, back under threshold)."
+      - "Record cites MANAGE 4.2 for the continual improvement framing, and MEASURE 2.10 for the source metric."
+      - "Dual-track citations include ISO/IEC 42001:2023, Clause 10.2 when the organization operates under both frameworks."
+      - "Management review input package references this closure in the continual-improvement section, citing MANAGE 4.2."
+    clause_references:
+      - "MANAGE 4.2"
+      - "MEASURE 2.10"
+      - "ISO/IEC 42001:2023, Clause 10.2"
+    status: stub
+    validated_by: null
+    authored_by: "AIGovOps Contributors (Claude Code draft, pending practitioner validation)"
