@@ -111,6 +111,25 @@ Examples:
 
 On first reference in a document, include the relevant portal URL: CPPA regulations (https://cppa.ca.gov/regulations/), California Legislative Information (https://leginfo.legislature.ca.gov/), California Attorney General AI hub (https://oag.ca.gov/ai).
 
+### Singapore AI governance instruments
+
+Four Singapore instruments each have a fixed citation prefix:
+
+- Singapore Model AI Governance Framework, Second Edition (IMDA/PDPC, 2020): `Singapore MAGF 2e, Pillar <name>` for the four pillars (Internal Governance Structures and Measures; Determining the Level of Human Involvement; Operations Management; Stakeholder Interaction and Communication), or `Singapore MAGF 2e, Section <section>` for a specific section reference.
+- MAS FEAT Principles (2018): `MAS FEAT Principles (2018), Principle <Fairness|Ethics|Accountability|Transparency>`. One of the four fixed principle names.
+- AI Verify (IMDA 2024): `AI Verify (IMDA 2024), Principle <name>` where `<name>` is one of the 11 AI Verify principles (`accountability`, `data-governance`, `human-agency-oversight`, `inclusive-growth`, `privacy`, `reproducibility`, `robustness`, `safety`, `security`, `transparency`, `fairness`).
+- MAS Veritas methodology (2019 through 2022): `MAS Veritas (2022)` for the methodology as a whole. Phase-specific references use `MAS Veritas Document <n>: <phase>` (for example `MAS Veritas Document 1: Fairness`).
+
+Examples:
+
+- `Singapore MAGF 2e, Pillar Internal Governance Structures and Measures`
+- `Singapore MAGF 2e, Pillar Operations Management`
+- `MAS FEAT Principles (2018), Principle Fairness`
+- `AI Verify (IMDA 2024), Principle human-agency-oversight`
+- `MAS Veritas (2022)`
+
+On first reference in a document, include the authoritative source URL: MAGF 2e (https://www.pdpc.gov.sg/help-and-resources/2020/01/model-ai-governance-framework), AI Verify Foundation (https://aiverifyfoundation.sg/), MAS (https://www.mas.gov.sg/).
+
 ### Statutory-presumption relationship (crosswalk)
 
 Crosswalk output uses a fixed 7-value relationship vocabulary defined in `plugins/crosswalk-matrix-builder/data/SCHEMA.md`. One value, `statutory-presumption`, is canonical and load-bearing and must not be flattened into `satisfies` or `partial-satisfaction` in any citation or downstream artifact.

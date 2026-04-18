@@ -15,6 +15,7 @@ A skill is a knowledge package that operationalizes a specific AI governance fra
 | [nyc-ll144](nyc-ll144/SKILL.md) | NYC Local Law 144 of 2021 (bias audit for AEDTs) | 0.1.0 | released |
 | [california-ai](california-ai/SKILL.md) | California AI regulatory landscape primer | 0.1.0 | released |
 | [cross-framework-crosswalk](cross-framework-crosswalk/SKILL.md) | Cross-framework coverage, gaps, and matrix queries (ISO 42001, NIST AI RMF, EU AI Act, UK ATRS, Colorado SB 205, NYC LL144, California) | 0.1.0 | released |
+| [singapore-ai-governance](singapore-ai-governance/SKILL.md) | Singapore MAGF 2e, MAS FEAT Principles, AI Verify | 0.1.0 | released |
 
 ## Adding a new skill
 

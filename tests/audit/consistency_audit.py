@@ -47,6 +47,7 @@ PLUGIN_PUBLIC_FUNCTIONS = {
     "uk-atrs-recorder": ["generate_atrs_record", "render_markdown", "render_csv"],
     "colorado-ai-act-compliance": ["generate_compliance_record", "render_markdown", "render_csv"],
     "nyc-ll144-audit-packager": ["generate_audit_package", "render_markdown", "render_csv"],
+    "singapore-magf-assessor": ["generate_magf_assessment", "render_markdown", "render_csv"],
 }
 
 

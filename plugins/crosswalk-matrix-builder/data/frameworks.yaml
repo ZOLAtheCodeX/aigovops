@@ -105,3 +105,36 @@ frameworks:
     jurisdiction: usa-ca
     published: "2024-09"
     citation_format: "Cal. Civ. Code Section 3344.1"
+
+  - id: singapore-magf
+    name: "Singapore Model AI Governance Framework, Second Edition"
+    jurisdiction: singapore
+    authority: "IMDA; PDPC"
+    published: "2020-01"
+    url: "https://www.pdpc.gov.sg/help-and-resources/2020/01/model-ai-governance-framework"
+    citation_format: "Singapore MAGF 2e, Pillar <name>"
+    alt_citation_format: "Singapore MAGF 2e, Section <section>"
+
+  - id: mas-feat
+    name: "MAS FEAT Principles (Fairness, Ethics, Accountability, Transparency)"
+    jurisdiction: singapore
+    authority: "Monetary Authority of Singapore"
+    published: "2018-11"
+    url: "https://www.mas.gov.sg/"
+    citation_format: "MAS FEAT Principles (2018), Principle <name>"
+
+  - id: ai-verify
+    name: "AI Verify (IMDA) Technical Testing Framework"
+    jurisdiction: singapore
+    authority: "IMDA; AI Verify Foundation"
+    published: "2024"
+    url: "https://aiverifyfoundation.sg/"
+    citation_format: "AI Verify (IMDA 2024), Principle <name>"
+
+  - id: mas-veritas
+    name: "MAS Veritas FEAT Methodology"
+    jurisdiction: singapore
+    authority: "Monetary Authority of Singapore; Veritas Consortium"
+    published: "2022"
+    url: "https://www.mas.gov.sg/"
+    citation_format: "MAS Veritas (2022)"

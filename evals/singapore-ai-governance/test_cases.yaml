@@ -1,0 +1,145 @@
+# AIGovOps Skill Evaluation Harness
+# Skill: singapore-ai-governance
+# Purpose: validate skill outputs against Singapore MAGF 2e (2020), MAS FEAT
+# Principles (2018), and AI Verify (IMDA 2024).
+# Format: input scenario produces expected output structure and citation set.
+# Schema: see ../README.md
+# Citation format: see ../../STYLE.md
+#
+# Test cases target SKILL.md v0.1.0 (released). Two scenarios exercise the
+# `singapore-magf-assessor` plugin: one general-industry MAGF-only scenario
+# (HR resume screening), one financial-services MAGF + FEAT scenario (bank
+# credit scoring at a MAS-regulated institution).
+# Validated by Zola Valashiya on 2026-04-18.
+
+test_cases:
+  - id: singapore-ai-governance-001
+    tier: T1
+    description: |
+      General-industry MAGF assessment: a Singapore-operating HR resume
+      screening tool. Exercises all four MAGF pillars, human-in-the-loop
+      tier selection, and the AI Verify principle coverage lookup. FEAT
+      does not apply (org type = general).
+    input:
+      organization_type: "general"
+      system_description:
+        system_name: "SG-ResumeScreen"
+        human_involvement_tier: "human-in-the-loop"
+        pillar_evidence:
+          internal-governance:
+            role_assignments: "AI governance committee chartered with HR head, CTO, DPO."
+            risk_controls: "Quarterly risk review; model approval via committee."
+            staff_training: "Annual AI ethics and bias-awareness training for recruiters."
+          human-involvement:
+            human_involvement_tier: "human-in-the-loop"
+            risk_matrix: "Documented probability-severity matrix; hiring harm = high severity."
+            escalation_process: "Recruiter overrides model ranking on low-confidence cases."
+          operations-management:
+            data_lineage: "End-to-end resume data lineage in data catalog."
+            data_quality: "Monthly data quality checks and null-rate monitoring."
+            bias_mitigation: "Disparate-impact testing across race and sex by quarter."
+            model_robustness: "Adversarial and edge-case testing pre-deployment."
+            explainability: "Per-candidate explanation of top-3 features."
+            reproducibility: "Model artifacts hashed and registered."
+            monitoring: "Drift and fairness dashboards reviewed monthly."
+          stakeholder-communication:
+            disclosure_policy: "Candidate-facing AI-use disclosure on application page."
+            feedback_channel: "Contact form for candidates to query AI-assisted decisions."
+            decision_review_process: "Documented recruiter review for flagged candidates."
+      reviewed_by: "Zola Valashiya (AIGP; LL.M)"
+    expected_outputs:
+      - "applicable_frameworks == ['magf']"
+      - "pillars length == 4"
+      - "every pillar assessment_status == 'addressed'"
+      - "human_involvement_tier.tier == 'human-in-the-loop'"
+      - "ai_verify_principles_coverage length == 11"
+      - "feat_principles not present"
+      - "citations include 'Singapore MAGF 2e, Pillar Internal Governance Structures and Measures'"
+      - "citations include 'AI Verify (IMDA 2024), Principle accountability'"
+    clause_references:
+      - "Singapore MAGF 2e, Pillar Internal Governance Structures and Measures"
+      - "Singapore MAGF 2e, Pillar Determining the Level of Human Involvement"
+      - "Singapore MAGF 2e, Pillar Operations Management"
+      - "Singapore MAGF 2e, Pillar Stakeholder Interaction and Communication"
+      - "AI Verify (IMDA 2024), Principle fairness"
+      - "AI Verify (IMDA 2024), Principle human-agency-oversight"
+    status: validated
+    validated_by: "Zola Valashiya (LL.M Innovation and Technology Law; AIGP) - 2026-04-18"
+    authored_by: "AIGovOps Contributors (Claude Code draft, validated 2026-04-18)"
+
+  - id: singapore-ai-governance-002
+    tier: T1
+    description: |
+      Financial-services MAGF + FEAT assessment: a credit-scoring model at a
+      MAS-regulated Singapore bank. Exercises all four MAGF pillars plus all
+      four MAS FEAT principles with per-sub-criterion evidence. Human
+      involvement = human-over-the-loop (monitor and intervene).
+      Applicable_frameworks = ['magf', 'feat'].
+    input:
+      organization_type: "financial-services"
+      system_description:
+        system_name: "SG-CreditScore-v3"
+        human_involvement_tier: "human-over-the-loop"
+        pillar_evidence:
+          internal-governance:
+            role_assignments: "AI governance board; Chief Risk Officer accountable."
+            risk_controls: "Model Risk Management Policy aligned with MAS MRM guidelines."
+            staff_training: "Quarterly FEAT training for credit risk staff."
+          human-involvement:
+            human_involvement_tier: "human-over-the-loop"
+            risk_matrix: "Credit-harm severity matrix with threshold-based tier assignment."
+            escalation_process: "Underwriter override authority on adverse borderline cases."
+          operations-management:
+            data_lineage: "Credit bureau and internal data lineage in MRM system."
+            data_quality: "Daily data integrity checks; documented lineage from source."
+            bias_mitigation: "Protected-class disparate-impact testing quarterly."
+            model_robustness: "Backtesting and challenger-model comparisons monthly."
+            explainability: "Reason codes returned on every credit decision."
+            reproducibility: "Model binary and feature store versioned."
+            monitoring: "PSI drift and stability index monitoring; quarterly recalibration trigger."
+          stakeholder-communication:
+            disclosure_policy: "Account-opening and product T&Cs disclose AI-assisted credit decisions."
+            feedback_channel: "Customer complaints channel routes AI-decision inquiries to ops."
+            decision_review_process: "Adverse-decision appeal with human credit officer."
+        feat_evidence:
+          fairness:
+            justifiability: "Features and model reviewed annually by model risk committee."
+            accuracy_bias: "Quarterly accuracy and bias review against protected class."
+            systematic_disadvantage: "Disparate-impact testing and remediation triggers."
+          ethics:
+            ethical_standards: "AIDA decisions benchmarked against historical underwriter baseline."
+            alignment: "Model aligned with MAS Guidelines on Fair Dealing."
+            human_alternative: "Borderline cases routed to human underwriter."
+          accountability:
+            internal_approval: "Credit Risk Committee approval with documented minutes."
+            external_accountability: "Customer disclosure notices and AG-equivalent complaint channel."
+            data_subject_rights: "Data-correction and decision-review channels documented."
+            verification: "Reason codes and model card published to compliance."
+          transparency:
+            proactive_disclosure: "Disclosed in product onboarding and digital banking flow."
+            clear_explanation: "Plain-language reason codes on adverse-action notices."
+            ease_of_understanding: "Notices validated with customer usability testing."
+      reviewed_by: "Zola Valashiya (AIGP; LL.M)"
+    expected_outputs:
+      - "applicable_frameworks == ['magf', 'feat']"
+      - "pillars length == 4, all assessment_status == 'addressed'"
+      - "feat_principles length == 4, all assessment_status == 'addressed'"
+      - "human_involvement_tier.tier == 'human-over-the-loop'"
+      - "citations include 'MAS FEAT Principles (2018), Principle Fairness'"
+      - "citations include 'MAS FEAT Principles (2018), Principle Transparency'"
+      - "citations include 'Singapore MAGF 2e, Pillar Operations Management'"
+      - "summary.feat_principles_addressed == 4"
+    clause_references:
+      - "Singapore MAGF 2e, Pillar Internal Governance Structures and Measures"
+      - "Singapore MAGF 2e, Pillar Determining the Level of Human Involvement"
+      - "Singapore MAGF 2e, Pillar Operations Management"
+      - "Singapore MAGF 2e, Pillar Stakeholder Interaction and Communication"
+      - "MAS FEAT Principles (2018), Principle Fairness"
+      - "MAS FEAT Principles (2018), Principle Ethics"
+      - "MAS FEAT Principles (2018), Principle Accountability"
+      - "MAS FEAT Principles (2018), Principle Transparency"
+      - "AI Verify (IMDA 2024), Principle fairness"
+      - "AI Verify (IMDA 2024), Principle transparency"
+    status: validated
+    validated_by: "Zola Valashiya (LL.M Innovation and Technology Law; AIGP) - 2026-04-18"
+    authored_by: "AIGovOps Contributors (Claude Code draft, validated 2026-04-18)"

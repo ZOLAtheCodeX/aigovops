@@ -1,0 +1,668 @@
+# Singapore Model AI Governance Framework 2e (MAGF 2e, 2020) crosswalk to
+# ISO/IEC 42001:2023, NIST AI RMF 1.0, and the EU AI Act. Plus MAS FEAT
+# Principles (2018) crosswalk to the same targets.
+#
+# MAGF is less prescriptive than ISO 42001 and NIST AI RMF; most mappings
+# are `satisfies` or `partial-satisfaction`. AI Verify technical testing and
+# Veritas fairness methodology have no direct ISO equivalent and are
+# represented as `complementary`.
+#
+# Sources:
+# - Singapore MAGF 2e (IMDA/PDPC, January 2020)
+# - MAS "Principles to Promote Fairness, Ethics, Accountability and
+#   Transparency (FEAT) in the Use of Artificial Intelligence and Data
+#   Analytics in Singapore's Financial Sector" (12 November 2018)
+# - AI Verify Foundation AI Verify framework (IMDA, 2024)
+# - MAS Veritas Document Series (2019 through 2022)
+#
+# See SCHEMA.md for invariants.
+
+mappings:
+
+  # -------------------------------------------------------------------------
+  # MAGF Pillar 1: Internal Governance Structures and Measures
+  # -------------------------------------------------------------------------
+
+  - id: singapore-magf--pillar-1--iso42001--clause-5
+    source_framework: singapore-magf
+    source_ref: "Pillar 1"
+    source_title: "Internal Governance Structures and Measures"
+    target_framework: iso42001
+    target_ref: "Clause 5"
+    target_title: "Leadership"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Singapore MAGF 2e"
+        date: "2020-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "ISO 42001 Clause 5 leadership, policy, and roles satisfies the MAGF internal governance pillar."
+    bidirectional: false
+
+  - id: singapore-magf--pillar-1--iso42001--clause-4
+    source_framework: singapore-magf
+    source_ref: "Pillar 1"
+    source_title: "Internal Governance Structures and Measures"
+    target_framework: iso42001
+    target_ref: "Clause 4"
+    target_title: "Context of the organization"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Singapore MAGF 2e"
+        date: "2020-01"
+    notes: "MAGF internal governance presumes clear scope and context determination per ISO 42001 Clause 4."
+    bidirectional: false
+
+  - id: singapore-magf--pillar-1--iso42001--a-2-2
+    source_framework: singapore-magf
+    source_ref: "Pillar 1"
+    source_title: "Internal Governance: AI policy"
+    target_framework: iso42001
+    target_ref: "A.2.2"
+    target_title: "Policies for AI"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Singapore MAGF 2e"
+        date: "2020-01"
+    notes: "MAGF Pillar 1 expectation of AI policy and governance is met by ISO 42001 Annex A Control A.2.2."
+    bidirectional: false
+
+  - id: singapore-magf--pillar-1--iso42001--a-3-2
+    source_framework: singapore-magf
+    source_ref: "Pillar 1"
+    source_title: "Internal Governance: roles and responsibilities"
+    target_framework: iso42001
+    target_ref: "A.3.2"
+    target_title: "AI roles and responsibilities"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Singapore MAGF 2e"
+        date: "2020-01"
+    notes: "MAGF Pillar 1 roles and responsibilities are met by ISO 42001 Annex A Control A.3.2."
+    bidirectional: false
+
+  - id: singapore-magf--pillar-1--iso42001--a-3-3
+    source_framework: singapore-magf
+    source_ref: "Pillar 1"
+    source_title: "Internal Governance: reporting and accountability"
+    target_framework: iso42001
+    target_ref: "A.3.3"
+    target_title: "Reporting of concerns"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Singapore MAGF 2e"
+        date: "2020-01"
+    notes: "MAGF Pillar 1 reporting expectation is met by ISO 42001 Annex A Control A.3.3."
+    bidirectional: false
+
+  - id: singapore-magf--pillar-1--nist-ai-rmf--govern-1-1
+    source_framework: singapore-magf
+    source_ref: "Pillar 1"
+    source_title: "Internal Governance Structures and Measures"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 1.1"
+    target_title: "Legal and regulatory requirements involving AI are understood, managed, and documented"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Singapore MAGF 2e"
+        date: "2020-01"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "MAGF internal governance overlaps with NIST GOVERN 1.1; NIST goes further on legal-regulatory tracking."
+    bidirectional: false
+
+  - id: singapore-magf--pillar-1--nist-ai-rmf--govern-2-1
+    source_framework: singapore-magf
+    source_ref: "Pillar 1"
+    source_title: "Internal Governance: roles and responsibilities"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 2.1"
+    target_title: "Roles, responsibilities, and lines of communication related to AI risks"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Singapore MAGF 2e"
+        date: "2020-01"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "MAGF Pillar 1 roles and responsibilities satisfied by NIST GOVERN 2.1."
+    bidirectional: false
+
+  - id: singapore-magf--pillar-1--nist-ai-rmf--govern-2-2
+    source_framework: singapore-magf
+    source_ref: "Pillar 1"
+    source_title: "Internal Governance: staff training"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 2.2"
+    target_title: "Training for the AI workforce"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Singapore MAGF 2e"
+        date: "2020-01"
+    notes: "MAGF Pillar 1 staff training is met by NIST GOVERN 2.2."
+    bidirectional: false
+
+  - id: singapore-magf--pillar-1--nist-ai-rmf--govern-4-1
+    source_framework: singapore-magf
+    source_ref: "Pillar 1"
+    source_title: "Internal Governance: accountability structures"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 4.1"
+    target_title: "Organizational policies, processes, and practices for documenting and managing AI risks"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Singapore MAGF 2e"
+        date: "2020-01"
+    notes: "MAGF Pillar 1 accountability structures are met by NIST GOVERN 4.1."
+    bidirectional: false
+
+  # -------------------------------------------------------------------------
+  # MAGF Pillar 2: Human Involvement in AI-Augmented Decision-Making
+  # -------------------------------------------------------------------------
+
+  - id: singapore-magf--pillar-2--iso42001--a-9-2
+    source_framework: singapore-magf
+    source_ref: "Pillar 2"
+    source_title: "Determining the Level of Human Involvement"
+    target_framework: iso42001
+    target_ref: "A.9.2"
+    target_title: "Human oversight"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Singapore MAGF 2e"
+        date: "2020-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "MAGF Pillar 2 tier selection (human-in-the-loop, over-the-loop, out-of-the-loop) aligns with ISO 42001 Annex A Control A.9.2 human oversight."
+    bidirectional: false
+
+  - id: singapore-magf--pillar-2--iso42001--clause-6-1-2
+    source_framework: singapore-magf
+    source_ref: "Pillar 2"
+    source_title: "Probability-severity matrix for human involvement"
+    target_framework: iso42001
+    target_ref: "Clause 6.1.2"
+    target_title: "AI risk assessment"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Singapore MAGF 2e"
+        date: "2020-01"
+    notes: "MAGF probability-severity matrix is a structured AI risk assessment per ISO 42001 Clause 6.1.2."
+    bidirectional: false
+
+  - id: singapore-magf--pillar-2--nist-ai-rmf--manage-2-3
+    source_framework: singapore-magf
+    source_ref: "Pillar 2"
+    source_title: "Human involvement tier selection"
+    target_framework: nist-ai-rmf
+    target_ref: "MANAGE 2.3"
+    target_title: "Mechanisms to supersede, disengage, or deactivate existing AI systems"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Singapore MAGF 2e"
+        date: "2020-01"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "MAGF tier selection and override expectation is met by NIST MANAGE 2.3."
+    bidirectional: false
+
+  - id: singapore-magf--pillar-2--nist-ai-rmf--map-5-1
+    source_framework: singapore-magf
+    source_ref: "Pillar 2"
+    source_title: "Probability-severity risk matrix"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 5.1"
+    target_title: "Likelihood and magnitude of impacts"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Singapore MAGF 2e"
+        date: "2020-01"
+    notes: "MAGF probability-severity mapping is the same analytical structure as NIST MAP 5.1."
+    bidirectional: false
+
+  - id: singapore-magf--pillar-2--eu-ai-act--article-14
+    source_framework: singapore-magf
+    source_ref: "Pillar 2"
+    source_title: "Human involvement tier selection"
+    target_framework: eu-ai-act
+    target_ref: "Article 14"
+    target_title: "Human oversight"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Singapore MAGF 2e"
+        date: "2020-01"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "MAGF Pillar 2 partly satisfies EU AI Act Article 14; the EU Act is prescriptive about high-risk system oversight obligations that MAGF does not mandate."
+    bidirectional: false
+
+  - id: singapore-magf--pillar-2--ai-verify--human-agency-oversight
+    source_framework: singapore-magf
+    source_ref: "Pillar 2"
+    source_title: "Determining the Level of Human Involvement"
+    target_framework: ai-verify
+    target_ref: "Principle human-agency-oversight"
+    target_title: "Human agency and oversight"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "AI Verify Foundation framework"
+        date: "2024"
+    notes: "AI Verify principle of human agency and oversight operationalizes MAGF Pillar 2 directly."
+    bidirectional: true
+
+  # -------------------------------------------------------------------------
+  # MAGF Pillar 3: Operations Management
+  # -------------------------------------------------------------------------
+
+  - id: singapore-magf--pillar-3--iso42001--a-6-2-4
+    source_framework: singapore-magf
+    source_ref: "Pillar 3"
+    source_title: "Operations Management"
+    target_framework: iso42001
+    target_ref: "A.6.2.4"
+    target_title: "Verification and validation of AI systems"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Singapore MAGF 2e"
+        date: "2020-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "MAGF Pillar 3 verification, robustness, and monitoring expectations are met by ISO 42001 Annex A Control A.6.2.4."
+    bidirectional: false
+
+  - id: singapore-magf--pillar-3--iso42001--a-7-3
+    source_framework: singapore-magf
+    source_ref: "Pillar 3"
+    source_title: "Operations Management: data accountability"
+    target_framework: iso42001
+    target_ref: "A.7.3"
+    target_title: "Data resources for AI systems"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Singapore MAGF 2e"
+        date: "2020-01"
+    notes: "MAGF Pillar 3 data lineage and suitability are met by ISO 42001 Annex A Control A.7.3."
+    bidirectional: false
+
+  - id: singapore-magf--pillar-3--iso42001--a-7-4
+    source_framework: singapore-magf
+    source_ref: "Pillar 3"
+    source_title: "Operations Management: data quality"
+    target_framework: iso42001
+    target_ref: "A.7.4"
+    target_title: "Quality of data for AI systems"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Singapore MAGF 2e"
+        date: "2020-01"
+    notes: "MAGF Pillar 3 data quality is met by ISO 42001 Annex A Control A.7.4."
+    bidirectional: false
+
+  - id: singapore-magf--pillar-3--iso42001--a-6-2-6
+    source_framework: singapore-magf
+    source_ref: "Pillar 3"
+    source_title: "Operations Management: reproducibility and documentation"
+    target_framework: iso42001
+    target_ref: "A.6.2.6"
+    target_title: "AI system technical documentation"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Singapore MAGF 2e"
+        date: "2020-01"
+    notes: "MAGF Pillar 3 reproducibility and technical documentation are met by ISO 42001 Annex A Control A.6.2.6."
+    bidirectional: false
+
+  - id: singapore-magf--pillar-3--nist-ai-rmf--measure-2-7
+    source_framework: singapore-magf
+    source_ref: "Pillar 3"
+    source_title: "Operations Management: robustness testing"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 2.7"
+    target_title: "AI system security and resilience evaluated and documented"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Singapore MAGF 2e"
+        date: "2020-01"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "MAGF Pillar 3 robustness testing is met by NIST MEASURE 2.7."
+    bidirectional: false
+
+  - id: singapore-magf--pillar-3--nist-ai-rmf--measure-2-11
+    source_framework: singapore-magf
+    source_ref: "Pillar 3"
+    source_title: "Operations Management: bias mitigation"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 2.11"
+    target_title: "Fairness and bias regularly evaluated"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Singapore MAGF 2e"
+        date: "2020-01"
+    notes: "MAGF Pillar 3 bias mitigation is met by NIST MEASURE 2.11."
+    bidirectional: false
+
+  - id: singapore-magf--pillar-3--nist-ai-rmf--measure-2-9
+    source_framework: singapore-magf
+    source_ref: "Pillar 3"
+    source_title: "Operations Management: explainability"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 2.9"
+    target_title: "Interpretability and explainability"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Singapore MAGF 2e"
+        date: "2020-01"
+    notes: "MAGF Pillar 3 explainability is met by NIST MEASURE 2.9."
+    bidirectional: false
+
+  - id: singapore-magf--pillar-3--nist-ai-rmf--manage-4-1
+    source_framework: singapore-magf
+    source_ref: "Pillar 3"
+    source_title: "Operations Management: monitoring and tuning"
+    target_framework: nist-ai-rmf
+    target_ref: "MANAGE 4.1"
+    target_title: "Post-deployment AI system monitoring"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Singapore MAGF 2e"
+        date: "2020-01"
+    notes: "MAGF Pillar 3 periodic tuning and monitoring are met by NIST MANAGE 4.1."
+    bidirectional: false
+
+  - id: singapore-magf--pillar-3--ai-verify--robustness
+    source_framework: singapore-magf
+    source_ref: "Pillar 3"
+    source_title: "Operations Management: model robustness"
+    target_framework: ai-verify
+    target_ref: "Principle robustness"
+    target_title: "Robustness"
+    relationship: complementary
+    confidence: high
+    citation_sources:
+      - publication: "AI Verify Foundation framework"
+        date: "2024"
+    notes: "AI Verify robustness testing complements MAGF Pillar 3 with technical test procedures that have no direct ISO 42001 equivalent."
+    bidirectional: true
+
+  # -------------------------------------------------------------------------
+  # MAGF Pillar 4: Stakeholder Interaction and Communication
+  # -------------------------------------------------------------------------
+
+  - id: singapore-magf--pillar-4--iso42001--a-8-2
+    source_framework: singapore-magf
+    source_ref: "Pillar 4"
+    source_title: "Stakeholder Interaction and Communication"
+    target_framework: iso42001
+    target_ref: "A.8.2"
+    target_title: "Information for interested parties"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Singapore MAGF 2e"
+        date: "2020-01"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "MAGF Pillar 4 disclosure and communication obligations are met by ISO 42001 Annex A Control A.8.2."
+    bidirectional: false
+
+  - id: singapore-magf--pillar-4--iso42001--a-8-3
+    source_framework: singapore-magf
+    source_ref: "Pillar 4"
+    source_title: "Stakeholder Communication: acceptable-use policies"
+    target_framework: iso42001
+    target_ref: "A.8.3"
+    target_title: "External reporting"
+    relationship: partial-satisfaction
+    confidence: medium
+    citation_sources:
+      - publication: "Singapore MAGF 2e"
+        date: "2020-01"
+    notes: "ISO 42001 Annex A Control A.8.3 partially satisfies the MAGF acceptable-use expectations; MAGF scope also covers consumer-facing channels."
+    bidirectional: false
+
+  - id: singapore-magf--pillar-4--nist-ai-rmf--govern-5-1
+    source_framework: singapore-magf
+    source_ref: "Pillar 4"
+    source_title: "Stakeholder Communication: disclosure"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 5.1"
+    target_title: "Organizational policies for communication with AI actors and relevant third parties"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Singapore MAGF 2e"
+        date: "2020-01"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "MAGF Pillar 4 disclosure is met by NIST GOVERN 5.1."
+    bidirectional: false
+
+  - id: singapore-magf--pillar-4--nist-ai-rmf--manage-4-1
+    source_framework: singapore-magf
+    source_ref: "Pillar 4"
+    source_title: "Stakeholder Communication: feedback and decision-review"
+    target_framework: nist-ai-rmf
+    target_ref: "MANAGE 4.1"
+    target_title: "Post-deployment AI system monitoring and feedback"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Singapore MAGF 2e"
+        date: "2020-01"
+    notes: "MAGF Pillar 4 feedback and decision-review channels are met by NIST MANAGE 4.1."
+    bidirectional: false
+
+  - id: singapore-magf--pillar-4--ai-verify--transparency
+    source_framework: singapore-magf
+    source_ref: "Pillar 4"
+    source_title: "Stakeholder Communication: transparency"
+    target_framework: ai-verify
+    target_ref: "Principle transparency"
+    target_title: "Transparency"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "AI Verify Foundation framework"
+        date: "2024"
+    notes: "AI Verify transparency principle operationalizes MAGF Pillar 4 disclosure directly."
+    bidirectional: true
+
+  # -------------------------------------------------------------------------
+  # MAS FEAT Principles (Financial Services)
+  # -------------------------------------------------------------------------
+
+  - id: mas-feat--fairness--iso42001--a-6-2-4
+    source_framework: mas-feat
+    source_ref: "Principle Fairness"
+    source_title: "Fairness in AIDA-driven decisions"
+    target_framework: iso42001
+    target_ref: "A.6.2.4"
+    target_title: "Verification and validation of AI systems"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "MAS FEAT Principles"
+        date: "2018-11"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "MAS FEAT Fairness sub-criteria (justifiability, accuracy and bias, unintentional systematic disadvantage) are met by ISO 42001 Annex A Control A.6.2.4 when the validation scope includes fairness testing."
+    bidirectional: false
+
+  - id: mas-feat--fairness--nist-ai-rmf--measure-2-11
+    source_framework: mas-feat
+    source_ref: "Principle Fairness"
+    source_title: "Fairness in AIDA-driven decisions"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 2.11"
+    target_title: "Fairness and bias regularly evaluated"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "MAS FEAT Principles"
+        date: "2018-11"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "MAS FEAT Fairness is met by NIST MEASURE 2.11 when bias evaluation is protected-class specific."
+    bidirectional: false
+
+  - id: mas-feat--fairness--mas-veritas--fairness-methodology
+    source_framework: mas-feat
+    source_ref: "Principle Fairness"
+    source_title: "Fairness in AIDA-driven decisions"
+    target_framework: mas-veritas
+    target_ref: "Fairness Methodology (2019, updated 2022)"
+    target_title: "Veritas fairness assessment methodology for financial AI"
+    relationship: complementary
+    confidence: high
+    citation_sources:
+      - publication: "MAS Veritas Document 1: Fairness"
+        date: "2022"
+    notes: "Veritas Phase 1 methodology provides computational fairness assessment tooling that complements the MAS FEAT Fairness principle. No direct ISO 42001 or NIST equivalent."
+    bidirectional: true
+
+  - id: mas-feat--ethics--iso42001--clause-5-2
+    source_framework: mas-feat
+    source_ref: "Principle Ethics"
+    source_title: "Ethics of AIDA-driven decisions"
+    target_framework: iso42001
+    target_ref: "Clause 5.2"
+    target_title: "AI policy"
+    relationship: partial-satisfaction
+    confidence: medium
+    citation_sources:
+      - publication: "MAS FEAT Principles"
+        date: "2018-11"
+    notes: "ISO 42001 Clause 5.2 AI policy provides the structural anchor for MAS FEAT Ethics; firm ethical standards articulation is an organizational output, not an ISO-mandated artifact."
+    bidirectional: false
+
+  - id: mas-feat--ethics--nist-ai-rmf--govern-3-2
+    source_framework: mas-feat
+    source_ref: "Principle Ethics"
+    source_title: "Ethics of AIDA-driven decisions"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 3.2"
+    target_title: "Policies and procedures for human-AI configurations and oversight address ethical considerations"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "MAS FEAT Principles"
+        date: "2018-11"
+    notes: "MAS FEAT Ethics is met by NIST GOVERN 3.2."
+    bidirectional: false
+
+  - id: mas-feat--accountability--iso42001--clause-5-3
+    source_framework: mas-feat
+    source_ref: "Principle Accountability"
+    source_title: "Accountability for AIDA-driven decisions"
+    target_framework: iso42001
+    target_ref: "Clause 5.3"
+    target_title: "Organizational roles, responsibilities, and authorities"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "MAS FEAT Principles"
+        date: "2018-11"
+    notes: "MAS FEAT Accountability internal-authority sub-criterion is met by ISO 42001 Clause 5.3."
+    bidirectional: false
+
+  - id: mas-feat--accountability--iso42001--a-9-2
+    source_framework: mas-feat
+    source_ref: "Principle Accountability"
+    source_title: "Accountability: data subject rights and verification"
+    target_framework: iso42001
+    target_ref: "A.9.2"
+    target_title: "Human oversight; channels for concerns"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "MAS FEAT Principles"
+        date: "2018-11"
+    notes: "MAS FEAT Accountability data-subject channels are met by ISO 42001 Annex A Control A.9.2 when channels cover external stakeholders."
+    bidirectional: false
+
+  - id: mas-feat--accountability--nist-ai-rmf--govern-1-2
+    source_framework: mas-feat
+    source_ref: "Principle Accountability"
+    source_title: "Accountability for AIDA-driven decisions"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 1.2"
+    target_title: "Characteristics of trustworthy AI integrated into organizational policies"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "MAS FEAT Principles"
+        date: "2018-11"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "MAS FEAT Accountability is met by NIST GOVERN 1.2 when trustworthy-AI characteristics are documented."
+    bidirectional: false
+
+  - id: mas-feat--transparency--iso42001--a-8-2
+    source_framework: mas-feat
+    source_ref: "Principle Transparency"
+    source_title: "Transparency of AIDA-driven decisions"
+    target_framework: iso42001
+    target_ref: "A.8.2"
+    target_title: "Information for interested parties"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "MAS FEAT Principles"
+        date: "2018-11"
+    notes: "MAS FEAT Transparency proactive-disclosure sub-criterion is met by ISO 42001 Annex A Control A.8.2."
+    bidirectional: false
+
+  - id: mas-feat--transparency--nist-ai-rmf--measure-2-8
+    source_framework: mas-feat
+    source_ref: "Principle Transparency"
+    source_title: "Transparency of AIDA-driven decisions"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 2.8"
+    target_title: "Risks associated with transparency and accountability are examined and documented"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "MAS FEAT Principles"
+        date: "2018-11"
+    notes: "MAS FEAT Transparency is met by NIST MEASURE 2.8."
+    bidirectional: false
+
+  - id: mas-feat--transparency--eu-ai-act--article-13
+    source_framework: mas-feat
+    source_ref: "Principle Transparency"
+    source_title: "Transparency of AIDA-driven decisions"
+    target_framework: eu-ai-act
+    target_ref: "Article 13"
+    target_title: "Transparency and provision of information to deployers"
+    relationship: partial-satisfaction
+    confidence: medium
+    citation_sources:
+      - publication: "MAS FEAT Principles"
+        date: "2018-11"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "EU AI Act Article 13 partially satisfies MAS FEAT Transparency; EU scope is provider-to-deployer, FEAT scope includes consumer disclosure."
+    bidirectional: false

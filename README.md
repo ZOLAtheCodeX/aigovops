@@ -31,6 +31,7 @@ AIGovOps turns AI governance frameworks (NIST AI RMF, ISO/IEC 42001, EU AI Act, 
 | [uk-atrs](skills/uk-atrs/SKILL.md) | UK Algorithmic Transparency Recording Standard | 0.1.0 |
 | [nyc-ll144](skills/nyc-ll144/SKILL.md) | NYC Local Law 144 of 2021 (bias audit for AEDTs) | 0.1.0 |
 | [california-ai](skills/california-ai/SKILL.md) | California AI regulatory landscape primer (CPPA ADMT, CCPA/CPRA, SB 942, AB 2013, AB 1008, SB 1001, AB 1836) | 0.1.0 |
+| [singapore-ai-governance](skills/singapore-ai-governance/SKILL.md) | Singapore MAGF 2e, MAS FEAT Principles, AI Verify | 0.1.0 |
 
 ## Plugins
 
@@ -52,6 +53,7 @@ AIGovOps turns AI governance frameworks (NIST AI RMF, ISO/IEC 42001, EU AI Act, 
 | [colorado-ai-act-compliance](plugins/colorado-ai-act-compliance/) | Colorado SB 205 developer and deployer compliance record (JSON + Markdown + CSV) | 0.1.0 |
 | [nyc-ll144-audit-packager](plugins/nyc-ll144-audit-packager/) | NYC Local Law 144 bias audit public-disclosure and candidate-notice bundle (JSON + Markdown + CSV) | 0.1.0 |
 | [crosswalk-matrix-builder](plugins/crosswalk-matrix-builder/) | Cross-framework coverage, gap, or matrix query result (JSON + Markdown + CSV) | 0.1.0 |
+| [singapore-magf-assessor](plugins/singapore-magf-assessor/) | Singapore MAGF 2e pillar assessment with MAS FEAT layering for financial services (JSON + Markdown + CSV) | 0.1.0 |
 
 ## Bundles
 

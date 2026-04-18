@@ -32,7 +32,7 @@ These are on the roadmap once primary coverage is stable. Each becomes its own p
 | USA state: California | CPPA ADMT regulations, CCPA/CPRA, SB 942, AB 2013, AB 1008, SB 1001, AB 1836 (primer skill `california-ai`; no plugin yet, California is a constellation rather than a single controlling instrument) | Enforceable in parts; large market. The primer skill navigates which instrument applies to which AI system. |
 | USA state: Colorado | Colorado AI Act (SB 205, shipping, plugin `colorado-ai-act-compliance`) | Enforceable. First US comprehensive AI consumer protection law. |
 | Canada | Artificial Intelligence and Data Act (AIDA) | Legislative progress uncertain; framework language already influential. |
-| Singapore | Model AI Governance Framework (MAS / IMDA) | Influential in APAC. Referenced by regional regulators and multinational compliance programs. |
+| Singapore | Model AI Governance Framework (IMDA/PDPC MAGF 2e), MAS FEAT Principles, AI Verify (shipping, plugin `singapore-magf-assessor` + skill `singapore-ai-governance`) | Influential in APAC. Referenced by regional regulators and multinational compliance programs. |
 
 ## Tertiary and derivative
 
