@@ -43,6 +43,7 @@ AIGovOps turns AI governance frameworks (NIST AI RMF, ISO/IEC 42001, EU AI Act, 
 | [gap-assessment](plugins/gap-assessment/) | Framework gap assessment for ISO 42001, NIST AI RMF, or EU AI Act (JSON + Markdown + CSV) | 0.1.0 |
 | [data-register-builder](plugins/data-register-builder/) | ISO 42001 A.7 and EU AI Act Article 10 data register (JSON + Markdown + CSV) | 0.1.0 |
 | [applicability-checker](plugins/applicability-checker/) | EU AI Act applicability by target date + system classification (JSON + Markdown) | 0.1.0 |
+| [high-risk-classifier](plugins/high-risk-classifier/) | EU AI Act Article 5, 6, Annex I, Annex III risk-tier classification (JSON + Markdown) | 0.1.0 |
 
 ## Bundles
 
