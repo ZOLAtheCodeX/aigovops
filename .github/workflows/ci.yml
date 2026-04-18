@@ -1,0 +1,125 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  frontmatter-lint:
+    name: SKILL.md frontmatter lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Validate SKILL.md frontmatter
+        run: |
+          python - <<'PY'
+          import os
+          import sys
+          import yaml
+          from pathlib import Path
+
+          REQUIRED_FIELDS = {
+              "name", "version", "description",
+              "frameworks", "tags", "author", "license",
+          }
+          REQUIRED_SECTIONS = [
+              "## Overview",
+              "## Scope",
+              "## Framework Reference",
+              "## Operationalizable Controls",
+              "## Output Standards",
+              "## Limitations",
+          ]
+
+          errors = []
+          skill_files = list(Path("skills").rglob("SKILL.md"))
+          if not skill_files:
+              print("No SKILL.md files found under skills/. Nothing to validate.")
+              sys.exit(0)
+
+          for path in skill_files:
+              text = path.read_text(encoding="utf-8")
+              if not text.startswith("---"):
+                  errors.append(f"{path}: missing YAML frontmatter")
+                  continue
+              parts = text.split("---", 2)
+              if len(parts) < 3:
+                  errors.append(f"{path}: malformed frontmatter (missing closing ---)")
+                  continue
+              try:
+                  meta = yaml.safe_load(parts[1]) or {}
+              except yaml.YAMLError as exc:
+                  errors.append(f"{path}: YAML parse error: {exc}")
+                  continue
+              missing = REQUIRED_FIELDS - set(meta.keys())
+              if missing:
+                  errors.append(f"{path}: missing required frontmatter fields: {sorted(missing)}")
+              body = parts[2]
+              for section in REQUIRED_SECTIONS:
+                  if section not in body:
+                      errors.append(f"{path}: missing required section header: {section}")
+
+          if errors:
+              print("Frontmatter validation failed:")
+              for err in errors:
+                  print(f"  - {err}")
+              sys.exit(1)
+          print(f"Validated {len(skill_files)} SKILL.md file(s). All passed.")
+          PY
+
+  markdown-lint:
+    name: Markdown lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run markdownlint
+        uses: DavidAnson/markdownlint-cli2-action@v16
+        with:
+          globs: |
+            **/*.md
+            !node_modules
+
+  eval-stub-check:
+    name: Eval test_cases.yaml presence
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify each skill has matching evals
+        run: |
+          set -euo pipefail
+          missing=0
+          if [ ! -d skills ]; then
+            echo "No skills/ directory. Skipping."
+            exit 0
+          fi
+          for skill_dir in skills/*/; do
+            [ -d "$skill_dir" ] || continue
+            skill_name=$(basename "$skill_dir")
+            eval_file="evals/${skill_name}/test_cases.yaml"
+            if [ ! -f "$eval_file" ]; then
+              echo "MISSING: $eval_file (required for skill ${skill_name})"
+              missing=$((missing + 1))
+            else
+              echo "OK: $eval_file"
+            fi
+          done
+          if [ "$missing" -gt 0 ]; then
+            echo "Eval presence check failed: $missing skill(s) missing test_cases.yaml"
+            exit 1
+          fi

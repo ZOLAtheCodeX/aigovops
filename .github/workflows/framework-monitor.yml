@@ -1,0 +1,101 @@
+name: Framework Monitor
+
+on:
+  schedule:
+    # Monday 09:00 UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+# Expand source list as new frameworks are added to skills/
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check-frameworks:
+    name: Check upstream framework sources for changes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Probe framework sources
+        id: probe
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          import sys
+          import requests
+
+          # Source list. Expand as new frameworks are added to skills/.
+          SOURCES = [
+              {
+                  "id": "nist-ai-rmf",
+                  "name": "NIST AI Risk Management Framework",
+                  "url": "https://csrc.nist.gov/projects/ai-risk-management-framework",
+              },
+              {
+                  "id": "iso42001",
+                  "name": "ISO/IEC 42001:2023",
+                  "url": "https://www.iso.org/standard/81230.html",
+              },
+              {
+                  "id": "eu-ai-act",
+                  "name": "EU AI Act (Regulation (EU) 2024/1689)",
+                  "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj",
+              },
+          ]
+
+          changes = []
+          for src in SOURCES:
+              try:
+                  resp = requests.get(src["url"], timeout=30, headers={"User-Agent": "AIGovOps-FrameworkMonitor/0.1"})
+                  if resp.status_code != 200:
+                      print(f"WARN: {src['id']} returned HTTP {resp.status_code}")
+                      continue
+                  digest = hashlib.sha256(resp.content).hexdigest()
+                  print(f"{src['id']}: sha256={digest[:16]}...")
+                  # Stub: in Phase 3, compare against previously stored digest in repo state.
+                  # For now, this workflow only emits a probe report.
+              except Exception as exc:
+                  print(f"ERROR probing {src['id']}: {exc}")
+
+          # Stub: emit changes list for the next step. Empty for now.
+          with open(os.environ.get("GITHUB_OUTPUT", "/dev/stdout"), "a") as f:
+              f.write(f"changes_json={json.dumps(changes)}\n")
+          PY
+
+      - name: Open framework-update issues for detected changes
+        if: steps.probe.outputs.changes_json != '[]' && steps.probe.outputs.changes_json != ''
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const changes = JSON.parse(process.env.CHANGES_JSON || '[]');
+            for (const change of changes) {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: `[framework-update] ${change.name}: change detected`,
+                body: [
+                  `Framework: ${change.name}`,
+                  `Source: ${change.url}`,
+                  `Detected at: ${new Date().toISOString()}`,
+                  ``,
+                  `This issue was opened automatically by the framework-monitor workflow.`,
+                  `Please populate with: change summary, affected skills, and proposed updates.`,
+                ].join('\n'),
+                labels: ['framework-update'],
+              });
+            }
+        env:
+          CHANGES_JSON: ${{ steps.probe.outputs.changes_json }}

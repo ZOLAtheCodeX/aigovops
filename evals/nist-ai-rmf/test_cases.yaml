@@ -1,0 +1,37 @@
+# AIGovOps Skill Evaluation Harness
+# Skill: nist-ai-rmf
+# Purpose: validate skill outputs against known-correct framework mappings
+# Format: input scenario produces expected function and subcategory mappings
+# All test cases must be validated against authoritative framework text before merging.
+# See ../README.md for the test case schema and ../../STYLE.md for citation formats.
+
+test_cases:
+  - id: nist-ai-rmf-001
+    description: "STUB: AI system context description maps to correct GOVERN subcategories"
+    input: "PLACEHOLDER: AI system context, intended use, deployment environment"
+    expected_outputs:
+      - "PLACEHOLDER: expected GOVERN subcategory mapping"
+    clause_references:
+      - "GOVERN 1.1"
+    status: stub
+    validated_by: null
+
+  - id: nist-ai-rmf-002
+    description: "STUB: AI risk identification produces complete MAP function coverage"
+    input: "PLACEHOLDER: AI system inventory and risk context"
+    expected_outputs:
+      - "PLACEHOLDER: expected MAP subcategory list with rationale"
+    clause_references:
+      - "MAP 3.5"
+    status: stub
+    validated_by: null
+
+  - id: nist-ai-rmf-003
+    description: "STUB: AI system performance metric selection aligns with MEASURE subcategories"
+    input: "PLACEHOLDER: AI system type, risk tier, and stakeholder requirements"
+    expected_outputs:
+      - "PLACEHOLDER: expected MEASURE subcategory mapping"
+    clause_references:
+      - "MEASURE 2.7"
+    status: stub
+    validated_by: null

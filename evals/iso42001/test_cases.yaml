@@ -1,0 +1,37 @@
+# AIGovOps Skill Evaluation Harness
+# Skill: iso42001
+# Purpose: validate skill outputs against known-correct framework mappings
+# Format: input scenario produces expected control mappings and clause references
+# All test cases must be validated against authoritative framework text before merging.
+# See ../README.md for the test case schema and ../../STYLE.md for citation formats.
+
+test_cases:
+  - id: iso42001-001
+    description: "STUB: AI system risk tier classification produces correct Annex A control set"
+    input: "PLACEHOLDER: AI system description goes here"
+    expected_outputs:
+      - "PLACEHOLDER: expected Annex A control mapping"
+    clause_references:
+      - "ISO/IEC 42001:2023, Clause X.X"
+    status: stub
+    validated_by: null
+
+  - id: iso42001-002
+    description: "STUB: Statement of Applicability generation includes all applicable Annex A controls"
+    input: "PLACEHOLDER: AIMS scope and AI system inventory"
+    expected_outputs:
+      - "PLACEHOLDER: expected SoA structure with control inclusion or exclusion rationale"
+    clause_references:
+      - "ISO/IEC 42001:2023, Clause X.X"
+    status: stub
+    validated_by: null
+
+  - id: iso42001-003
+    description: "STUB: AI system impact assessment (AISIA) outputs map to required Clause 6.1.4 elements"
+    input: "PLACEHOLDER: AI system context, intended use, and affected stakeholders"
+    expected_outputs:
+      - "PLACEHOLDER: expected AISIA structure"
+    clause_references:
+      - "ISO/IEC 42001:2023, Clause 6.1.4"
+    status: stub
+    validated_by: null
