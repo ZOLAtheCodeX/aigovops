@@ -108,10 +108,25 @@ jobs:
             echo "No skills/ directory. Skipping."
             exit 0
           fi
+          # Skills exempt from the eval requirement because they are primers
+          # (no plugin; the skill is pure navigation and cross-reference).
+          # If a primer gains a plugin it must ship an eval file.
+          PRIMER_SKILLS=("california-ai")
           for skill_dir in skills/*/; do
             [ -d "$skill_dir" ] || continue
             skill_name=$(basename "$skill_dir")
+            is_primer=0
+            for p in "${PRIMER_SKILLS[@]}"; do
+              if [ "$p" = "$skill_name" ]; then
+                is_primer=1
+                break
+              fi
+            done
             eval_file="evals/${skill_name}/test_cases.yaml"
+            if [ "$is_primer" = 1 ]; then
+              echo "PRIMER (exempt): $skill_name"
+              continue
+            fi
             if [ ! -f "$eval_file" ]; then
               echo "MISSING: $eval_file (required for skill ${skill_name})"
               missing=$((missing + 1))

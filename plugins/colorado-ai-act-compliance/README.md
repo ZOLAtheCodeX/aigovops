@@ -86,7 +86,7 @@ print(plugin.render_csv(record))
 
 ## Tests
 
-```
+```bash
 python3 plugins/colorado-ai-act-compliance/tests/test_plugin.py
 ```
 
