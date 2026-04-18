@@ -1034,3 +1034,33 @@ mappings:
       - publication: "AIGovOps practitioner-inference mapping; no published crosswalk from primary sources"
     notes: "practitioner-inference. ISO 9.2.2(d) reporting-to-management requirement aligns with the NIST feedback-mechanism posture."
     bidirectional: true
+
+  - id: iso42001--clause-4-3--nist-ai-rmf--govern-1-6
+    source_framework: iso42001
+    source_ref: "Clause 4.3"
+    source_title: "Determining the scope of the AI management system"
+    target_framework: nist-ai-rmf
+    target_ref: "GOVERN 1.6"
+    target_title: "Mechanisms are in place to inventory AI systems and are resourced according to organizational risk priorities"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI RMF Playbook"
+        date: "2023"
+    notes: "ISO Clause 4.3 scope determination and NIST GOVERN 1.6 AI inventory share the same operational substrate: both require the organization to know which AI systems are in scope. ISO frames this as management-system boundary-setting; NIST frames it as an inventory mechanism."
+    bidirectional: true
+
+  - id: iso42001--a-5--nist-ai-rmf--map-1-1
+    source_framework: iso42001
+    source_ref: "A.5"
+    source_title: "Impact assessment and system identification"
+    target_framework: nist-ai-rmf
+    target_ref: "MAP 1.1"
+    target_title: "Context is established and understood"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    notes: "ISO Annex A category A.5 (impact assessment plus system identification) supplies the context-establishment substrate that NIST MAP 1.1 requires. Partial-match because MAP 1.1 covers additional context dimensions beyond impact."
+    bidirectional: true

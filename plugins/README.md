@@ -26,6 +26,7 @@ Plugins differ from skills in execution semantics. A skill is loaded as knowledg
 | [nyc-ll144-audit-packager](nyc-ll144-audit-packager/) | NYC Local Law 144 bias audit public-disclosure and candidate-notice bundle (JSON + Markdown + CSV) | 0.1.0 |
 | [crosswalk-matrix-builder](crosswalk-matrix-builder/) | Cross-framework coverage, gap, or matrix query result (JSON + Markdown + CSV) | 0.1.0 |
 | [singapore-magf-assessor](singapore-magf-assessor/) | Singapore MAGF 2e pillar assessment with MAS FEAT layering for financial services (JSON + Markdown + CSV) | 0.1.0 |
+| [ai-system-inventory-maintainer](ai-system-inventory-maintainer/) | Validated, versioned AI system inventory with per-system regulatory applicability and cross-framework references (JSON + Markdown + CSV) | 0.1.0 |
 
 ## Plugin requirements
 

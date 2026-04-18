@@ -1,0 +1,173 @@
+# AIGovOps Skill Evaluation Harness
+# Skill: ai-system-inventory
+# Purpose: validate ai-system-inventory-maintainer output against the
+#   required-field schema, applicability rules, and warning triggers.
+# Format: input scenario produces expected artifact structure and citation
+#   references.
+# Schema: see ../README.md
+# Citation format: see ../../STYLE.md
+#
+# Test case status legend:
+#   stub      placeholder content, no validation against standard
+#   validated content grounded in cited frameworks; validated_by populated
+#   deprecated superseded; kept for history
+#
+# Test cases below target SKILL.md v0.1.0. Validated by Zola Valashiya on
+# 2026-04-18 against ISO/IEC 42001:2023 Clause 4.3 and 7.5, NIST AI RMF
+# GOVERN 1.6, EU AI Act Article 11, Colorado SB 205 Section 6-1-1701(3),
+# NYC LL144 Final Rule Section 5-301, Singapore MAGF 2e, and MAS FEAT
+# Principles (2018).
+
+test_cases:
+  - id: ai-system-inventory-001
+    tier: T1.1
+    status: validated
+    validated_by: "Zola Valashiya"
+    validated_on: "2026-04-18"
+    description: |
+      Multi-jurisdiction inventory covering three systems across EU,
+      USA-Colorado, Singapore, and international jurisdictions. Validates
+      that the applicability matrix correctly attaches ISO 42001 to
+      every system, EU AI Act to EU-scope systems, Colorado SB 205 to
+      Colorado consequential-decision systems, and MAS FEAT to Singapore
+      financial-services systems layered on MAGF 2e.
+    input:
+      systems:
+        - system_id: "SYS-001"
+          system_name: "CreditDecisionEngine"
+          intended_use: "Automated credit-risk scoring for retail-banking loan applications."
+          deployment_context: "Singapore retail-banking consequential-decision system for financial-services loan approval."
+          risk_tier: "high"
+          decision_authority: "automated-with-human-oversight"
+          jurisdiction: ["singapore", "international"]
+          sector: "financial-services"
+          lifecycle_state: "deployed"
+          data_processed: ["credit history", "income"]
+          stakeholder_groups: ["applicants", "compliance officers"]
+          owner_role: "Head of Retail Risk"
+          operator_role: "Credit Operations Analyst"
+          model_family: "gradient-boosted-trees"
+          training_data_provenance: "internal-ledger 2020-2025"
+          post_market_monitoring_plan_ref: "PMM-CreditDE-2026"
+          risk_register_ref: "RR-2026-CreditDE"
+          aisia_ref: "AISIA-CreditDE-2026-Q1"
+          soa_ref: "SOA-2026-Q1"
+          last_reviewed_date: "2026-03-15"
+          next_review_due_date: "2026-09-15"
+        - system_id: "SYS-002"
+          system_name: "TenantScreeningAssist"
+          intended_use: "Tenant background and risk screening for property-management decisions."
+          deployment_context: "Colorado multi-family housing tenant-screening consequential-decision workflow."
+          risk_tier: "high-risk-annex-iii"
+          decision_authority: "decision-support"
+          jurisdiction: ["usa-co", "usa-federal"]
+          sector: "housing"
+          lifecycle_state: "deployed"
+          data_processed: ["credit history", "eviction records", "employment verification"]
+          stakeholder_groups: ["applicants", "property managers"]
+          owner_role: "VP Property Operations"
+          operator_role: "Screening Coordinator"
+          model_family: "classical-ml"
+          training_data_provenance: "vendor-licensed 2023-2025"
+          post_market_monitoring_plan_ref: "PMM-TSA-2026"
+          risk_register_ref: "RR-2026-TSA"
+          aisia_ref: "AISIA-TSA-2026-Q1"
+          soa_ref: "SOA-2026-Q1"
+          last_reviewed_date: "2026-03-20"
+          next_review_due_date: "2026-09-20"
+        - system_id: "SYS-003"
+          system_name: "ProductRecommendationPersonalization"
+          intended_use: "Personalized product recommendations in an EU e-commerce storefront."
+          deployment_context: "EU consumer e-commerce recommendation surface; Article 50 transparency scope."
+          risk_tier: "limited-risk"
+          decision_authority: "advisory-only"
+          jurisdiction: ["eu", "international"]
+          sector: "other"
+          lifecycle_state: "deployed"
+          data_processed: ["purchase history", "browsing behavior"]
+          stakeholder_groups: ["consumers", "merchandising team"]
+          owner_role: "Head of E-Commerce"
+          operator_role: "Personalization Engineer"
+          model_family: "deep-learning"
+          training_data_provenance: "first-party-telemetry 2024-2026"
+          post_market_monitoring_plan_ref: "PMM-PRP-2026"
+          risk_register_ref: "RR-2026-PRP"
+          aisia_ref: "AISIA-PRP-2026-Q1"
+          soa_ref: "SOA-2026-Q1"
+          last_reviewed_date: "2026-03-10"
+          next_review_due_date: "2026-09-10"
+      operation: "validate"
+      organizational_scope:
+        jurisdictions: ["eu", "usa-co", "singapore", "international"]
+        sectors: ["financial-services", "housing", "other"]
+      enrich_with_crosswalk: true
+      reviewed_by: "Zola Valashiya"
+    expected_outputs:
+      - "summary.total_systems == 3."
+      - "Every system carries iso42001 in its regulatory_applicability entries."
+      - "SYS-001 (Singapore financial-services) carries singapore-magf-2e and mas-feat entries."
+      - "SYS-002 (Colorado housing consequential) carries colorado-sb-205 entry with citation 'Colorado SB 205, Section 6-1-1701(3)'."
+      - "SYS-002 (USA-CO + USA-federal) carries nist-ai-rmf entry with citation 'GOVERN 1.1'."
+      - "SYS-003 (EU limited-risk) carries eu-ai-act entry with citation 'EU AI Act, Article 50'."
+      - "Validation findings for every system contain zero FAIL-level findings (all required fields populated)."
+      - "Top-level citations include 'ISO/IEC 42001:2023, Clause 4.3' and 'GOVERN 1.6' and 'EU AI Act, Article 11'."
+      - "cross_framework_references attached to every system when enrich_with_crosswalk=true."
+    clause_references:
+      - "ISO/IEC 42001:2023, Clause 4.3"
+      - "ISO/IEC 42001:2023, Clause 7.5.1"
+      - "ISO/IEC 42001:2023, Annex A, Control A.5.2"
+      - "GOVERN 1.6"
+      - "EU AI Act, Article 11"
+      - "EU AI Act, Article 50"
+      - "Colorado SB 205, Section 6-1-1701(3)"
+      - "Singapore MAGF 2e, Pillar Internal Governance Structures and Measures"
+      - "MAS FEAT Principles (2018), Principle Accountability"
+
+  - id: ai-system-inventory-002
+    tier: T1.1
+    status: validated
+    validated_by: "Zola Valashiya"
+    validated_on: "2026-04-18"
+    description: |
+      Inventory with a validation finding: a fully-automated EU Annex III
+      system missing aisia_ref. Validates that the plugin emits a WARN
+      finding citing EU AI Act Article 27 (fundamental-rights impact
+      assessment) and that the system is listed in
+      summary.systems_with_warnings.
+    input:
+      systems:
+        - system_id: "SYS-100"
+          system_name: "BorderRiskAutomation"
+          intended_use: "Automated risk scoring for immigration decision workflow."
+          deployment_context: "EU border-management Annex III consequential decision."
+          risk_tier: "high-risk-annex-iii"
+          decision_authority: "fully-automated"
+          jurisdiction: ["eu"]
+          lifecycle_state: "pre-deployment-review"
+          data_processed: ["travel history", "biometric identifiers"]
+          stakeholder_groups: ["travelers", "border officers"]
+          owner_role: "Director Border Operations"
+          operator_role: "Border Automation Team Lead"
+          model_family: "deep-learning"
+          training_data_provenance: "internal 2022-2025"
+          post_market_monitoring_plan_ref: "PMM-BRA-2026"
+          risk_register_ref: "RR-2026-BRA"
+          soa_ref: "SOA-2026-Q1"
+          last_reviewed_date: "2026-03-05"
+          next_review_due_date: "2026-09-05"
+          citations: ["EU AI Act, Article 6", "EU AI Act, Annex III, Point 7"]
+      operation: "validate"
+      enrich_with_crosswalk: false
+      reviewed_by: "Zola Valashiya"
+    expected_outputs:
+      - "Validation findings for SYS-100 contain a WARN entry on field aisia_ref referencing 'EU AI Act, Article 27'."
+      - "SYS-100 is listed in summary.systems_with_warnings."
+      - "SYS-100 regulatory_applicability contains eu-ai-act with citation 'EU AI Act, Chapter III'."
+      - "No FAIL findings for SYS-100 (all required fields populated)."
+      - "cross_framework_references key is absent from the system row when enrich_with_crosswalk=false."
+    clause_references:
+      - "ISO/IEC 42001:2023, Clause 4.3"
+      - "GOVERN 1.6"
+      - "EU AI Act, Article 11"
+      - "EU AI Act, Article 27"
+      - "EU AI Act, Chapter III"

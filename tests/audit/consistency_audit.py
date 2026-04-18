@@ -49,6 +49,7 @@ PLUGIN_PUBLIC_FUNCTIONS = {
     "colorado-ai-act-compliance": ["generate_compliance_record", "render_markdown", "render_csv"],
     "nyc-ll144-audit-packager": ["generate_audit_package", "render_markdown", "render_csv"],
     "singapore-magf-assessor": ["generate_magf_assessment", "render_markdown", "render_csv"],
+    "ai-system-inventory-maintainer": ["maintain_inventory", "validate_system", "render_markdown", "render_csv"],
 }
 
 

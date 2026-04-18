@@ -18,6 +18,7 @@ A skill is a knowledge package that operationalizes a specific AI governance fra
 | [cross-framework-crosswalk](cross-framework-crosswalk/SKILL.md) | Cross-framework coverage, gaps, and matrix queries (ISO 42001, NIST AI RMF, EU AI Act, UK ATRS, Colorado SB 205, NYC LL144, California) | 0.1.0 | released |
 | [singapore-ai-governance](singapore-ai-governance/SKILL.md) | Singapore MAGF 2e, MAS FEAT Principles, AI Verify | 0.1.0 | released |
 | [internal-audit](internal-audit/SKILL.md) | ISO/IEC 42001:2023, Clause 9.2 (Internal audit) | 0.1.0 | released |
+| [ai-system-inventory](ai-system-inventory/SKILL.md) | AI system inventory operationalization (ISO/IEC 42001:2023 Clause 4.3 and 7.5, NIST AI RMF GOVERN 1.6, EU AI Act Article 11, UK ATRS, Colorado SB 205) | 0.1.0 | released |
 
 ## Adding a new skill
 

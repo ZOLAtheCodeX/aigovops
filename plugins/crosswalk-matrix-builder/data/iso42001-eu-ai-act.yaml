@@ -1383,3 +1383,18 @@ mappings:
         date: "2024"
     notes: "ISO 9.2.2(e) retention of documented information as evidence of audit programme satisfies the Article 17(1)(k) record-keeping obligation for internal audit activity under the QMS."
     bidirectional: false
+
+  - id: eu-ai-act--art-11--iso42001--clause-7-5-a-6-2-2
+    source_framework: eu-ai-act
+    source_ref: "Article 11"
+    source_title: "Technical documentation and system identification"
+    target_framework: iso42001
+    target_ref: "Clause 7.5, A.6.2.2"
+    target_title: "Documented information and AI system requirements and specification"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "CEN-CENELEC JTC 21 WG1 drafts"
+        date: "2024"
+    notes: "EU AI Act Article 11 technical documentation obligation (including system identity fields enumerated in Annex IV) is satisfied by the ISO 42001 Clause 7.5 documented-information discipline combined with A.6.2.2 system requirements and specification. ISO provides the control substrate; Article 11 specifies the Annex IV content set."
+    bidirectional: false
