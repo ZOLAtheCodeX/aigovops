@@ -1,37 +1,316 @@
 # AIGovOps Skill Evaluation Harness
 # Skill: iso42001
 # Purpose: validate skill outputs against known-correct framework mappings
-# Format: input scenario produces expected control mappings and clause references
-# All test cases must be validated against authoritative framework text before merging.
-# See ../README.md for the test case schema and ../../STYLE.md for citation formats.
+# Format: input scenario produces expected artifact structure and clause references
+# Schema: see ../README.md
+# Citation format: see ../../STYLE.md
+#
+# Test case status legend:
+#   stub      placeholder content, no validation against standard
+#   validated content grounded in ISO/IEC 42001:2023 text; validated_by populated
+#   deprecated superseded; kept for history
+#
+# All test cases below are authored against the SKILL.md v0.2.0-draft content.
+# They are marked status: stub because they have not yet been validated by a
+# practicing Lead Implementer against the published ISO/IEC 42001:2023 text.
+# Lead Implementer review converts status to validated and populates validated_by.
 
 test_cases:
   - id: iso42001-001
-    description: "STUB: AI system risk tier classification produces correct Annex A control set"
-    input: "PLACEHOLDER: AI system description goes here"
+    tier: T1.1
+    description: |
+      Statement of Applicability row generation for a medium-risk AI system:
+      an internal resume-screening tool. Validates that the SoA-row output
+      correctly identifies included vs excluded Annex A controls with
+      justifications grounded in the system description and the organization's
+      risk register.
+    input:
+      ai_system_inventory:
+        - system_name: "ResumeScreen"
+          risk_tier: "limited"
+          intended_use: "Rank candidate resumes against job posting for human reviewer consideration."
+          deployment_context: "Internal HR workflow; no automated rejection; human makes every advance or reject decision."
+          data_processed: ["candidate resume text", "job posting text"]
+          decision_authority: "decision-support (human decides)"
+      risk_register:
+        - risk_id: "RR-001"
+          category: "fairness"
+          description: "Protected-group disparity in ranking outputs."
+          treatment_option: "reduce"
+      organizational_context:
+        scope: "All AI systems used in HR processes."
+        applicable_regulation: ["NYC LL144 bias audit", "EEOC guidance"]
     expected_outputs:
-      - "PLACEHOLDER: expected Annex A control mapping"
+      - "SoA-row for control addressing AI system impact assessment (Annex A category A.5): status=included-implemented with AISIA evidence referenced."
+      - "SoA-row for control addressing data for AI systems (Annex A category A.7): status=included-implemented with data-provenance evidence for the candidate and job posting corpora."
+      - "SoA-row for control addressing information for interested parties (Annex A category A.8): status=included-implemented with user documentation reference for reviewers."
+      - "Every included control carries implementation_plan_ref when status is included-partial or included-planned."
+      - "Every excluded control carries justification grounded in AI-system-inventory or scope, not generic text."
+      - "Output carries ISO/IEC 42001:2023, Clause 6.1.3 in document metadata."
+      - "Every row cites its Annex A control in the STYLE.md format."
     clause_references:
-      - "ISO/IEC 42001:2023, Clause X.X"
+      - "ISO/IEC 42001:2023, Clause 6.1.3"
+      - "ISO/IEC 42001:2023, Annex A, category A.5"
+      - "ISO/IEC 42001:2023, Annex A, category A.7"
+      - "ISO/IEC 42001:2023, Annex A, category A.8"
     status: stub
     validated_by: null
+    authored_by: "AIGovOps Contributors (Claude Code draft, pending Lead Implementer validation)"
 
   - id: iso42001-002
-    description: "STUB: Statement of Applicability generation includes all applicable Annex A controls"
-    input: "PLACEHOLDER: AIMS scope and AI system inventory"
+    tier: T1.2
+    description: |
+      AI System Impact Assessment generation for a high-risk AI system:
+      a patient triage assistant in an emergency department. Validates
+      that the AISIA output covers all Clause 6.1.4 required dimensions
+      (fundamental rights, group fairness, societal impact, physical
+      safety), references applicable Annex A category A.5 controls,
+      and flags physical-safety impact appropriately given the clinical
+      deployment context.
+    input:
+      system_description:
+        system_name: "ED-Triage-Assist"
+        purpose: "Suggest ED triage acuity level (ESI 1-5) based on presenting-complaint text and vital signs."
+        intended_use: "Decision support for triage RN; final acuity assignment is RN responsibility."
+        decision_context: "Emergency department, patient-facing downstream effect on wait time."
+        deployment_environment: "Tertiary-care hospital ED, 24/7 operation."
+        data_categories_processed: ["chief-complaint free text", "vital signs", "demographic fields"]
+        decision_authority: "decision-support"
+        reversibility: "outputs are suggestions; triage RN may override; outputs influence wait time so downstream effect is partially reversible with human intervention"
+      affected_stakeholders:
+        - "Presenting patients"
+        - "ED clinical staff (RNs, physicians)"
+        - "Patients waiting (indirect effect via triage order)"
+        - "Protected patient subgroups (age, race, primary language, disability)"
+      existing_controls:
+        - "Clinical validation study completed at this site prior to deployment."
+        - "Override-rate monitoring in place; every override logged."
+        - "Quarterly equity audit by Clinical Informatics."
+      risk_scoring_rubric:
+        severity: ["catastrophic", "major", "moderate", "minor", "negligible"]
+        likelihood: ["almost-certain", "likely", "possible", "unlikely", "rare"]
     expected_outputs:
-      - "PLACEHOLDER: expected SoA structure with control inclusion or exclusion rationale"
+      - "AISIA-section record for fundamental-rights dimension per affected stakeholder group with severity and likelihood classified."
+      - "AISIA-section record for group-fairness dimension addressing protected subgroups with reference to the quarterly equity audit as an existing control."
+      - "AISIA-section record for physical-safety dimension given clinical deployment; severity must not be below 'moderate' for the worst-case scenario given patient harm potential."
+      - "AISIA-section record for societal dimension addressing downstream wait-time effects on other patients."
+      - "Every AISIA record carries ISO/IEC 42001:2023, Clause 6.1.4 in document header."
+      - "Annex A category A.5 citations per row: A.5.4 for individual and group impacts, A.5.5 for societal impacts."
+      - "Additional_controls_recommended is populated where residual severity times likelihood exceeds organizational tolerance."
+      - "Document is dated, assessor-attributed, and names the accountable sign-off party."
     clause_references:
-      - "ISO/IEC 42001:2023, Clause X.X"
+      - "ISO/IEC 42001:2023, Clause 6.1.4"
+      - "ISO/IEC 42001:2023, Annex A, Control A.5.2"
+      - "ISO/IEC 42001:2023, Annex A, Control A.5.3"
+      - "ISO/IEC 42001:2023, Annex A, Control A.5.4"
+      - "ISO/IEC 42001:2023, Annex A, Control A.5.5"
     status: stub
     validated_by: null
+    authored_by: "AIGovOps Contributors (Claude Code draft, pending Lead Implementer validation)"
 
   - id: iso42001-003
-    description: "STUB: AI system impact assessment (AISIA) outputs map to required Clause 6.1.4 elements"
-    input: "PLACEHOLDER: AI system context, intended use, and affected stakeholders"
+    tier: T1.3
+    description: |
+      Documented information control audit-log-entry generation for a
+      policy-approval event: the annual AI policy review was completed
+      and a revised AI policy approved. Validates that the audit-log-entry
+      correctly captures the lifecycle event, cites the applicable
+      Clause 7.5 sub-clause, records approver authority, and maintains
+      immutability.
+    input:
+      document_metadata:
+        doc_id: "POL-AI-001"
+        doc_type: "AI Policy"
+        doc_version_prior: "2025.1"
+        doc_version_new: "2026.1"
+        owner: "AI Governance Officer"
+        classification: "Internal"
+        retention_requirement: "7 years"
+      lifecycle_event: "approved"
+      actor: "Chief Risk Officer"
+      actor_role: "Final approver per organizational AI Policy Approval Authority"
+      approver_authority_ref: "Board Resolution 2024-17, AI Policy Approval Delegation"
+      event_timestamp_utc: "2026-04-15T14:23:00Z"
     expected_outputs:
-      - "PLACEHOLDER: expected AISIA structure"
+      - "audit-log-entry record with doc_id, doc_type, doc_version prior and new, event=approved, actor, actor_role."
+      - "approver_authority_ref populated with the delegation record."
+      - "event_timestamp in ISO 8601 UTC format."
+      - "clause_mappings includes ISO/IEC 42001:2023, Clause 7.5.2 (creating and updating)."
+      - "Entry is written to the audit log store and is immutable; any correction would be a new entry referencing this one."
     clause_references:
+      - "ISO/IEC 42001:2023, Clause 7.5.1"
+      - "ISO/IEC 42001:2023, Clause 7.5.2"
+      - "ISO/IEC 42001:2023, Clause 7.5.3"
+    status: stub
+    validated_by: null
+    authored_by: "AIGovOps Contributors (Claude Code draft, pending Lead Implementer validation)"
+
+  - id: iso42001-004
+    tier: T1.4
+    description: |
+      Management review input package composition for a scheduled
+      quarterly management review. Validates that the review-minutes
+      preamble covers all seven required Clause 9.3.2 input categories,
+      that each category is populated from a source of record (not a
+      narrative summary), and that distribution is logged per Clause 7.5.3.
+    input:
+      review_window:
+        start: "2026-01-01"
+        end: "2026-03-31"
+      previous_review_actions_ref: "MR-2025-Q4-actions"
+      risk_register_ref: "RR-register-2026-03-31"
+      nonconformity_log_ref: "NC-log-2026-03-31"
+      audit_results_ref: ["IA-2026-Q1-report"]
+      kpi_report_ref: "KPI-2026-Q1-report"
+      change_log_ref: "CHG-log-2026-Q1"
+      stakeholder_feedback_ref: "SH-feedback-2026-Q1"
+      attendees:
+        - "Chief Risk Officer"
+        - "AI Governance Officer"
+        - "Chief Information Security Officer"
+        - "Data Protection Officer"
+        - "Head of AI Engineering"
+    expected_outputs:
+      - "review-minutes preamble document covering all seven Clause 9.3.2 input categories: status of previous actions, changes in external and internal issues, AIMS performance, feedback from interested parties, AI risks and opportunities, improvement opportunities."
+      - "Each category references its source-of-record artifact (not inline narrative summary)."
+      - "Document header carries ISO/IEC 42001:2023, Clause 9.3.2."
+      - "Distribution to attendees is logged as an audit-log-entry citing Clause 7.5.3."
+      - "KPI trend direction (improving, stable, degrading) is summarized per KPI with breach flags where thresholds were exceeded."
+    clause_references:
+      - "ISO/IEC 42001:2023, Clause 9.3.2"
+      - "ISO/IEC 42001:2023, Clause 9.1"
+      - "ISO/IEC 42001:2023, Clause 9.2"
+      - "ISO/IEC 42001:2023, Clause 10.2"
+      - "ISO/IEC 42001:2023, Clause 7.5.3"
+    status: stub
+    validated_by: null
+    authored_by: "AIGovOps Contributors (Claude Code draft, pending Lead Implementer validation)"
+
+  - id: iso42001-005
+    tier: T1.5
+    description: |
+      Nonconformity record generation and lifecycle: a deployed AI system
+      was found to produce disparate outputs across a protected demographic
+      group during the quarterly equity audit. Validates that the
+      nonconformity-record captures the source citation, drives through
+      the Clause 10.2 workflow states, logs state transitions as
+      audit-log-entries per Clause 7.5.2, and updates the risk register
+      on closure.
+    input:
+      nonconformity_description: "Quarterly equity audit of ResumeScreen system found demographic-parity difference of 0.18 in advance-to-interview rate between two protected groups, exceeding the organizational tolerance of 0.05."
+      nonconformity_source_citation: "ISO/IEC 42001:2023, Annex A, Control A.5.4 (assessing AI system impact on individuals or groups)"
+      detected_by: "Clinical Informatics Equity Audit"
+      detection_date: "2026-03-20"
+      detection_method: "Scheduled quarterly equity audit"
+      immediate_actions:
+        - "System flagged; reviewer workflow updated to require second-reviewer concurrence for all advances from affected group until remediation complete."
+    expected_outputs:
+      - "nonconformity-record with id, status=detected initially."
+      - "source_citation populated using STYLE.md format."
+      - "immediate_actions recorded with timestamp."
+      - "State transitions to investigated, root-cause-identified, corrective-action-planned, corrective-action-in-progress, corrective-action-complete, effectiveness-reviewed, closed."
+      - "Each transition emits an audit-log-entry citing Clause 7.5.2 and linked to the nonconformity-record id."
+      - "On closed: if the nonconformity surfaced a previously-unregistered risk, the risk register is updated and the update is recorded in risk_register_updates."
+      - "effectiveness_review_date, effectiveness_outcome, effectiveness_reviewer populated before status transitions to closed."
+    clause_references:
+      - "ISO/IEC 42001:2023, Clause 10.2"
+      - "ISO/IEC 42001:2023, Clause 7.5.2"
+      - "ISO/IEC 42001:2023, Annex A, Control A.5.4"
+    status: stub
+    validated_by: null
+    authored_by: "AIGovOps Contributors (Claude Code draft, pending Lead Implementer validation)"
+
+  - id: iso42001-006
+    tier: T1.6
+    description: |
+      Role and responsibility matrix generation for a mid-sized
+      organization newly adopting ISO 42001. Validates that the role
+      matrix covers all required decision categories with a named
+      approver role, cites Clause 5.3 and Annex A Control A.3.2, and
+      includes backup roles for continuity.
+    input:
+      org_chart:
+        - role: "Chief Executive Officer"
+        - role: "Chief Risk Officer"
+          reports_to: "Chief Executive Officer"
+        - role: "Chief Information Security Officer"
+          reports_to: "Chief Risk Officer"
+        - role: "Data Protection Officer"
+          reports_to: "Chief Risk Officer"
+        - role: "AI Governance Officer"
+          reports_to: "Chief Risk Officer"
+        - role: "Head of AI Engineering"
+          reports_to: "Chief Technology Officer"
+        - role: "Chief Technology Officer"
+          reports_to: "Chief Executive Officer"
+      ai_system_inventory_summary: "12 AI systems across HR, clinical decision support, customer service, and fraud detection domains."
+      decision_categories:
+        - "AI policy approval"
+        - "Risk acceptance"
+        - "SoA approval"
+        - "AISIA sign-off"
+        - "Control implementation"
+        - "Incident response"
+        - "Audit programme approval"
+        - "External reporting"
+    expected_outputs:
+      - "role-matrix with one row per (decision_category, activity) pair covering propose, review, approve, consulted, informed for each decision category."
+      - "Exactly one approver role per decision category."
+      - "Every role has an authority_basis reference (organizational policy, job description, or delegation record)."
+      - "Backup roles defined for every role with approval authority."
+      - "AI-specific roles per Annex A Control A.3.2 are recognizable: AI Governance Officer appears as proposer or approver across multiple categories."
+      - "Matrix header carries both ISO/IEC 42001:2023, Clause 5.3 and ISO/IEC 42001:2023, Annex A, Control A.3.2."
+      - "Individual rows cite the clause or control they enable (e.g., SoA-approval row cites Clause 6.1.3)."
+    clause_references:
+      - "ISO/IEC 42001:2023, Clause 5.3"
+      - "ISO/IEC 42001:2023, Annex A, Control A.3.2"
+      - "ISO/IEC 42001:2023, Clause 6.1.3"
       - "ISO/IEC 42001:2023, Clause 6.1.4"
     status: stub
     validated_by: null
+    authored_by: "AIGovOps Contributors (Claude Code draft, pending Lead Implementer validation)"
+
+  - id: iso42001-007
+    tier: T1.7
+    description: |
+      AI risk register row generation using the default risk taxonomy
+      applied to a generative AI customer support assistant. Validates
+      that risk identification covers the taxonomy, scoring is applied
+      consistently, existing controls are linked to SoA rows, residual
+      risk is computed, treatment option is classified per Clause 6.1.3,
+      and the owner role is from the role matrix.
+    input:
+      ai_system:
+        system_name: "CS-GenAI-Assist"
+        system_type: "generative-ai"
+        purpose: "First-line customer support for billing questions; escalates to human agents for complex cases."
+        data_processed: ["customer message text", "customer account metadata"]
+        deployment_context: "Customer-facing chat; outputs viewed directly by customers."
+      risk_taxonomy: ["bias", "robustness", "privacy", "security", "accountability", "transparency", "confabulation", "ip-risk"]
+      risk_scoring_rubric:
+        likelihood_scale: ["rare", "unlikely", "possible", "likely", "almost-certain"]
+        impact_scale: ["negligible", "minor", "moderate", "major", "catastrophic"]
+      stakeholder_consultation_notes: "Customer advocacy team flagged concern about dispute-resolution accuracy; privacy team flagged concern about training-data exposure in generative outputs."
+      prior_incident_log:
+        - "2026-02: generative support bot at peer company produced hallucinated refund policy; material customer complaints ensued."
+      role_matrix_ref: "role-matrix-2026-03"
+    expected_outputs:
+      - "risk-register-row per (system, taxonomy-category) pair that surfaces an identified risk."
+      - "Confabulation-category row is present given system_type=generative-ai; references the peer-company incident in scoring_rationale."
+      - "Privacy-category row is present; references training-data exposure from stakeholder consultation."
+      - "Each row has likelihood, impact, and inherent_score populated from the rubric."
+      - "Each row has existing_controls list with SoA-row links where Annex A controls apply."
+      - "Each row has residual_likelihood, residual_impact, residual_score."
+      - "Each row has treatment_option classified per Clause 6.1.3 (reduce, retain, avoid, share)."
+      - "Each row has owner_role populated from the role matrix."
+      - "Rows are dated and the register itself carries a re-assessment trigger definition (schedule-based or event-based)."
+      - "Every row cites ISO/IEC 42001:2023, Clause 6.1.2 in metadata."
+    clause_references:
+      - "ISO/IEC 42001:2023, Clause 6.1.2"
+      - "ISO/IEC 42001:2023, Clause 6.1.3"
+      - "ISO/IEC 42001:2023, Clause 8.2"
+      - "ISO/IEC 42001:2023, Annex A, Control A.5.4"
+      - "ISO/IEC 42001:2023, Annex A, Control A.7.2"
+    status: stub
+    validated_by: null
+    authored_by: "AIGovOps Contributors (Claude Code draft, pending Lead Implementer validation)"
