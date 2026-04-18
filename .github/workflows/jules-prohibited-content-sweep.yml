@@ -1,0 +1,88 @@
+# Jules scheduled dispatch: prohibited-content-sweep playbook.
+# Requires repository or organization secret JULES_API_KEY.
+# Dispatch mechanism: github-actions (not Jules web UI scheduled tasks).
+name: Jules - prohibited-content-sweep
+
+on:
+  schedule:
+    # Sunday 12:00 UTC.
+    - cron: '0 12 * * 0'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+
+concurrency:
+  group: jules-prohibited-content-sweep
+  cancel-in-progress: false
+
+jobs:
+  dispatch:
+    name: Dispatch Jules
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify JULES_API_KEY secret is set
+        run: |
+          if [ -z "$JULES_API_KEY" ]; then
+            echo "::error::JULES_API_KEY secret not configured"; exit 1
+          fi
+        env:
+          JULES_API_KEY: ${{ secrets.JULES_API_KEY }}
+      - name: Invoke Jules
+        uses: google-labs-code/jules-invoke@v1
+        with:
+          prompt: |
+            STEP 0 (mandatory before any edit):
+            Before any code change, extract the specific file paths and string markers this
+            task claims to be present. Verify each marker still exists in HEAD via grep.
+            If any marker is absent, do not open a PR; post a short comment naming the
+            commit SHA that most recently touched the relevant path and stop. Only proceed
+            if all markers are present.
+
+            Task: prohibited-content sweep for ZOLAtheCodeX/aigovops.
+
+            Follow every rule in AGENTS.md and STYLE.md at the repo root. Read
+            jules/playbook/prohibited-content-sweep.md for the full playbook.
+
+            Prohibited content rules (canonical, verbatim):
+
+            1. Em-dashes: the Unicode character U+2014 is prohibited anywhere in
+               committed files. Replace with one of: a colon when introducing an
+               explanation or list, a comma when joining two related independent
+               clauses, parentheses when adding a parenthetical aside, or two
+               sentences when the clauses are genuinely independent. Do not use a
+               hyphen-minus as a generic substitute where grammar calls for a
+               different punctuation mark.
+
+            2. Emojis: no emojis in any skill output, plugin output, README file,
+               comment, commit message, or PR description. Remove them entirely.
+
+            3. Hedging phrases (exact strings, case-insensitive match):
+               - "may want to consider"
+               - "might be helpful to"
+               - "could potentially"
+               - "it is possible that"
+               - "you might find"
+               - "we suggest you might"
+               Rewrite to a definite statement. If a determination genuinely requires
+               human judgment, substitute "Requires human determination." or
+               "Auditor judgment required." Do not soften with a different hedge.
+
+            Scope: scan skills/**/*.md, plugins/**/*.py, plugins/**/*.md, docs/**/*.md,
+            tests/**/*.py, bundles/**/*.md, examples/**/*.md, and the top-level
+            README.md, CONTRIBUTING.md, SECURITY.md, GETTING_STARTED.md. Do not edit
+            AGENTS.md, STYLE.md, or tests/audit/consistency_audit.py; those files
+            define the rules and legitimately contain the prohibited strings.
+
+            Procedure:
+            1. Grep the in-scope paths for U+2014 and for each hedging phrase.
+            2. Fix violations per the rules above. Keep diffs minimal.
+            3. Open a pull request against main from branch
+               jules/prohibited-content-sweep-<YYYY-MM-DD>. In the PR body, list
+               every file changed and the rule that triggered each change.
+
+            Definite language only. No hedging. No em-dashes. No emojis.
+          jules_api_key: ${{ secrets.JULES_API_KEY }}
+          starting_branch: main

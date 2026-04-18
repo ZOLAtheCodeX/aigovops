@@ -1,0 +1,74 @@
+# Jules scheduled dispatch: citation-drift playbook.
+# Requires repository or organization secret JULES_API_KEY.
+# Dispatch mechanism: github-actions (not Jules web UI scheduled tasks).
+name: Jules - citation-drift
+
+on:
+  schedule:
+    # Wednesday 13:00 UTC.
+    - cron: '0 13 * * 3'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+
+concurrency:
+  group: jules-citation-drift
+  cancel-in-progress: false
+
+jobs:
+  dispatch:
+    name: Dispatch Jules
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify JULES_API_KEY secret is set
+        run: |
+          if [ -z "$JULES_API_KEY" ]; then
+            echo "::error::JULES_API_KEY secret not configured"; exit 1
+          fi
+        env:
+          JULES_API_KEY: ${{ secrets.JULES_API_KEY }}
+      - name: Invoke Jules
+        uses: google-labs-code/jules-invoke@v1
+        with:
+          prompt: |
+            STEP 0 (mandatory before any edit):
+            Before any code change, extract the specific file paths and string markers this
+            task claims to be present. Verify each marker still exists in HEAD via grep.
+            If any marker is absent, do not open a PR; post a short comment naming the
+            commit SHA that most recently touched the relevant path and stop. Only proceed
+            if all markers are present.
+
+            Task: citation-drift reconciliation for ZOLAtheCodeX/aigovops.
+
+            Follow every rule in AGENTS.md and STYLE.md at the repo root. Read
+            jules/playbook/citation-drift.md for the full playbook.
+
+            Canonical citation formats (from STYLE.md, verbatim):
+
+            - ISO/IEC 42001:2023: "ISO/IEC 42001:2023, Clause X.X.X" on first reference.
+              "ISO 42001, Clause X.X.X" acceptable for subsequent references in the
+              same document. Annex controls: "ISO/IEC 42001:2023, Annex A,
+              Control A.X.X.X".
+            - NIST AI RMF 1.0: "<FUNCTION> <Subcategory>" where FUNCTION is GOVERN,
+              MAP, MEASURE, or MANAGE. Example: "GOVERN 1.1". Full-framework first
+              reference: "NIST AI Risk Management Framework 1.0 (AI RMF 1.0)".
+            - EU AI Act: "EU AI Act, Article XX, Paragraph X". Recitals:
+              "EU AI Act, Recital XX". Annexes: "EU AI Act, Annex X, Point Y".
+
+            Procedure:
+            1. Grep the repo for citation-like strings: "ISO", "NIST", "GOVERN", "MAP",
+               "MEASURE", "MANAGE", "Article", "Clause", "EU AI Act", "AI RMF".
+            2. For each match, verify the format matches one of the canonical formats
+               above. Do not change the referenced clause, subcategory, or article
+               number. Only the format changes.
+            3. Do not introduce em-dashes (U+2014), emojis, or hedging phrases.
+            4. Open a pull request against main from branch
+               jules/citation-drift-<YYYY-MM-DD>. In the PR body, list each file
+               changed, the original citation string, and the corrected string.
+
+            Definite language only. No hedging. No em-dashes. No emojis.
+          jules_api_key: ${{ secrets.JULES_API_KEY }}
+          starting_branch: main

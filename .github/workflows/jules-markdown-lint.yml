@@ -1,0 +1,71 @@
+# Jules scheduled dispatch: markdown-lint playbook.
+# Requires repository or organization secret JULES_API_KEY.
+# Dispatch mechanism: github-actions (not Jules web UI scheduled tasks).
+name: Jules - markdown-lint
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+  actions: read
+
+concurrency:
+  group: jules-markdown-lint
+  cancel-in-progress: false
+
+jobs:
+  dispatch:
+    name: Dispatch Jules
+    runs-on: ubuntu-latest
+    # Only fire when the CI run failed. workflow_dispatch bypasses this check.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'failure'
+    steps:
+      - name: Verify JULES_API_KEY secret is set
+        run: |
+          if [ -z "$JULES_API_KEY" ]; then
+            echo "::error::JULES_API_KEY secret not configured"; exit 1
+          fi
+        env:
+          JULES_API_KEY: ${{ secrets.JULES_API_KEY }}
+      - name: Invoke Jules
+        uses: google-labs-code/jules-invoke@v1
+        with:
+          prompt: |
+            STEP 0 (mandatory before any edit):
+            Before any code change, extract the specific file paths and string markers this
+            task claims to be present. Verify each marker still exists in HEAD via grep.
+            If any marker is absent, do not open a PR; post a short comment naming the
+            commit SHA that most recently touched the relevant path and stop. Only proceed
+            if all markers are present.
+
+            Task: markdown-lint auto-fix for ZOLAtheCodeX/aigovops.
+
+            Follow every rule in AGENTS.md and STYLE.md at the repo root. Read
+            jules/playbook/markdown-lint.md for the full playbook.
+
+            Run id for correlation: ${{ github.event.workflow_run.id }}
+
+            Procedure:
+            1. Inspect the most recent failed CI run on main. Identify markdownlint
+               failures. If the failure was not markdownlint, stop and post a comment
+               on the failing run naming the actual failing job.
+            2. Fix only lint violations. Do not rewrite prose, do not reorder sections,
+               do not change citation text, and do not alter YAML frontmatter values.
+               Acceptable edits: heading hierarchy, list markers, fenced code block
+               language tags, trailing whitespace, blank lines, line length.
+            3. Do not introduce em-dashes (U+2014), emojis, or hedging phrases.
+            4. Open a pull request against main from branch
+               jules/markdown-lint-${{ github.event.workflow_run.id }}. Reference the
+               failing run in the PR body.
+
+            Definite language only. No hedging. No em-dashes. No emojis.
+          jules_api_key: ${{ secrets.JULES_API_KEY }}
+          starting_branch: main

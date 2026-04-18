@@ -1,0 +1,73 @@
+# Jules scheduled dispatch: framework-drift playbook.
+# Requires repository or organization secret JULES_API_KEY.
+# Dispatch mechanism: github-actions (not Jules web UI scheduled tasks).
+name: Jules - framework-drift
+
+on:
+  schedule:
+    # Monday 10:00 UTC, one hour after framework-monitor opens issues.
+    - cron: '0 10 * * 1'
+  workflow_dispatch: {}
+  issues:
+    types: [opened, labeled]
+
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+
+concurrency:
+  group: jules-framework-drift
+  cancel-in-progress: false
+
+jobs:
+  dispatch:
+    name: Dispatch Jules
+    runs-on: ubuntu-latest
+    # Only fire on issue events when the framework-update label is present.
+    if: >-
+      github.event_name != 'issues' ||
+      contains(github.event.issue.labels.*.name, 'framework-update')
+    steps:
+      - name: Verify JULES_API_KEY secret is set
+        run: |
+          if [ -z "$JULES_API_KEY" ]; then
+            echo "::error::JULES_API_KEY secret not configured"; exit 1
+          fi
+        env:
+          JULES_API_KEY: ${{ secrets.JULES_API_KEY }}
+      - name: Invoke Jules
+        uses: google-labs-code/jules-invoke@v1
+        with:
+          prompt: |
+            STEP 0 (mandatory before any edit):
+            Before any code change, extract the specific file paths and string markers this
+            task claims to be present. Verify each marker still exists in HEAD via grep.
+            If any marker is absent, do not open a PR; post a short comment naming the
+            commit SHA that most recently touched the relevant path and stop. Only proceed
+            if all markers are present.
+
+            Task: framework-drift reconciliation for ZOLAtheCodeX/aigovops.
+
+            Follow every rule in AGENTS.md and STYLE.md at the repo root. Read
+            jules/playbook/framework-drift.md for the full playbook.
+
+            Procedure:
+            1. List open issues with label framework-update. Select the most recently
+               opened issue.
+            2. Parse the issue body to identify the affected framework (ISO/IEC 42001,
+               NIST AI RMF 1.0, or EU AI Act) and the specific clause, subcategory, or
+               article that changed upstream.
+            3. Locate the corresponding skills/<framework>/SKILL.md and
+               skills/<framework>/operationalization-map.md. If either file is missing,
+               post an issue comment naming the gap and stop.
+            4. Draft the update. Preserve every required SKILL.md section header in the
+               order defined by STYLE.md. Use the canonical citation format from STYLE.md.
+               Do not introduce em-dashes (U+2014), emojis, or hedging phrases.
+            5. Open a pull request against main from branch
+               jules/framework-drift-<issue-number>. Link the source issue in the PR
+               body. Keep the diff minimal and framework-specific.
+
+            Definite language only. No hedging. No em-dashes. No emojis.
+          jules_api_key: ${{ secrets.JULES_API_KEY }}
+          starting_branch: main

@@ -1,0 +1,67 @@
+# Jules scheduled dispatch: dep-bump playbook.
+# Requires repository or organization secret JULES_API_KEY.
+# Dispatch mechanism: github-actions (not Jules web UI scheduled tasks).
+name: Jules - dep-bump
+
+on:
+  schedule:
+    # Tuesday 14:00 UTC.
+    - cron: '0 14 * * 2'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+
+concurrency:
+  group: jules-dep-bump
+  cancel-in-progress: false
+
+jobs:
+  dispatch:
+    name: Dispatch Jules
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify JULES_API_KEY secret is set
+        run: |
+          if [ -z "$JULES_API_KEY" ]; then
+            echo "::error::JULES_API_KEY secret not configured"; exit 1
+          fi
+        env:
+          JULES_API_KEY: ${{ secrets.JULES_API_KEY }}
+      - name: Invoke Jules
+        uses: google-labs-code/jules-invoke@v1
+        with:
+          prompt: |
+            STEP 0 (mandatory before any edit):
+            Before any code change, extract the specific file paths and string markers this
+            task claims to be present. Verify each marker still exists in HEAD via grep.
+            If any marker is absent, do not open a PR; post a short comment naming the
+            commit SHA that most recently touched the relevant path and stop. Only proceed
+            if all markers are present.
+
+            Task: dep-bump dependency reconciliation for ZOLAtheCodeX/aigovops.
+
+            Follow every rule in AGENTS.md and STYLE.md at the repo root. Read
+            jules/playbook/dep-bump.md for the full playbook.
+
+            Procedure:
+            1. Locate every requirements.txt file in the repo (top-level and per
+               plugin). If no requirements.txt exists, post a short note on the most
+               recent workflow run and stop.
+            2. For each requirements.txt, compute pip list --outdated against the
+               pinned versions. Select only patch and minor upgrades. Skip all major
+               version bumps; flag them in the PR body for human review instead.
+            3. For each eligible upgrade, create one pull request. Branch name:
+               jules/dep-bump-<package>-<new-version>. One PR per dependency. Do not
+               batch multiple dependencies into a single PR.
+            4. In each PR body, include: current version, proposed version, changelog
+               link, and a note confirming the upgrade is patch or minor only.
+            5. CI must pass on the branch before the PR is opened. If CI fails, close
+               the branch and post a comment naming the failure.
+            6. Do not introduce em-dashes (U+2014), emojis, or hedging phrases.
+
+            Definite language only. No hedging. No em-dashes. No emojis.
+          jules_api_key: ${{ secrets.JULES_API_KEY }}
+          starting_branch: main

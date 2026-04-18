@@ -1,0 +1,69 @@
+# Jules scheduled dispatch: link-toc playbook.
+# Requires repository or organization secret JULES_API_KEY.
+# Dispatch mechanism: github-actions (not Jules web UI scheduled tasks).
+name: Jules - link-toc
+
+on:
+  schedule:
+    # Monday 11:00 UTC.
+    - cron: '0 11 * * 1'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+
+concurrency:
+  group: jules-link-toc
+  cancel-in-progress: false
+
+jobs:
+  dispatch:
+    name: Dispatch Jules
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify JULES_API_KEY secret is set
+        run: |
+          if [ -z "$JULES_API_KEY" ]; then
+            echo "::error::JULES_API_KEY secret not configured"; exit 1
+          fi
+        env:
+          JULES_API_KEY: ${{ secrets.JULES_API_KEY }}
+      - name: Invoke Jules
+        uses: google-labs-code/jules-invoke@v1
+        with:
+          prompt: |
+            STEP 0 (mandatory before any edit):
+            Before any code change, extract the specific file paths and string markers this
+            task claims to be present. Verify each marker still exists in HEAD via grep.
+            If any marker is absent, do not open a PR; post a short comment naming the
+            commit SHA that most recently touched the relevant path and stop. Only proceed
+            if all markers are present.
+
+            Task: link-toc reconciliation for ZOLAtheCodeX/aigovops.
+
+            Follow every rule in AGENTS.md and STYLE.md at the repo root. Read
+            jules/playbook/link-toc.md for the full playbook.
+
+            Procedure:
+            1. For each README.md in the repo (top-level, skills/, plugins/, bundles/,
+               evals/, docs/, examples/), enumerate the sibling subdirectories and
+               sibling documents that the README's table of contents or plugin index
+               should reference.
+            2. Compare against the actual TOC or index in the README. Identify entries
+               that are missing (sibling exists but is not listed).
+            3. Add missing entries only. Do not rename existing entries. Do not remove
+               entries even if the target path has moved; flag removals in the PR body
+               instead.
+            4. Preserve the existing TOC ordering convention. If the existing order is
+               alphabetical, insert in alphabetical position. If the order is curated,
+               insert at the end of the relevant section.
+            5. Do not introduce em-dashes (U+2014), emojis, or hedging phrases.
+            6. Open a pull request against main from branch
+               jules/link-toc-<YYYY-MM-DD>. List every README modified and every entry
+               added in the PR body.
+
+            Definite language only. No hedging. No em-dashes. No emojis.
+          jules_api_key: ${{ secrets.JULES_API_KEY }}
+          starting_branch: main
