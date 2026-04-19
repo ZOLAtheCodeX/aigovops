@@ -1,0 +1,105 @@
+# AIGovOps Skill Evaluation Harness
+# Skill: certification-path
+# Purpose: validate certification-path-planner output against the milestone
+#   plan contract: risk-weighted ordering, capacity-aware packing, hard-
+#   blocker propagation, recertification-trigger scheduling, and per-
+#   remediation ActionRequest emission.
+# Format: input scenario produces expected plan shape and milestone content.
+# Schema: see ../README.md
+# Citation format: see ../../STYLE.md
+#
+# Test case status legend:
+#   stub      placeholder content, no validation against standard
+#   validated content grounded in cited frameworks; validated_by populated
+#   deprecated superseded; kept for history
+#
+# Test cases below target SKILL.md v0.1.0. Validated by Zola Valashiya on
+# 2026-04-18 against ISO/IEC 42001:2023 Clauses 9.2, 9.3, 10.1; Colorado SB
+# 205 Sections 6-1-1703(3), 6-1-1706(3); and NYC LL144 Final Rule Section
+# 5-301.
+
+test_cases:
+  - id: certification-path-001
+    tier: T1.1
+    status: validated
+    validated_by: "Zola Valashiya"
+    validated_on: "2026-04-18"
+    description: |
+      iso42001-stage2 plan against a partially-ready bundle. The readiness
+      snapshot carries three remediations (missing-soa as a blocker,
+      missing-audit-log-entry as a gap, and missing-management-review-package
+      as a gap). The organization declares 30 weekly hours of team capacity
+      and a target date of 2026-12-01, roughly 32 weeks out. The planner
+      sorts remediations by priority_score descending, packs them into
+      milestones of 4-week width without exceeding capacity, and emits two
+      recertification triggers at target_date + 12 and + 24 months for ISO
+      surveillance. Each remediation is expressed as an ActionRequest with
+      action_type='invoke-plugin' and authority 'ask-permission' or
+      'take-resolving-action' per the routing table.
+    input:
+      current_readiness_ref: "examples/demo-scenario/readiness/iso42001-stage2-partial.json"
+      target_certification: "iso42001-stage2"
+      target_date: "2026-12-01"
+      organization_capacity:
+        team_size_fte: 2
+        weekly_hours_available: 30
+      minimum_milestone_interval_weeks: 4
+      reviewed_by: "Zola Valashiya"
+    expected_outputs:
+      - "plan['plan_id'] starts with 'cert-path-iso42001-stage2-2026-12-01-'."
+      - "plan['agent_signature'] == 'certification-path-planner/0.1.0'."
+      - "plan['summary']['remediation_count'] == 3."
+      - "len(plan['milestones']) >= 1."
+      - "every milestone['remediation_action_requests'][i]['action_type'] == 'invoke-plugin'."
+      - "plan['recertification_triggers'] contains exactly two 'surveillance-audit' entries."
+      - "plan['recertification_triggers'][0]['citation'] == 'ISO/IEC 42001:2023, Clause 9.2'."
+      - "render_markdown contains the legal disclaimer callout."
+      - "render_csv row count equals milestone count + 1 header row."
+    clause_references:
+      - "ISO/IEC 42001:2023, Clause 9.2"
+      - "ISO/IEC 42001:2023, Clause 9.3"
+      - "ISO/IEC 42001:2023, Clause 10.1"
+
+  - id: certification-path-002
+    tier: T1.1
+    status: validated
+    validated_by: "Zola Valashiya"
+    validated_on: "2026-04-18"
+    description: |
+      colorado-sb205-safe-harbor path with a hard blocker on
+      sb205-conformance-missing. The readiness snapshot surfaces
+      sb205-conformance-missing as a blocker with a curated remediation
+      routing to colorado-ai-act-compliance. The operator declares a hard
+      blocker 'Pending external legal opinion on SB 205 high-risk
+      classification' with affected_gap_keys=['sb205-conformance-missing',
+      'legal-review-pending']. The planner propagates the hard blocker: the
+      milestone carrying the sb205-conformance-missing remediation is
+      status='blocked' with blocked_by including the legal-opinion
+      description. The planner still emits an
+      'impact-assessment-refresh' recertification trigger at target_date
+      + 12 months per Colorado SB 205 Section 6-1-1703(3).
+    input:
+      current_readiness_ref: "examples/demo-scenario/readiness/colorado-sb205-blocked.json"
+      target_certification: "colorado-sb205-safe-harbor"
+      target_date: "2026-09-01"
+      hard_blockers:
+        - id: "HB-COLO-001"
+          description: "Pending external legal opinion on SB 205 high-risk classification."
+          affected_gap_keys:
+            - "sb205-conformance-missing"
+            - "legal-review-pending"
+      organization_capacity:
+        team_size_fte: 1
+        weekly_hours_available: 20
+      reviewed_by: "Zola Valashiya"
+    expected_outputs:
+      - "plan['blockers'][0]['id'] == 'HB-COLO-001'."
+      - "at least one milestone with status 'blocked' and 'Pending external legal opinion' in blocked_by."
+      - "plan['recertification_triggers'] contains one entry with trigger_type == 'impact-assessment-refresh'."
+      - "plan['recertification_triggers'][0]['citation'] == 'Colorado SB 205, Section 6-1-1703(3)'."
+      - "render_markdown contains 'Hard blockers' section with the blocker description."
+      - "render_markdown contains the legal disclaimer callout."
+    clause_references:
+      - "Colorado SB 205, Section 6-1-1703(3)"
+      - "Colorado SB 205, Section 6-1-1706(3)"
+      - "Colorado SB 205, Section 6-1-1706(4)"

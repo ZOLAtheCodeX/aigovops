@@ -63,6 +63,8 @@ PLUGIN_PUBLIC_FUNCTIONS = {
     "explainability-documenter": ["document_explainability", "render_markdown", "render_csv"],
     "genai-risk-register": ["generate_genai_risk_register", "render_markdown", "render_csv"],
     "eu-conformity-assessor": ["assess_conformity_procedure", "render_markdown", "render_csv"],
+    "certification-path-planner": ["plan_certification_path", "render_markdown", "render_csv"],
+    "cascade-impact-analyzer": ["analyze_cascade", "render_markdown", "render_csv"],
 }
 
 

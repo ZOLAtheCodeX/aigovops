@@ -252,7 +252,7 @@ class TestQueries(unittest.TestCase):
                 "target_framework": "eu-ai-act",
             }
         )
-        self.assertEqual(len(forward["matrix"]) + len(reverse["matrix"]), 114)
+        self.assertEqual(len(forward["matrix"]) + len(reverse["matrix"]), 115)
         self.assertIn("by_relationship", forward["summary"])
         # Across both directions the file carries 26 no-mapping entries
         # (23 baseline + 3 added by eu-conformity-assessor for Articles

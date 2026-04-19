@@ -1158,6 +1158,23 @@ mappings:
     notes: "ISO Clauses 9.2 internal audit and 10.2 nonconformity provide the QMS-side internal-control evidence Article 43 expects, but the notified-body route under Annex VII has no ISO equivalent."
     bidirectional: false
 
+  - id: eu-ai-act--art-43-planning--iso42001--clause-10-1-clause-9-3-2
+    source_framework: eu-ai-act
+    source_ref: "Article 43"
+    source_title: "Conformity assessment procedures (planning surface)"
+    target_framework: iso42001
+    target_ref: "Clause 10.1, Clause 9.3.2"
+    target_title: "Continual improvement and management review inputs"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "Conformity procedure under Article 43 requires a structured path from gap identification to resolution. ISO Clause 10.1 continual improvement is the management-system planning surface that operationalizes this path, and Clause 9.3.2 management review is the gate that validates progress. The certification-path-planner plugin is the planning artifact that connects a gap assessment to Clause 10.1."
+    bidirectional: false
+
   - id: eu-ai-act--art-72-3--iso42001--no-equivalent
     source_framework: eu-ai-act
     source_ref: "Article 72, Paragraph 3"

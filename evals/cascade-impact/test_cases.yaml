@@ -1,0 +1,77 @@
+# AIGovOps Skill Evaluation Harness
+# Skill: cascade-impact
+# Purpose: validate cascade analysis outputs against the seeded cascade
+#          registry in plugins/cascade-impact-analyzer/data/cascade_schema.yaml.
+# Format: input trigger_event dict produces expected result structure,
+#         citations, flat-action-list membership, and summary counts.
+# Schema: see ../README.md
+# Citation format: see ../../STYLE.md and
+#                  skills/cascade-impact/SKILL.md
+#
+# Test case status legend:
+#   stub      placeholder content, no validation against data
+#   validated content grounded in the seeded cascade registry; validated_by populated
+#   deprecated superseded; kept for history
+
+test_cases:
+  - id: cascade-impact-001
+    tier: T1.1
+    description: |
+      Risk-register risk-added cascade. A new risk row added to the risk
+      register triggers a fan-out of three downstream actions at hop 0:
+      re-run the SoA generator (a new risk row may reference new Annex A
+      controls), re-run the gap assessment (a new risk may surface a
+      framework gap), and re-assess certification readiness (readiness
+      score depends on the risk register). All three actions carry
+      `take-resolving-action` authority and cite ISO/IEC 42001:2023
+      Clause 6.1.2 and 6.1.3 family. Priority is `high`. Confirms the
+      flat-action-list ordering places all three at hop 0 under priority
+      `high`.
+    input:
+      trigger_event:
+        event: "risk-register.risk-added"
+        source_plugin: "risk-register-builder"
+    expected_outputs:
+      - "result['matched_cascades'] equals ['risk-register.risk-added']."
+      - "result['summary']['total_actions'] is at least 3."
+      - "Exactly three actions in result['flat_action_list'] have hop_count == 0."
+      - "The three hop-0 target_plugin values equal {'soa-generator', 'gap-assessment', 'certification-readiness'}."
+      - "All three hop-0 actions carry authority 'take-resolving-action'."
+      - "result['summary']['by_authority'] contains 'take-resolving-action' with count at least 3."
+      - "result['citations'] contains 'ISO/IEC 42001:2023, Clause 6.1.2'."
+      - "result['warnings'] is empty (the trigger matches a seeded cascade)."
+      - "result['agent_signature'] equals 'cascade-impact-analyzer/0.1.0'."
+      - "No em-dash (U+2014), emoji, or hedging phrase present in any surfaced field (rationale, citations, cascade_id)."
+    status: validated
+    validated_by: "AIGovOps cascade-impact-analyzer/0.1.0 seed review (2026-04-18)"
+
+  - id: cascade-impact-002
+    tier: T1.1
+    description: |
+      High-risk-classifier EU Annex III match cascade. When the
+      high-risk classifier returns a match against one of the eight
+      EU AI Act Annex III high-risk use-case categories, the mandatory
+      downstream action is a Fundamental Rights Impact Assessment
+      (FRIA) via the aisia-runner plugin, cited against EU AI Act
+      Article 27. The aisia-runner action appears at hop 0 with
+      authority `take-resolving-action` because Article 27 is a
+      non-waivable obligation for Annex III deployers. A second
+      hop-0 action re-runs post-market-monitoring under Article 72.
+      Priority is `high`.
+    input:
+      trigger_event:
+        event: "high-risk-classifier.eu-annex-iii-match"
+        source_plugin: "high-risk-classifier"
+    expected_outputs:
+      - "result['matched_cascades'] equals ['high-risk-classifier.eu-annex-iii-match']."
+      - "result['flat_action_list'] contains an action with target_plugin 'aisia-runner' and hop_count 0."
+      - "The aisia-runner action carries authority 'take-resolving-action'."
+      - "The aisia-runner action citations include 'EU AI Act, Article 27'."
+      - "result['flat_action_list'] contains an action with target_plugin 'post-market-monitoring' and hop_count 0."
+      - "The post-market-monitoring action citations include 'EU AI Act, Article 72'."
+      - "result['summary']['total_actions'] is at least 2."
+      - "result['citations'] contains 'EU AI Act, Annex III'."
+      - "result['warnings'] is empty (the trigger matches a seeded cascade)."
+      - "No em-dash (U+2014), emoji, or hedging phrase present in any surfaced field."
+    status: validated
+    validated_by: "AIGovOps cascade-impact-analyzer/0.1.0 seed review (2026-04-18)"

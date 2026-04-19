@@ -1,0 +1,612 @@
+# AIGovOps cascade registry.
+#
+# Each cascade names a trigger event, the downstream actions that fire from
+# it, and the citations that justify the cascade's existence. See SCHEMA.md
+# for the full field reference. No em-dashes, no emojis, no hedging.
+
+cascades:
+
+  - id: framework-monitor.change-detected
+    trigger:
+      event: framework-monitor.change-detected
+      source_plugin: framework-monitor
+      trigger_conditions:
+        - "A tracked framework publishes a delta that affects applicability or control text."
+    description: "A tracked regulatory framework publishes a change relevant to the AIMS scope."
+    priority: high
+    actions:
+      - action_type: re-run-plugin
+        target_plugin: applicability-checker
+        rationale: "Re-run applicability to confirm the change does not expand or contract scope."
+        authority: take-resolving-action
+        max_hops_further: 3
+        citations:
+          - "ISO/IEC 42001:2023, Clause 10.1"
+      - action_type: notification
+        target_plugin: management-review-packager
+        rationale: "Feed the framework change into the next management review cycle as an input."
+        authority: ask-permission
+        max_hops_further: 2
+        citations:
+          - "ISO/IEC 42001:2023, Clause 9.3.2"
+    citations:
+      - "ISO/IEC 42001:2023, Clause 10.1"
+
+  - id: ai-system-inventory.system-added
+    trigger:
+      event: ai-system-inventory.system-added
+      source_plugin: ai-system-inventory-maintainer
+      trigger_conditions:
+        - "A new AI system is added to the inventory."
+    description: "A new AI system enters the inventory and requires full applicability and risk treatment."
+    priority: high
+    actions:
+      - action_type: re-run-plugin
+        target_plugin: applicability-checker
+        rationale: "Confirm per-system regulatory applicability for the new system."
+        authority: take-resolving-action
+        max_hops_further: 3
+        citations:
+          - "ISO/IEC 42001:2023, Clause 4.3"
+      - action_type: re-run-plugin
+        target_plugin: high-risk-classifier
+        rationale: "Classify the system against EU AI Act Annex III and Article 6."
+        authority: take-resolving-action
+        max_hops_further: 3
+        citations:
+          - "EU AI Act, Article 6"
+      - action_type: re-run-plugin
+        target_plugin: risk-register-builder
+        rationale: "Add risk rows scoped to the new system."
+        authority: take-resolving-action
+        max_hops_further: 3
+        citations:
+          - "ISO/IEC 42001:2023, Clause 6.1.2"
+      - action_type: re-run-plugin
+        target_plugin: data-register-builder
+        rationale: "Capture the system's data resources under ISO 42001 A.7 and EU AI Act Article 10."
+        authority: take-resolving-action
+        max_hops_further: 2
+        citations:
+          - "ISO/IEC 42001:2023, Annex A, Control A.7.2"
+          - "EU AI Act, Article 10"
+      - action_type: re-run-plugin
+        target_plugin: role-matrix-generator
+        rationale: "Update the role and responsibility matrix to include owners for the new system."
+        authority: take-resolving-action
+        max_hops_further: 2
+        citations:
+          - "ISO/IEC 42001:2023, Clause 5.3"
+    citations:
+      - "ISO/IEC 42001:2023, Clause 4.3"
+
+  - id: high-risk-classifier.eu-annex-iii-match
+    trigger:
+      event: high-risk-classifier.eu-annex-iii-match
+      source_plugin: high-risk-classifier
+      trigger_conditions:
+        - "System matches one of the eight EU AI Act Annex III high-risk use-case categories."
+    description: "System classified as EU AI Act high-risk under Annex III, triggering FRIA and post-market monitoring duties."
+    priority: high
+    actions:
+      - action_type: re-run-plugin
+        target_plugin: aisia-runner
+        rationale: "Annex III match triggers mandatory Fundamental Rights Impact Assessment under Article 27."
+        authority: take-resolving-action
+        max_hops_further: 3
+        citations:
+          - "EU AI Act, Article 27"
+      - action_type: re-run-plugin
+        target_plugin: post-market-monitoring
+        rationale: "Annex III systems require a documented post-market monitoring plan."
+        authority: take-resolving-action
+        max_hops_further: 3
+        citations:
+          - "EU AI Act, Article 72"
+    citations:
+      - "EU AI Act, Annex III"
+
+  - id: high-risk-classifier.colorado-sb205-in-scope
+    trigger:
+      event: high-risk-classifier.colorado-sb205-in-scope
+      source_plugin: high-risk-classifier
+      trigger_conditions:
+        - "System makes a consequential decision under Colorado SB 205 Section 6-1-1701."
+    description: "System is in scope for Colorado SB 205 developer or deployer duties."
+    priority: high
+    actions:
+      - action_type: re-run-plugin
+        target_plugin: colorado-ai-act-compliance
+        rationale: "Generate Colorado SB 205 developer or deployer compliance record."
+        authority: take-resolving-action
+        max_hops_further: 3
+        citations:
+          - "Colorado SB 205, Section 6-1-1702(2)"
+          - "Colorado SB 205, Section 6-1-1703(4)(b)"
+    citations:
+      - "Colorado SB 205, Section 6-1-1701(3)"
+
+  - id: risk-register.risk-added
+    trigger:
+      event: risk-register.risk-added
+      source_plugin: risk-register-builder
+      trigger_conditions:
+        - "A new risk row is added to the register."
+    description: "A new AI risk row is added and requires SoA, gap, and readiness re-assessment."
+    priority: high
+    actions:
+      - action_type: re-run-plugin
+        target_plugin: soa-generator
+        rationale: "New risk rows may reference new Annex A controls; the SoA must reflect inclusion."
+        authority: take-resolving-action
+        max_hops_further: 3
+        citations:
+          - "ISO/IEC 42001:2023, Clause 6.1.3"
+      - action_type: re-run-plugin
+        target_plugin: gap-assessment
+        rationale: "A new risk may surface a gap against the target framework."
+        authority: take-resolving-action
+        max_hops_further: 3
+        citations:
+          - "ISO/IEC 42001:2023, Clause 6.1.2"
+      - action_type: re-run-plugin
+        target_plugin: certification-readiness
+        rationale: "Readiness score depends on the risk register; re-assess."
+        authority: take-resolving-action
+        max_hops_further: 2
+        citations:
+          - "ISO/IEC 42001:2023, Clause 9.3"
+    citations:
+      - "ISO/IEC 42001:2023, Clause 6.1.2"
+
+  - id: risk-register.residual-score-exceeds-threshold
+    trigger:
+      event: risk-register.residual-score-exceeds-threshold
+      source_plugin: risk-register-builder
+      trigger_conditions:
+        - "Residual risk score exceeds the tolerance threshold."
+    description: "A residual risk score exceeds the documented tolerance threshold and requires escalation."
+    priority: high
+    actions:
+      - action_type: notification
+        target_plugin: incident-reporting
+        rationale: "Evaluate whether the residual score increase is a reportable event."
+        authority: ask-permission
+        max_hops_further: 2
+        citations:
+          - "ISO/IEC 42001:2023, Clause 10.2"
+      - action_type: notification
+        target_plugin: management-review-packager
+        rationale: "Surface the residual breach in the next management review cycle."
+        authority: ask-permission
+        max_hops_further: 2
+        citations:
+          - "ISO/IEC 42001:2023, Clause 9.3.2"
+    citations:
+      - "ISO/IEC 42001:2023, Clause 6.1.4"
+
+  - id: soa-generator.control-status-changed
+    trigger:
+      event: soa-generator.control-status-changed
+      source_plugin: soa-generator
+      trigger_conditions:
+        - "An Annex A control status transitions (for example, from planned to implemented)."
+    description: "An Annex A control changes status on the Statement of Applicability."
+    priority: medium
+    actions:
+      - action_type: re-run-plugin
+        target_plugin: gap-assessment
+        rationale: "A control status change may close or open a gap."
+        authority: take-resolving-action
+        max_hops_further: 3
+        citations:
+          - "ISO/IEC 42001:2023, Clause 6.1.2"
+      - action_type: re-run-plugin
+        target_plugin: certification-readiness
+        rationale: "Readiness score depends on SoA status distribution; re-assess."
+        authority: take-resolving-action
+        max_hops_further: 2
+        citations:
+          - "ISO/IEC 42001:2023, Clause 9.3"
+    citations:
+      - "ISO/IEC 42001:2023, Clause 6.1.3"
+
+  - id: gap-assessment.new-gap-detected
+    trigger:
+      event: gap-assessment.new-gap-detected
+      source_plugin: gap-assessment
+      trigger_conditions:
+        - "A new gap row is produced that was not present in the prior run."
+    description: "A new gap is detected against the target framework and requires planning."
+    priority: medium
+    actions:
+      - action_type: trigger-downstream
+        target_plugin: certification-readiness
+        rationale: "Update certification milestones to reflect the new gap."
+        authority: ask-permission
+        max_hops_further: 2
+        citations:
+          - "ISO/IEC 42001:2023, Clause 9.3"
+    citations:
+      - "ISO/IEC 42001:2023, Clause 6.1.2"
+
+  - id: certification-readiness.not-ready
+    trigger:
+      event: certification-readiness.not-ready
+      source_plugin: certification-readiness
+      trigger_conditions:
+        - "Aggregate readiness verdict falls below the certification threshold."
+    description: "Certification readiness is not-ready and a remediation plan is required."
+    priority: high
+    actions:
+      - action_type: trigger-downstream
+        target_plugin: gap-assessment
+        rationale: "Build a remediation plan by regenerating the gap register."
+        authority: ask-permission
+        max_hops_further: 2
+        citations:
+          - "ISO/IEC 42001:2023, Clause 10.1"
+    citations:
+      - "ISO/IEC 42001:2023, Clause 9.3"
+
+  - id: certification-readiness.ready-with-conditions
+    trigger:
+      event: certification-readiness.ready-with-conditions
+      source_plugin: certification-readiness
+      trigger_conditions:
+        - "Readiness verdict is ready-with-conditions, requiring management review sign-off."
+    description: "Certification readiness reaches ready-with-conditions; leadership sign-off required."
+    priority: medium
+    actions:
+      - action_type: notification
+        target_plugin: management-review-packager
+        rationale: "Surface conditional readiness for leadership review and sign-off."
+        authority: ask-permission
+        max_hops_further: 2
+        citations:
+          - "ISO/IEC 42001:2023, Clause 9.3.2"
+    citations:
+      - "ISO/IEC 42001:2023, Clause 9.3"
+
+  - id: metrics-collector.threshold-breach
+    trigger:
+      event: metrics-collector.threshold-breach
+      source_plugin: metrics-collector
+      trigger_conditions:
+        - "A MEASURE metric crosses its documented threshold."
+    description: "A measured metric breaches its threshold and requires nonconformity evaluation."
+    priority: high
+    actions:
+      - action_type: re-run-plugin
+        target_plugin: nonconformity-tracker
+        rationale: "Open a nonconformity for the threshold breach."
+        authority: take-resolving-action
+        max_hops_further: 3
+        citations:
+          - "ISO/IEC 42001:2023, Clause 10.2"
+      - action_type: notification
+        target_plugin: incident-reporting
+        rationale: "Evaluate whether the breach qualifies as a reportable incident."
+        authority: ask-permission
+        max_hops_further: 2
+        citations:
+          - "EU AI Act, Article 73"
+      - action_type: trigger-downstream
+        target_plugin: post-market-monitoring
+        rationale: "Trigger a post-market monitoring review of the affected dimension."
+        authority: take-resolving-action
+        max_hops_further: 2
+        citations:
+          - "EU AI Act, Article 72"
+    citations:
+      - "MEASURE 2.7"
+
+  - id: nonconformity-tracker.closed
+    trigger:
+      event: nonconformity-tracker.closed
+      source_plugin: nonconformity-tracker
+      trigger_conditions:
+        - "A nonconformity record transitions to closed state."
+    description: "A nonconformity is closed and requires management review input plus audit-log closure."
+    priority: medium
+    actions:
+      - action_type: re-run-plugin
+        target_plugin: management-review-packager
+        rationale: "Closed nonconformities are a mandatory management review input."
+        authority: take-resolving-action
+        max_hops_further: 2
+        citations:
+          - "ISO/IEC 42001:2023, Clause 9.3.2"
+      - action_type: log
+        target_plugin: audit-log-generator
+        rationale: "Record the closure event in the audit log."
+        authority: take-resolving-action
+        max_hops_further: 1
+        citations:
+          - "ISO/IEC 42001:2023, Clause 7.5.3"
+    citations:
+      - "ISO/IEC 42001:2023, Clause 10.2"
+
+  - id: incident-reporting.serious-incident
+    trigger:
+      event: incident-reporting.serious-incident
+      source_plugin: incident-reporting
+      trigger_conditions:
+        - "A serious incident meeting EU AI Act Article 3(49) criteria is logged."
+    description: "A serious incident is logged and triggers notification, supplier review, and evidence packing."
+    priority: high
+    actions:
+      - action_type: notification
+        target_plugin: management-review-packager
+        rationale: "Serious incidents are mandatory management review inputs."
+        authority: ask-permission
+        max_hops_further: 2
+        citations:
+          - "ISO/IEC 42001:2023, Clause 9.3.2"
+      - action_type: notification
+        target_plugin: supplier-vendor-assessor
+        rationale: "Evaluate whether supplier-provided components contributed to the incident."
+        authority: ask-permission
+        max_hops_further: 2
+        citations:
+          - "ISO/IEC 42001:2023, Annex A, Control A.10.3"
+      - action_type: trigger-downstream
+        target_plugin: evidence-bundle-packager
+        rationale: "Pack an evidence bundle for regulator submission."
+        authority: ask-permission
+        max_hops_further: 2
+        citations:
+          - "EU AI Act, Article 73"
+    citations:
+      - "EU AI Act, Article 73"
+
+  - id: post-market-monitoring.dimension-drift
+    trigger:
+      event: post-market-monitoring.dimension-drift
+      source_plugin: post-market-monitoring
+      trigger_conditions:
+        - "A monitored dimension (bias, robustness, or performance) drifts beyond the documented tolerance."
+    description: "A post-market dimension drifts and requires re-evaluation and risk register update."
+    priority: high
+    actions:
+      - action_type: re-run-plugin
+        target_plugin: bias-evaluator
+        rationale: "Re-run bias evaluation when the drifted dimension is fairness-related."
+        authority: take-resolving-action
+        max_hops_further: 2
+        citations:
+          - "MEASURE 2.11"
+        condition: "dimension in {bias, fairness}"
+      - action_type: re-run-plugin
+        target_plugin: robustness-evaluator
+        rationale: "Re-run robustness evaluation when the drifted dimension is robustness-related."
+        authority: take-resolving-action
+        max_hops_further: 2
+        citations:
+          - "MEASURE 2.7"
+        condition: "dimension in {robustness, perturbation, distribution-shift}"
+      - action_type: re-run-plugin
+        target_plugin: risk-register-builder
+        rationale: "Re-evaluate affected risks in the register."
+        authority: take-resolving-action
+        max_hops_further: 2
+        citations:
+          - "ISO/IEC 42001:2023, Clause 6.1.4"
+    citations:
+      - "EU AI Act, Article 72"
+
+  - id: supplier-vendor-assessor.vendor-changed
+    trigger:
+      event: supplier-vendor-assessor.vendor-changed
+      source_plugin: supplier-vendor-assessor
+      trigger_conditions:
+        - "A supplier or vendor assessment changes (replacement, downgrade, or new assessment)."
+    description: "A supplier or vendor changes and requires risk, SoA, and audit-log updates."
+    priority: medium
+    actions:
+      - action_type: re-run-plugin
+        target_plugin: risk-register-builder
+        rationale: "Vendor changes may create or resolve supplier-dependent risks."
+        authority: take-resolving-action
+        max_hops_further: 2
+        citations:
+          - "ISO/IEC 42001:2023, Annex A, Control A.10.3"
+      - action_type: re-run-plugin
+        target_plugin: soa-generator
+        rationale: "Annex A Control A.10 applicability may change with the vendor."
+        authority: take-resolving-action
+        max_hops_further: 2
+        citations:
+          - "ISO/IEC 42001:2023, Annex A, Control A.10.2"
+      - action_type: log
+        target_plugin: audit-log-generator
+        rationale: "Log the vendor change in the audit trail."
+        authority: take-resolving-action
+        max_hops_further: 1
+        citations:
+          - "ISO/IEC 42001:2023, Clause 7.5.3"
+    citations:
+      - "EU AI Act, Article 25"
+
+  - id: internal-audit-planner.finding-raised
+    trigger:
+      event: internal-audit-planner.finding-raised
+      source_plugin: internal-audit-planner
+      trigger_conditions:
+        - "An internal audit raises a finding against a controlled clause."
+    description: "An internal audit finding is raised and requires nonconformity tracking plus management review input."
+    priority: high
+    actions:
+      - action_type: re-run-plugin
+        target_plugin: nonconformity-tracker
+        rationale: "Open a nonconformity for the audit finding."
+        authority: take-resolving-action
+        max_hops_further: 2
+        citations:
+          - "ISO/IEC 42001:2023, Clause 10.2"
+      - action_type: trigger-downstream
+        target_plugin: management-review-packager
+        rationale: "Add the audit finding to the next management review input pack."
+        authority: take-resolving-action
+        max_hops_further: 2
+        citations:
+          - "ISO/IEC 42001:2023, Clause 9.3.2"
+    citations:
+      - "ISO/IEC 42001:2023, Clause 9.2"
+
+  - id: management-review-packager.review-closed
+    trigger:
+      event: management-review-packager.review-closed
+      source_plugin: management-review-packager
+      trigger_conditions:
+        - "A management review cycle closes with recorded decisions."
+    description: "A management review is closed; decisions must be logged and risks potentially updated."
+    priority: medium
+    actions:
+      - action_type: log
+        target_plugin: audit-log-generator
+        rationale: "Record the closure and attendee list in the audit log."
+        authority: take-resolving-action
+        max_hops_further: 1
+        citations:
+          - "ISO/IEC 42001:2023, Clause 7.5.3"
+      - action_type: notification
+        target_plugin: risk-register-builder
+        rationale: "Management review decisions may require risk register updates."
+        authority: ask-permission
+        max_hops_further: 2
+        citations:
+          - "ISO/IEC 42001:2023, Clause 9.3.3"
+    citations:
+      - "ISO/IEC 42001:2023, Clause 9.3"
+
+  - id: gpai-obligations-tracker.systemic-risk-designated
+    trigger:
+      event: gpai-obligations-tracker.systemic-risk-designated
+      source_plugin: gpai-obligations-tracker
+      trigger_conditions:
+        - "A GPAI model is designated as presenting systemic risk under EU AI Act Article 51."
+    description: "A GPAI model is designated as systemic-risk and triggers Article 55 additional duties."
+    priority: high
+    actions:
+      - action_type: notification
+        target_plugin: incident-reporting
+        rationale: "Systemic-risk GPAI requires a serious-incident reporting channel under Article 55(1)(c)."
+        authority: ask-permission
+        max_hops_further: 2
+        citations:
+          - "EU AI Act, Article 55, Paragraph 1, Point (c)"
+      - action_type: notification
+        target_plugin: supplier-vendor-assessor
+        rationale: "Re-evaluate downstream integrators for systemic-risk propagation."
+        authority: ask-permission
+        max_hops_further: 2
+        citations:
+          - "EU AI Act, Article 55"
+    citations:
+      - "EU AI Act, Article 51"
+
+  - id: human-oversight-designer.ability-gap
+    trigger:
+      event: human-oversight-designer.ability-gap
+      source_plugin: human-oversight-designer
+      trigger_conditions:
+        - "A human-oversight ability coverage check fails against Article 14 abilities."
+    description: "A human-oversight ability gap is detected and requires risk register escalation."
+    priority: high
+    actions:
+      - action_type: re-run-plugin
+        target_plugin: risk-register-builder
+        rationale: "Open a risk row for the oversight gap."
+        authority: take-resolving-action
+        max_hops_further: 2
+        citations:
+          - "EU AI Act, Article 14"
+      - action_type: notification
+        target_plugin: management-review-packager
+        rationale: "Surface the oversight gap in the management review cycle."
+        authority: ask-permission
+        max_hops_further: 2
+        citations:
+          - "ISO/IEC 42001:2023, Clause 9.3.2"
+    citations:
+      - "EU AI Act, Article 14"
+
+  - id: bias-evaluator.disparate-impact-detected
+    trigger:
+      event: bias-evaluator.disparate-impact-detected
+      source_plugin: bias-evaluator
+      trigger_conditions:
+        - "A fairness metric crosses its jurisdictional threshold (four-fifths rule or statistical parity)."
+    description: "A disparate impact signal is detected and triggers nonconformity, incident, and jurisdictional re-runs."
+    priority: high
+    actions:
+      - action_type: re-run-plugin
+        target_plugin: nonconformity-tracker
+        rationale: "Open a nonconformity for the disparate-impact signal."
+        authority: ask-permission
+        max_hops_further: 2
+        citations:
+          - "ISO/IEC 42001:2023, Clause 10.2"
+      - action_type: notification
+        target_plugin: incident-reporting
+        rationale: "Evaluate whether the signal constitutes a reportable event in the target jurisdiction."
+        authority: ask-permission
+        max_hops_further: 2
+        citations:
+          - "NYC LL144 Final Rule, Section 5-301"
+      - action_type: re-run-plugin
+        target_plugin: nyc-ll144-audit-packager
+        rationale: "Re-run the NYC LL144 audit packager when the system is in scope for Local Law 144."
+        authority: ask-permission
+        max_hops_further: 2
+        citations:
+          - "NYC LL144"
+        condition: "jurisdiction == 'usa-nyc'"
+    citations:
+      - "MEASURE 2.11"
+
+  - id: evidence-bundle-packager.bundle-packed
+    trigger:
+      event: evidence-bundle-packager.bundle-packed
+      source_plugin: evidence-bundle-packager
+      trigger_conditions:
+        - "A deterministic evidence bundle is produced."
+    description: "An evidence bundle is packed; certification readiness may now advance."
+    priority: medium
+    actions:
+      - action_type: re-run-plugin
+        target_plugin: certification-readiness
+        rationale: "Re-assess readiness now that a fresh evidence bundle is available."
+        authority: take-resolving-action
+        max_hops_further: 2
+        citations:
+          - "ISO/IEC 42001:2023, Clause 9.3"
+    citations:
+      - "ISO/IEC 42001:2023, Clause 7.5.3"
+
+  - id: evidence-bundle-packager.signature-mismatch
+    trigger:
+      event: evidence-bundle-packager.signature-mismatch
+      source_plugin: evidence-bundle-packager
+      trigger_conditions:
+        - "HMAC signature verification on a packed bundle fails."
+    description: "An evidence bundle fails signature verification and triggers incident evaluation plus review notification."
+    priority: high
+    actions:
+      - action_type: notification
+        target_plugin: incident-reporting
+        rationale: "Signature mismatch is a tamper-evidence finding and may be a reportable security event."
+        authority: ask-permission
+        max_hops_further: 2
+        citations:
+          - "ISO/IEC 42001:2023, Clause 10.2"
+      - action_type: notification
+        target_plugin: management-review-packager
+        rationale: "Surface the tamper-evidence finding in the management review cycle."
+        authority: ask-permission
+        max_hops_further: 2
+        citations:
+          - "ISO/IEC 42001:2023, Clause 9.3.2"
+    citations:
+      - "ISO/IEC 42001:2023, Clause 7.5.3"
