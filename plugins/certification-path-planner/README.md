@@ -77,7 +77,7 @@ print(plugin.render_markdown(plan))
 
 For each remediation in the readiness snapshot, `priority_score` is:
 
-```
+```text
 priority_score = (gap_blocker_severity * 10) + risk_inherent_score_max + target_date_urgency_weight
 ```
 
