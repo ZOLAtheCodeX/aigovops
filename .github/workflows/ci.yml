@@ -111,7 +111,7 @@ jobs:
           # Skills exempt from the eval requirement because they are primers
           # (no plugin; the skill is pure navigation and cross-reference).
           # If a primer gains a plugin it must ship an eval file.
-          PRIMER_SKILLS=("california-ai")
+          PRIMER_SKILLS=("california-ai" "canada-aida")
           for skill_dir in skills/*/; do
             [ -d "$skill_dir" ] || continue
             skill_name=$(basename "$skill_dir")
