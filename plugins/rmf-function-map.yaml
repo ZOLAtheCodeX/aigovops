@@ -1,0 +1,126 @@
+# NIST AI RMF 1.0 four-function tagging for the AIGovOps plugin catalogue.
+# Every plugin tags which function(s) it contributes to. Govern is
+# typically cross-cutting (appears on many). Map/Measure/Manage cycle
+# around specific decisions.
+#
+# Source: NIST AI Risk Management Framework 1.0, Section 5 (Core).
+# Function definitions from NIST AI RMF 1.0, Sections 5.1 through 5.4.
+
+functions:
+  govern:
+    description: Organizational culture, leadership, policies, roles
+    citation: "NIST AI RMF 1.0, Section 5.1 (Govern)"
+  map:
+    description: Context establishment, categorization, risk identification
+    citation: "NIST AI RMF 1.0, Section 5.2 (Map)"
+  measure:
+    description: Metrics, testing, evaluation, measurement feedback
+    citation: "NIST AI RMF 1.0, Section 5.3 (Measure)"
+  manage:
+    description: Risk treatment, incident response, continual improvement
+    citation: "NIST AI RMF 1.0, Section 5.4 (Manage)"
+
+plugin_tags:
+  ai-system-inventory-maintainer:
+    functions: [govern, map]
+    primary: map
+    rationale: Inventory establishes context (Map) under governance (Govern)
+  applicability-checker:
+    functions: [govern, map]
+    primary: map
+  high-risk-classifier:
+    functions: [map]
+    primary: map
+  risk-register-builder:
+    functions: [map, manage]
+    primary: map
+  data-register-builder:
+    functions: [map]
+    primary: map
+  role-matrix-generator:
+    functions: [govern]
+    primary: govern
+  soa-generator:
+    functions: [govern, manage]
+    primary: govern
+  aisia-runner:
+    functions: [map, measure]
+    primary: map
+  audit-log-generator:
+    functions: [govern, manage]
+    primary: govern
+  metrics-collector:
+    functions: [measure]
+    primary: measure
+  nonconformity-tracker:
+    functions: [manage]
+    primary: manage
+  management-review-packager:
+    functions: [govern, manage]
+    primary: govern
+  gap-assessment:
+    functions: [measure]
+    primary: measure
+  internal-audit-planner:
+    functions: [govern, measure]
+    primary: govern
+  certification-readiness:
+    functions: [measure, manage]
+    primary: measure
+  certification-path-planner:
+    functions: [manage]
+    primary: manage
+  cascade-impact-analyzer:
+    functions: [govern, manage]
+    primary: manage
+  incident-reporting:
+    functions: [manage]
+    primary: manage
+  supplier-vendor-assessor:
+    functions: [govern, map]
+    primary: govern
+  robustness-evaluator:
+    functions: [measure]
+    primary: measure
+  bias-evaluator:
+    functions: [measure]
+    primary: measure
+  human-oversight-designer:
+    functions: [govern, manage]
+    primary: govern
+  eu-conformity-assessor:
+    functions: [govern, manage]
+    primary: govern
+  gpai-obligations-tracker:
+    functions: [govern, map]
+    primary: govern
+  system-event-logger:
+    functions: [govern, measure]
+    primary: measure
+  explainability-documenter:
+    functions: [govern, measure]
+    primary: measure
+  genai-risk-register:
+    functions: [map, manage]
+    primary: map
+  post-market-monitoring:
+    functions: [measure, manage]
+    primary: measure
+  evidence-bundle-packager:
+    functions: [govern]
+    primary: govern
+  crosswalk-matrix-builder:
+    functions: [govern]
+    primary: govern
+  uk-atrs-recorder:
+    functions: [govern, measure]
+    primary: govern
+  colorado-ai-act-compliance:
+    functions: [govern, manage]
+    primary: govern
+  nyc-ll144-audit-packager:
+    functions: [measure, manage]
+    primary: measure
+  singapore-magf-assessor:
+    functions: [govern, map, measure, manage]
+    primary: govern

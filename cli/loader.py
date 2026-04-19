@@ -19,6 +19,55 @@ import yaml
 REQUIRED_TOP_LEVEL = ("organization",)
 
 
+# Canonical risk-tier tokens expected by downstream plugins
+# (post-market-monitoring, system-event-logger, human-oversight-designer,
+# eu-conformity-assessor). The organization.yaml schema is looser (accepts
+# plain 'limited', 'high', etc.), so we normalise before passing through.
+_RISK_TIER_ALIASES = {
+    "minimal": "minimal-risk",
+    "minimal-risk": "minimal-risk",
+    "limited": "limited-risk",
+    "limited-risk": "limited-risk",
+    "high": "high-risk-annex-iii",
+    "high-risk": "high-risk-annex-iii",
+    "high-risk-annex-i": "high-risk-annex-i",
+    "high-risk-annex-iii": "high-risk-annex-iii",
+    "gpai": "general-purpose-ai",
+    "general-purpose-ai": "general-purpose-ai",
+    "prohibited": "prohibited",
+    "out-of-scope": "out-of-scope",
+}
+
+
+def normalize_risk_tier(value: Any, default: str = "limited-risk") -> str:
+    """Normalise a risk-tier string to the canonical plugin enum."""
+    if not isinstance(value, str) or not value:
+        return default
+    return _RISK_TIER_ALIASES.get(value.strip().lower(), default)
+
+
+_LIFECYCLE_STATE_ALIASES = {
+    "design": "design",
+    "development": "development",
+    "verification": "verification",
+    "testing": "verification",
+    "deployment": "deployment",
+    "deploy": "deployment",
+    "deployed": "in-service",
+    "in-service": "in-service",
+    "production": "in-service",
+    "decommissioned": "decommissioned",
+    "retired": "decommissioned",
+}
+
+
+def normalize_lifecycle_state(value: Any, default: str = "in-service") -> str:
+    """Normalise a lifecycle-state string to the canonical plugin enum."""
+    if not isinstance(value, str) or not value:
+        return default
+    return _LIFECYCLE_STATE_ALIASES.get(value.strip().lower(), default)
+
+
 class OrganizationConfigError(ValueError):
     """Raised when organization.yaml is missing required fields or malformed."""
 
@@ -341,10 +390,10 @@ def build_post_market_monitoring_inputs(config: dict[str, Any]) -> dict[str, Any
             "system_id": first.get("system_id") or first.get("system_ref") or "system-001",
             "system_name": first.get("system_name") or "Unnamed AI system",
             "intended_use": first.get("intended_use") or "Not specified",
-            "risk_tier": first.get("risk_tier") or "limited-risk",
-            "jurisdiction": first.get("jurisdiction") or "us",
+            "risk_tier": normalize_risk_tier(first.get("risk_tier"), "limited-risk"),
+            "jurisdiction": _scalar_jurisdiction(first.get("jurisdiction")) or "us",
             "deployment_context": first.get("deployment_context") or "production",
-            "lifecycle_state": first.get("lifecycle_state") or "in-service",
+            "lifecycle_state": normalize_lifecycle_state(first.get("lifecycle_state"), "in-service"),
         }
     else:
         system_description = {
@@ -517,10 +566,575 @@ def build_singapore_inputs(config: dict[str, Any]) -> dict[str, Any]:
 
 def build_crosswalk_inputs(config: dict[str, Any]) -> dict[str, Any]:
     override = section(config, "crosswalk_inputs") or {}
-    return {
-        "query_type": override.get("query_type", "coverage"),
-        "frameworks": override.get("frameworks", ["iso42001", "nist-ai-rmf"]),
+    query_type = override.get("query_type", "gaps")
+    inputs: dict[str, Any] = {
+        "query_type": query_type,
+        "source_framework": override.get("source_framework", "iso42001"),
+        "target_framework": override.get("target_framework", "nist-ai-rmf"),
     }
+    if "source_ref" in override:
+        inputs["source_ref"] = override["source_ref"]
+    elif query_type == "coverage":
+        # coverage requires source_ref; default to an ISO 42001 clause known
+        # to be in the seeded crosswalk data.
+        inputs["source_ref"] = override.get("default_source_ref", "ISO/IEC 42001:2023, Clause 6.1.2")
+    if "relationship_filter" in override:
+        inputs["relationship_filter"] = override["relationship_filter"]
+    return inputs
+
+
+def _scalar_jurisdiction(value: Any, default: str | None = None) -> str | None:
+    """Return a single jurisdiction token from a string or list."""
+    if isinstance(value, str) and value:
+        return value
+    if isinstance(value, list) and value:
+        for v in value:
+            if isinstance(v, str) and v:
+                return v
+    return default
+
+
+def _first_system_or_scaffold(config: dict[str, Any]) -> dict[str, Any]:
+    """Return the first ai_system or a minimal scaffold for downstream plugins."""
+    systems = ai_systems(config)
+    if systems:
+        return systems[0]
+    return {
+        "system_id": "system-001",
+        "system_ref": "system-001",
+        "system_name": "Unnamed AI system",
+        "intended_use": "Not specified",
+        "purpose": "Not specified",
+        "risk_tier": "limited-risk",
+        "jurisdiction": "us",
+        "deployment_context": "production",
+        "lifecycle_state": "in-service",
+    }
+
+
+def has_generative_system(config: dict[str, Any]) -> bool:
+    """True if any ai_system is flagged generative."""
+    for s in ai_systems(config):
+        if bool(s.get("is_generative")):
+            return True
+        mtype = (s.get("model_type") or "").lower()
+        if mtype in {"llm", "large-language-model", "diffusion-model", "generative"}:
+            return True
+    return False
+
+
+def has_gpai_model(config: dict[str, Any]) -> bool:
+    """True if any ai_system is a GPAI candidate (generative + transformer/DNN)."""
+    for s in ai_systems(config):
+        mtype = (s.get("model_type") or "").lower()
+        is_gpai_like = mtype in {"transformer", "deep-neural-network", "llm", "large-language-model"}
+        if bool(s.get("is_generative")) and is_gpai_like:
+            return True
+    return False
+
+
+def has_eu_high_risk_system(config: dict[str, Any]) -> bool:
+    """True if any ai_system has an EU-high-risk classification."""
+    for s in ai_systems(config):
+        tier = normalize_risk_tier(s.get("risk_tier"), "limited-risk")
+        if tier in ("high-risk-annex-i", "high-risk-annex-iii"):
+            return True
+        if s.get("annex_iii_category"):
+            return True
+    return False
+
+
+def build_supplier_vendor_inputs(config: dict[str, Any]) -> dict[str, Any]:
+    """Build inputs for supplier-vendor-assessor.
+
+    Expects `supplier_vendor_inputs.vendors` (list) in organization.yaml. If
+    absent, runs against a placeholder vendor so the plugin emits warnings
+    rather than crashing.
+    """
+    override = section(config, "supplier_vendor_inputs") or {}
+    vendors = override.get("vendors") or []
+    if vendors:
+        vendor = dict(vendors[0])
+    else:
+        vendor = {
+            "vendor_name": "Placeholder vendor",
+            "vendor_type": "model-provider",
+            "products_services": [],
+            "ai_systems_they_supply": [],
+        }
+    inputs: dict[str, Any] = {
+        "vendor_description": vendor,
+        "vendor_role": override.get("vendor_role", vendor.get("vendor_type", "model-provider")),
+        "organization_role": override.get("organization_role", "deployer"),
+        "enrich_with_crosswalk": override.get("enrich_with_crosswalk", False),
+    }
+    if "contract_summary" in override:
+        inputs["contract_summary"] = override["contract_summary"]
+    if "deployer_modification_note" in override:
+        inputs["deployer_modification_note"] = override["deployer_modification_note"]
+    return inputs
+
+
+def build_bias_evaluator_inputs(config: dict[str, Any]) -> dict[str, Any]:
+    """Build inputs for bias-evaluator.
+
+    Expects `bias_evaluator_inputs` with `evaluation_data`, `protected_attributes`.
+    Missing blocks produce a minimal scaffold that triggers plugin warnings.
+    """
+    override = section(config, "bias_evaluator_inputs") or {}
+    system = _first_system_or_scaffold(config)
+    sysd = {
+        "system_name": system.get("system_name", "system"),
+        "purpose": system.get("purpose") or system.get("intended_use", "unspecified"),
+        "decision_authority": system.get("decision_authority", "decision-support"),
+        "sector": system.get("sector", "general"),
+    }
+    eval_data = override.get("evaluation_data") or {
+        "dataset_ref": "not-provided",
+        "evaluation_date": "1970-01-01",
+        "sample_size": 0,
+        "ground_truth_available": False,
+        "per_group_counts": {},
+    }
+    if "per_group_counts" not in eval_data:
+        eval_data["per_group_counts"] = {}
+    pas = override.get("protected_attributes") or [
+        {"attribute_name": "placeholder", "categories_present": []}
+    ]
+    inputs = {
+        "system_description": sysd,
+        "evaluation_data": eval_data,
+        "protected_attributes": pas,
+        "metrics_to_compute": override.get("metrics_to_compute", []),
+        "jurisdiction_rules": override.get("jurisdiction_rules", []),
+        "enrich_with_crosswalk": override.get("enrich_with_crosswalk", False),
+    }
+    for opt in ("intersectional_analysis", "organizational_thresholds", "minimum_group_size"):
+        if opt in override:
+            inputs[opt] = override[opt]
+    return inputs
+
+
+def build_robustness_evaluator_inputs(config: dict[str, Any]) -> dict[str, Any]:
+    """Build inputs for robustness-evaluator.
+
+    Expects `robustness_evaluator_inputs` with `evaluation_scope`,
+    `evaluation_results`. Missing blocks yield a minimal scaffold.
+    """
+    override = section(config, "robustness_evaluator_inputs") or {}
+    system = _first_system_or_scaffold(config)
+    sysd = {
+        "system_id": system.get("system_id") or system.get("system_ref", "system-001"),
+        "system_name": system.get("system_name", "system"),
+        "risk_tier": normalize_risk_tier(system.get("risk_tier"), "limited-risk"),
+        "jurisdiction": _scalar_jurisdiction(system.get("jurisdiction"), "us"),
+        "continuous_learning": bool(system.get("continuous_learning", False)),
+    }
+    scope = override.get("evaluation_scope") or {
+        "dimensions": ["accuracy"],
+        "evaluation_date": "1970-01-01",
+        "evaluator_identity": "not-provided",
+    }
+    results = override.get("evaluation_results") or {}
+    inputs: dict[str, Any] = {
+        "system_description": sysd,
+        "evaluation_scope": scope,
+        "evaluation_results": results,
+        "enrich_with_crosswalk": override.get("enrich_with_crosswalk", False),
+    }
+    for opt in ("backup_plan_ref", "concept_drift_monitoring_ref", "continuous_learning_controls_ref"):
+        if opt in override:
+            inputs[opt] = override[opt]
+    return inputs
+
+
+def build_human_oversight_inputs(config: dict[str, Any]) -> dict[str, Any]:
+    """Build inputs for human-oversight-designer.
+
+    Expects `human_oversight_inputs` with `oversight_design` and
+    `assigned_oversight_personnel`. A missing block yields a minimal,
+    warnings-producing scaffold.
+    """
+    override = section(config, "human_oversight_inputs") or {}
+    system = _first_system_or_scaffold(config)
+    sysd = {
+        "system_id": system.get("system_id") or system.get("system_ref", "system-001"),
+        "system_name": system.get("system_name", "system"),
+        "intended_use": system.get("intended_use", "Not specified"),
+        "risk_tier": normalize_risk_tier(system.get("risk_tier"), "limited-risk"),
+        "jurisdiction": _scalar_jurisdiction(system.get("jurisdiction"), "us"),
+        "deployment_context": system.get("deployment_context", "production"),
+        "decision_authority": system.get("decision_authority", "decision-support"),
+        "biometric_identification_system": bool(
+            system.get("biometric_identification_system", False)
+        ),
+    }
+    oversight = override.get("oversight_design") or {
+        "mode": "human-in-the-loop",
+    }
+    inputs: dict[str, Any] = {
+        "system_description": sysd,
+        "oversight_design": oversight,
+        "enrich_with_crosswalk": override.get("enrich_with_crosswalk", False),
+    }
+    if "assigned_oversight_personnel" in override:
+        inputs["assigned_oversight_personnel"] = override["assigned_oversight_personnel"]
+    return inputs
+
+
+def build_system_event_logger_inputs(config: dict[str, Any]) -> dict[str, Any]:
+    """Build inputs for system-event-logger.
+
+    Requires `system_event_logger_inputs.event_schema` (non-empty dict) and
+    `retention_policy`. Plugin validation is strict; we supply defaults that
+    pass validation and emit warnings on content gaps.
+    """
+    override = section(config, "system_event_logger_inputs") or {}
+    system = _first_system_or_scaffold(config)
+    sysd = {
+        "system_id": system.get("system_id") or system.get("system_ref", "system-001"),
+        "risk_tier": normalize_risk_tier(system.get("risk_tier"), "limited-risk"),
+        "jurisdiction": _scalar_jurisdiction(system.get("jurisdiction"), "usa-co"),
+        "remote_biometric_id": bool(system.get("biometric_identification_system", False)),
+        "sector": system.get("sector", "general"),
+        "lifecycle_state": normalize_lifecycle_state(system.get("lifecycle_state"), "in-service"),
+    }
+    event_schema = override.get("event_schema") or {
+        "inference-request": {
+            "request_id": {"type": "string", "required": True, "description": "unique request identifier"},
+            "timestamp": {"type": "datetime", "required": True, "description": "request time UTC"},
+        },
+        "inference-output": {
+            "request_id": {"type": "string", "required": True, "description": "matching request id"},
+            "output_hash": {"type": "string", "required": True, "description": "hash of output"},
+        },
+    }
+    retention = override.get("retention_policy") or {
+        "policy_name": "eu-art-19-minimum",
+        "minimum_days": 200,
+        "maximum_days": 730,
+        "deletion_procedure_ref": "not-provided",
+        "legal_basis_citation": "EU AI Act, Article 19, Paragraph 1",
+    }
+    inputs: dict[str, Any] = {
+        "system_description": sysd,
+        "event_schema": event_schema,
+        "retention_policy": retention,
+    }
+    for opt in ("log_storage", "traceability_mappings"):
+        if opt in override:
+            inputs[opt] = override[opt]
+    return inputs
+
+
+def build_explainability_inputs(config: dict[str, Any]) -> dict[str, Any]:
+    """Build inputs for explainability-documenter.
+
+    Expects `explainability_inputs` with `model_type`, `explanation_methods`.
+    Minimal scaffold otherwise.
+    """
+    override = section(config, "explainability_inputs") or {}
+    system = _first_system_or_scaffold(config)
+    sysd = {
+        "system_name": system.get("system_name", "system"),
+        "purpose": system.get("purpose") or system.get("intended_use", "unspecified"),
+        "decision_authority": system.get("decision_authority", "decision-support"),
+        "decision_effects": override.get("decision_effects", system.get("decision_effects", [])),
+        "jurisdiction": _scalar_jurisdiction(system.get("jurisdiction"), "us"),
+    }
+    # Map org-yaml system_type values to the plugin's model_type enum.
+    system_type_map = {
+        "classical-ml": "tree-based",
+        "decision-tree": "tree-based",
+        "tree-based": "tree-based",
+        "linear": "linear",
+        "kernel": "kernel",
+        "neural-network": "neural-network",
+        "deep-neural-network": "deep-neural-network",
+        "transformer": "transformer",
+        "ensemble": "ensemble",
+        "rule-based": "rule-based",
+        "hybrid": "hybrid",
+    }
+    raw_type = override.get("model_type") or system.get("system_type") or "tree-based"
+    model_type = system_type_map.get(str(raw_type).lower(), "tree-based")
+    inputs: dict[str, Any] = {
+        "system_description": sysd,
+        "model_type": model_type,
+        "explanation_methods": override.get("explanation_methods", []),
+        "intrinsic_interpretability_claim": bool(
+            override.get("intrinsic_interpretability_claim", False)
+        ),
+        "enrich_with_crosswalk": override.get("enrich_with_crosswalk", False),
+    }
+    if "art_86_response_template_ref" in override:
+        inputs["art_86_response_template_ref"] = override["art_86_response_template_ref"]
+    return inputs
+
+
+def build_genai_risk_register_inputs(config: dict[str, Any]) -> dict[str, Any]:
+    """Build inputs for genai-risk-register.
+
+    Guarded: caller should only invoke when at least one system is generative.
+    """
+    override = section(config, "genai_risk_register_inputs") or {}
+    systems = ai_systems(config)
+    genai_system = next(
+        (
+            s for s in systems
+            if s.get("is_generative")
+            or (s.get("model_type") or "").lower() in {"llm", "large-language-model", "transformer", "diffusion-model"}
+        ),
+        systems[0] if systems else _first_system_or_scaffold(config),
+    )
+    sysd = {
+        "system_id": genai_system.get("system_id") or genai_system.get("system_ref", "genai-001"),
+        "model_type": genai_system.get("model_type", "LLM"),
+        "modality": genai_system.get("modality", "text"),
+        "is_generative": True,
+        "training_data_scope": genai_system.get("training_data_scope", "unspecified"),
+        "deployment_context": genai_system.get("deployment_context", "production"),
+        "jurisdiction": genai_system.get("jurisdiction", "us"),
+    }
+    if "base_model_ref" in genai_system:
+        sysd["base_model_ref"] = genai_system["base_model_ref"]
+    inputs: dict[str, Any] = {
+        "system_description": override.get("system_description", sysd),
+        "risk_evaluations": override.get("risk_evaluations", []),
+        "enrich_with_crosswalk": override.get("enrich_with_crosswalk", False),
+    }
+    if "risks_not_applicable" in override:
+        inputs["risks_not_applicable"] = override["risks_not_applicable"]
+    return inputs
+
+
+def build_gpai_inputs(config: dict[str, Any]) -> dict[str, Any]:
+    """Build inputs for gpai-obligations-tracker."""
+    override = section(config, "gpai_inputs") or {}
+    systems = ai_systems(config)
+    candidate = next(
+        (
+            s for s in systems
+            if (s.get("model_type") or "").lower() in {"transformer", "deep-neural-network", "llm", "large-language-model"}
+            and s.get("is_generative")
+        ),
+        systems[0] if systems else _first_system_or_scaffold(config),
+    )
+    model = override.get("model_description") or {
+        "model_name": candidate.get("system_name") or "Unnamed GPAI model",
+        "model_family": candidate.get("model_family", "unknown"),
+        "parameter_count": candidate.get("parameter_count", "unknown"),
+        "training_compute_flops": candidate.get("training_compute_flops", "unknown"),
+        "training_data_types": candidate.get("training_data_types", []),
+        "modality": candidate.get("modality", "text"),
+    }
+    inputs: dict[str, Any] = {
+        "model_description": model,
+        "provider_role": override.get("provider_role", "eu-established-provider"),
+    }
+    for opt in (
+        "technical_documentation_ref",
+        "downstream_integrator_docs_ref",
+        "copyright_policy_ref",
+        "training_data_summary_ref",
+        "authorised_representative",
+        "systemic_risk_artifacts",
+        "designated_systemic_risk",
+        "self_declared_below_threshold",
+        "code_of_practice_status",
+        "enrich_with_crosswalk",
+    ):
+        if opt in override:
+            inputs[opt] = override[opt]
+    return inputs
+
+
+def build_incident_reporting_inputs(config: dict[str, Any]) -> dict[str, Any]:
+    """Build inputs for incident-reporting.
+
+    When no incidents are declared, emit a scaffold template so the plugin
+    still runs and warns about empty inputs.
+    """
+    from datetime import datetime, timezone
+    override = section(config, "incident_reporting_inputs") or {}
+    incidents = override.get("incidents") or []
+    if incidents:
+        incident = dict(incidents[0])
+    else:
+        incident = {
+            "summary": "No incidents declared; template scaffold for future reporting.",
+            "affected_systems": [
+                s.get("system_id") or s.get("system_ref")
+                for s in ai_systems(config)
+                if s.get("system_id") or s.get("system_ref")
+            ],
+            "potential_harms": [],
+            "impacted_persons_count": 0,
+            "geographic_scope": "not-provided",
+        }
+    # Applicable jurisdictions: use explicit override, then incident, then org jurisdictions.
+    jset = set(jurisdictions(config))
+    mapped_jset: list[str] = []
+    juris_alias = {"usa": "usa-ca"}
+    for j in jset:
+        jl = j.lower()
+        if jl in ("eu", "usa-co", "usa-nyc", "usa-ca", "uk", "singapore", "canada"):
+            mapped_jset.append(jl)
+    applicable = (
+        override.get("applicable_jurisdictions")
+        or incident.get("applicable_jurisdictions")
+        or (mapped_jset if mapped_jset else ["eu"])
+    )
+    detected_at = (
+        override.get("detected_at")
+        or incident.pop("detected_at", None)
+        or datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    )
+    inputs: dict[str, Any] = {
+        "incident_description": incident,
+        "applicable_jurisdictions": applicable,
+        "detected_at": detected_at,
+    }
+    for opt in ("severity", "actor_role", "consequential_domains"):
+        if opt in override:
+            inputs[opt] = override[opt]
+    return inputs
+
+
+def build_eu_conformity_inputs(config: dict[str, Any]) -> dict[str, Any]:
+    """Build inputs for eu-conformity-assessor. Caller should gate on EU + high-risk."""
+    override = section(config, "eu_conformity_inputs") or {}
+    systems = ai_systems(config)
+    high_risk_sys = next(
+        (
+            s for s in systems
+            if normalize_risk_tier(s.get("risk_tier"), "limited-risk") in ("high-risk-annex-i", "high-risk-annex-iii")
+            or s.get("annex_iii_category")
+        ),
+        systems[0] if systems else _first_system_or_scaffold(config),
+    )
+    sysd = override.get("system_description") or {
+        "system_id": high_risk_sys.get("system_id") or high_risk_sys.get("system_ref", "system-001"),
+        "risk_tier": "high-risk",
+        "intended_use": high_risk_sys.get("intended_use", "Not specified"),
+        "sector": high_risk_sys.get("sector", "general"),
+        "annex_iii_category": high_risk_sys.get("annex_iii_category", "4-employment"),
+        "ce_marking_required": bool(high_risk_sys.get("ce_marking_required", True)),
+    }
+    provider = override.get("provider_identity") or {
+        "legal_name": organization_name(config),
+        "address": "not-provided",
+        "country": "US",
+        "contact": "not-provided",
+    }
+    inputs: dict[str, Any] = {
+        "system_description": sysd,
+        "provider_identity": provider,
+        "procedure_requested": override.get("procedure_requested", "annex-vi-internal-control"),
+        "enrich_with_crosswalk": override.get("enrich_with_crosswalk", False),
+    }
+    for opt in (
+        "harmonised_standards_applied",
+        "ce_marking_location",
+        "registration_status",
+        "evidence_bundle_ref",
+        "reviewed_by",
+    ):
+        if opt in override:
+            inputs[opt] = override[opt]
+    return inputs
+
+
+def build_evidence_bundle_inputs(
+    config: dict[str, Any],
+    *,
+    artifacts_root: Any,
+    bundle_output_dir: Any,
+) -> dict[str, Any]:
+    """Build inputs for evidence-bundle-packager.
+
+    Consumes the artifacts directory produced by the current run.
+    """
+    override = section(config, "evidence_bundle_inputs") or {}
+    org = config.get("organization", {})
+    boundary = section(config, "aims_boundary", {}) or {}
+    systems = ai_systems(config)
+    scope = override.get("scope") or {
+        "organization": organization_name(config),
+        "aims_boundary": boundary.get("description", "All AI systems in AIMS scope"),
+        "systems_in_scope": [
+            s.get("system_id") or s.get("system_ref")
+            for s in systems
+            if s.get("system_id") or s.get("system_ref")
+        ] or ["all"],
+        "reporting_period_start": override.get("reporting_period_start", "2026-01-01"),
+        "reporting_period_end": override.get("reporting_period_end", "2026-12-31"),
+        "intended_recipient": override.get("intended_recipient", "internal-audit"),
+    }
+    inputs: dict[str, Any] = {
+        "source_dir": str(artifacts_root),
+        "output_dir": str(bundle_output_dir),
+        "scope": scope,
+        "signing_algorithm": override.get("signing_algorithm", "none"),
+        "include_source_crosswalk": override.get("include_source_crosswalk", False),
+    }
+    if "bundle_id" in override:
+        inputs["bundle_id"] = override["bundle_id"]
+    if "reviewed_by" in override:
+        inputs["reviewed_by"] = override["reviewed_by"]
+    return inputs
+
+
+def build_certification_readiness_inputs(
+    config: dict[str, Any], *, bundle_path: Any
+) -> dict[str, Any]:
+    """Build inputs for certification-readiness. Requires a packed bundle path."""
+    override = section(config, "certification_readiness_inputs") or {}
+    return {
+        "bundle_path": str(bundle_path),
+        "target_certification": override.get("target_certification", "iso42001-stage1"),
+        "scope_overrides": override.get("scope_overrides", {}),
+    }
+
+
+def build_certification_path_planner_inputs(
+    config: dict[str, Any], *, readiness_snapshot: dict[str, Any]
+) -> dict[str, Any]:
+    """Build inputs for certification-path-planner from a prior readiness output."""
+    from datetime import datetime, timedelta, timezone
+    override = section(config, "certification_path_planner_inputs") or {}
+    default_target_date = (
+        datetime.now(timezone.utc).date() + timedelta(days=180)
+    ).isoformat()
+    inputs: dict[str, Any] = {
+        "current_readiness_ref": readiness_snapshot,
+        "target_certification": override.get(
+            "target_certification",
+            readiness_snapshot.get("target_certification", "iso42001-stage1"),
+        ),
+        "target_date": override.get("target_date", default_target_date),
+    }
+    if "organization_capacity" in override:
+        inputs["organization_capacity"] = override["organization_capacity"]
+    if "risk_register" in override:
+        inputs["risk_register"] = override["risk_register"]
+    return inputs
+
+
+def build_cascade_impact_inputs(config: dict[str, Any]) -> dict[str, Any]:
+    """Build default query for cascade-impact-analyzer.
+
+    Not invoked by default CLI runs; only when --include-query-plugins is
+    passed. Exercises the plugin against a representative trigger event.
+    """
+    override = section(config, "cascade_impact_inputs") or {}
+    trigger_event = override.get("trigger_event") or {
+        "event": "risk.new_high_risk_registered",
+    }
+    inputs: dict[str, Any] = {"trigger_event": trigger_event}
+    if "max_hops" in override:
+        inputs["max_hops"] = override["max_hops"]
+    return inputs
 
 
 def system_applies_to(system: dict[str, Any], jurisdiction: str) -> bool:

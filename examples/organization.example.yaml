@@ -204,3 +204,208 @@ nyc_inputs:
     audit_date: "2026-03-15"
     auditor_identity: "Fictional Independent Auditors LLC"
     selection_rates: {}
+
+# -----------------------------------------------------------------------------
+# Optional input blocks for newly-wired plugins. Uncomment and populate to
+# exercise the corresponding plugin with real data; otherwise the CLI emits a
+# minimal scaffold and the plugin produces a warnings-annotated artifact.
+# -----------------------------------------------------------------------------
+
+# Optional: supplier-vendor-assessor. Populate when an AI system depends on
+# an external vendor (model-provider, bias-audit-service, red-team-service,
+# mlops-platform, deployment-infrastructure, etc.).
+# supplier_vendor_inputs:
+#   vendor_role: "model-provider"
+#   organization_role: "deployer"
+#   vendors:
+#     - vendor_name: "Acme Foundation Models Inc."
+#       vendor_type: "model-provider"
+#       jurisdiction_of_establishment: "US-DE"
+#       products_services: ["foundation-model-api"]
+#       ai_systems_they_supply: ["SYS-001"]
+#   contract_summary:
+#     contract_id: "MSA-2026-ACME-001"
+#     effective_date: "2026-01-01"
+#     audit_rights_included: true
+#     security_incident_notification_days: 10
+#     data_processing_agreement_included: true
+
+# Optional: bias-evaluator. Populate with evaluation-pool counts to exercise
+# disparate-impact, equalized-odds, or 4/5ths rule analysis.
+# bias_evaluator_inputs:
+#   metrics_to_compute: ["selection-rate", "impact-ratio"]
+#   jurisdiction_rules: ["nyc-ll144-4-5ths"]
+#   protected_attributes:
+#     - attribute_name: "race"
+#       categories_present: ["white", "black"]
+#   evaluation_data:
+#     dataset_ref: "Q2-2026-test-pool"
+#     evaluation_date: "2026-04-15"
+#     sample_size: 2000
+#     ground_truth_available: false
+#     per_group_counts:
+#       "race:white": {total: 1000, selected: 400}
+#       "race:black": {total: 1000, selected: 340}
+
+# Optional: robustness-evaluator. Populate with accuracy, robustness, and
+# cybersecurity evaluation results.
+# robustness_evaluator_inputs:
+#   evaluation_scope:
+#     dimensions: ["accuracy", "robustness", "cybersecurity"]
+#     evaluation_date: "2026-04-15"
+#     evaluator_identity: "ACME Independent Evaluators GmbH"
+#     evaluator_independence: "third-party-audit"
+#   evaluation_results:
+#     accuracy:
+#       test_method: "holdout"
+#       dataset_ref: "test-2026-04"
+#       primary_metric: "F1"
+#       metric_value: 0.89
+#       declared_threshold: 0.85
+#       pass: true
+#       evidence_ref: "reports/accuracy.pdf"
+
+# Optional: human-oversight-designer. Populate with Art. 14(4) ability
+# coverage, operator training, and escalation paths.
+# human_oversight_inputs:
+#   oversight_design:
+#     mode: "human-in-the-loop"
+#     ability_coverage:
+#       understand-capabilities-limitations:
+#         enabled: true
+#         mechanism: "operator training curriculum"
+#         evidence_ref: "docs/training-curriculum.md"
+#   assigned_oversight_personnel:
+#     - person_role: "HR Reviewer"
+#       authority_level: "sole-authority"
+#       training_evidence_ref: "docs/reviewer-training.md"
+
+# Optional: system-event-logger. Populate to exercise EU AI Act Art. 12
+# traceability logging requirements and retention policy.
+# system_event_logger_inputs:
+#   event_schema:
+#     inference-request:
+#       request_id: {type: "string", required: true, description: "unique id"}
+#       timestamp: {type: "datetime", required: true, description: "request time"}
+#     inference-output:
+#       request_id: {type: "string", required: true, description: "matching id"}
+#       output_hash: {type: "string", required: true, description: "output hash"}
+#   retention_policy:
+#     policy_name: "eu-art-19-minimum"
+#     minimum_days: 200
+#     maximum_days: 730
+#     deletion_procedure_ref: "DEL-PROC-001"
+#     legal_basis_citation: "EU AI Act, Article 19, Paragraph 1"
+
+# Optional: explainability-documenter. Populate with explanation methods
+# (SHAP, LIME, intrinsic decision paths) and target audiences.
+# explainability_inputs:
+#   model_type: "tree-based"
+#   intrinsic_interpretability_claim: true
+#   explanation_methods:
+#     - method: "intrinsic-decision-path"
+#       scope: "both"
+#       target_audience: ["developers", "deployers", "affected-persons"]
+#       implementation_status: "implemented"
+#       evidence_ref: "docs/explainability.pdf"
+#       known_limitations: ["Shallow trees omit interaction effects"]
+
+# Optional: genai-risk-register. Runs only when at least one ai_system has
+# is_generative: true. Evaluates the 12 NIST GenAI Profile risks.
+# genai_risk_register_inputs:
+#   risk_evaluations:
+#     - risk_id: "confabulation"
+#       likelihood: "possible"
+#       impact: "moderate"
+#       inherent_score: 6
+#       existing_mitigations:
+#         - name: "prompt-guard"
+#           description: "input filter"
+#           evidence_ref: "/ops/filter.md"
+#       mitigation_status: "implemented"
+#       residual_likelihood: "unlikely"
+#       residual_impact: "minor"
+#       residual_score: 2
+#       owner_role: "AI Safety Lead"
+#       review_date: "2026-04-18"
+
+# Optional: gpai-obligations-tracker. Runs only when at least one ai_system
+# is a GPAI candidate (is_generative: true and model_type in {transformer,
+# deep-neural-network}).
+# gpai_inputs:
+#   provider_role: "eu-established-provider"
+#   model_description:
+#     model_name: "ExampleLM-Base"
+#     parameter_count: "7B"
+#     training_compute_flops: 5e23
+#     modality: "text"
+#   technical_documentation_ref: "/docs/annex-xi.md"
+#   copyright_policy_ref: "/policies/copyright.md"
+
+# Optional: incident-reporting. Populate when an incident occurs.
+# Unconditional: the plugin always runs (generates a template) and emits
+# warnings when inputs are absent.
+# incident_reporting_inputs:
+#   incidents:
+#     - summary: "System made an erroneous triage decision."
+#       affected_systems: ["SYS-001"]
+#       date_of_occurrence: "2026-04-10"
+#       date_discovered: "2026-04-11"
+#       discovery_channel: "clinician report"
+#       potential_harms: ["misclassification risk"]
+#       impacted_persons_count: 1
+#       geographic_scope: "Seattle, WA"
+#   applicable_jurisdictions: ["eu"]
+#   severity: "limited-harm"
+#   actor_role: "provider"
+
+# Optional: eu-conformity-assessor. Runs only when EU jurisdiction + at least
+# one high-risk system. Selects Art. 43 procedure and checks Annex IV
+# completeness.
+# eu_conformity_inputs:
+#   procedure_requested: "annex-vi-internal-control"
+#   provider_identity:
+#     legal_name: "Acme Healthcare AI BV"
+#     address: "Keizersgracht 1, 1015 CJ Amsterdam, Netherlands"
+#     country: "NL"
+#     contact: "compliance@acme-health.eu"
+#   harmonised_standards_applied: []
+#   registration_status:
+#     eu_database_entry_id: "EU-DB-12345"
+#     registration_date: "2026-04-01"
+#     public_or_restricted: "public"
+
+# Optional: evidence-bundle-packager. Used at the tail of the pipeline to
+# pack every preceding artifact into a deterministic bundle.
+# evidence_bundle_inputs:
+#   scope:
+#     reporting_period_start: "2026-01-01"
+#     reporting_period_end: "2026-06-30"
+#     intended_recipient: "external-auditor"
+#   signing_algorithm: "hmac-sha256"
+#   include_source_crosswalk: true
+
+# Optional: certification-readiness. Runs after evidence-bundle-packager.
+# certification_readiness_inputs:
+#   target_certification: "iso42001-stage1"
+
+# Optional: certification-path-planner. Runs after certification-readiness.
+# certification_path_planner_inputs:
+#   target_certification: "iso42001-stage2"
+#   target_date: "2027-01-31"
+#   organization_capacity:
+#     weekly_hours_available: 20
+
+# Optional: cascade-impact-analyzer. Query plugin; invoke with
+# --include-query-plugins to validate against a trigger event.
+# cascade_impact_inputs:
+#   trigger_event:
+#     event: "risk.new_high_risk_registered"
+
+# Optional: crosswalk-matrix-builder. Query plugin; invoke with
+# --include-query-plugins to validate against a framework-gap query.
+# crosswalk_inputs:
+#   query_type: "gaps"
+#   source_framework: "iso42001"
+#   target_framework: "nist-ai-rmf"
+

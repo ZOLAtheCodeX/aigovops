@@ -360,6 +360,73 @@ def test_no_em_dash_no_hedging():
             raise AssertionError(f"emoji codepoint U+{cp:04X} present in markdown output")
 
 
+# 23. nist_lifecycle_stage absent -> WARN with NIST AI RMF alignment message.
+def test_nist_lifecycle_stage_recommended_warning_when_absent():
+    s = _minimal_system()
+    # Ensure not set.
+    s.pop("nist_lifecycle_stage", None)
+    result = plugin.maintain_inventory({"systems": [s]})
+    findings = result["validation_findings"]["SYS-001"]
+    warns = [f for f in findings if f["level"] == "WARN" and f["field"] == "nist_lifecycle_stage"]
+    assert warns, "expected nist_lifecycle_stage WARN"
+    assert any("NIST AI RMF" in f["message"] for f in warns)
+
+
+# 24. nist_lifecycle_stage valid enum accepted, no WARN on this field.
+def test_nist_lifecycle_stage_accepted_when_valid_enum():
+    s = _minimal_system(nist_lifecycle_stage="deploy-and-use")
+    result = plugin.maintain_inventory({"systems": [s]})
+    findings = result["validation_findings"]["SYS-001"]
+    warns_on_field = [
+        f for f in findings
+        if f["level"] == "WARN" and f["field"] == "nist_lifecycle_stage"
+    ]
+    assert not warns_on_field, f"unexpected WARN on populated field: {warns_on_field}"
+    # Field survives on output.
+    assert result["systems"][0].get("nist_lifecycle_stage") == "deploy-and-use"
+
+
+# 25. nist_lifecycle_stage invalid enum raises ValueError.
+def test_nist_lifecycle_stage_rejected_when_invalid_enum():
+    s = _minimal_system(nist_lifecycle_stage="final-ascension")
+    try:
+        plugin.maintain_inventory({"systems": [s]})
+    except ValueError as exc:
+        assert "nist_lifecycle_stage" in str(exc)
+        return
+    raise AssertionError("expected ValueError")
+
+
+# 26. nist_lifecycle_stage coexists with lifecycle_state.
+def test_nist_lifecycle_stage_coexists_with_lifecycle_state():
+    s = _minimal_system(
+        lifecycle_state="deployed",
+        nist_lifecycle_stage="operate-and-monitor",
+    )
+    result = plugin.maintain_inventory({"systems": [s]})
+    row = result["systems"][0]
+    assert row.get("lifecycle_state") == "deployed"
+    assert row.get("nist_lifecycle_stage") == "operate-and-monitor"
+
+
+# 27. Top-level citations include NIST AI RMF Section 3 Figure 3 when any
+# system has nist_lifecycle_stage populated.
+def test_inventory_citations_include_nist_rmf_section_3_when_any_stage_populated():
+    systems = [
+        _minimal_system(),
+        _minimal_system(
+            system_id="SYS-002",
+            system_name="Second",
+            nist_lifecycle_stage="verify-and-validate",
+        ),
+    ]
+    result = plugin.maintain_inventory({"systems": systems, "operation": "validate"})
+    assert any(
+        c == "NIST AI RMF 1.0, Section 3, Figure 3"
+        for c in result["citations"]
+    ), f"expected NIST AI RMF 1.0, Section 3, Figure 3 in citations; got {result['citations']}"
+
+
 def _run_all():
     import inspect
     tests = [(n, o) for n, o in inspect.getmembers(sys.modules[__name__])

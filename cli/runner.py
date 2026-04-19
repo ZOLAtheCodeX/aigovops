@@ -164,10 +164,140 @@ PLUGIN_DISPATCH: dict[str, dict[str, Any]] = {
             ("render_csv", "crosswalk.csv"),
         ],
     },
+    "supplier-vendor-assessor": {
+        "entry": "assess_vendor",
+        "stem": "supplier-vendor-assessment",
+        "renderers": [
+            ("render_markdown", "supplier-vendor-assessment.md"),
+            ("render_csv", "supplier-vendor-assessment.csv"),
+        ],
+    },
+    "bias-evaluator": {
+        "entry": "evaluate_bias",
+        "stem": "bias-evaluation",
+        "renderers": [
+            ("render_markdown", "bias-evaluation.md"),
+            ("render_csv", "bias-evaluation.csv"),
+        ],
+    },
+    "robustness-evaluator": {
+        "entry": "evaluate_robustness",
+        "stem": "robustness-evaluation",
+        "renderers": [
+            ("render_markdown", "robustness-evaluation.md"),
+            ("render_csv", "robustness-evaluation.csv"),
+        ],
+    },
+    "human-oversight-designer": {
+        "entry": "design_human_oversight",
+        "stem": "human-oversight-design",
+        "renderers": [
+            ("render_markdown", "human-oversight-design.md"),
+            ("render_csv", "human-oversight-design.csv"),
+        ],
+    },
+    "system-event-logger": {
+        "entry": "define_event_schema",
+        "stem": "system-event-schema",
+        "renderers": [
+            ("render_markdown", "system-event-schema.md"),
+            ("render_csv", "system-event-schema.csv"),
+        ],
+    },
+    "explainability-documenter": {
+        "entry": "document_explainability",
+        "stem": "explainability-documentation",
+        "renderers": [
+            ("render_markdown", "explainability-documentation.md"),
+            ("render_csv", "explainability-documentation.csv"),
+        ],
+    },
+    "genai-risk-register": {
+        "entry": "generate_genai_risk_register",
+        "stem": "genai-risk-register",
+        "renderers": [
+            ("render_markdown", "genai-risk-register.md"),
+            ("render_csv", "genai-risk-register.csv"),
+        ],
+    },
+    "gpai-obligations-tracker": {
+        "entry": "assess_gpai_obligations",
+        "stem": "gpai-obligations",
+        "renderers": [
+            ("render_markdown", "gpai-obligations.md"),
+            ("render_csv", "gpai-obligations.csv"),
+        ],
+    },
+    "incident-reporting": {
+        "entry": "generate_incident_report",
+        "stem": "incident-report",
+        "renderers": [
+            ("render_markdown", "incident-report.md"),
+            ("render_csv", "incident-report.csv"),
+        ],
+    },
+    "eu-conformity-assessor": {
+        "entry": "assess_conformity_procedure",
+        "stem": "eu-conformity-assessment",
+        "renderers": [
+            ("render_markdown", "eu-conformity-assessment.md"),
+            ("render_csv", "eu-conformity-assessment.csv"),
+        ],
+    },
+    "certification-readiness": {
+        "entry": "assess_readiness",
+        "stem": "certification-readiness",
+        "renderers": [
+            ("render_markdown", "certification-readiness.md"),
+            ("render_csv", "certification-readiness.csv"),
+        ],
+    },
+    "certification-path-planner": {
+        "entry": "plan_certification_path",
+        "stem": "certification-path-plan",
+        "renderers": [
+            ("render_markdown", "certification-path-plan.md"),
+            ("render_csv", "certification-path-plan.csv"),
+        ],
+    },
+    "evidence-bundle-packager": {
+        "entry": "pack_bundle",
+        "stem": "evidence-bundle-report",
+        "renderers": [
+            ("render_markdown", "evidence-bundle-report.md"),
+            ("render_csv", "evidence-bundle-report.csv"),
+        ],
+    },
+    "cascade-impact-analyzer": {
+        "entry": "analyze_cascade",
+        "stem": "cascade-impact-analysis",
+        "renderers": [
+            ("render_markdown", "cascade-impact-analysis.md"),
+            ("render_csv", "cascade-impact-analysis.csv"),
+        ],
+    },
 }
 
 
 # Topological execution order.
+#
+# Plugin placement honours data dependencies:
+# - inventory is the source of truth and runs first
+# - supplier / bias / robustness / oversight feed downstream SOA and AISIA
+# - SOA consumes risk-register + evaluation signals
+# - AISIA consumes SOA row refs
+# - system-event-logger, explainability, GPAI and genai-risk run alongside
+#   other system-scoped plugins
+# - incident-reporting runs unconditionally (template-prep)
+# - certification-readiness runs after evidence-bundle-packager
+# - certification-path-planner consumes certification-readiness output
+# - management-review-packager runs near-last to summarise
+# - jurisdiction-specific plugins run conditionally
+# - evidence-bundle-packager packs every preceding artifact
+# - cascade-impact-analyzer and crosswalk-matrix-builder are QUERY plugins;
+#   they are NOT invoked by default `run` because they are query-oriented
+#   rather than pipeline-producing. Users can opt in with
+#   --include-query-plugins to validate them against a default trigger.
 EXECUTION_ORDER: tuple[str, ...] = (
     "ai-system-inventory-maintainer",
     "applicability-checker",
@@ -175,19 +305,32 @@ EXECUTION_ORDER: tuple[str, ...] = (
     "risk-register-builder",
     "data-register-builder",
     "role-matrix-generator",
+    "supplier-vendor-assessor",
+    "bias-evaluator",
+    "robustness-evaluator",
+    "human-oversight-designer",
     "soa-generator",
     "aisia-runner",
     "audit-log-generator",
     "metrics-collector",
+    "post-market-monitoring",
+    "system-event-logger",
+    "explainability-documenter",
+    "genai-risk-register",
+    "gpai-obligations-tracker",
+    "incident-reporting",
     "nonconformity-tracker",
     "internal-audit-planner",
-    "post-market-monitoring",
     "gap-assessment",
     "uk-atrs-recorder",
     "colorado-ai-act-compliance",
     "nyc-ll144-audit-packager",
     "singapore-magf-assessor",
+    "eu-conformity-assessor",
     "management-review-packager",
+    "evidence-bundle-packager",
+    "certification-readiness",
+    "certification-path-planner",
 )
 
 
@@ -196,7 +339,16 @@ JURISDICTION_PLUGINS = {
     "colorado-ai-act-compliance": ("usa-co",),
     "nyc-ll144-audit-packager": ("usa-nyc",),
     "singapore-magf-assessor": ("singapore",),
+    "eu-conformity-assessor": ("eu",),
 }
+
+
+# Query plugins: registered in the catalog but not invoked by default `run`.
+# Opt in with --include-query-plugins.
+QUERY_PLUGINS: tuple[str, ...] = (
+    "cascade-impact-analyzer",
+    "crosswalk-matrix-builder",
+)
 
 
 # ---------------------------------------------------------------------------
@@ -325,11 +477,22 @@ def cmd_run(args: argparse.Namespace) -> int:
         build_aisia_inputs,
         build_applicability_inputs,
         build_audit_log_inputs,
+        build_bias_evaluator_inputs,
+        build_cascade_impact_inputs,
+        build_certification_path_planner_inputs,
+        build_certification_readiness_inputs,
         build_colorado_inputs,
         build_crosswalk_inputs,
         build_data_register_inputs,
+        build_eu_conformity_inputs,
+        build_evidence_bundle_inputs,
+        build_explainability_inputs,
         build_gap_assessment_inputs,
+        build_genai_risk_register_inputs,
+        build_gpai_inputs,
         build_high_risk_inputs,
+        build_human_oversight_inputs,
+        build_incident_reporting_inputs,
         build_internal_audit_inputs,
         build_inventory_inputs,
         build_management_review_inputs,
@@ -338,10 +501,16 @@ def cmd_run(args: argparse.Namespace) -> int:
         build_nyc_inputs,
         build_post_market_monitoring_inputs,
         build_risk_register_inputs,
+        build_robustness_evaluator_inputs,
         build_role_matrix_inputs,
         build_singapore_inputs,
         build_soa_inputs,
+        build_supplier_vendor_inputs,
+        build_system_event_logger_inputs,
         build_uk_atrs_inputs,
+        has_eu_high_risk_system,
+        has_generative_system,
+        has_gpai_model,
         jurisdictions,
         load_organization,
         organization_name,
@@ -361,6 +530,7 @@ def cmd_run(args: argparse.Namespace) -> int:
 
     skip = set(args.skip_plugin or [])
     include_crosswalk = bool(getattr(args, "include_crosswalk_export", False))
+    include_query = bool(getattr(args, "include_query_plugins", False))
 
     wall_start = time.monotonic()
     run_records: list[dict[str, Any]] = []
@@ -374,14 +544,37 @@ def cmd_run(args: argparse.Namespace) -> int:
     def _plan_should_run(name: str) -> tuple[bool, str]:
         if name in skip:
             return False, "skipped by --skip-plugin"
-        if not ai_systems(config) and name not in ("crosswalk-matrix-builder",):
+        # Query plugins never run automatically.
+        if name in QUERY_PLUGINS:
+            if name == "crosswalk-matrix-builder" and include_crosswalk:
+                return True, ""
+            if include_query:
+                return True, ""
+            return (
+                False,
+                f"{name} is a query plugin; invoke with --include-query-plugins",
+            )
+        if not ai_systems(config):
             return False, "no ai_systems defined in organization.yaml"
         if name in JURISDICTION_PLUGINS:
             matches = any(j in jur or any_system_applies(config, j) for j in JURISDICTION_PLUGINS[name])
             if not matches:
                 return False, f"jurisdiction {JURISDICTION_PLUGINS[name]} not in scope"
-        if name == "crosswalk-matrix-builder" and not include_crosswalk:
-            return False, "crosswalk-matrix-builder requires --include-crosswalk-export"
+        # eu-conformity-assessor additionally requires at least one high-risk system.
+        if name == "eu-conformity-assessor" and not has_eu_high_risk_system(config):
+            return False, "no EU-high-risk systems in scope"
+        # gpai-obligations-tracker requires at least one GPAI model.
+        if name == "gpai-obligations-tracker" and not has_gpai_model(config):
+            return False, "no GPAI model (generative + transformer/DNN) in scope"
+        # genai-risk-register requires at least one generative system.
+        if name == "genai-risk-register" and not has_generative_system(config):
+            return False, "no generative AI systems in scope"
+        # certification-readiness requires evidence-bundle-packager to have produced a bundle.
+        if name == "certification-readiness" and not shared.get("bundle_path"):
+            return False, "no evidence bundle available; evidence-bundle-packager did not succeed"
+        # certification-path-planner requires certification-readiness snapshot.
+        if name == "certification-path-planner" and not shared.get("readiness_snapshot"):
+            return False, "no readiness snapshot available; certification-readiness did not succeed"
         if args.framework and name == "gap-assessment":
             # Framework arg overrides gap-assessment target_framework below.
             return True, ""
@@ -440,11 +633,57 @@ def cmd_run(args: argparse.Namespace) -> int:
             return build_singapore_inputs(config)
         if name == "crosswalk-matrix-builder":
             return build_crosswalk_inputs(config)
+        if name == "supplier-vendor-assessor":
+            return build_supplier_vendor_inputs(config)
+        if name == "bias-evaluator":
+            return build_bias_evaluator_inputs(config)
+        if name == "robustness-evaluator":
+            return build_robustness_evaluator_inputs(config)
+        if name == "human-oversight-designer":
+            return build_human_oversight_inputs(config)
+        if name == "system-event-logger":
+            return build_system_event_logger_inputs(config)
+        if name == "explainability-documenter":
+            return build_explainability_inputs(config)
+        if name == "genai-risk-register":
+            return build_genai_risk_register_inputs(config)
+        if name == "gpai-obligations-tracker":
+            return build_gpai_inputs(config)
+        if name == "incident-reporting":
+            return build_incident_reporting_inputs(config)
+        if name == "eu-conformity-assessor":
+            ec_inputs = build_eu_conformity_inputs(config)
+            if shared.get("bundle_path"):
+                ec_inputs.setdefault("evidence_bundle_ref", str(shared["bundle_path"]))
+            return ec_inputs
+        if name == "evidence-bundle-packager":
+            bundle_output_dir = output_root / "bundles"
+            return build_evidence_bundle_inputs(
+                config,
+                artifacts_root=artifacts_root,
+                bundle_output_dir=bundle_output_dir,
+            )
+        if name == "certification-readiness":
+            return build_certification_readiness_inputs(
+                config, bundle_path=shared.get("bundle_path")
+            )
+        if name == "certification-path-planner":
+            return build_certification_path_planner_inputs(
+                config, readiness_snapshot=shared.get("readiness_snapshot") or {}
+            )
+        if name == "cascade-impact-analyzer":
+            return build_cascade_impact_inputs(config)
         raise KeyError(name)
 
     order = list(EXECUTION_ORDER)
-    if include_crosswalk and "crosswalk-matrix-builder" not in order:
-        order.append("crosswalk-matrix-builder")
+    # Append query plugins when explicitly opted in.
+    for q in QUERY_PLUGINS:
+        if q in order:
+            continue
+        if q == "crosswalk-matrix-builder" and (include_crosswalk or include_query):
+            order.append(q)
+        elif q != "crosswalk-matrix-builder" and include_query:
+            order.append(q)
 
     for name in order:
         should_run, reason = _plan_should_run(name)
@@ -486,6 +725,12 @@ def cmd_run(args: argparse.Namespace) -> int:
                 shared["nc_summary_ref"] = (
                     f"nonconformity-register.json with {summary.get('total_records', 0)} records"
                 )
+            if name == "evidence-bundle-packager" and isinstance(data, dict):
+                bp = data.get("bundle_path")
+                if bp:
+                    shared["bundle_path"] = bp
+            if name == "certification-readiness" and isinstance(data, dict):
+                shared["readiness_snapshot"] = data
 
     wall = round(time.monotonic() - wall_start, 4)
     succeeded = sum(1 for r in run_records if r["status"] == "succeeded")
@@ -725,6 +970,14 @@ def build_parser() -> argparse.ArgumentParser:
         "--include-crosswalk-export",
         action="store_true",
         help="include crosswalk-matrix-builder in the run",
+    )
+    p_run.add_argument(
+        "--include-query-plugins",
+        action="store_true",
+        help=(
+            "invoke query plugins (cascade-impact-analyzer, "
+            "crosswalk-matrix-builder) with default inputs for validation"
+        ),
     )
     p_run.set_defaults(func=cmd_run)
 

@@ -1,6 +1,6 @@
 # aigovops CLI
 
-The `aigovops` command-line interface orchestrates the full AIGovOps AI Management System (AIMS) pipeline against a single organization configuration file. One command produces every artifact the catalogue knows how to emit: inventory, risk register, Statement of Applicability, AISIA, audit log, metrics report, nonconformity register, internal audit plan, gap assessment, management review package, and any applicable jurisdiction-specific records.
+The `aigovops` command-line interface orchestrates the full AIGovOps AI Management System (AIMS) pipeline against a single organization configuration file. One command produces every artifact the catalogue knows how to emit: inventory, risk register, data register, role matrix, supplier-vendor assessment, bias and robustness evaluations, human-oversight design, Statement of Applicability, AISIA, audit log, metrics report, post-market-monitoring plan, system-event-logger schema, explainability documentation, GenAI risk register, GPAI-obligations assessment, incident-reporting template, nonconformity register, internal audit plan, gap assessment, management review package, jurisdiction-specific records, evidence bundle, certification-readiness report, and certification-path plan.
 
 ## Install
 
@@ -33,13 +33,15 @@ aigovops run --org <organization.yaml> --output <dir>
              [--skip-plugin <name>]
              [--framework iso42001|nist-ai-rmf|eu-ai-act]
              [--include-crosswalk-export]
+             [--include-query-plugins]
 ```
 
 Reads `organization.yaml`, runs every applicable plugin in topological order, writes artifacts to `<dir>/artifacts/<plugin-name>/`, and writes `run-summary.json` plus `run-summary.md` at the top of `<dir>`.
 
-- `--skip-plugin` can be repeated to skip multiple plugins.
+- `--skip-plugin` can be repeated to skip multiple plugins. Accepts any plugin name in the catalogue.
 - `--framework` overrides the gap-assessment target framework.
 - `--include-crosswalk-export` additionally invokes `crosswalk-matrix-builder`.
+- `--include-query-plugins` invokes the query plugins (`cascade-impact-analyzer`, `crosswalk-matrix-builder`) with default inputs for validation. Query plugins are not invoked by default because they are query-oriented rather than pipeline-producing.
 
 Plugin failures are captured in `<dir>/errors/<plugin-name>.txt`; the run continues regardless so a single malformed input does not block the whole pipeline.
 
@@ -88,6 +90,21 @@ The top-level mapping has these sections. Only `organization` is required; every
 | `nyc_inputs` | no | nyc-ll144-audit-packager | `employer_role`, `audit_data`. |
 | `uk_atrs_inputs` | no | uk-atrs-recorder | `tier`, `tool_description`, `owner`. |
 | `singapore_inputs` | no | singapore-magf-assessor | `system_description`, `organization_type`. |
+| `supplier_vendor_inputs` | no | supplier-vendor-assessor | `vendors` (list), `vendor_role`, `organization_role`, optional `contract_summary`. |
+| `bias_evaluator_inputs` | no | bias-evaluator | `evaluation_data.per_group_counts`, `protected_attributes`, `metrics_to_compute`, `jurisdiction_rules`. |
+| `robustness_evaluator_inputs` | no | robustness-evaluator | `evaluation_scope` (with `dimensions`), `evaluation_results`, optional `backup_plan_ref`. |
+| `human_oversight_inputs` | no | human-oversight-designer | `oversight_design` (mode, ability coverage, override controls), `assigned_oversight_personnel`. |
+| `system_event_logger_inputs` | no | system-event-logger | `event_schema` (non-empty mapping keyed by event category), `retention_policy`, optional `log_storage` and `traceability_mappings`. |
+| `explainability_inputs` | no | explainability-documenter | `model_type`, `explanation_methods`, `intrinsic_interpretability_claim`. |
+| `genai_risk_register_inputs` | no | genai-risk-register | `risk_evaluations` (one entry per NIST GenAI risk), optional `risks_not_applicable`. |
+| `gpai_inputs` | no | gpai-obligations-tracker | `model_description`, `provider_role`, optional `systemic_risk_artifacts`, `code_of_practice_status`. |
+| `incident_reporting_inputs` | no | incident-reporting | `incidents` (list), `applicable_jurisdictions`, `severity`, `actor_role`. |
+| `eu_conformity_inputs` | no | eu-conformity-assessor | `procedure_requested`, `provider_identity`, `harmonised_standards_applied`, `registration_status`. |
+| `evidence_bundle_inputs` | no | evidence-bundle-packager | `scope` (reporting period, intended recipient), `signing_algorithm`, `include_source_crosswalk`. |
+| `certification_readiness_inputs` | no | certification-readiness | `target_certification`, `scope_overrides`. |
+| `certification_path_planner_inputs` | no | certification-path-planner | `target_certification`, `target_date`, `organization_capacity`. |
+| `cascade_impact_inputs` | no | cascade-impact-analyzer | `trigger_event.event`. Query plugin. |
+| `crosswalk_inputs` | no | crosswalk-matrix-builder | `query_type`, `source_framework`, `target_framework`, optional `source_ref`. Query plugin. |
 
 Jurisdiction-specific plugins run only when the relevant jurisdiction (`usa-co`, `usa-nyc`, `uk`, `singapore`) appears in `headquarters_jurisdiction`, `operational_jurisdictions`, or any AI system's `jurisdiction`.
 
@@ -117,27 +134,46 @@ See `examples/organization.example.yaml` for a complete, annotated template.
 
 ## Orchestration order
 
-The CLI runs plugins in this topological order. Downstream plugins consume upstream artifacts (for example, `soa-generator` reads the risk register; `management-review-packager` summarizes everything else).
+The CLI runs plugins in this topological order. Downstream plugins consume upstream artifacts (for example, `soa-generator` reads the risk register; `evidence-bundle-packager` packs every preceding artifact; `certification-readiness` reads the packed bundle; `certification-path-planner` reads the readiness snapshot; `management-review-packager` summarizes everything else).
 
-1. ai-system-inventory-maintainer
-2. applicability-checker
-3. high-risk-classifier
-4. risk-register-builder
-5. data-register-builder
-6. role-matrix-generator
-7. soa-generator
-8. aisia-runner
-9. audit-log-generator
-10. metrics-collector
-11. nonconformity-tracker
-12. internal-audit-planner
-13. gap-assessment
-14. uk-atrs-recorder (if UK in scope)
-15. colorado-ai-act-compliance (if usa-co in scope)
-16. nyc-ll144-audit-packager (if usa-nyc in scope)
-17. singapore-magf-assessor (if Singapore in scope)
-18. management-review-packager
-19. crosswalk-matrix-builder (only with `--include-crosswalk-export`)
+| # | Plugin | Gating condition |
+|---|---|---|
+| 1 | ai-system-inventory-maintainer | always (source of truth) |
+| 2 | applicability-checker | if ai_systems present |
+| 3 | high-risk-classifier | if ai_systems present |
+| 4 | risk-register-builder | if ai_systems present |
+| 5 | data-register-builder | if ai_systems present |
+| 6 | role-matrix-generator | if ai_systems present |
+| 7 | supplier-vendor-assessor | if ai_systems present |
+| 8 | bias-evaluator | if ai_systems present |
+| 9 | robustness-evaluator | if ai_systems present |
+| 10 | human-oversight-designer | if ai_systems present |
+| 11 | soa-generator | if ai_systems present |
+| 12 | aisia-runner | if ai_systems present |
+| 13 | audit-log-generator | if ai_systems present |
+| 14 | metrics-collector | if ai_systems present |
+| 15 | post-market-monitoring | if ai_systems present |
+| 16 | system-event-logger | if ai_systems present |
+| 17 | explainability-documenter | if ai_systems present |
+| 18 | genai-risk-register | if at least one ai_system has `is_generative: true` |
+| 19 | gpai-obligations-tracker | if at least one ai_system is a GPAI candidate (generative + transformer/DNN) |
+| 20 | incident-reporting | unconditional (template-prep; warns when no incidents declared) |
+| 21 | nonconformity-tracker | if ai_systems present |
+| 22 | internal-audit-planner | if ai_systems present |
+| 23 | gap-assessment | if ai_systems present |
+| 24 | uk-atrs-recorder | if UK in scope |
+| 25 | colorado-ai-act-compliance | if usa-co in scope |
+| 26 | nyc-ll144-audit-packager | if usa-nyc in scope |
+| 27 | singapore-magf-assessor | if Singapore in scope |
+| 28 | eu-conformity-assessor | if EU in scope AND at least one high-risk system |
+| 29 | management-review-packager | if ai_systems present |
+| 30 | evidence-bundle-packager | after all preceding artifacts are produced |
+| 31 | certification-readiness | if evidence-bundle-packager succeeded |
+| 32 | certification-path-planner | if certification-readiness succeeded |
+| Q1 | cascade-impact-analyzer | query plugin; only with `--include-query-plugins` |
+| Q2 | crosswalk-matrix-builder | query plugin; only with `--include-crosswalk-export` or `--include-query-plugins` |
+
+Query plugins (`cascade-impact-analyzer`, `crosswalk-matrix-builder`) are registered in the catalog but not invoked by default. They are query-oriented rather than pipeline-producing. Pass `--include-query-plugins` to invoke them with default inputs for validation.
 
 ## Troubleshooting
 
@@ -153,4 +189,4 @@ The CLI runs plugins in this topological order. Downstream plugins consume upstr
 python3 cli/tests/test_cli.py
 ```
 
-Fourteen tests cover doctor, help, organization loading, end-to-end runs, skip semantics, error resilience, output structure, jurisdiction gating, and bundle-packager delegation.
+Thirty-two tests cover doctor, help, organization loading, end-to-end runs, skip semantics, error resilience, output structure, jurisdiction gating, bundle-packager delegation, per-plugin gating (generative / GPAI / EU high-risk), ordering invariants (evidence-bundle-packager after producers; certification-path-planner after certification-readiness), incident-reporting unconditional behaviour, and opt-in query-plugin invocation.

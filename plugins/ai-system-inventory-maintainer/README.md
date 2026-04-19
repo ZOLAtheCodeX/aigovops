@@ -42,7 +42,18 @@ Produces a validated, versioned AI system inventory artifact that every other AI
 
 ### Per-system recommended fields
 
-`data_processed`, `stakeholder_groups`, `owner_role`, `operator_role`, `model_family`, `training_data_provenance`, `post_market_monitoring_plan_ref`, `risk_register_ref`, `aisia_ref`, `soa_ref`, `last_reviewed_date`, `next_review_due_date`.
+`data_processed`, `stakeholder_groups`, `owner_role`, `operator_role`, `model_family`, `training_data_provenance`, `post_market_monitoring_plan_ref`, `risk_register_ref`, `aisia_ref`, `soa_ref`, `last_reviewed_date`, `next_review_due_date`, `nist_lifecycle_stage`.
+
+### Two lifecycle dimensions
+
+Each system carries two independent lifecycle fields. They are not interchangeable.
+
+| Field | Meaning | Values |
+|---|---|---|
+| `lifecycle_state` | Operational and project-management state of the running system. Required. | `proposed`, `in-development`, `pre-deployment-review`, `deployed`, `under-monitoring`, `deprecated`, `decommissioned` |
+| `nist_lifecycle_stage` | NIST AI RMF 1.0 AI system lifecycle phase per `NIST AI RMF 1.0, Section 3, Figure 3`. Recommended. | `plan-and-design`, `collect-and-process-data`, `build-and-use-model`, `verify-and-validate`, `deploy-and-use`, `operate-and-monitor`, `use-or-impacted-by` |
+
+A system in `deployed` `lifecycle_state` typically sits in `operate-and-monitor` or `use-or-impacted-by` under the NIST dimension, but mapping is not mechanical: a deployed system actively undergoing revalidation may sit in `verify-and-validate`. Populate both fields explicitly.
 
 ## Output
 

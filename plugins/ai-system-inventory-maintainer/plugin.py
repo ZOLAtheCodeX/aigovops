@@ -40,7 +40,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-AGENT_SIGNATURE = "ai-system-inventory-maintainer/0.1.0"
+AGENT_SIGNATURE = "ai-system-inventory-maintainer/0.2.0"
 
 REQUIRED_INPUT_FIELDS = ("systems",)
 
@@ -84,6 +84,21 @@ VALID_LIFECYCLE_STATE = (
     "decommissioned",
 )
 
+# NIST AI RMF 1.0 seven-stage AI system lifecycle per NIST AI RMF 1.0,
+# Section 3, Figure 3. Distinct from the ops/project-management
+# ``lifecycle_state`` above: the NIST stage captures the AI RMF phase
+# the system occupies; ``lifecycle_state`` captures the running-system
+# project management state.
+VALID_NIST_LIFECYCLE_STAGES = (
+    "plan-and-design",
+    "collect-and-process-data",
+    "build-and-use-model",
+    "verify-and-validate",
+    "deploy-and-use",
+    "operate-and-monitor",
+    "use-or-impacted-by",
+)
+
 REQUIRED_PER_SYSTEM_FIELDS = (
     "system_id",
     "system_name",
@@ -108,6 +123,7 @@ RECOMMENDED_PER_SYSTEM_FIELDS = (
     "soa_ref",
     "last_reviewed_date",
     "next_review_due_date",
+    "nist_lifecycle_stage",
 )
 
 # Canonical jurisdiction identifiers per docs/jurisdiction-scope.md.
@@ -244,6 +260,13 @@ def _structural_validate(inputs: dict[str, Any]) -> None:
                 f"{VALID_LIFECYCLE_STATE}; got {lifecycle_state!r}"
             )
 
+        nist_stage = system.get("nist_lifecycle_stage")
+        if nist_stage is not None and nist_stage not in VALID_NIST_LIFECYCLE_STAGES:
+            raise ValueError(
+                f"systems[{i}] nist_lifecycle_stage must be one of "
+                f"{VALID_NIST_LIFECYCLE_STAGES}; got {nist_stage!r}"
+            )
+
         jurisdiction = system.get("jurisdiction")
         if jurisdiction is not None and not isinstance(jurisdiction, (list, str)):
             raise ValueError(
@@ -293,14 +316,26 @@ def validate_system(system: dict[str, Any]) -> list[dict[str, Any]]:
     # Recommended field coverage (warnings only).
     for field in RECOMMENDED_PER_SYSTEM_FIELDS:
         if field not in system or system.get(field) in (None, "", [], {}):
-            findings.append({
-                "level": "WARN",
-                "field": field,
-                "message": (
-                    f"recommended field {field!r} not set; audit evidence "
-                    "quality improves when this field is populated."
-                ),
-            })
+            if field == "nist_lifecycle_stage":
+                findings.append({
+                    "level": "WARN",
+                    "field": field,
+                    "message": (
+                        "Per-system nist_lifecycle_stage recommended for "
+                        "NIST AI RMF alignment. Populate from NIST AI RMF "
+                        "1.0, Section 3, Figure 3 (seven-stage AI system "
+                        "lifecycle)."
+                    ),
+                })
+            else:
+                findings.append({
+                    "level": "WARN",
+                    "field": field,
+                    "message": (
+                        f"recommended field {field!r} not set; audit evidence "
+                        "quality improves when this field is populated."
+                    ),
+                })
 
     # Jurisdiction value check (WARN for unknown to remain permissive).
     jurisdictions = _normalize_jurisdictions(system.get("jurisdiction"))
@@ -793,6 +828,8 @@ def maintain_inventory(inputs: dict[str, Any]) -> dict[str, Any]:
         "GOVERN 1.6",
         "EU AI Act, Article 11",
     ]
+    if any(s.get("nist_lifecycle_stage") for s in systems_input):
+        citations.append("NIST AI RMF 1.0, Section 3, Figure 3")
 
     summary = {
         "total_systems": len(systems_input),
@@ -975,6 +1012,7 @@ __all__ = [
     "VALID_RISK_TIERS",
     "VALID_DECISION_AUTHORITY",
     "VALID_LIFECYCLE_STATE",
+    "VALID_NIST_LIFECYCLE_STAGES",
     "REQUIRED_PER_SYSTEM_FIELDS",
     "RECOMMENDED_PER_SYSTEM_FIELDS",
     "VALID_JURISDICTIONS",

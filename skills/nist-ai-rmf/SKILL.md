@@ -86,6 +86,10 @@ The A/H/J operationalizability classification, artifact vocabulary, and leverage
 
 **Validation status.** All subcategory IDs in this skill body have been cross-referenced against the published NIST AI RMF 1.0 Core document and validated by Zola Valashiya (NIST AI RMF practitioner; AIGP) on 2026-04-18. Historical review record at [../../docs/lead-implementer-review.md](../../docs/lead-implementer-review.md).
 
+**Four-function plugin tagging.** The AIGovOps plugin catalogue is tagged against the four NIST AI RMF 1.0 functions (Govern, Map, Measure, Manage) in [../../plugins/rmf-function-map.yaml](../../plugins/rmf-function-map.yaml). Each plugin entry records the set of functions it contributes to and a primary function. Function definitions follow `NIST AI RMF 1.0, Section 5` (Sections 5.1 Govern, 5.2 Map, 5.3 Measure, 5.4 Manage). The mapping is audited by [../../tests/audit/test_rmf_function_map.py](../../tests/audit/test_rmf_function_map.py).
+
+**Seven-stage AI system lifecycle.** NIST AI RMF 1.0 defines a seven-stage AI system lifecycle in Section 3, Figure 3: `plan-and-design`, `collect-and-process-data`, `build-and-use-model`, `verify-and-validate`, `deploy-and-use`, `operate-and-monitor`, `use-or-impacted-by`. Stages are not strictly sequential; systems can re-enter earlier stages (for example `verify-and-validate`) in response to post-deployment signals. The [ai-system-inventory-maintainer](../../plugins/ai-system-inventory-maintainer/) plugin records a per-system `nist_lifecycle_stage` field against this enumeration, distinct from the operational `lifecycle_state` field. Populate both: `lifecycle_state` captures the running-system project management state, `nist_lifecycle_stage` captures the AI RMF phase.
+
 ## Operationalizable Controls
 
 Seven Tier 1 operationalizations are detailed below. Six of the seven share a plugin with an iso42001 Tier 1 item and cross-reference the iso42001 skill rather than duplicating content. One Tier 1 item (T1.2 Technical performance and safety measurement) is NIST-distinctive and receives full treatment. Tier 2 and Tier 3 follow the iso42001 skill pattern.

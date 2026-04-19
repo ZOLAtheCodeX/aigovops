@@ -114,7 +114,14 @@ class RunPipelineTests(unittest.TestCase):
         summary_path = self.output_dir / "run-summary.json"
         self.assertTrue(summary_path.is_file())
         summary = json.loads(summary_path.read_text())
-        self.assertGreater(summary["plugins_succeeded"], 10)
+        # After wiring all 34 plugins, the default run invokes 32 pipeline
+        # plugins (cascade-impact-analyzer and crosswalk-matrix-builder are
+        # query plugins and skipped unless --include-query-plugins is set).
+        expected_count = 32
+        total = summary["plugins_succeeded"] + summary["plugins_skipped"] + summary["plugins_failed"]
+        self.assertEqual(total, expected_count,
+                         f"expected {expected_count} plugins scheduled; got {total}")
+        self.assertGreater(summary["plugins_succeeded"], 25)
         self.assertEqual(summary["plugins_failed"], 0)
 
     def test_run_summary_has_required_fields(self):
@@ -253,6 +260,198 @@ class BundlePackagerTests(unittest.TestCase):
             self.assertIn("evidence-bundle-packager", err)
         else:
             self.assertIn(rc, (0, 4))
+
+
+class WiredPluginsTests(unittest.TestCase):
+    """Tests covering the 15 newly-wired plugins: gating, invocation, and
+    graceful handling of minimal inputs.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls._tmpdir = tempfile.mkdtemp(prefix="aigovops-wired-")
+        cls.output_dir = Path(cls._tmpdir) / "run"
+        cls._rc, _, _ = _run_cli(
+            ["run", "--org", str(EXAMPLE_ORG), "--output", str(cls.output_dir)]
+        )
+        cls.summary = json.loads(
+            (cls.output_dir / "run-summary.json").read_text()
+        )
+        cls.status_by_plugin = {r["plugin"]: r["status"] for r in cls.summary["plugins"]}
+
+    @classmethod
+    def tearDownClass(cls):
+        shutil.rmtree(cls._tmpdir, ignore_errors=True)
+
+    def test_expected_total_plugins_in_default_run(self):
+        """Default `run` schedules 32 plugins (all 34 minus 2 query plugins)."""
+        total = (
+            self.summary["plugins_succeeded"]
+            + self.summary["plugins_skipped"]
+            + self.summary["plugins_failed"]
+        )
+        self.assertEqual(total, 32)
+
+    def test_supplier_vendor_assessor_runs(self):
+        self.assertEqual(self.status_by_plugin.get("supplier-vendor-assessor"), "succeeded")
+
+    def test_bias_evaluator_runs_with_minimal_inputs(self):
+        self.assertEqual(self.status_by_plugin.get("bias-evaluator"), "succeeded")
+
+    def test_robustness_evaluator_runs_with_minimal_inputs(self):
+        self.assertEqual(self.status_by_plugin.get("robustness-evaluator"), "succeeded")
+
+    def test_human_oversight_designer_runs(self):
+        self.assertEqual(self.status_by_plugin.get("human-oversight-designer"), "succeeded")
+
+    def test_system_event_logger_runs(self):
+        self.assertEqual(self.status_by_plugin.get("system-event-logger"), "succeeded")
+
+    def test_explainability_documenter_runs(self):
+        self.assertEqual(self.status_by_plugin.get("explainability-documenter"), "succeeded")
+
+    def test_incident_reporting_runs_always_with_warnings_on_empty_incidents(self):
+        """incident-reporting is unconditional; with no incidents it emits
+        warnings but the plugin call still succeeds."""
+        self.assertEqual(self.status_by_plugin.get("incident-reporting"), "succeeded")
+        incident_json = (
+            self.output_dir / "artifacts" / "incident-reporting" / "incident-report.json"
+        )
+        self.assertTrue(incident_json.is_file())
+
+    def test_genai_skipped_for_non_generative_systems(self):
+        """The example org has a classical-ML system; genai-risk-register must skip."""
+        entry = next(
+            r for r in self.summary["plugins"] if r["plugin"] == "genai-risk-register"
+        )
+        self.assertEqual(entry["status"], "skipped")
+        self.assertIn("generative", entry.get("reason", "").lower())
+
+    def test_gpai_skipped_for_non_generative_systems(self):
+        entry = next(
+            r for r in self.summary["plugins"] if r["plugin"] == "gpai-obligations-tracker"
+        )
+        self.assertEqual(entry["status"], "skipped")
+
+    def test_eu_conformity_skipped_when_no_eu_jurisdiction(self):
+        entry = next(
+            r for r in self.summary["plugins"] if r["plugin"] == "eu-conformity-assessor"
+        )
+        self.assertEqual(entry["status"], "skipped")
+
+    def test_evidence_bundle_packager_runs_after_other_plugins(self):
+        order = [r["plugin"] for r in self.summary["plugins"]]
+        bundle_idx = order.index("evidence-bundle-packager")
+        for earlier in (
+            "ai-system-inventory-maintainer",
+            "risk-register-builder",
+            "soa-generator",
+            "management-review-packager",
+        ):
+            self.assertLess(order.index(earlier), bundle_idx)
+
+    def test_certification_readiness_runs_when_bundle_available(self):
+        self.assertEqual(self.status_by_plugin.get("evidence-bundle-packager"), "succeeded")
+        self.assertEqual(self.status_by_plugin.get("certification-readiness"), "succeeded")
+
+    def test_certification_path_planner_runs_after_readiness(self):
+        self.assertEqual(self.status_by_plugin.get("certification-path-planner"), "succeeded")
+        order = [r["plugin"] for r in self.summary["plugins"]]
+        self.assertLess(
+            order.index("certification-readiness"),
+            order.index("certification-path-planner"),
+        )
+
+    def test_query_plugins_not_invoked_by_default(self):
+        """cascade-impact-analyzer and crosswalk-matrix-builder skip absent flag."""
+        for q in ("cascade-impact-analyzer", "crosswalk-matrix-builder"):
+            # Query plugins may be absent from the summary entirely, which is
+            # equivalent to skipped.
+            status = self.status_by_plugin.get(q)
+            self.assertIn(status, (None, "skipped"))
+
+
+class QueryPluginsOptInTest(unittest.TestCase):
+    def test_query_plugins_invoked_with_flag(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            rc, _, _ = _run_cli([
+                "run",
+                "--org", str(EXAMPLE_ORG),
+                "--output", tmp,
+                "--include-query-plugins",
+            ])
+            self.assertEqual(rc, 0)
+            summary = json.loads((Path(tmp) / "run-summary.json").read_text())
+            statuses = {r["plugin"]: r["status"] for r in summary["plugins"]}
+            self.assertEqual(statuses.get("cascade-impact-analyzer"), "succeeded")
+            self.assertEqual(statuses.get("crosswalk-matrix-builder"), "succeeded")
+
+
+class EUConformityGatingTest(unittest.TestCase):
+    def test_eu_conformity_runs_when_eu_high_risk_present(self):
+        """If the org has an EU jurisdiction plus a high-risk system,
+        eu-conformity-assessor must run."""
+        with tempfile.TemporaryDirectory() as tmp:
+            bad_org = Path(tmp) / "eu.yaml"
+            bad_org.write_text(
+                "organization:\n"
+                "  name: EuCo\n"
+                "  headquarters_jurisdiction: eu\n"
+                "  operational_jurisdictions: [eu]\n"
+                "ai_systems:\n"
+                "  - system_id: SYS-EU\n"
+                "    system_ref: SYS-EU\n"
+                "    system_name: EUScreen\n"
+                "    intended_use: test\n"
+                "    purpose: test\n"
+                "    sector: employment\n"
+                "    risk_tier: high-risk-annex-iii\n"
+                "    annex_iii_category: 4-employment\n"
+                "    jurisdiction: [eu]\n"
+                "    lifecycle_state: in-service\n",
+                encoding="utf-8",
+            )
+            out_dir = Path(tmp) / "out"
+            rc, _, _ = _run_cli([
+                "run", "--org", str(bad_org), "--output", str(out_dir)
+            ])
+            self.assertEqual(rc, 0)
+            summary = json.loads((out_dir / "run-summary.json").read_text())
+            statuses = {r["plugin"]: r["status"] for r in summary["plugins"]}
+            self.assertEqual(statuses.get("eu-conformity-assessor"), "succeeded")
+
+
+class GenAIGatingTest(unittest.TestCase):
+    def test_genai_risk_register_runs_only_for_generative_systems(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            org = Path(tmp) / "genai.yaml"
+            org.write_text(
+                "organization:\n"
+                "  name: GenAICo\n"
+                "  headquarters_jurisdiction: usa-ca\n"
+                "ai_systems:\n"
+                "  - system_id: SYS-G\n"
+                "    system_ref: SYS-G\n"
+                "    system_name: GenModel\n"
+                "    intended_use: test\n"
+                "    purpose: test\n"
+                "    sector: general\n"
+                "    risk_tier: limited-risk\n"
+                "    model_type: transformer\n"
+                "    is_generative: true\n"
+                "    jurisdiction: [usa-ca]\n"
+                "    lifecycle_state: in-service\n",
+                encoding="utf-8",
+            )
+            out_dir = Path(tmp) / "out"
+            rc, _, _ = _run_cli([
+                "run", "--org", str(org), "--output", str(out_dir)
+            ])
+            self.assertEqual(rc, 0)
+            summary = json.loads((out_dir / "run-summary.json").read_text())
+            statuses = {r["plugin"]: r["status"] for r in summary["plugins"]}
+            self.assertEqual(statuses.get("genai-risk-register"), "succeeded")
+            self.assertEqual(statuses.get("gpai-obligations-tracker"), "succeeded")
 
 
 if __name__ == "__main__":
