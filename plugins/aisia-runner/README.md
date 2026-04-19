@@ -179,7 +179,7 @@ print(plugin.render_markdown(aisia))
 
 Example sample output for the FRIA block when all six elements are present:
 
-```
+```text
 Article 27 FRIA: 6/6 elements present
 AISIA-0001 (physical-safety): 4 cross-framework mappings
 AISIA-0002 (group-fairness): 4 cross-framework mappings
