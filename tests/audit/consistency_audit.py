@@ -53,6 +53,7 @@ PLUGIN_PUBLIC_FUNCTIONS = {
     "incident-reporting": ["generate_incident_report", "render_markdown", "render_csv"],
     "evidence-bundle-packager": ["pack_bundle", "verify_bundle", "inspect_bundle", "render_markdown", "render_csv"],
     "supplier-vendor-assessor": ["assess_vendor", "render_markdown", "render_csv"],
+    "certification-readiness": ["assess_readiness", "render_markdown", "render_csv"],
 }
 
 

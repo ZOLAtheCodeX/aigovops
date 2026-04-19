@@ -1097,6 +1097,21 @@ mappings:
     notes: "ISO Clause 10.2 covers internal nonconformity and corrective action. EU AI Act Article 73 adds external authority notification with statutory deadlines (2/10/15 days) that ISO does not impose."
     bidirectional: false
 
+  - id: eu-ai-act--art-43--iso42001--clause-9-2-clause-10-2
+    source_framework: eu-ai-act
+    source_ref: "Article 43"
+    source_title: "Conformity assessment procedures"
+    target_framework: iso42001
+    target_ref: "Clause 9.2, Clause 10.2"
+    target_title: "Internal audit and nonconformity and corrective action"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "ENISA, Cybersecurity of AI and Standardisation"
+        date: "2023"
+    notes: "ISO Clauses 9.2 internal audit and 10.2 nonconformity provide the QMS-side internal-control evidence Article 43 expects, but the notified-body route under Annex VII has no ISO equivalent."
+    bidirectional: false
+
   - id: eu-ai-act--art-72-3--iso42001--no-equivalent
     source_framework: eu-ai-act
     source_ref: "Article 72, Paragraph 3"

@@ -164,4 +164,6 @@ If you've run the demo and read through at least one SKILL.md, you're ready to:
 1. Substitute your own organizational data for the demo inputs.
 2. Review the outputs with your Lead Implementer or compliance team.
 3. Identify gaps (the `gap-assessment` plugin makes this concrete).
-4. Move toward AIGovClaw + Hermes when you want background automation.
+4. Package the outputs into a deterministic evidence bundle (the `evidence-bundle-packager` plugin).
+5. Assess certification readiness against a target (ISO 42001 Stage 1 or 2, EU AI Act Article 43 internal control, Colorado SB 205 safe-harbor, and more) using the `certification-readiness` plugin. This is the final step in a full governance cycle: it consumes the bundle and returns a graduated ready-with-high-confidence, ready-with-conditions, partially-ready, or not-ready verdict with specific remediations for every gap.
+6. Move toward AIGovClaw + Hermes when you want background automation.

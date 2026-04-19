@@ -1,0 +1,87 @@
+# AIGovOps Skill Evaluation Harness
+# Skill: certification-readiness
+# Purpose: validate certification-readiness output against the graduated
+#   readiness semantics (ready-with-high-confidence, ready-with-conditions,
+#   partially-ready, not-ready), per-target required artifact sets, and
+#   curated remediation mapping.
+# Format: input scenario produces expected readiness level and gap keys.
+# Schema: see ../README.md
+# Citation format: see ../../STYLE.md
+#
+# Test case status legend:
+#   stub      placeholder content, no validation against standard
+#   validated content grounded in cited frameworks; validated_by populated
+#   deprecated superseded; kept for history
+#
+# Test cases below target SKILL.md v0.1.0. Validated by Zola Valashiya on
+# 2026-04-18 against ISO/IEC 42001:2023 Clauses 9.2, 9.3, 10.1, and
+# Colorado SB 205 Section 6-1-1706(3).
+
+test_cases:
+  - id: certification-readiness-001
+    tier: T1.1
+    status: validated
+    validated_by: "Zola Valashiya"
+    validated_on: "2026-04-18"
+    description: |
+      iso42001-stage1 happy path. A full evidence bundle with the nine
+      required artifact types (ai-system-inventory, role-matrix,
+      risk-register, soa, audit-log-entry, aisia, management-review-package,
+      gap-assessment, internal-audit-plan), each with citations, no warnings,
+      and the four expected citations (Clauses 6.1.2, 6.1.3, 9.2, 9.3)
+      present in citation-summary.md, produces readiness_level
+      'ready-with-high-confidence' with zero blockers, zero gaps, and zero
+      conditions.
+    input:
+      bundle_path: "examples/demo-scenario/bundles/iso42001-stage1-full"
+      target_certification: "iso42001-stage1"
+      scope_overrides:
+        strict_mode: false
+        minimum_evidence_strength: "adequate"
+      reviewed_by: "Zola Valashiya"
+      remediation_deadline_days: 90
+    expected_outputs:
+      - "report['readiness_level'] == 'ready-with-high-confidence'."
+      - "report['summary']['blocker_count'] == 0."
+      - "report['summary']['gap_count'] == 0."
+      - "report['summary']['condition_count'] == 0."
+      - "report['evidence_completeness'] has 9 rows, each with present=True."
+      - "report['crosswalk_coverage'] lists coverage for every expected Clause citation."
+      - "render_markdown contains the legal disclaimer callout."
+    clause_references:
+      - "ISO/IEC 42001:2023, Clause 9.2"
+      - "ISO/IEC 42001:2023, Clause 9.3"
+      - "ISO/IEC 42001:2023, Clause 10.1"
+
+  - id: certification-readiness-002
+    tier: T1.1
+    status: validated
+    validated_by: "Zola Valashiya"
+    validated_on: "2026-04-18"
+    description: |
+      colorado-sb205-safe-harbor not-ready. A bundle containing
+      high-risk-classification, colorado-compliance-record, aisia, soa,
+      risk-register, and audit-log-entry artifacts, but with
+      colorado-compliance-record.actor_conformance_frameworks empty and
+      high-risk-classification.sb205_assessment.section_6_1_1706_3_applies
+      set to false. Readiness is 'not-ready' because the Section 6-1-1706(3)
+      rebuttable presumption is not available. The blocker list contains
+      gap_key 'sb205-conformance-missing'. The remediation names
+      colorado-ai-act-compliance as the target_plugin.
+    input:
+      bundle_path: "examples/demo-scenario/bundles/colorado-sb205-no-conformance"
+      target_certification: "colorado-sb205-safe-harbor"
+      scope_overrides:
+        strict_mode: false
+        minimum_evidence_strength: "adequate"
+      reviewed_by: "Zola Valashiya"
+      remediation_deadline_days: 60
+    expected_outputs:
+      - "report['readiness_level'] == 'not-ready'."
+      - "'sb205-conformance-missing' is in [b['gap_key'] for b in report['blockers']]."
+      - "report['remediations'] contains one entry with target_plugin='colorado-ai-act-compliance' and gap_key='sb205-conformance-missing'."
+      - "render_markdown contains the legal disclaimer callout."
+      - "render_csv row_kind column carries 'blocker' at least once."
+    clause_references:
+      - "Colorado SB 205, Section 6-1-1706(3)"
+      - "Colorado SB 205, Section 6-1-1706(4)"

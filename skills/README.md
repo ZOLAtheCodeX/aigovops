@@ -22,6 +22,7 @@ A skill is a knowledge package that operationalizes a specific AI governance fra
 | [incident-reporting](incident-reporting/SKILL.md) | External AI incident reporting (EU AI Act Article 73, Colorado SB 205 Sections 6-1-1702(7) / 6-1-1703(7), NYC LL144; composes with ISO/IEC 42001:2023 Clause 10.2 internal nonconformity tracking) | 0.1.0 | released |
 | [supplier-vendor](supplier-vendor/SKILL.md) | Supplier and vendor governance (ISO/IEC 42001:2023 Annex A.10, EU AI Act Article 25 and 26(a), NYC LL144 Section 5-300, NIST GOVERN 6.1 and 6.2) | 0.1.0 | released |
 | [evidence-bundle](evidence-bundle/SKILL.md) | Evidence bundle packaging for audits, attestations, and regulatory submissions (ISO/IEC 42001:2023 Clause 7.5.3, NIST AI RMF MANAGE 4.2, EU AI Act Articles 11 and 12 and 19, UK ATRS Section Impact assessment) | 0.1.0 | released |
+| [certification-readiness](certification-readiness/SKILL.md) | Certification readiness assessment. Consumes an evidence bundle and returns a graduated readiness verdict (ISO/IEC 42001:2023 Clauses 9.2, 9.3, 10.1; EU AI Act Article 43, Annex VI, Annex VII; Colorado SB 205 Section 6-1-1706(3)) | 0.1.0 | released |
 
 ## Adding a new skill
 

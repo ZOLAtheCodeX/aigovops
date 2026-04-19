@@ -47,6 +47,7 @@ See [cli/README.md](cli/README.md) for the full subcommand reference and the `or
 | [singapore-ai-governance](skills/singapore-ai-governance/SKILL.md) | Singapore MAGF 2e, MAS FEAT Principles, AI Verify | 0.1.0 |
 | [ai-system-inventory](skills/ai-system-inventory/SKILL.md) | AI system inventory operationalization (ISO/IEC 42001:2023 Clause 4.3 and 7.5, NIST AI RMF GOVERN 1.6, EU AI Act Article 11, UK ATRS, Colorado SB 205) | 0.1.0 |
 | [evidence-bundle](skills/evidence-bundle/SKILL.md) | Evidence bundle packaging for audits, attestations, and regulatory submissions (ISO/IEC 42001:2023 Clause 7.5.3, NIST AI RMF MANAGE 4.2, EU AI Act Articles 11 and 12 and 19, UK ATRS Section Impact assessment) | 0.1.0 |
+| [certification-readiness](skills/certification-readiness/SKILL.md) | Certification readiness assessment. Consumer of evidence bundles; returns graduated readiness verdict (ISO/IEC 42001:2023 Clauses 9.2, 9.3, 10.1; EU AI Act Article 43; Colorado SB 205 Section 6-1-1706(3)) | 0.1.0 |
 
 ## Plugins
 
@@ -74,6 +75,7 @@ See [cli/README.md](cli/README.md) for the full subcommand reference and the `or
 | [incident-reporting](plugins/incident-reporting/) | Regulatory-deadline-aware external incident reports for EU AI Act Article 73, Colorado SB 205 Sections 6-1-1702(7) / 6-1-1703(7), and NYC LL144 candidate complaints (JSON + Markdown + CSV) | 0.1.0 |
 | [supplier-vendor-assessor](plugins/supplier-vendor-assessor/) | ISO 42001 A.10, EU AI Act Article 25, and NYC LL144 Section 5-300 supplier and vendor assessment record (JSON + Markdown + CSV) | 0.1.0 |
 | [evidence-bundle-packager](plugins/evidence-bundle-packager/) | Deterministic, optionally HMAC-SHA256 signed evidence bundle of plugin artifacts for audits, attestations, and regulatory submissions (JSON + Markdown + CSV) | 0.1.0 |
+| [certification-readiness](plugins/certification-readiness/) | Consumer plugin. Graduated readiness verdict against a target certification with evidence completeness, gaps, blockers, and curated remediations (JSON + Markdown + CSV) | 0.1.0 |
 
 ## Bundles
 

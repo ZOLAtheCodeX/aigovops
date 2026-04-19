@@ -242,7 +242,7 @@ class TestQueries(unittest.TestCase):
                 "target_framework": "eu-ai-act",
             }
         )
-        self.assertEqual(len(forward["matrix"]) + len(reverse["matrix"]), 97)
+        self.assertEqual(len(forward["matrix"]) + len(reverse["matrix"]), 98)
         self.assertIn("by_relationship", forward["summary"])
         # Across both directions the file carries 23 no-mapping entries.
         total_gaps = forward["summary"]["by_relationship"].get(
