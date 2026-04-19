@@ -1,0 +1,109 @@
+# AIGovOps Skill Evaluation Harness
+# Skill: evidence-bundle
+# Purpose: validate evidence-bundle-packager output against bundle schema,
+#   signing semantics, and verification semantics.
+# Format: input scenario produces expected bundle structure and verification
+#   outcome.
+# Schema: see ../README.md
+# Citation format: see ../../STYLE.md
+#
+# Test case status legend:
+#   stub      placeholder content, no validation against standard
+#   validated content grounded in cited frameworks; validated_by populated
+#   deprecated superseded; kept for history
+#
+# Test cases below target SKILL.md v0.1.0. Validated by Zola Valashiya on
+# 2026-04-18 against ISO/IEC 42001:2023 Clause 7.5.3, NIST AI RMF MANAGE
+# 4.2, EU AI Act Article 11 + Annex IV, EU AI Act Article 12 and Article
+# 19, and UK ATRS Section Impact assessment.
+
+test_cases:
+  - id: evidence-bundle-001
+    tier: T1.1
+    status: validated
+    validated_by: "Zola Valashiya"
+    validated_on: "2026-04-18"
+    description: |
+      Sign a demo-scenario bundle with HMAC-SHA256 and verify signatures
+      match. Validates the happy-path packaging pipeline: MANIFEST.json
+      contains every plugin file from source_dir with a matching SHA-256,
+      signatures.json carries manifest_hmac and artifact_hmacs keyed by
+      path, citation-summary.md aggregates citations across all artifacts
+      without duplicates, provenance-chain.json records the plugin nodes
+      and inter-plugin edges, and verify_bundle returns overall='verified'.
+    input:
+      source_dir: "examples/demo-scenario/outputs"
+      scope:
+        organization: "Acme Health Inc."
+        aims_boundary: "All AI systems operated by the Acme Health AIMS core team."
+        systems_in_scope: ["SYS-001", "SYS-002", "SYS-003"]
+        reporting_period_start: "2026-01-01"
+        reporting_period_end: "2026-03-31"
+        intended_recipient: "external-auditor"
+      output_dir: "/tmp/aigovops-bundles/test-001"
+      signing_algorithm: "hmac-sha256"
+      signing_key_env: "AIGOVOPS_BUNDLE_SIGNING_KEY"
+      include_source_crosswalk: true
+      reviewed_by: "Zola Valashiya"
+    env:
+      AIGOVOPS_BUNDLE_SIGNING_KEY: "test-sign-key-0001"
+    expected_outputs:
+      - "report['signatures']['algorithm'] == 'hmac-sha256'."
+      - "report['signatures']['manifest_hmac'] is a 64-char hex string."
+      - "report['signatures']['artifact_hmacs'] has one entry per manifest artifact."
+      - "report['manifest']['bundle_schema_version'] == '1.0.0'."
+      - "Every entry in report['manifest']['artifacts'] has sha256, size_bytes, plugin, path."
+      - "report['citation_groups'] is grouped by framework with deduplicated lists."
+      - "report['provenance']['nodes'] has one entry per distinct plugin."
+      - "bundle directory contains MANIFEST.json, signatures.json, citation-summary.md, provenance-chain.json, README.md."
+      - "bundle directory contains crosswalk/ with 9 YAML files when include_source_crosswalk=true."
+      - "verify_bundle(report['bundle_path']) returns overall='verified'."
+    clause_references:
+      - "ISO/IEC 42001:2023, Clause 7.5.3"
+      - "ISO/IEC 42001:2023, Clause 7.5.1"
+      - "ISO/IEC 42001:2023, Clause 7.5.2"
+      - "MANAGE 4.2"
+      - "EU AI Act, Article 11"
+      - "EU AI Act, Article 12"
+      - "UK ATRS, Section Impact assessment"
+
+  - id: evidence-bundle-002
+    tier: T1.1
+    status: validated
+    validated_by: "Zola Valashiya"
+    validated_on: "2026-04-18"
+    description: |
+      Sign a demo-scenario bundle, tamper with one artifact post-pack, and
+      verify that verify_bundle returns overall='signature-mismatch' with
+      the tampered file's path listed in mutated_artifacts. Validates that
+      the integrity guarantee detects post-pack content changes and that
+      the HMAC verification path catches the mismatch before a consumer
+      accepts the evidence as authentic.
+    input:
+      source_dir: "examples/demo-scenario/outputs"
+      scope:
+        organization: "Acme Health Inc."
+        aims_boundary: "All AI systems operated by the Acme Health AIMS core team."
+        systems_in_scope: ["SYS-001", "SYS-002", "SYS-003"]
+        reporting_period_start: "2026-01-01"
+        reporting_period_end: "2026-03-31"
+        intended_recipient: "regulator"
+      output_dir: "/tmp/aigovops-bundles/test-002"
+      signing_algorithm: "hmac-sha256"
+      signing_key_env: "AIGOVOPS_BUNDLE_SIGNING_KEY"
+      include_source_crosswalk: false
+      reviewed_by: "Zola Valashiya"
+      post_pack_action: "append '\\nTAMPERED\\n' to artifacts/audit-log-generator/audit-log-entry.json"
+    env:
+      AIGOVOPS_BUNDLE_SIGNING_KEY: "test-sign-key-0002"
+    expected_outputs:
+      - "report['signatures']['algorithm'] == 'hmac-sha256'."
+      - "After tampering, verify_bundle returns overall='signature-mismatch'."
+      - "mutated_artifacts list contains the tampered artifact path."
+      - "manifest_sha256_matches is True (the manifest itself was not tampered with)."
+      - "artifact_hmacs_match is False (the HMAC for the mutated artifact does not verify)."
+    clause_references:
+      - "ISO/IEC 42001:2023, Clause 7.5.3"
+      - "MANAGE 4.2"
+      - "EU AI Act, Article 12"
+      - "EU AI Act, Article 19"

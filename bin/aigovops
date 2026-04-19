@@ -1,0 +1,41 @@
+#!/usr/bin/env python3
+"""Entry point for the aigovops CLI.
+
+Resolves the repo root so the cli package can be imported even when the
+executable is placed on PATH outside the repo (via symlink or copy).
+"""
+
+from __future__ import annotations
+
+import os
+import sys
+from pathlib import Path
+
+
+def _repo_root() -> Path:
+    here = Path(__file__).resolve().parent
+    # When this file lives at <repo>/bin/aigovops, the repo root is one level up.
+    candidate = here.parent
+    if (candidate / "cli" / "runner.py").is_file():
+        return candidate
+    # Fallback: walk up looking for cli/runner.py.
+    for parent in here.parents:
+        if (parent / "cli" / "runner.py").is_file():
+            return parent
+    raise SystemExit(
+        "aigovops: could not locate repository root (cli/runner.py not found)."
+    )
+
+
+def main() -> int:
+    repo_root = _repo_root()
+    if str(repo_root) not in sys.path:
+        sys.path.insert(0, str(repo_root))
+    os.environ.setdefault("AIGOVOPS_REPO_ROOT", str(repo_root))
+    from cli.runner import main as runner_main
+
+    return runner_main(sys.argv[1:])
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -20,6 +20,18 @@ AIGovOps turns AI governance frameworks (NIST AI RMF, ISO/IEC 42001, EU AI Act, 
 | Codex CLI | Clone this repo into your Codex skills directory and load via `AGENTS.md` |
 | Other agents | Reference SKILL.md files directly from `skills/` |
 
+## Command-line interface
+
+The `aigovops` CLI orchestrates every plugin in this repo against a single `organization.yaml`. One command produces the complete AIMS artifact set.
+
+```bash
+export PATH="$PWD/bin:$PATH"
+aigovops doctor
+aigovops run --org examples/organization.example.yaml --output /tmp/run1
+```
+
+See [cli/README.md](cli/README.md) for the full subcommand reference and the `organization.yaml` schema.
+
 ## Skills
 
 | Skill | Framework | Status |
@@ -34,6 +46,7 @@ AIGovOps turns AI governance frameworks (NIST AI RMF, ISO/IEC 42001, EU AI Act, 
 | [canada-aida](skills/canada-aida/SKILL.md) | Canada AI regulatory landscape primer (AIDA draft, PIPEDA, OSFI E-23, Treasury Board Directive, Quebec Law 25, Voluntary Code) | 0.1.0 |
 | [singapore-ai-governance](skills/singapore-ai-governance/SKILL.md) | Singapore MAGF 2e, MAS FEAT Principles, AI Verify | 0.1.0 |
 | [ai-system-inventory](skills/ai-system-inventory/SKILL.md) | AI system inventory operationalization (ISO/IEC 42001:2023 Clause 4.3 and 7.5, NIST AI RMF GOVERN 1.6, EU AI Act Article 11, UK ATRS, Colorado SB 205) | 0.1.0 |
+| [evidence-bundle](skills/evidence-bundle/SKILL.md) | Evidence bundle packaging for audits, attestations, and regulatory submissions (ISO/IEC 42001:2023 Clause 7.5.3, NIST AI RMF MANAGE 4.2, EU AI Act Articles 11 and 12 and 19, UK ATRS Section Impact assessment) | 0.1.0 |
 
 ## Plugins
 
@@ -58,6 +71,9 @@ AIGovOps turns AI governance frameworks (NIST AI RMF, ISO/IEC 42001, EU AI Act, 
 | [crosswalk-matrix-builder](plugins/crosswalk-matrix-builder/) | Cross-framework coverage, gap, or matrix query result (JSON + Markdown + CSV) | 0.1.0 |
 | [singapore-magf-assessor](plugins/singapore-magf-assessor/) | Singapore MAGF 2e pillar assessment with MAS FEAT layering for financial services (JSON + Markdown + CSV) | 0.1.0 |
 | [ai-system-inventory-maintainer](plugins/ai-system-inventory-maintainer/) | Validated, versioned AI system inventory with per-system regulatory applicability and cross-framework references (JSON + Markdown + CSV) | 0.1.0 |
+| [incident-reporting](plugins/incident-reporting/) | Regulatory-deadline-aware external incident reports for EU AI Act Article 73, Colorado SB 205 Sections 6-1-1702(7) / 6-1-1703(7), and NYC LL144 candidate complaints (JSON + Markdown + CSV) | 0.1.0 |
+| [supplier-vendor-assessor](plugins/supplier-vendor-assessor/) | ISO 42001 A.10, EU AI Act Article 25, and NYC LL144 Section 5-300 supplier and vendor assessment record (JSON + Markdown + CSV) | 0.1.0 |
+| [evidence-bundle-packager](plugins/evidence-bundle-packager/) | Deterministic, optionally HMAC-SHA256 signed evidence bundle of plugin artifacts for audits, attestations, and regulatory submissions (JSON + Markdown + CSV) | 0.1.0 |
 
 ## Bundles
 

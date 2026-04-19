@@ -1,0 +1,118 @@
+# AIGovOps Skill Evaluation Harness
+# Skill: incident-reporting
+# Purpose: validate skill outputs against EU AI Act Article 73, Colorado SB 205
+# Sections 6-1-1702(7) / 6-1-1703(7), and NYC LL144 external-reporting provisions.
+# Format: input scenario produces expected output structure and deadline citations.
+# Schema: see ../README.md
+# Citation format: see ../../STYLE.md
+#
+# Test cases target SKILL.md v0.1.0 (released). Both scenarios exercise the
+# `incident-reporting` plugin. The first is a multi-jurisdiction healthcare AI
+# fatality (EU + Colorado). The second is a single-jurisdiction NYC LL144
+# candidate complaint against an AEDT.
+# Validated by Zola Valashiya on 2026-04-18.
+
+test_cases:
+  - id: incident-reporting-001
+    tier: T1
+    description: |
+      Multi-jurisdiction incident. A clinical triage AI operating in a
+      Colorado healthcare provider and in two EU Member States produced a
+      misclassification that is alleged to have contributed to a patient
+      fatality. Exercises EU AI Act Article 73(6) 2-day deadline and Colorado
+      SB 205 Section 6-1-1703(7) 90-day deadline in parallel.
+    input:
+      incident_description:
+        summary: "Triage model de-prioritized a critical sepsis case; patient deteriorated."
+        affected_systems:
+          - "sys-triage-v3-eu"
+          - "sys-triage-v3-co"
+        date_of_occurrence: "2026-04-10"
+        date_discovered: "2026-04-11"
+        discovery_channel: "clinician incident report"
+        potential_harms:
+          - "fatality"
+        impacted_persons_count: 1
+        geographic_scope: "EU (Germany, Spain); Colorado (Denver)"
+      applicable_jurisdictions:
+        - "eu"
+        - "usa-co"
+      detected_at: "2026-04-11T14:00:00Z"
+      actor_role: "provider"
+      consequential_domains:
+        - "health-care"
+      containment_actions_taken:
+        - "Disabled sys-triage-v3 in all deployments pending root-cause analysis."
+        - "Notified affected Member States' national competent authorities."
+      correction_plan: "Retrain classifier with corrected labels; re-evaluate on held-out validation; staged re-deployment with clinician override."
+      organization_contact: "governance@example.com"
+      reviewed_by: "Zola Valashiya (AIGP; LL.M)"
+    expected_outputs:
+      - "severity = 'fatal'"
+      - "deadline_matrix contains entry with jurisdiction='eu' and rule_citation='EU AI Act, Article 73, Paragraph 6'"
+      - "EU deadline_iso equals detected_at date + 2 days"
+      - "deadline_matrix contains entry with jurisdiction='usa-co' and Colorado deadline_iso equals detected_at date + 90 days"
+      - "report_drafts length = 2 (one EU, one Colorado)"
+      - "citations include 'ISO/IEC 42001:2023, Clause 10.2'"
+      - "citations include 'EU AI Act, Article 73, Paragraph 6'"
+      - "citations include 'Colorado SB 205, Section 6-1-1702(7)'"
+      - "citations include 'Colorado SB 205, Section 6-1-1703(7)'"
+      - "warnings do not include any missing-actor-role or missing-consequential_domains warnings"
+    clause_references:
+      - "ISO/IEC 42001:2023, Clause 10.2"
+      - "EU AI Act, Article 73, Paragraph 6"
+      - "EU AI Act, Article 20"
+      - "Colorado SB 205, Section 6-1-1702(7)"
+      - "Colorado SB 205, Section 6-1-1703(7)"
+    status: validated
+    validated_by: "Zola Valashiya (LL.M Innovation and Technology Law; AIGP) - 2026-04-18"
+    authored_by: "AIGovOps Contributors (Claude Code draft, validated 2026-04-18)"
+
+  - id: incident-reporting-002
+    tier: T1
+    description: |
+      Single-jurisdiction NYC LL144 candidate complaint. A candidate filed a
+      complaint alleging that the employer's AEDT produced a disparate outcome
+      inconsistent with the published bias audit. Exercises the 30-day
+      investigation-response window under DCWP Rules Section 5-303 and the
+      required compliance-posture statement referencing the current audit.
+    input:
+      incident_description:
+        summary: "Candidate complaint alleging AEDT disparate-impact inconsistent with published bias audit."
+        affected_systems:
+          - "AEDT-resume-rank-v2"
+        date_of_occurrence: "2026-04-05"
+        date_discovered: "2026-04-06"
+        discovery_channel: "candidate email to compliance inbox"
+        potential_harms:
+          - "disparate impact"
+        impacted_persons_count: "unknown"
+        geographic_scope: "New York City (applicant pool)"
+      applicable_jurisdictions:
+        - "usa-nyc"
+      detected_at: "2026-04-06T09:30:00Z"
+      containment_actions_taken:
+        - "Suspended AEDT for affected requisition pending review."
+        - "Confirmed current bias audit is within 365-day window."
+      correction_plan: "Re-review candidate cohort with human reviewer; document outcome; respond to candidate within 30 days."
+      organization_contact: "talent-compliance@example.com"
+      reviewed_by: "Zola Valashiya (AIGP; LL.M)"
+    expected_outputs:
+      - "deadline_matrix length = 1"
+      - "deadline_matrix[0].jurisdiction = 'usa-nyc'"
+      - "deadline_matrix[0].rule_citation starts with 'NYC DCWP AEDT Rules'"
+      - "deadline_matrix[0].deadline_iso equals detected_at date + 30 days"
+      - "report_drafts length = 1"
+      - "report_drafts[0].template_name = 'nyc-ll144-candidate-complaint-response'"
+      - "required_contents_checklist includes 'AEDT identifier (tool name and version).'"
+      - "required_contents_checklist includes 'Candidate complaint summary.'"
+      - "citations include 'NYC LL144'"
+      - "citations include 'NYC DCWP AEDT Rules, Subchapter T, Section 5-303'"
+    clause_references:
+      - "NYC LL144"
+      - "NYC LL144 Final Rule, Section 5-303"
+      - "NYC DCWP AEDT Rules, Subchapter T"
+      - "ISO/IEC 42001:2023, Clause 10.2"
+    status: validated
+    validated_by: "Zola Valashiya (LL.M Innovation and Technology Law; AIGP) - 2026-04-18"
+    authored_by: "AIGovOps Contributors (Claude Code draft, validated 2026-04-18)"

@@ -159,6 +159,23 @@ mappings:
     bidirectional: false
 
   # C4 Section 6-1-1702(7) Developer 90-day disclosure of discrimination risks
+  - id: colorado-sb-205--section-6-1-1702-7--iso42001--clause-10-2
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1702(7)"
+    source_title: "Developer 90-day disclosure of discrimination risks to AG and deployers"
+    target_framework: iso42001
+    target_ref: "Clause 10.2"
+    target_title: "Nonconformity and corrective action"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "ISO Clause 10.2 internal corrective-action discipline partially supports the 90-day AG disclosure; ISO imposes no external deadline."
+    bidirectional: false
+
   - id: colorado-sb-205--section-6-1-1702-7--iso42001--a-10-3
     source_framework: colorado-sb-205
     source_ref: "Section 6-1-1702(7)"
@@ -515,6 +532,23 @@ mappings:
     bidirectional: false
 
   # C11 Section 6-1-1703(7) Deployer 90-day discrimination disclosure to AG
+  - id: colorado-sb-205--section-6-1-1703-7--iso42001--clause-10-2
+    source_framework: colorado-sb-205
+    source_ref: "Section 6-1-1703(7)"
+    source_title: "Deployer 90-day discrimination disclosure to AG"
+    target_framework: iso42001
+    target_ref: "Clause 10.2"
+    target_title: "Nonconformity and corrective action"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Colorado SB 205"
+        date: "2024-05"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "ISO Clause 10.2 internal corrective-action discipline partially supports the 90-day AG disclosure; ISO imposes no external deadline."
+    bidirectional: false
+
   - id: colorado-sb-205--section-6-1-1703-7--iso42001--a-10-3
     source_framework: colorado-sb-205
     source_ref: "Section 6-1-1703(7)"

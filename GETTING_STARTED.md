@@ -13,15 +13,31 @@ No LLM API key, no Hermes Agent installation, no destination accounts. The catal
 
 ## 10-minute quickstart
 
+The recommended entry point is the unified `aigovops` CLI. It orchestrates every plugin against a single `organization.yaml` configuration file.
+
 ```bash
 # 1. Clone
 git clone https://github.com/ZOLAtheCodeX/aigovops
 cd aigovops
 
-# 2. Run the demo scenario
-python3 examples/demo-scenario/run_demo.py
+# 2. Verify the environment
+export PATH="$PWD/bin:$PATH"
+aigovops doctor
 
-# 3. Open the output summary
+# 3. Run the full AIMS pipeline against the example organization
+aigovops run --org examples/organization.example.yaml --output /tmp/aigovops-run
+
+# 4. Open the run summary
+open /tmp/aigovops-run/run-summary.md      # macOS
+xdg-open /tmp/aigovops-run/run-summary.md  # Linux
+```
+
+For the CLI subcommand reference and `organization.yaml` schema, see [cli/README.md](cli/README.md).
+
+If you prefer the legacy hand-rolled demo (useful as a worked example of direct plugin invocation), run:
+
+```bash
+python3 examples/demo-scenario/run_demo.py
 open examples/demo-scenario/outputs/summary.md  # macOS
 xdg-open examples/demo-scenario/outputs/summary.md  # Linux
 ```

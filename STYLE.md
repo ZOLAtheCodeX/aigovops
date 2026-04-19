@@ -81,6 +81,7 @@ Three citation forms are accepted and each has a fixed prefix:
 - For the law itself: `NYC LL144`.
 - For sections of the DCWP Final Rule (6 RCNY Chapter 5, Subchapter T, Sections 5-300 through 5-304): `NYC LL144 Final Rule, Section <n>`.
 - For the implementing regulation chapter as a whole: `NYC DCWP AEDT Rules, Subchapter T`.
+- For a specific section within the DCWP chapter (used by incident-reporting draft citations and audit-log evidence): `NYC DCWP AEDT Rules, Subchapter T, Section <n>`.
 
 Examples:
 

@@ -1064,3 +1064,17 @@ mappings:
         date: "2024-07"
     notes: "ISO Annex A category A.5 (impact assessment plus system identification) supplies the context-establishment substrate that NIST MAP 1.1 requires. Partial-match because MAP 1.1 covers additional context dimensions beyond impact."
     bidirectional: true
+
+  - id: iso42001--clause-7-5-3--nist-ai-rmf--manage-4-1
+    source_framework: iso42001
+    source_ref: "Clause 7.5.3"
+    source_title: "Control of documented information (retention)"
+    target_framework: nist-ai-rmf
+    target_ref: "MANAGE 4.1"
+    target_title: "Post-deployment monitoring planned"
+    relationship: partial-match
+    confidence: medium
+    citation_sources:
+      - publication: "practitioner-inference"
+    notes: "ISO Clause 7.5.3 retention-of-documented-information discipline supplies the evidence-retention substrate that NIST MANAGE 4.1 post-deployment monitoring requires to be auditable. Partial-match because MANAGE 4.1 covers monitoring activity planning beyond pure documentation retention."
+    bidirectional: false

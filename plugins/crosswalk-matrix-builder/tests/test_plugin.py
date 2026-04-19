@@ -219,12 +219,15 @@ class TestQueries(unittest.TestCase):
         self.assertEqual(result["summary"]["gap_count"], 6)
 
     def test_query_matrix_iso_to_eu_ai_act(self):
-        # The EU AI Act file contains 91 entries total across both
+        # The EU AI Act file contains 97 entries total across both
         # directions. A directional matrix query for eu-ai-act -> iso42001
-        # returns 80; the reverse direction (iso42001 -> eu-ai-act) holds
-        # the remaining 11 (8 original, 2 Clause 9.2 mappings added by the
-        # internal-audit-planner plugin, 1 Article 11 mapping added by the
-        # ai-system-inventory-maintainer plugin). Combined count = 91.
+        # returns 87 (including 3 value-chain mappings added by the
+        # supplier-vendor-assessor plugin for Art 25(1), Art 25(3), Art
+        # 26(a), plus 2 retention-and-Annex-IV mappings added by the
+        # evidence-bundle-packager plugin for Art 11 + Annex IV -> Clause
+        # 7.5 + A.6.2.7 and Art 19 -> Clause 7.5.3); the reverse direction
+        # (iso42001 -> eu-ai-act) holds the remaining 10. Combined count =
+        # 97.
         forward = plugin.build_matrix(
             {
                 "query_type": "matrix",
@@ -239,7 +242,7 @@ class TestQueries(unittest.TestCase):
                 "target_framework": "eu-ai-act",
             }
         )
-        self.assertEqual(len(forward["matrix"]) + len(reverse["matrix"]), 91)
+        self.assertEqual(len(forward["matrix"]) + len(reverse["matrix"]), 97)
         self.assertIn("by_relationship", forward["summary"])
         # Across both directions the file carries 23 no-mapping entries.
         total_gaps = forward["summary"]["by_relationship"].get(

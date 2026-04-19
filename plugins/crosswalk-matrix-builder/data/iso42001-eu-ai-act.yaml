@@ -1080,6 +1080,23 @@ mappings:
     notes: "ISO 42001 has no incident-reporting deadline equivalent to Article 73 windows (15 days generic, 10 days widespread infringement, 2 days death)."
     bidirectional: false
 
+  - id: eu-ai-act--art-73--iso42001--clause-10-2
+    source_framework: eu-ai-act
+    source_ref: "Article 73"
+    source_title: "Serious incident reporting"
+    target_framework: iso42001
+    target_ref: "Clause 10.2"
+    target_title: "Nonconformity and corrective action"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "ISO Clause 10.2 covers internal nonconformity and corrective action. EU AI Act Article 73 adds external authority notification with statutory deadlines (2/10/15 days) that ISO does not impose."
+    bidirectional: false
+
   - id: eu-ai-act--art-72-3--iso42001--no-equivalent
     source_framework: eu-ai-act
     source_ref: "Article 72, Paragraph 3"
@@ -1324,6 +1341,51 @@ mappings:
     notes: "ISO requires a managed intended-use declaration. EU Article 26(1) requires deployers to use per provider instructions but does not require a formal declaration artefact."
     bidirectional: false
 
+  - id: eu-ai-act--art-25-1--iso42001--a-10-2
+    source_framework: eu-ai-act
+    source_ref: "Article 25, Paragraph 1"
+    source_title: "Value-chain responsibility allocation"
+    target_framework: iso42001
+    target_ref: "A.10.2"
+    target_title: "Allocating responsibilities"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "CEN-CENELEC JTC 21 drafts"
+        date: "2024"
+    notes: "ISO A.10.2 allocation-of-responsibilities control partially satisfies Article 25(1) value-chain allocation by requiring documented responsibility assignment among provider, deployer, and third parties. Article 25(1)(c) re-classification on substantial modification has no direct ISO equivalent."
+    bidirectional: false
+
+  - id: eu-ai-act--art-25-3--iso42001--a-10-3
+    source_framework: eu-ai-act
+    source_ref: "Article 25, Paragraph 3"
+    source_title: "Distributor obligations along the AI value chain"
+    target_framework: iso42001
+    target_ref: "A.10.3"
+    target_title: "Suppliers"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "practitioner-inference"
+        date: "2024"
+    notes: "ISO A.10.3 supplier-relationship control partially satisfies Article 25(3)(c) distributor verification obligations by requiring documented third-party obligations. Specific Article 25(3)(c) verification duties remain practitioner-confirmed."
+    bidirectional: false
+
+  - id: eu-ai-act--art-26-a--iso42001--a-10-3
+    source_framework: eu-ai-act
+    source_ref: "Article 26, Paragraph 1, Point (a)"
+    source_title: "Importer check obligations"
+    target_framework: iso42001
+    target_ref: "A.10.3"
+    target_title: "Suppliers"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "practitioner-inference"
+        date: "2024"
+    notes: "ISO A.10.3 supplier-relationship control partially satisfies Article 26(a) importer pre-market verification duties covering conformity assessment, technical documentation, CE marking, and authorized-representative designation."
+    bidirectional: false
+
   - id: iso42001--a-10-2-10-4--eu-ai-act--no-equivalent
     source_framework: iso42001
     source_ref: "A.10.2-A.10.4"
@@ -1397,4 +1459,34 @@ mappings:
       - publication: "CEN-CENELEC JTC 21 WG1 drafts"
         date: "2024"
     notes: "EU AI Act Article 11 technical documentation obligation (including system identity fields enumerated in Annex IV) is satisfied by the ISO 42001 Clause 7.5 documented-information discipline combined with A.6.2.2 system requirements and specification. ISO provides the control substrate; Article 11 specifies the Annex IV content set."
+    bidirectional: false
+
+  - id: eu-ai-act--art-11-annex-iv--iso42001--clause-7-5-a-6-2-7
+    source_framework: eu-ai-act
+    source_ref: "Article 11, Annex IV"
+    source_title: "Technical documentation bundle (Annex IV content set)"
+    target_framework: iso42001
+    target_ref: "Clause 7.5, A.6.2.7"
+    target_title: "Documented information and AI system deployment documentation"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "CEN-CENELEC JTC 21 WG1 drafts"
+        date: "2024"
+    notes: "The Annex IV technical-documentation content set (bundle form) is satisfied by the ISO 42001 Clause 7.5 documented-information discipline combined with A.6.2.7 deployment documentation. A.6.2.7 covers the deployed-system documentation content that Annex IV enumerates as required at placing-on-market."
+    bidirectional: false
+
+  - id: eu-ai-act--art-19-retention--iso42001--clause-7-5-3
+    source_framework: eu-ai-act
+    source_ref: "Article 19"
+    source_title: "Log retention minimum 6 months"
+    target_framework: iso42001
+    target_ref: "Clause 7.5.3"
+    target_title: "Control of documented information (retention)"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "ISO Clause 7.5.3 retention-of-documented-information discipline partially satisfies EU AI Act Article 19. ISO requires retention proportionate to purpose but does not specify a minimum-period floor; Article 19 sets a six-month minimum for high-risk-system logs. An organization relying on ISO alone must separately document the six-month floor in its retention policy."
     bidirectional: false

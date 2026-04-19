@@ -1,0 +1,206 @@
+# AIGovOps organization configuration template.
+#
+# This file is the single input to `aigovops run`. It describes the
+# organization, the AI Management System boundary, the AI systems in
+# scope, and the supporting data each plugin needs (risks, role assignments,
+# measurements, and so on).
+#
+# Replace the fictional Acme HR Technologies entries with your own data,
+# then run:
+#
+#     aigovops run --org examples/organization.example.yaml --output /tmp/aigovops-run
+#
+# Every section except `organization` and `ai_systems` is optional. When a
+# section is absent the CLI supplies minimal defaults so the pipeline can
+# complete, but the downstream artifacts will carry warnings reminding the
+# user to supply the missing inputs.
+
+organization:
+  name: "Acme HR Technologies"
+  industry: "HR technology"
+  headquarters_jurisdiction: "usa-co"
+  operational_jurisdictions:
+    - "usa-co"
+    - "usa-nyc"
+
+# AIMS boundary statement (ISO/IEC 42001:2023, Clause 4.3).
+aims_boundary:
+  description: "All AI systems used in HR hiring and screening processes."
+  scope_inclusions:
+    - "resume screening"
+    - "interview scheduling assistance"
+  scope_exclusions:
+    - "marketing automation"
+    - "internal productivity tools"
+
+# One or more AI systems in AIMS scope. Fields map to the
+# ai-system-inventory-maintainer plugin's schema. See
+# plugins/ai-system-inventory-maintainer/README.md for the full field list.
+ai_systems:
+  - system_id: "SYS-001"
+    system_ref: "SYS-001"
+    system_name: "ResumeScreen"
+    intended_use: "Rank candidate resumes against a job posting to surface a reviewer queue."
+    purpose: "Rank candidate resumes against a job posting."
+    deployment_context: "Internal HR workflow; no automated advance or reject; human reviews every surfaced candidate."
+    sector: "HR technology"
+    data_processed:
+      - "candidate resume text"
+      - "job posting text"
+      - "candidate-supplied demographic fields (where provided voluntarily)"
+    risk_tier: "limited"
+    decision_authority: "decision-support"
+    reversibility: "outputs are suggestions; human makes every advance-or-reject decision"
+    system_type: "classical-ml"
+    jurisdiction:
+      - "usa-co"
+      - "usa-nyc"
+    lifecycle_state: "deployed"
+
+# Risks for risk-register-builder. The plugin treats missing risks as a
+# minimal-input warning (not an error) so the register artifact still
+# builds even if your organization has not yet captured risks.
+risk_register_inputs:
+  framework: "dual"
+  risks:
+    - id: "RR-0001"
+      system_ref: "SYS-001"
+      category: "bias"
+      description: "Protected-group disparity in ranking outputs where training data over-represents one demographic cohort."
+      likelihood: "possible"
+      impact: "major"
+      scoring_rationale:
+        - "Quarterly equity audit 2026-Q1 output"
+      existing_controls: ["A.5.4", "A.7.4"]
+      residual_likelihood: "unlikely"
+      residual_impact: "moderate"
+      treatment_option: "reduce"
+      owner_role: "AI Governance Officer"
+      planned_treatment_actions:
+        - "Retrain with rebalanced dataset 2026-Q3"
+
+# Data register inputs for data-register-builder. One row per dataset in
+# the AIMS scope. Required dataset fields: id, name, purpose_stage, source.
+data_register_inputs:
+  framework: "iso42001"
+  data_inventory:
+    - id: "DS-001"
+      name: "Resume corpus"
+      purpose_stage: "training"
+      source: "internal"
+
+# Role matrix inputs for role-matrix-generator. Use "category::activity"
+# string keys for role_assignments.
+role_matrix_inputs:
+  org_chart:
+    - role_name: "Chief Executive Officer"
+    - role_name: "Chief Risk Officer"
+      reports_to: "Chief Executive Officer"
+    - role_name: "AI Governance Officer"
+      reports_to: "Chief Risk Officer"
+    - role_name: "Head of AI Engineering"
+      reports_to: "Chief Executive Officer"
+  role_assignments:
+    "AI policy approval::propose": "AI Governance Officer"
+    "AI policy approval::review": "Chief Risk Officer"
+    "AI policy approval::approve": "Chief Executive Officer"
+    "AI policy approval::consulted": "AI Governance Officer"
+    "AI policy approval::informed": "Head of AI Engineering"
+    "Risk acceptance::propose": "AI Governance Officer"
+    "Risk acceptance::review": "Chief Risk Officer"
+    "Risk acceptance::approve": "Chief Risk Officer"
+    "Risk acceptance::consulted": "AI Governance Officer"
+    "Risk acceptance::informed": "Head of AI Engineering"
+  authority_register:
+    "Chief Executive Officer": "Board Resolution 2024-01"
+    "Chief Risk Officer": "Delegation of Authority Policy, Section 4 Risk"
+    "AI Governance Officer": "AI Governance Charter 2025"
+    "Head of AI Engineering": "Job Description 2025"
+
+# AISIA stakeholders and pre-filled impact sections.
+aisia_inputs:
+  framework: "iso42001"
+  affected_stakeholders:
+    - "Candidates submitting resumes"
+    - "HR reviewers using the system"
+  impact_assessments:
+    - id: "AISIA-001"
+      stakeholder_group: "Candidates submitting resumes"
+      impact_dimension: "fundamental-rights"
+      impact_description: "Ranking disparity could impair fair access to employment opportunities."
+      severity: "major"
+      likelihood: "unlikely"
+      existing_controls: ["A.5.4"]
+      residual_severity: "moderate"
+      residual_likelihood: "rare"
+      additional_controls_recommended: ["Continuous fairness metric monitoring"]
+      assessor: "AI Governance Officer"
+      assessment_date: "2026-04-15"
+
+# Governance events fed into audit-log-generator.
+governance_decisions:
+  - "Deployed ResumeScreen to production on 2026-04-01 after Phase 2 review."
+  - "Quarterly equity audit schedule established for Q2 2026 onward."
+
+audit_log_inputs:
+  responsible_parties:
+    - "AI Governance Officer"
+    - "Head of AI Engineering"
+
+# Trustworthy-AI metrics for metrics-collector.
+metrics_inputs:
+  framework: "iso42001"
+  measurements:
+    - id: "KPI-001"
+      system_ref: "SYS-001"
+      metric_family: "validity-reliability"
+      metric_id: "f1"
+      value: 0.89
+      window_start: "2026-04-01T00:00:00Z"
+      window_end: "2026-04-30T23:59:59Z"
+      measurement_method_ref: "METHOD-HOLDOUT-2026Q1"
+      test_set_ref: "TS-holdout-2026Q1"
+  thresholds:
+    f1: {operator: "min", value: 0.85}
+
+# Nonconformity records for nonconformity-tracker. Empty list is fine.
+nonconformity_inputs:
+  records: []
+
+# Internal audit programme inputs.
+internal_audit_inputs:
+  audit_frequency_months: 12
+  audit_criteria:
+    - "ISO/IEC 42001:2023"
+    - "Internal AI governance policy"
+
+# Gap assessment target. Override per run with `--framework`.
+gap_assessment_inputs:
+  target_framework: "iso42001"
+
+# Management review inputs for Clause 9.3.2 package.
+management_review_inputs:
+  review_window:
+    start: "2026-04-01"
+    end: "2026-06-30"
+  attendees:
+    - "Chief Executive Officer"
+    - "Chief Risk Officer"
+    - "AI Governance Officer"
+  meeting_metadata:
+    scheduled_date: "2026-07-15"
+
+# Jurisdiction-specific inputs (only used when the organization or any
+# AI system falls within the relevant jurisdiction).
+
+colorado_inputs:
+  actor_role: "deployer"
+  consequential_decision_domains:
+    - "employment"
+
+nyc_inputs:
+  employer_role: "employer"
+  audit_data:
+    audit_date: "2026-03-15"
+    auditor_identity: "Fictional Independent Auditors LLC"
+    selection_rates: {}

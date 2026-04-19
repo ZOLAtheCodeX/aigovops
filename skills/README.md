@@ -19,6 +19,9 @@ A skill is a knowledge package that operationalizes a specific AI governance fra
 | [singapore-ai-governance](singapore-ai-governance/SKILL.md) | Singapore MAGF 2e, MAS FEAT Principles, AI Verify | 0.1.0 | released |
 | [internal-audit](internal-audit/SKILL.md) | ISO/IEC 42001:2023, Clause 9.2 (Internal audit) | 0.1.0 | released |
 | [ai-system-inventory](ai-system-inventory/SKILL.md) | AI system inventory operationalization (ISO/IEC 42001:2023 Clause 4.3 and 7.5, NIST AI RMF GOVERN 1.6, EU AI Act Article 11, UK ATRS, Colorado SB 205) | 0.1.0 | released |
+| [incident-reporting](incident-reporting/SKILL.md) | External AI incident reporting (EU AI Act Article 73, Colorado SB 205 Sections 6-1-1702(7) / 6-1-1703(7), NYC LL144; composes with ISO/IEC 42001:2023 Clause 10.2 internal nonconformity tracking) | 0.1.0 | released |
+| [supplier-vendor](supplier-vendor/SKILL.md) | Supplier and vendor governance (ISO/IEC 42001:2023 Annex A.10, EU AI Act Article 25 and 26(a), NYC LL144 Section 5-300, NIST GOVERN 6.1 and 6.2) | 0.1.0 | released |
+| [evidence-bundle](evidence-bundle/SKILL.md) | Evidence bundle packaging for audits, attestations, and regulatory submissions (ISO/IEC 42001:2023 Clause 7.5.3, NIST AI RMF MANAGE 4.2, EU AI Act Articles 11 and 12 and 19, UK ATRS Section Impact assessment) | 0.1.0 | released |
 
 ## Adding a new skill
 

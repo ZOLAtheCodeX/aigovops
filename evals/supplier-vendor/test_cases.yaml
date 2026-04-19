@@ -1,0 +1,96 @@
+# AIGovOps Skill Evaluation Harness
+# Skill: supplier-vendor
+# Purpose: validate plugin outputs against ISO A.10, EU AI Act Art. 25/26,
+#          and NYC LL144 Section 5-300 obligations.
+# Schema: see ../README.md
+# Citation format: see ../../STYLE.md
+#
+# Test case status legend:
+#   stub      placeholder, no validation
+#   validated content grounded in published framework text
+#
+# Validated by AIGovOps Contributors on 2026-04-18.
+
+test_cases:
+  - id: supplier-vendor-001
+    tier: T1.1
+    status: validated
+    description: |
+      Foundation-model vendor assessment where the organization is a
+      downstream integrator under EU AI Act Article 25(4). Validates that
+      role reconciliation attaches the Article 25(4) cooperation note and
+      that the eight-dimension assessment matrix is emitted with
+      mechanical status inferences for contractual-obligations,
+      data-governance, and incident-response.
+    input:
+      vendor_description:
+        vendor_name: "Acme Foundation Models Inc."
+        vendor_type: "model-provider"
+        jurisdiction_of_establishment: "US-DE"
+        products_services:
+          - "foundation-model-api"
+          - "fine-tuning-service"
+        ai_systems_they_supply:
+          - "SYS-001"
+          - "SYS-007"
+      vendor_role: "model-provider"
+      organization_role: "downstream-integrator"
+      contract_summary:
+        contract_id: "MSA-2026-ACME-001"
+        effective_date: "2026-01-01"
+        expiry_date: "2027-12-31"
+        auto_renew: true
+        termination_notice_days: 60
+        sla_summary: "99.5 percent monthly uptime"
+        audit_rights_included: true
+        security_incident_notification_days: 10
+        data_processing_agreement_included: true
+        liability_cap: "12 months fees"
+    expected:
+      contains_citations:
+        - "ISO/IEC 42001:2023, Annex A, Control A.10.2"
+        - "ISO/IEC 42001:2023, Annex A, Control A.10.3"
+        - "ISO/IEC 42001:2023, Annex A, Control A.10.4"
+        - "EU AI Act, Article 25, Paragraph 4"
+        - "NIST GOVERN 6.1"
+        - "NIST GOVERN 6.2"
+      assessment_matrix_length: 8
+      role_reconciliation_notes_contains: "downstream integrator"
+      independence_assessment_present: false
+
+  - id: supplier-vendor-002
+    tier: T1.2
+    status: validated
+    description: |
+      Bias-audit-service vendor assessment triggering NYC LL144 Section
+      5-300 independence check. Validates that the independence_assessment
+      block is emitted with four criteria, status is
+      requires-practitioner-confirmation, and the NYC LL144 citation is
+      present.
+    input:
+      vendor_description:
+        vendor_name: "Doe and Associates, Independent Auditor"
+        vendor_type: "bias-audit-service"
+        jurisdiction_of_establishment: "US-NY"
+        products_services:
+          - "aedt-bias-audit"
+        ai_systems_they_supply:
+          - "SYS-HRScreen-01"
+      vendor_role: "bias-audit-service"
+      organization_role: "deployer"
+      contract_summary:
+        contract_id: "AUDIT-2026-001"
+        effective_date: "2026-03-01"
+        expiry_date: "2026-06-30"
+        auto_renew: false
+        termination_notice_days: 30
+        audit_rights_included: true
+        security_incident_notification_days: 5
+        data_processing_agreement_included: true
+    expected:
+      contains_citations:
+        - "NYC LL144 Final Rule, Section 5-300"
+        - "ISO/IEC 42001:2023, Annex A, Control A.10.3"
+      independence_assessment_present: true
+      independence_assessment_criteria_count: 4
+      independence_assessment_status: "requires-practitioner-confirmation"

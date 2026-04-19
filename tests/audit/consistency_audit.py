@@ -50,6 +50,9 @@ PLUGIN_PUBLIC_FUNCTIONS = {
     "nyc-ll144-audit-packager": ["generate_audit_package", "render_markdown", "render_csv"],
     "singapore-magf-assessor": ["generate_magf_assessment", "render_markdown", "render_csv"],
     "ai-system-inventory-maintainer": ["maintain_inventory", "validate_system", "render_markdown", "render_csv"],
+    "incident-reporting": ["generate_incident_report", "render_markdown", "render_csv"],
+    "evidence-bundle-packager": ["pack_bundle", "verify_bundle", "inspect_bundle", "render_markdown", "render_csv"],
+    "supplier-vendor-assessor": ["assess_vendor", "render_markdown", "render_csv"],
 }
 
 

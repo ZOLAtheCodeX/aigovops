@@ -27,6 +27,9 @@ Plugins differ from skills in execution semantics. A skill is loaded as knowledg
 | [crosswalk-matrix-builder](crosswalk-matrix-builder/) | Cross-framework coverage, gap, or matrix query result (JSON + Markdown + CSV) | 0.1.0 |
 | [singapore-magf-assessor](singapore-magf-assessor/) | Singapore MAGF 2e pillar assessment with MAS FEAT layering for financial services (JSON + Markdown + CSV) | 0.1.0 |
 | [ai-system-inventory-maintainer](ai-system-inventory-maintainer/) | Validated, versioned AI system inventory with per-system regulatory applicability and cross-framework references (JSON + Markdown + CSV) | 0.1.0 |
+| [incident-reporting](incident-reporting/) | Regulatory-deadline-aware external incident reports for EU AI Act Article 73, Colorado SB 205 Sections 6-1-1702(7) / 6-1-1703(7), and NYC LL144 candidate complaints (JSON + Markdown + CSV) | 0.1.0 |
+| [supplier-vendor-assessor](supplier-vendor-assessor/) | ISO 42001 A.10, EU AI Act Article 25, and NYC LL144 Section 5-300 supplier and vendor assessment record with role reconciliation, assessment matrix, independence check, and supply-chain graph (JSON + Markdown + CSV) | 0.1.0 |
+| [evidence-bundle-packager](evidence-bundle-packager/) | Deterministic, optionally HMAC-SHA256 signed evidence bundle of plugin artifacts for audits, attestations, and regulatory submissions (JSON + Markdown + CSV) | 0.1.0 |
 
 ## Plugin requirements
 
