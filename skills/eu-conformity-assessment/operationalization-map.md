@@ -114,7 +114,7 @@ ISO 42001 is a management-system standard. The product-conformity artefacts (dec
 
 ## Decision tree for procedure selection
 
-```
+```text
                         +-------------------------------+
                         | annex_i_legislation populated?|
                         +-------------------------------+
