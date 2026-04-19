@@ -23,6 +23,11 @@ A skill is a knowledge package that operationalizes a specific AI governance fra
 | [supplier-vendor](supplier-vendor/SKILL.md) | Supplier and vendor governance (ISO/IEC 42001:2023 Annex A.10, EU AI Act Article 25 and 26(a), NYC LL144 Section 5-300, NIST GOVERN 6.1 and 6.2) | 0.1.0 | released |
 | [evidence-bundle](evidence-bundle/SKILL.md) | Evidence bundle packaging for audits, attestations, and regulatory submissions (ISO/IEC 42001:2023 Clause 7.5.3, NIST AI RMF MANAGE 4.2, EU AI Act Articles 11 and 12 and 19, UK ATRS Section Impact assessment) | 0.1.0 | released |
 | [certification-readiness](certification-readiness/SKILL.md) | Certification readiness assessment. Consumes an evidence bundle and returns a graduated readiness verdict (ISO/IEC 42001:2023 Clauses 9.2, 9.3, 10.1; EU AI Act Article 43, Annex VI, Annex VII; Colorado SB 205 Section 6-1-1706(3)) | 0.1.0 | released |
+| [post-market-monitoring](post-market-monitoring/SKILL.md) | Post-market monitoring plan (EU AI Act Article 72, ISO/IEC 42001:2023 Clause 9.1, NIST AI RMF MANAGE 4.1 / 4.2, UK ATRS Section Risks) | 0.1.0 | released |
+| [gpai-obligations](gpai-obligations/SKILL.md) | EU AI Act Articles 51 to 55 general-purpose AI (GPAI) obligations: systemic-risk classification, universal Article 53 obligations, Article 54 authorised-representative check, Article 55 systemic-risk additional obligations, downstream-integrator posture | 0.1.0 | released |
+| [human-oversight](human-oversight/SKILL.md) | EU AI Act Article 14, ISO/IEC 42001:2023 Annex A controls A.9.2 / A.9.3 / A.9.4, NIST AI RMF MANAGE 2.3 dedicated human-oversight design (ability coverage, override capability, biometric dual-assignment, operator training, automation bias mitigations) | 0.1.0 | released |
+| [robustness-evaluation](robustness-evaluation/SKILL.md) | Point-in-time robustness evaluation (EU AI Act Article 15, ISO/IEC 42001:2023 Annex A Control A.6.2.4, NIST AI RMF MEASURE 2.5 / 2.6 / 2.7) | 0.1.0 | released |
+| [bias-evaluation](bias-evaluation/SKILL.md) | Fairness and bias evaluation across NYC LL144 Section 5-301 four-fifths rule, EU AI Act Article 10(4), Colorado SB 205 Section 6-1-1702(1), Singapore MAS Veritas (2022), ISO/IEC 42001 Annex A Control A.7.4, and NIST AI RMF MEASURE 2.11 | 0.1.0 | released |
 
 ## Adding a new skill
 

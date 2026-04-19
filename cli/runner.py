@@ -103,6 +103,14 @@ PLUGIN_DISPATCH: dict[str, dict[str, Any]] = {
             ("render_csv", "internal-audit-plan.csv"),
         ],
     },
+    "post-market-monitoring": {
+        "entry": "generate_monitoring_plan",
+        "stem": "post-market-monitoring-plan",
+        "renderers": [
+            ("render_markdown", "post-market-monitoring-plan.md"),
+            ("render_csv", "post-market-monitoring-plan.csv"),
+        ],
+    },
     "gap-assessment": {
         "entry": "generate_gap_assessment",
         "stem": "gap-assessment",
@@ -173,6 +181,7 @@ EXECUTION_ORDER: tuple[str, ...] = (
     "metrics-collector",
     "nonconformity-tracker",
     "internal-audit-planner",
+    "post-market-monitoring",
     "gap-assessment",
     "uk-atrs-recorder",
     "colorado-ai-act-compliance",
@@ -327,6 +336,7 @@ def cmd_run(args: argparse.Namespace) -> int:
         build_metrics_inputs,
         build_nonconformity_inputs,
         build_nyc_inputs,
+        build_post_market_monitoring_inputs,
         build_risk_register_inputs,
         build_role_matrix_inputs,
         build_singapore_inputs,
@@ -405,6 +415,8 @@ def cmd_run(args: argparse.Namespace) -> int:
             return build_nonconformity_inputs(config)
         if name == "internal-audit-planner":
             return build_internal_audit_inputs(config)
+        if name == "post-market-monitoring":
+            return build_post_market_monitoring_inputs(config)
         if name == "gap-assessment":
             rows = shared.get("soa_rows", [])
             gi = build_gap_assessment_inputs(config, soa_rows=rows)

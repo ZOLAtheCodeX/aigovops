@@ -1,0 +1,130 @@
+# AIGovOps Skill Evaluation Harness
+# Skill: gpai-obligations
+# Purpose: validate skill outputs against EU AI Act Articles 51 to 55 (general-
+# purpose AI obligations).
+# Format: input scenario produces expected output structure and citations.
+# Schema: see ../README.md
+# Citation format: see ../../STYLE.md
+#
+# Test cases target SKILL.md v0.1.0 (released). Two scenarios exercise the
+# `gpai-obligations-tracker` plugin: an EU-established standard (non-systemic-
+# risk) provider, and a non-EU systemic-risk provider with an authorised
+# representative and a signed Code of Practice.
+# Validated by Zola Valashiya on 2026-04-18.
+
+test_cases:
+  - id: gpai-obligations-001
+    tier: T1
+    description: |
+      EU-established GPAI provider, standard model below the systemic-risk
+      compute threshold. All Article 53 documentation references supplied.
+      Exercises the universal Article 53 obligations and confirms
+      Article 54 is not applicable. Verifies that Article 55 obligations
+      are absent from the output.
+    input:
+      model_description:
+        model_name: "ExampleLM-7B"
+        model_family: "ExampleLM"
+        parameter_count: "7B"
+        training_compute_flops: 5.0e23
+        training_data_types:
+          - "text-web"
+          - "text-books"
+        training_data_jurisdictions:
+          - "EU"
+          - "USA"
+        modality: "text"
+        release_date: "2026-03-01"
+        model_version: "1.0"
+      provider_role: "eu-established-provider"
+      technical_documentation_ref: "/docs/annex-xi.md"
+      downstream_integrator_docs_ref: "/docs/integrator-guide.md"
+      copyright_policy_ref: "/policies/copyright.md"
+      training_data_summary_ref: "/docs/training-data-summary.md"
+      reviewed_by: "Zola Valashiya (AIGP; LL.M)"
+    expected_outputs:
+      - "systemic_risk_status = 'not-systemic-risk'"
+      - "art_54_status = 'not-applicable'"
+      - "all art_53_obligations entries have status = 'present'"
+      - "art_55_obligations key absent from output"
+      - "citations include 'EU AI Act, Article 53, Paragraph 1, Point (a)'"
+      - "citations include 'EU AI Act, Article 53, Paragraph 1, Point (c)'"
+      - "citations include 'EU AI Act, Annex XI'"
+    clause_references:
+      - "EU AI Act, Article 51, Paragraph 1"
+      - "EU AI Act, Article 53, Paragraph 1, Point (a)"
+      - "EU AI Act, Article 53, Paragraph 1, Point (b)"
+      - "EU AI Act, Article 53, Paragraph 1, Point (c)"
+      - "EU AI Act, Article 53, Paragraph 1, Point (d)"
+      - "EU AI Act, Annex XI"
+    status: validated
+    validated_by: "Zola Valashiya (LL.M Innovation and Technology Law; AIGP) - 2026-04-18"
+    authored_by: "AIGovOps Contributors (Claude Code draft, validated 2026-04-18)"
+
+  - id: gpai-obligations-002
+    tier: T1
+    description: |
+      Non-EU GPAI provider with an authorised representative, designated
+      systemic-risk model, full Article 53 and Article 55 documentation
+      references, and a signed AI Office Code of Practice. Exercises the
+      Article 51 designation pathway, Article 54 satisfaction check,
+      Article 55 systemic-risk obligations, and the Article 55(2)
+      compliance-presumption note.
+    input:
+      model_description:
+        model_name: "ExampleLM-Foundation"
+        model_family: "ExampleLM"
+        parameter_count: "70B"
+        training_compute_flops: 3.0e25
+        training_data_types:
+          - "text-web"
+          - "code"
+          - "image"
+        training_data_jurisdictions:
+          - "EU"
+          - "USA"
+          - "Japan"
+        modality: "multimodal"
+        release_date: "2026-02-15"
+        model_version: "3.0"
+      provider_role: "non-eu-provider-with-representative"
+      authorised_representative:
+        name: "EU Rep GmbH"
+        eu_member_state: "DE"
+        contact: "rep@example.eu"
+      technical_documentation_ref: "/docs/annex-xi.md"
+      downstream_integrator_docs_ref: "/docs/integrator-guide.md"
+      copyright_policy_ref: "/policies/copyright.md"
+      training_data_summary_ref: "/docs/training-data-summary.md"
+      designated_systemic_risk: true
+      systemic_risk_artifacts:
+        model_evaluation_ref: "/eval/state-of-art-eval.json"
+        adversarial_testing_ref: "/eval/adversarial-report.md"
+        systemic_risk_assessment_ref: "/risk/systemic-risk-assessment.md"
+        cybersecurity_measures_ref: "/security/measures.md"
+        serious_incidents_log_ref: "/ops/serious-incidents.log"
+      code_of_practice_status: "signed-full"
+      reviewed_by: "Zola Valashiya (AIGP; LL.M)"
+    expected_outputs:
+      - "systemic_risk_status = 'designated-systemic-risk'"
+      - "art_54_status = 'satisfied'"
+      - "art_55_obligations length = 5 (a, b, c, d, plus 55(2))"
+      - "all art_55_obligations 1(a-d) entries have status = 'present'"
+      - "Article 55(2) entry status = 'signed-full' with presumption note"
+      - "citations include 'EU AI Act, Article 52'"
+      - "citations include 'EU AI Act, Article 55, Paragraph 1, Point (c)'"
+      - "citations include 'EU AI Act, Article 54, Paragraph 1'"
+    clause_references:
+      - "EU AI Act, Article 51, Paragraph 1"
+      - "EU AI Act, Article 52"
+      - "EU AI Act, Article 53, Paragraph 1, Point (a)"
+      - "EU AI Act, Article 54, Paragraph 1"
+      - "EU AI Act, Article 55, Paragraph 1, Point (a)"
+      - "EU AI Act, Article 55, Paragraph 1, Point (b)"
+      - "EU AI Act, Article 55, Paragraph 1, Point (c)"
+      - "EU AI Act, Article 55, Paragraph 1, Point (d)"
+      - "EU AI Act, Article 55, Paragraph 2"
+      - "EU AI Act, Annex XI"
+    status: validated
+    validated_by: "Zola Valashiya (LL.M Innovation and Technology Law; AIGP) - 2026-04-18"
+    authored_by: "AIGovOps Contributors (Claude Code draft, validated 2026-04-18)"

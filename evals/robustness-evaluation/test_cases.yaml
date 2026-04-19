@@ -1,0 +1,181 @@
+# AIGovOps Skill Evaluation Harness
+# Skill: robustness-evaluation
+# Purpose: validate skill outputs against EU AI Act Article 15 paragraphs (1)
+# through (5), ISO/IEC 42001:2023 Annex A Control A.6.2.4, and NIST AI RMF
+# MEASURE 2.5 / 2.6 / 2.7.
+# Format: input scenario produces expected output structure and citations.
+# Schema: see ../README.md
+# Citation format: see ../../STYLE.md
+#
+# Test cases target SKILL.md v0.1.0 (released). Both scenarios exercise the
+# `robustness-evaluator` plugin. The first is a healthcare triage AI with
+# full Article 15 coverage. The second is a customer-support chatbot with
+# partial coverage that surfaces the BLOCKING warnings the plugin is
+# designed to emit.
+# Validated by Zola Valashiya on 2026-04-18.
+
+test_cases:
+  - id: robustness-evaluation-001
+    tier: T1
+    description: |
+      Healthcare triage AI, EU high-risk, full Article 15 coverage. Exercises
+      the tri-requirement under Paragraph 1, the instructions-for-use action
+      item under Paragraph 2, the backup-plan check under Paragraph 3, the
+      adversarial posture aggregation under Paragraph 4, and the concept-drift
+      check under Paragraph 5. Third-party-audit independence so no Article 43
+      note is emitted.
+    input:
+      system_description:
+        system_id: "sys-triage-eu-001"
+        system_name: "Sepsis triage assistant v3"
+        risk_tier: "high"
+        jurisdiction: "eu"
+        continuous_learning: false
+      evaluation_scope:
+        dimensions:
+          - "accuracy"
+          - "robustness"
+          - "cybersecurity"
+          - "adversarial-robustness"
+          - "data-poisoning-resistance"
+          - "model-evasion-resistance"
+          - "confidentiality"
+          - "fail-safe-design"
+        evaluation_date: "2026-04-15"
+        evaluator_identity: "ACME Independent Evaluators GmbH"
+        evaluator_independence: "third-party-audit"
+      evaluation_results:
+        accuracy:
+          test_method: "holdout"
+          dataset_ref: "test-data-2026-04-10"
+          primary_metric: "F1"
+          metric_value: 0.84
+          declared_threshold: 0.80
+          pass: true
+          evidence_ref: "reports/accuracy-2026-04-10.pdf"
+        robustness:
+          test_method: "stress-test"
+          dataset_ref: "stress-2026-04-10"
+          resilience_level: "verified-adequate"
+          evidence_ref: "reports/robustness-2026-04-10.pdf"
+        cybersecurity:
+          test_method: "red-team-engagement"
+          resilience_level: "verified-adequate"
+          attack_types_tested:
+            - "prompt-injection"
+            - "evasion"
+            - "data-exfiltration"
+          evidence_ref: "reports/cyber-2026-04-10.pdf"
+        adversarial-robustness:
+          test_method: "adversarial-test"
+          resilience_level: "verified-strong"
+          evidence_ref: "reports/adv-2026-04-10.pdf"
+        data-poisoning-resistance:
+          test_method: "poisoning-simulation"
+          resilience_level: "verified-adequate"
+          evidence_ref: "reports/poison-2026-04-10.pdf"
+        model-evasion-resistance:
+          test_method: "evasion-attack-simulation"
+          resilience_level: "verified-adequate"
+          evidence_ref: "reports/evasion-2026-04-10.pdf"
+        confidentiality:
+          test_method: "membership-inference-test"
+          resilience_level: "verified-adequate"
+          evidence_ref: "reports/conf-2026-04-10.pdf"
+        fail-safe-design:
+          test_method: "stress-test"
+          resilience_level: "verified-strong"
+          evidence_ref: "reports/failsafe-2026-04-10.pdf"
+      backup_plan_ref: "docs/sepsis-triage-fail-safe.pdf"
+      concept_drift_monitoring_ref: "docs/sepsis-triage-drift-plan.pdf"
+      reviewed_by: "Zola Valashiya (AIGP; LL.M)"
+    expected_outputs:
+      - "art_15_applicability == 'mandatory'"
+      - "summary.blocking_warnings == 0"
+      - "art_15_2_declaration_status is not None and primary_metric == 'F1' and declared_threshold == 0.80"
+      - "backup_plan_status.satisfied is True"
+      - "concept_drift_monitoring_status.satisfied is True"
+      - "adversarial_posture.overall_adversarial_posture == 'verified-adequate'"
+      - "evaluator_independence_note is None"
+      - "citations include 'EU AI Act, Article 15, Paragraph 1'"
+      - "citations include 'ISO/IEC 42001:2023, Annex A, Control A.6.2.4'"
+      - "citations include 'MEASURE 2.5'"
+      - "citations include 'MEASURE 2.6'"
+      - "citations include 'MEASURE 2.7'"
+    clause_references:
+      - "EU AI Act, Article 15, Paragraph 1"
+      - "EU AI Act, Article 15, Paragraph 2"
+      - "EU AI Act, Article 15, Paragraph 3"
+      - "EU AI Act, Article 15, Paragraph 4"
+      - "EU AI Act, Article 15, Paragraph 5"
+      - "ISO/IEC 42001:2023, Annex A, Control A.6.2.4"
+      - "MEASURE 2.5"
+      - "MEASURE 2.6"
+      - "MEASURE 2.7"
+    status: validated
+    validated_by: "Zola Valashiya (LL.M Innovation and Technology Law; AIGP) - 2026-04-18"
+    authored_by: "AIGovOps Contributors (Claude Code draft, validated 2026-04-18)"
+
+  - id: robustness-evaluation-002
+    tier: T1
+    description: |
+      Customer-support chatbot, EU high-risk (per organizational over-tagging),
+      partial Article 15 coverage. Exercises the BLOCKING warning paths: missing
+      cybersecurity dimension under Paragraph 1, missing backup_plan_ref under
+      Paragraph 3, internal-team evaluator independence triggering the Article 43
+      note. Continuous-learning flag set without concept_drift_monitoring_ref to
+      exercise the Paragraph 5 warning.
+    input:
+      system_description:
+        system_id: "sys-chatbot-eu-002"
+        system_name: "Customer support chatbot v1"
+        risk_tier: "high"
+        jurisdiction: "eu"
+        continuous_learning: true
+      evaluation_scope:
+        dimensions:
+          - "accuracy"
+          - "robustness"
+          - "continuous-learning-controls"
+        evaluation_date: "2026-04-15"
+        evaluator_identity: "Internal AI Quality Team"
+        evaluator_independence: "internal-team"
+      evaluation_results:
+        accuracy:
+          test_method: "holdout"
+          dataset_ref: "chatbot-test-2026-04-08"
+          primary_metric: "answer-accuracy"
+          metric_value: 0.62
+          declared_threshold: 0.70
+          pass: false
+          evidence_ref: "reports/chatbot-accuracy-2026-04-08.pdf"
+        robustness:
+          test_method: "fuzz-test"
+          resilience_level: "verified-weak"
+          evidence_ref: "reports/chatbot-robust-2026-04-08.pdf"
+        continuous-learning-controls:
+          test_method: "stress-test"
+          resilience_level: "verified-weak"
+          evidence_ref: "reports/chatbot-cl-2026-04-08.pdf"
+      reviewed_by: "Zola Valashiya (AIGP; LL.M)"
+    expected_outputs:
+      - "art_15_applicability == 'mandatory'"
+      - "summary.blocking_warnings >= 2"
+      - "any warning mentions 'cybersecurity'"
+      - "any warning mentions 'backup_plan_ref'"
+      - "any warning mentions 'concept_drift_monitoring_ref'"
+      - "evaluator_independence_note is not None and 'Article 43' in evaluator_independence_note"
+      - "summary.failed_dimensions includes 'accuracy'"
+      - "art_15_2_declaration_status is not None"
+      - "backup_plan_status.satisfied is False"
+      - "concept_drift_monitoring_status.satisfied is False"
+    clause_references:
+      - "EU AI Act, Article 15, Paragraph 1"
+      - "EU AI Act, Article 15, Paragraph 2"
+      - "EU AI Act, Article 15, Paragraph 3"
+      - "EU AI Act, Article 15, Paragraph 5"
+      - "EU AI Act, Article 43"
+      - "ISO/IEC 42001:2023, Annex A, Control A.6.2.4"
+    status: validated
+    validated_by: "Zola Valashiya (LL.M Innovation and Technology Law; AIGP) - 2026-04-18"
+    authored_by: "AIGovOps Contributors (Claude Code draft, validated 2026-04-18)"

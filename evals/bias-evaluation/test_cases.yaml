@@ -1,0 +1,136 @@
+# AIGovOps Skill Evaluation Harness
+# Skill: bias-evaluation
+# Purpose: validate skill outputs against the metric definitions, rule
+#          tables, and citation prefixes documented in SKILL.md.
+# Format: input scenario produces expected metric values, rule findings,
+#          and citation prefixes.
+# Schema: see ../README.md
+# Citation format: see ../../STYLE.md
+#
+# Test case status legend:
+#   stub      placeholder content, no validation against the standard
+#   validated content grounded in the published source; validated_by populated
+#   deprecated superseded; kept for history
+
+test_cases:
+  - id: bias-evaluation-001
+    description: |
+      Employment-context AEDT subject to NYC LL144, Colorado SB 205, and
+      EU AI Act Article 10(4) jurisdictional rules. Tests the canonical
+      multi-jurisdiction case: a screening tool used by an employer with a
+      NYC footprint, a Colorado deployment surface, and an EU
+      deployer-of-record. Selection rates produce an impact ratio of 0.75
+      (below the four-fifths threshold), so the NYC rule fails with a
+      disparate-impact concern; Colorado and EU rules are also applied.
+    input:
+      system_description:
+        system_name: "ResumeScreen-X"
+        purpose: "Pre-screen candidate resumes for an interview short-list."
+        decision_authority: "decision-support"
+        sector: "employment"
+      evaluation_data:
+        dataset_ref: "Q2-2026 candidate pool, NYC Region"
+        evaluation_date: "2026-04-15"
+        sample_size: 4000
+        ground_truth_available: false
+        per_group_counts:
+          "race:white":
+            total: 2000
+            selected: 800
+          "race:black":
+            total: 2000
+            selected: 600
+      protected_attributes:
+        - attribute_name: "race"
+          categories_present: ["white", "black"]
+      metrics_to_compute:
+        - "selection-rate"
+        - "impact-ratio"
+        - "demographic-parity-difference"
+      jurisdiction_rules:
+        - "nyc-ll144-4-5ths"
+        - "colorado-sb-205-reasonable-care"
+        - "eu-ai-act-art-10-4"
+      organizational_thresholds:
+        demographic-parity-difference: 0.05
+      minimum_group_size: 100
+    expected_outputs:
+      - "per_metric_results contains selection-rate with per-group rates 0.40 (white) and 0.30 (black)."
+      - "per_metric_results contains impact-ratio with value 0.75 (below the 0.8 four-fifths threshold)."
+      - "per_metric_results contains demographic-parity-difference with value 0.10."
+      - "rule_findings[nyc-ll144-4-5ths] status is fail-disparate-impact-concern with citation 'NYC LL144 Final Rule, Section 5-301'."
+      - "rule_findings[colorado-sb-205-reasonable-care] status is reasonable-care-documented with citation 'Colorado SB 205, Section 6-1-1702(1)'."
+      - "rule_findings[eu-ai-act-art-10-4] organizational_threshold_status is concern-exceeds-organizational-threshold (0.10 > 0.05) with citation 'EU AI Act, Article 10, Paragraph 4'."
+      - "Top-level citations include 'NIST AI RMF, MEASURE 2.11', 'ISO/IEC 42001:2023, Annex A, Control A.7.4', and 'ISO/IEC TR 24027:2021'."
+      - "underpowered_groups is empty (both groups exceed minimum_group_size=100)."
+    clause_references:
+      - "NYC LL144 Final Rule, Section 5-301"
+      - "Colorado SB 205, Section 6-1-1702(1)"
+      - "EU AI Act, Article 10, Paragraph 4"
+      - "NIST AI RMF, MEASURE 2.11"
+      - "ISO/IEC 42001:2023, Annex A, Control A.7.4"
+    status: validated
+    validated_by: "Zola Valashiya (ISO/IEC 42001 Lead Implementer; NIST AI RMF practitioner; AIGP; CIPT) - 2026-04-18"
+    authored_by: "AIGovOps Contributors (Claude Code draft)"
+
+  - id: bias-evaluation-002
+    description: |
+      Standalone NIST MEASURE 2.11 evaluation for a credit-scoring model.
+      Tests the framework-only case: NIST AI RMF MEASURE 2.11 plus
+      ISO 42001 Annex A Control A.7.4, no jurisdiction-specific rules.
+      Ground truth is available so equalized-odds-difference is computed.
+      Demonstrates the protected-group breakdown and the
+      requires-ground-truth pathway not being triggered.
+    input:
+      system_description:
+        system_name: "CreditDecisionAssist"
+        purpose: "Score consumer loan applications for risk-adjusted approval recommendations."
+        decision_authority: "decision-support"
+        sector: "credit"
+      evaluation_data:
+        dataset_ref: "Q1-2026 holdout test set, balanced by sex"
+        evaluation_date: "2026-04-10"
+        sample_size: 5000
+        ground_truth_available: true
+        per_group_counts:
+          "sex:male":
+            total: 2500
+            selected: 1100
+            true_positive: 950
+            false_positive: 150
+            true_negative: 1300
+            false_negative: 100
+          "sex:female":
+            total: 2500
+            selected: 950
+            true_positive: 800
+            false_positive: 150
+            true_negative: 1310
+            false_negative: 240
+      protected_attributes:
+        - attribute_name: "sex"
+          categories_present: ["male", "female"]
+      metrics_to_compute:
+        - "selection-rate"
+        - "impact-ratio"
+        - "equalized-odds-difference"
+        - "predictive-parity-difference"
+      jurisdiction_rules:
+        - "nist-measure-2-11"
+        - "iso-42001-a-7-4"
+      minimum_group_size: 500
+    expected_outputs:
+      - "per_metric_results contains selection-rate per group, impact-ratio, equalized-odds-difference, and predictive-parity-difference, all with non-null values."
+      - "equalized-odds-difference computed (not requires-ground-truth) because ground_truth_available=true."
+      - "rule_findings[nist-measure-2-11] status is evaluated with citation 'NIST AI RMF, MEASURE 2.11'."
+      - "rule_findings[iso-42001-a-7-4] status is data-quality-evidence-present with citation 'ISO/IEC 42001:2023, Annex A, Control A.7.4'."
+      - "Top-level citations include both anchors plus the advisory 'ISO/IEC TR 24027:2021'."
+      - "underpowered_groups is empty (both groups have N=2500)."
+      - "summary.metrics_with_value contains all four requested metrics."
+    clause_references:
+      - "NIST AI RMF, MEASURE 2.11"
+      - "ISO/IEC 42001:2023, Annex A, Control A.7.4"
+      - "ISO/IEC TR 24027:2021"
+    status: validated
+    validated_by: "Zola Valashiya (ISO/IEC 42001 Lead Implementer; NIST AI RMF practitioner; AIGP; CIPT) - 2026-04-18"
+    authored_by: "AIGovOps Contributors (Claude Code draft)"

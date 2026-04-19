@@ -39,12 +39,14 @@ When referencing the framework as a whole on first use, write `NIST AI Risk Mana
 
 ### EU AI Act (Regulation (EU) 2024/1689)
 
-Format: `EU AI Act, Article XX, Paragraph X` where applicable.
+Format: `EU AI Act, Article XX, Paragraph X` where applicable. When citing a lettered point inside a paragraph (used heavily in Articles 53 and 55), append `, Point (X)` with the letter in parentheses as it appears in the codified text.
 
 Examples:
 
 - `EU AI Act, Article 9, Paragraph 2`
 - `EU AI Act, Article 14`
+- `EU AI Act, Article 53, Paragraph 1, Point (a)`
+- `EU AI Act, Article 55, Paragraph 1, Point (c)`
 - `EU AI Act, Annex III, Point 5`
 
 For Recitals: `EU AI Act, Recital XX`. For Annexes: `EU AI Act, Annex X, Point Y`.

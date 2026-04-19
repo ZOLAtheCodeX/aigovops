@@ -48,6 +48,9 @@ See [cli/README.md](cli/README.md) for the full subcommand reference and the `or
 | [ai-system-inventory](skills/ai-system-inventory/SKILL.md) | AI system inventory operationalization (ISO/IEC 42001:2023 Clause 4.3 and 7.5, NIST AI RMF GOVERN 1.6, EU AI Act Article 11, UK ATRS, Colorado SB 205) | 0.1.0 |
 | [evidence-bundle](skills/evidence-bundle/SKILL.md) | Evidence bundle packaging for audits, attestations, and regulatory submissions (ISO/IEC 42001:2023 Clause 7.5.3, NIST AI RMF MANAGE 4.2, EU AI Act Articles 11 and 12 and 19, UK ATRS Section Impact assessment) | 0.1.0 |
 | [certification-readiness](skills/certification-readiness/SKILL.md) | Certification readiness assessment. Consumer of evidence bundles; returns graduated readiness verdict (ISO/IEC 42001:2023 Clauses 9.2, 9.3, 10.1; EU AI Act Article 43; Colorado SB 205 Section 6-1-1706(3)) | 0.1.0 |
+| [bias-evaluation](skills/bias-evaluation/SKILL.md) | Fairness and bias evaluation operationalization across NYC LL144 four-fifths rule, EU AI Act Article 10(4), Colorado SB 205, Singapore MAS Veritas, ISO/IEC 42001 A.7.4, and NIST AI RMF MEASURE 2.11 | 0.1.0 |
+| [post-market-monitoring](skills/post-market-monitoring/SKILL.md) | Post-market monitoring plan (EU AI Act Article 72, ISO/IEC 42001:2023 Clause 9.1, NIST MANAGE 4.1 / 4.2, UK ATRS Section Risks) | 0.1.0 |
+| [human-oversight](skills/human-oversight/SKILL.md) | Human-oversight design (EU AI Act Article 14, ISO/IEC 42001:2023 Annex A controls A.9.2 / A.9.3 / A.9.4, NIST AI RMF MANAGE 2.3) | 0.1.0 |
 
 ## Plugins
 
@@ -76,6 +79,11 @@ See [cli/README.md](cli/README.md) for the full subcommand reference and the `or
 | [supplier-vendor-assessor](plugins/supplier-vendor-assessor/) | ISO 42001 A.10, EU AI Act Article 25, and NYC LL144 Section 5-300 supplier and vendor assessment record (JSON + Markdown + CSV) | 0.1.0 |
 | [evidence-bundle-packager](plugins/evidence-bundle-packager/) | Deterministic, optionally HMAC-SHA256 signed evidence bundle of plugin artifacts for audits, attestations, and regulatory submissions (JSON + Markdown + CSV) | 0.1.0 |
 | [certification-readiness](plugins/certification-readiness/) | Consumer plugin. Graduated readiness verdict against a target certification with evidence completeness, gaps, blockers, and curated remediations (JSON + Markdown + CSV) | 0.1.0 |
+| [post-market-monitoring](plugins/post-market-monitoring/) | EU AI Act Article 72, ISO/IEC 42001:2023 Clause 9.1, NIST MANAGE 4.1 / 4.2 post-market monitoring plan with per-dimension rows, trigger catalogue, Chapter III alignment, continuous-improvement loop, and review schedule (JSON + Markdown + CSV) | 0.1.0 |
+| [gpai-obligations-tracker](plugins/gpai-obligations-tracker/) | EU AI Act Articles 51 to 55 GPAI obligations: systemic-risk classification, universal Article 53 obligations, Article 54 authorised-representative check, Article 55 systemic-risk additional obligations, downstream-integrator posture (JSON + Markdown + CSV) | 0.1.0 |
+| [human-oversight-designer](plugins/human-oversight-designer/) | EU AI Act Article 14, ISO/IEC 42001:2023 Annex A controls A.9.2 / A.9.3 / A.9.4, and NIST AI RMF MANAGE 2.3 dedicated human-oversight design artifact with ability coverage, override capability, biometric dual-assignment verification per Article 14(5), operator training assessment, automation bias mitigations, and assigned oversight personnel (JSON + Markdown + CSV) | 0.1.0 |
+| [robustness-evaluator](plugins/robustness-evaluator/) | Point-in-time robustness evaluation record for EU AI Act Article 15, ISO/IEC 42001 Annex A Control A.6.2.4, and NIST AI RMF MEASURE 2.5 / 2.6 / 2.7 with adversarial-posture aggregation and lifecycle trend (JSON + Markdown + CSV) | 0.1.0 |
+| [bias-evaluator](plugins/bias-evaluator/) | Standard fairness metrics per protected-attribute group with NYC LL144 four-fifths rule, EU AI Act Article 10(4), Colorado SB 205 reasonable-care, Singapore MAS Veritas, ISO 42001 A.7.4, and NIST MEASURE 2.11 jurisdictional rule application (JSON + Markdown + CSV) | 0.1.0 |
 
 ## Bundles
 

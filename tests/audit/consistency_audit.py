@@ -54,6 +54,11 @@ PLUGIN_PUBLIC_FUNCTIONS = {
     "evidence-bundle-packager": ["pack_bundle", "verify_bundle", "inspect_bundle", "render_markdown", "render_csv"],
     "supplier-vendor-assessor": ["assess_vendor", "render_markdown", "render_csv"],
     "certification-readiness": ["assess_readiness", "render_markdown", "render_csv"],
+    "post-market-monitoring": ["generate_monitoring_plan", "render_markdown", "render_csv"],
+    "gpai-obligations-tracker": ["assess_gpai_obligations", "render_markdown", "render_csv"],
+    "robustness-evaluator": ["evaluate_robustness", "render_markdown", "render_csv"],
+    "human-oversight-designer": ["design_human_oversight", "render_markdown", "render_csv"],
+    "bias-evaluator": ["evaluate_bias", "render_markdown", "render_csv"],
 }
 
 

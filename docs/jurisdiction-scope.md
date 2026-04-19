@@ -18,7 +18,7 @@ These receive first-class skills, plugins, and eval coverage. They are the defau
 | Jurisdiction | Instrument | Rationale |
 |---|---|---|
 | USA | NIST AI RMF 1.0 + AI 600-1 Generative AI Profile | Most-referenced voluntary AI governance framework globally. Federal contractor baseline emerging. |
-| EU | EU AI Act (Regulation (EU) 2024/1689); Articles 5, 6, 50; Annex I; Annex III; Articles 26-27 | Directly applicable law for any AI system within EU territorial scope. Extraterritorial reach. |
+| EU | EU AI Act (Regulation (EU) 2024/1689); Articles 5, 6, 50; Annex I; Annex III; Articles 26-27; Articles 51-55 (GPAI obligations) | Directly applicable law for any AI system within EU territorial scope. Extraterritorial reach. GPAI obligations covered by `gpai-obligations-tracker` plugin and `gpai-obligations` skill. |
 | International | ISO/IEC 42001:2023 | Certification-grade AI management system standard. Referenced by every other jurisdiction-specific framework as the operational baseline. |
 
 ## Secondary jurisdictions (next-tier coverage)

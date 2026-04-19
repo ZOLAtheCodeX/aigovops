@@ -933,20 +933,21 @@ mappings:
     notes: "ISO 42001 contains no explicit explainability or interpretability mandate. A.8.2 (system documentation) addresses transparency to users but not model-level explainability."
     bidirectional: false
 
-  - id: nist-ai-rmf--measure-2-11--iso42001--no-equivalent
+  - id: nist-ai-rmf--measure-2-11--iso42001--a-7-4
     source_framework: nist-ai-rmf
     source_ref: "MEASURE 2.11"
     source_title: "Fairness and bias evaluated"
     target_framework: iso42001
-    target_ref: ""
-    target_title: ""
-    relationship: no-mapping
+    target_ref: "A.7.4"
+    target_title: "Quality of data for AI systems"
+    relationship: partial-match
     confidence: high
     citation_sources:
       - publication: "NIST AI 600-1 Appendix A"
         date: "2024-07"
-    notes: "ISO 42001 has no dedicated bias-testing control. Fairness considerations are implicit in A.5.4 (impact assessment) but no subcategory requires bias evaluation metrics."
-    bidirectional: false
+      - publication: "ISO/IEC TR 24027:2021"
+    notes: "A.7.4 quality-of-data control partially addresses MEASURE 2.11 because dataset composition is the primary upstream driver of measured group-level disparity. Explicit bias-evaluation methodology comes from MEASURE 2.11 itself; ISO/IEC TR 24027:2021 is the advisory technical report on bias in AI systems and AI aided decision making. ISO 42001 A.5.4 impact assessment provides complementary but non-equivalent coverage."
+    bidirectional: true
 
   - id: nist-ai-rmf--measure-2-12--iso42001--no-equivalent
     source_framework: nist-ai-rmf
@@ -1078,3 +1079,33 @@ mappings:
       - publication: "practitioner-inference"
     notes: "ISO Clause 7.5.3 retention-of-documented-information discipline supplies the evidence-retention substrate that NIST MANAGE 4.1 post-deployment monitoring requires to be auditable. Partial-match because MANAGE 4.1 covers monitoring activity planning beyond pure documentation retention."
     bidirectional: false
+
+  - id: iso42001--clause-9-1--nist-ai-rmf--manage-4-1
+    source_framework: iso42001
+    source_ref: "Clause 9.1"
+    source_title: "Monitoring, measurement, analysis, evaluation"
+    target_framework: nist-ai-rmf
+    target_ref: "MANAGE 4.1"
+    target_title: "Post-deployment monitoring planned"
+    relationship: exact-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    notes: "ISO Clause 9.1 monitoring scheme aligns directly with the NIST MANAGE 4.1 post-deployment monitoring posture. Both require documented monitoring activity planned ahead of deployment."
+    bidirectional: true
+
+  - id: iso42001--clause-9-1--nist-ai-rmf--manage-4-2
+    source_framework: iso42001
+    source_ref: "Clause 9.1"
+    source_title: "Monitoring, measurement, analysis, evaluation"
+    target_framework: nist-ai-rmf
+    target_ref: "MANAGE 4.2"
+    target_title: "Continual improvement activities integrated into AI system updates"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+    notes: "ISO Clause 9.1 anchors the monitoring evidence stream that feeds NIST MANAGE 4.2 continual improvement activities. Partial-match because MANAGE 4.2 emphasizes integration into AI system updates beyond monitoring scheme alone."
+    bidirectional: true

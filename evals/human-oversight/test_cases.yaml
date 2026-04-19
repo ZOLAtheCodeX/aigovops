@@ -1,0 +1,201 @@
+# AIGovOps Skill Evaluation Harness
+# Skill: human-oversight
+# Purpose: validate human-oversight design artifacts against EU AI Act
+#          Article 14, ISO/IEC 42001:2023 Annex A controls A.9.2 to A.9.4,
+#          and NIST AI RMF MANAGE 2.3.
+# Format: input scenario produces expected artifact structure and clause
+#         references.
+# Schema: see ../README.md
+# Citation format: see ../../STYLE.md
+#
+# Test case status legend:
+#   stub      placeholder content, no validation against standard
+#   validated content grounded in published framework text; validated_by populated
+#   deprecated superseded; kept for history
+#
+# Test cases below target SKILL.md v0.1.0. Validated by Zola Valashiya
+# (AIGP, ISO/IEC 42001 Lead Implementer) on 2026-04-18 against the
+# published EU AI Act (Regulation (EU) 2024/1689), ISO/IEC 42001:2023,
+# and NIST AI RMF 1.0 text.
+
+test_cases:
+  - id: human-oversight-001
+    status: validated
+    validated_by: Zola Valashiya, 2026-04-18
+    description: |
+      Annex III high-risk system (resume screening) with full Article 14(4)
+      ability coverage, present and recently-tested override controls, two
+      assigned oversight personnel with authoritative authority, documented
+      automation bias mitigations, and 95 percent operator training
+      completion. Validates that the design plugin emits art_14_applicability
+      = applies, ability status = full-coverage, no blocking findings, and
+      a complete citation block.
+    input:
+      system_description:
+        system_id: SYS-RES-001
+        system_name: ResumeScreen
+        intended_use: "Rank candidate resumes against job posting for human reviewer consideration."
+        risk_tier: "high-risk-annex-iii"
+        jurisdiction: "EU"
+        deployment_context: "Internal HR workflow; no automated rejection; human makes every advance or reject decision."
+        decision_authority: "decision-support"
+        biometric_identification_system: false
+      oversight_design:
+        mode: "human-in-the-loop"
+        ability_coverage:
+          understand:
+            enabled: true
+            mechanism: "model card plus operator training"
+            evidence_ref: "docs/modelcard-resumescreen.md"
+          awareness-of-automation-bias:
+            enabled: true
+            mechanism: "anti-bias training module plus periodic dashboard reminders"
+            evidence_ref: "docs/training-bias-module.md"
+          correctly-interpret:
+            enabled: true
+            mechanism: "interpretability dashboard plus per-decision rationale"
+            evidence_ref: "docs/interpretability-dashboard-spec.md"
+          decide-not-to-use:
+            enabled: true
+            mechanism: "policy override and reviewer dismissal"
+            evidence_ref: "docs/override-policy.md"
+          intervene-or-stop:
+            enabled: true
+            mechanism: "stop button on reviewer dashboard"
+            evidence_ref: "docs/stop-button-spec.md"
+        override_controls:
+          - control_name: "reviewer-dashboard-stop"
+            control_type: "stop-button"
+            activation_latency_seconds: 2
+            tested_date: "2026-04-01"
+            tested_by: "QA Engineer"
+          - control_name: "decision-delay-and-review"
+            control_type: "delay-and-review"
+            activation_latency_seconds: 10
+            tested_date: "2026-03-15"
+            tested_by: "QA Engineer"
+        operator_training:
+          curriculum_ref: "docs/curriculum-v2.md"
+          assessment_ref: "docs/assessment-v2.md"
+          completion_rate_percent: 95
+          annual_refresh: true
+        automation_bias_mitigations:
+          - mitigation_name: "confidence-display"
+            rationale: "Show prediction confidence so reviewer calibrates trust."
+            reference: "docs/ui-spec.md"
+          - mitigation_name: "rationale-required-on-accept"
+            rationale: "Reviewer must record rationale for accepting model recommendation."
+            reference: "docs/policy-rationale.md"
+        escalation_paths:
+          - trigger_condition: "model-confidence-below-threshold"
+            recipient_role: "Senior HR Reviewer"
+            response_sla_hours: 4
+      assigned_oversight_personnel:
+        - person_role: "HR Reviewer"
+          authority_level: "sole-authority"
+          training_evidence_ref: "docs/hr-reviewer-training-2026.md"
+        - person_role: "HR Manager"
+          authority_level: "veto-authority"
+          training_evidence_ref: "docs/hr-manager-training-2026.md"
+    expected_outputs:
+      - "art_14_applicability = applies"
+      - "ability_coverage_assessment.status = full-coverage"
+      - "5 of 5 ability rows enabled with mechanism and evidence_ref populated"
+      - "override_capability_assessment.rows count = 2 with no per-control warnings"
+      - "mode_validation.blocking_finding = false"
+      - "operator_training_assessment includes completion_rate_percent = 95 and annual_refresh = true"
+      - "automation_bias_mitigations_echo count = 2"
+      - "Citations include: EU AI Act, Article 14, Paragraph 1 through 5"
+      - "Citations include: ISO/IEC 42001:2023, Annex A, Control A.9.2 / A.9.3 / A.9.4"
+      - "Citations include: MANAGE 2.3"
+    clause_references:
+      - "EU AI Act, Article 14, Paragraph 1"
+      - "EU AI Act, Article 14, Paragraph 2"
+      - "EU AI Act, Article 14, Paragraph 3"
+      - "EU AI Act, Article 14, Paragraph 4"
+      - "ISO/IEC 42001:2023, Annex A, Control A.9.2"
+      - "ISO/IEC 42001:2023, Annex A, Control A.9.3"
+      - "ISO/IEC 42001:2023, Annex A, Control A.9.4"
+      - "MANAGE 2.3"
+
+  - id: human-oversight-002
+    status: validated
+    validated_by: Zola Valashiya, 2026-04-18
+    description: |
+      Remote biometric identification system (border control) with two
+      assigned authoritative oversight personnel as required by Article
+      14(5). Validates that the biometric_dual_assignment_check is
+      satisfied with authoritative_personnel_count = 2 and emits the
+      Article 14, Paragraph 5 citation. Mode is human-in-the-loop and
+      override controls are present and recently tested.
+    input:
+      system_description:
+        system_id: SYS-BIO-001
+        system_name: BorderID
+        intended_use: "Remote biometric identification at border control."
+        risk_tier: "high-risk-annex-iii"
+        jurisdiction: "EU"
+        deployment_context: "Land border control checkpoint, supervised lane."
+        decision_authority: "decision-support"
+        biometric_identification_system: true
+      oversight_design:
+        mode: "human-in-the-loop"
+        ability_coverage:
+          understand:
+            enabled: true
+            mechanism: "officer training plus model card"
+            evidence_ref: "docs/borderid-modelcard.md"
+          awareness-of-automation-bias:
+            enabled: true
+            mechanism: "officer anti-bias training"
+            evidence_ref: "docs/officer-bias-training.md"
+          correctly-interpret:
+            enabled: true
+            mechanism: "match-score display with confidence band"
+            evidence_ref: "docs/match-score-display.md"
+          decide-not-to-use:
+            enabled: true
+            mechanism: "officer can decline match and route to manual identification"
+            evidence_ref: "docs/manual-route-procedure.md"
+          intervene-or-stop:
+            enabled: true
+            mechanism: "supervisor stop authority"
+            evidence_ref: "docs/supervisor-stop-procedure.md"
+        override_controls:
+          - control_name: "supervisor-halt"
+            control_type: "stop-button"
+            activation_latency_seconds: 1
+            tested_date: "2026-04-10"
+            tested_by: "Border Control Supervisor"
+        operator_training:
+          curriculum_ref: "docs/officer-curriculum-v3.md"
+          assessment_ref: "docs/officer-assessment-v3.md"
+          completion_rate_percent: 100
+          annual_refresh: true
+        automation_bias_mitigations:
+          - mitigation_name: "two-person-confirmation"
+            rationale: "Article 14(5) statutory dual-person verification operationalized as second officer review."
+            reference: "docs/two-person-confirmation-procedure.md"
+        escalation_paths:
+          - trigger_condition: "match-confidence-below-threshold"
+            recipient_role: "Senior Border Officer"
+            response_sla_hours: 1
+      assigned_oversight_personnel:
+        - person_role: "Border Control Officer (primary)"
+          authority_level: "shared-authority"
+          training_evidence_ref: "docs/officer1-training.md"
+        - person_role: "Border Control Officer (verifier)"
+          authority_level: "shared-authority"
+          training_evidence_ref: "docs/officer2-training.md"
+    expected_outputs:
+      - "art_14_applicability = applies"
+      - "biometric_dual_assignment_check.satisfied = true"
+      - "biometric_dual_assignment_check.authoritative_personnel_count = 2"
+      - "biometric_dual_assignment_check.citation = EU AI Act, Article 14, Paragraph 5"
+      - "ability_coverage_assessment.status = full-coverage"
+      - "mode_validation.blocking_finding = false"
+      - "Citations include: EU AI Act, Article 14, Paragraph 5"
+    clause_references:
+      - "EU AI Act, Article 14, Paragraph 5"
+      - "ISO/IEC 42001:2023, Annex A, Control A.9.2"
+      - "MANAGE 2.3"

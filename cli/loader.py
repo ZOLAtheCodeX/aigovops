@@ -323,6 +323,68 @@ def build_internal_audit_inputs(config: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def build_post_market_monitoring_inputs(config: dict[str, Any]) -> dict[str, Any]:
+    """Build inputs for the post-market-monitoring plugin.
+
+    Default behavior: pick the first ai_system in the inventory and emit a
+    minimal monitoring plan covering accuracy, user-feedback, and
+    incident-rate. Organizations override via
+    ``post_market_monitoring_inputs`` in organization.yaml.
+    """
+    override = section(config, "post_market_monitoring_inputs") or {}
+    systems = ai_systems(config)
+    if override.get("system_description"):
+        system_description = override["system_description"]
+    elif systems:
+        first = systems[0]
+        system_description = {
+            "system_id": first.get("system_id") or first.get("system_ref") or "system-001",
+            "system_name": first.get("system_name") or "Unnamed AI system",
+            "intended_use": first.get("intended_use") or "Not specified",
+            "risk_tier": first.get("risk_tier") or "limited-risk",
+            "jurisdiction": first.get("jurisdiction") or "us",
+            "deployment_context": first.get("deployment_context") or "production",
+            "lifecycle_state": first.get("lifecycle_state") or "in-service",
+        }
+    else:
+        system_description = {
+            "system_id": "system-001",
+            "system_name": "Unnamed AI system",
+            "intended_use": "Not specified",
+            "risk_tier": "limited-risk",
+            "jurisdiction": "us",
+            "deployment_context": "production",
+            "lifecycle_state": "in-service",
+        }
+    monitoring_scope = override.get(
+        "monitoring_scope",
+        {
+            "dimensions_monitored": ["accuracy", "user-feedback", "incident-rate"],
+            "chapter_iii_requirements_in_scope": [],
+            "systems_in_program": [system_description["system_id"]],
+        },
+    )
+    cadence = override.get("cadence", "quarterly")
+    inputs = {
+        "system_description": system_description,
+        "monitoring_scope": monitoring_scope,
+        "cadence": cadence,
+        "reviewed_by": override.get("reviewed_by", f"{organization_name(config)} CLI run"),
+    }
+    for opt in (
+        "data_collection",
+        "thresholds",
+        "responsibilities",
+        "previous_plan_ref",
+        "plan_review_interval_months",
+        "trigger_catalogue",
+        "enrich_with_crosswalk",
+    ):
+        if opt in override:
+            inputs[opt] = override[opt]
+    return inputs
+
+
 def build_gap_assessment_inputs(
     config: dict[str, Any], soa_rows: list[dict[str, Any]] | None = None
 ) -> dict[str, Any]:

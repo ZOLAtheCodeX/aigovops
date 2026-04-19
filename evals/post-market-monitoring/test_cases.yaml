@@ -1,0 +1,203 @@
+# AIGovOps Skill Evaluation Harness
+# Skill: post-market-monitoring
+# Purpose: validate post-market-monitoring plugin output against EU AI Act
+#          Article 72, ISO/IEC 42001:2023 Clause 9.1, NIST MANAGE 4.1/4.2.
+# Format: input scenario produces expected artifact structure and citations.
+# Schema: see ../README.md
+# Citation format: see ../../STYLE.md
+#
+# Test case status legend:
+#   stub      placeholder content, no validation against standard
+#   validated content grounded in published source text; validated_by populated
+#   deprecated superseded; kept for history
+#
+# Test cases below target SKILL.md v0.1.0 (released). Validated against
+# the published EU AI Act Article 72 text, ISO/IEC 42001:2023 Clause 9.1,
+# and NIST AI RMF MANAGE 4.1/4.2. Validated by Zola Valashiya on 2026-04-18.
+
+test_cases:
+  - id: post-market-monitoring-001
+    tier: T1.2
+    status: validated
+    validated_by: "Zola Valashiya"
+    validated_on: "2026-04-18"
+    description: |
+      EU high-risk-annex-iii ResumeScreen-style system. Full Chapter III
+      dimensional coverage. Mixed-cadence program: quarterly bias-fairness,
+      monthly accuracy and robustness and privacy-leakage, weekly
+      cybersecurity and drift, continuous user-feedback and incident-rate,
+      event-driven safety-events. Trigger catalogue routes drift breach to
+      nonconformity-tracker and serious-physical-harm safety event to
+      incident-reporting.
+    input:
+      system_description:
+        system_id: "ResumeScreen-2026"
+        system_name: "Acme ResumeScreen"
+        intended_use: "Initial CV screening for hiring funnel"
+        risk_tier: "high-risk-annex-iii"
+        jurisdiction: "eu"
+        deployment_context: "Production HR pipeline operated by Acme Health EU"
+        lifecycle_state: "in-service"
+      monitoring_scope:
+        dimensions_monitored:
+          - "accuracy"
+          - "robustness"
+          - "cybersecurity"
+          - "drift"
+          - "bias-fairness"
+          - "privacy-leakage"
+          - "user-feedback"
+          - "incident-rate"
+          - "safety-events"
+        chapter_iii_requirements_in_scope:
+          - "Article 9"
+          - "Article 10"
+          - "Article 13"
+          - "Article 15"
+          - "Article 26"
+        systems_in_program:
+          - "ResumeScreen-2026"
+      cadence:
+        accuracy: "monthly"
+        robustness: "monthly"
+        cybersecurity: "weekly"
+        drift: "weekly"
+        bias-fairness: "quarterly"
+        privacy-leakage: "monthly"
+        user-feedback: "continuous"
+        incident-rate: "continuous"
+        safety-events: "event-driven"
+      data_collection:
+        - {dimension: "accuracy", method: "telemetry", source_system: "ml-platform", retention_days: 365, owner_role: "ML Ops Lead"}
+        - {dimension: "robustness", method: "red-team-engagement", source_system: "external-vendor", retention_days: 730, owner_role: "Security Engineer"}
+        - {dimension: "cybersecurity", method: "logs", source_system: "siem", retention_days: 365, owner_role: "Security Engineer"}
+        - {dimension: "drift", method: "telemetry", source_system: "ml-platform", retention_days: 365, owner_role: "ML Ops Lead"}
+        - {dimension: "bias-fairness", method: "human-review-sampling", source_system: "fairness-suite", retention_days: 730, owner_role: "Responsible AI Lead"}
+        - {dimension: "privacy-leakage", method: "telemetry", source_system: "dlp", retention_days: 365, owner_role: "Privacy Officer"}
+        - {dimension: "user-feedback", method: "user-survey", source_system: "feedback-portal", retention_days: 365, owner_role: "Product Manager"}
+        - {dimension: "incident-rate", method: "complaints-channel", source_system: "ticketing", retention_days: 365, owner_role: "Incident Manager"}
+        - {dimension: "safety-events", method: "logs", source_system: "ops-logs", retention_days: 730, owner_role: "Incident Manager"}
+      thresholds:
+        accuracy: {lower_bound: 0.85, trigger_action: "investigate", escalation_path: "nonconformity-tracker"}
+        drift: {upper_bound: 0.15, trigger_action: "review-and-retrain", escalation_path: "nonconformity-tracker"}
+        bias-fairness: {upper_bound: 0.10, trigger_action: "investigate", escalation_path: "management-review"}
+      responsibilities:
+        "ML Ops Lead": "Owns telemetry pipelines and accuracy/drift monitoring"
+        "Responsible AI Lead": "Owns bias-fairness audit cycle"
+        "Incident Manager": "Owns incident routing and Article 73 filing posture"
+      trigger_catalogue:
+        - trigger_name: "drift-beyond-bound"
+          detection_method: "telemetry"
+          threshold_rule: "drift > 0.15 over 7-day window"
+          escalation_path_enum: "nonconformity-tracker"
+          notification_recipients: ["ML Ops Lead", "AI Governance Officer"]
+        - trigger_name: "safety-event-serious-physical-harm"
+          detection_method: "complaints-channel"
+          threshold_rule: "any reported serious physical harm"
+          escalation_path_enum: "incident-reporting"
+          severity: "serious-physical-harm"
+          notification_recipients: ["Incident Manager", "Legal Counsel"]
+      plan_review_interval_months: 12
+      enrich_with_crosswalk: true
+      reviewed_by: "Acme AI Governance Officer"
+    expected_output_shape:
+      framework: "eu-ai-act,iso42001,nist"
+      agent_signature: "post-market-monitoring/0.1.0"
+      summary:
+        plan_version: "1.0"
+        covered_systems_count: 1
+        dimensions_monitored_count: 9
+        chapter_iii_in_scope: true
+      required_top_level_citations:
+        - "EU AI Act, Article 72, Paragraph 1"
+        - "EU AI Act, Article 72, Paragraph 2"
+        - "EU AI Act, Article 72, Paragraph 4"
+        - "EU AI Act, Article 11"
+        - "ISO/IEC 42001:2023, Clause 9.1"
+        - "ISO/IEC 42001:2023, Annex A, Control A.6.2.6"
+        - "NIST AI RMF, MANAGE 4.1"
+        - "NIST AI RMF, MANAGE 4.2"
+      required_keys:
+        - timestamp
+        - agent_signature
+        - framework
+        - plan_id
+        - plan_version
+        - system_description_echo
+        - monitoring_plan
+        - per_dimension_monitoring
+        - trigger_catalogue
+        - chapter_iii_alignment
+        - continuous_improvement_loop
+        - review_schedule
+        - citations
+        - cross_framework_citations
+        - warnings
+        - summary
+        - reviewed_by
+
+  - id: post-market-monitoring-002
+    tier: T1.1
+    status: validated
+    validated_by: "Zola Valashiya"
+    validated_on: "2026-04-18"
+    description: |
+      Minimal ISO-only deployment. Annual cadence on three dimensions.
+      Two dimensions have no owner_role assignment, so the plugin emits
+      warnings naming the dimensions; downstream review must assign owners
+      before the plan is treated as audit-ready.
+    input:
+      system_description:
+        system_id: "InternalAssistant-2026"
+        system_name: "Acme Internal Assistant"
+        intended_use: "Internal knowledge retrieval for support staff"
+        risk_tier: "limited-risk"
+        jurisdiction: "us"
+        deployment_context: "Internal employee tool, no consumer impact"
+        lifecycle_state: "in-service"
+      monitoring_scope:
+        dimensions_monitored:
+          - "accuracy"
+          - "user-feedback"
+          - "incident-rate"
+        chapter_iii_requirements_in_scope: []
+        systems_in_program:
+          - "InternalAssistant-2026"
+      cadence: "annual"
+      data_collection:
+        - {dimension: "accuracy", method: "telemetry", source_system: "ml-platform", retention_days: 365, owner_role: "ML Ops Lead"}
+        - {dimension: "user-feedback", method: "user-survey", source_system: "feedback-portal", retention_days: 365}
+        - {dimension: "incident-rate", method: "complaints-channel", source_system: "ticketing", retention_days: 365}
+      thresholds: {}
+      enrich_with_crosswalk: true
+      reviewed_by: "Acme AI Governance Officer"
+    expected_output_shape:
+      framework: "eu-ai-act,iso42001,nist"
+      agent_signature: "post-market-monitoring/0.1.0"
+      summary:
+        plan_version: "1.0"
+        covered_systems_count: 1
+        dimensions_monitored_count: 3
+        chapter_iii_in_scope: false
+      chapter_iii_alignment_present: false
+      warning_substrings_required:
+        - "owner_role"
+        - "user-feedback"
+      required_top_level_citations:
+        - "ISO/IEC 42001:2023, Clause 9.1"
+        - "ISO/IEC 42001:2023, Annex A, Control A.6.2.6"
+        - "NIST AI RMF, MANAGE 4.1"
+        - "NIST AI RMF, MANAGE 4.2"
+      required_keys:
+        - timestamp
+        - agent_signature
+        - framework
+        - plan_id
+        - per_dimension_monitoring
+        - trigger_catalogue
+        - continuous_improvement_loop
+        - review_schedule
+        - citations
+        - cross_framework_citations
+        - warnings
+        - summary

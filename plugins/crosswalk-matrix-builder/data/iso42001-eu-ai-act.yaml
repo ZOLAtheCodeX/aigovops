@@ -213,6 +213,22 @@ mappings:
     notes: "Data quality and impact assessment controls address bias but lack the explicit examination methodology in Article 10(4)."
     bidirectional: false
 
+  - id: eu-ai-act--art-10-4--nist-ai-rmf--measure-2-11
+    source_framework: eu-ai-act
+    source_ref: "Article 10, Paragraph 4"
+    source_title: "Bias examination"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 2.11"
+    target_title: "Fairness and bias evaluated"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Appendix A"
+        date: "2024-07"
+      - publication: "ISO/IEC TR 24027:2021"
+    notes: "Implementing NIST MEASURE 2.11 (fairness and bias evaluation with documented methodology, metrics, and protected-group breakdown) satisfies the EU AI Act Article 10(4) examination obligation for high-risk systems. Operationalized by the bias-evaluator plugin."
+    bidirectional: false
+
   - id: eu-ai-act--art-10-5--iso42001--a-4-6
     source_framework: eu-ai-act
     source_ref: "Article 10, Paragraph 5"
@@ -399,6 +415,36 @@ mappings:
       - publication: "practitioner-inference"
         date: "2024"
     notes: "Responsible-use process can implement dual-control but ISO does not prescribe two-person verification."
+    bidirectional: false
+
+  - id: eu-ai-act--art-14-4-d--iso42001--a-9-2
+    source_framework: eu-ai-act
+    source_ref: "Article 14, Paragraph 4(d)"
+    source_title: "Decide not to use, disregard, override, or reverse output"
+    target_framework: iso42001
+    target_ref: "A.9.2"
+    target_title: "Processes for responsible use of AI systems"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "CEN-CENELEC JTC 21 drafts"
+        date: "2024"
+    notes: "A.9.2 responsible-use process operationalizes the override and disregard authority required by Article 14(4)(d)."
+    bidirectional: false
+
+  - id: eu-ai-act--art-14-4-e--nist-ai-rmf--manage-2-3
+    source_framework: eu-ai-act
+    source_ref: "Article 14, Paragraph 4(e)"
+    source_title: "Stop button and intervention authority"
+    target_framework: nist-ai-rmf
+    target_ref: "MANAGE 2.3"
+    target_title: "Mechanisms to prevent, disengage, override, or deactivate AI systems"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI RMF 1.0"
+        date: "2023"
+    notes: "MANAGE 2.3 disengage and deactivate mechanisms satisfy the stop-button and intervention requirement of Article 14(4)(e)."
     bidirectional: false
 
   - id: eu-ai-act--art-15-1--iso42001--a-6-2-4-a-6-2-5-clause-8-2-8-3
@@ -1504,4 +1550,118 @@ mappings:
       - publication: "Regulation (EU) 2024/1689"
         date: "2024-06"
     notes: "ISO Clause 7.5.3 retention-of-documented-information discipline partially satisfies EU AI Act Article 19. ISO requires retention proportionate to purpose but does not specify a minimum-period floor; Article 19 sets a six-month minimum for high-risk-system logs. An organization relying on ISO alone must separately document the six-month floor in its retention policy."
+    bidirectional: false
+
+  - id: eu-ai-act--art-72-1--iso42001--clause-9-1
+    source_framework: eu-ai-act
+    source_ref: "Article 72, Paragraph 1"
+    source_title: "Post-market monitoring system establishment"
+    target_framework: iso42001
+    target_ref: "Clause 9.1"
+    target_title: "Monitoring, measurement, analysis, evaluation"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "CEN-CENELEC JTC 21"
+        date: "2024"
+    notes: "ISO Clause 9.1 management-system monitoring scheme provides the structural substrate that satisfies the Article 72(1) post-market monitoring system establishment obligation."
+    bidirectional: false
+
+  - id: eu-ai-act--art-72-2--iso42001--clause-9-1-a-6-2-6
+    source_framework: eu-ai-act
+    source_ref: "Article 72, Paragraph 2"
+    source_title: "Continuous compliance evaluation against Chapter III"
+    target_framework: iso42001
+    target_ref: "Clause 9.1; A.6.2.6"
+    target_title: "Monitoring, measurement, analysis, evaluation; AI system operation and monitoring"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "CEN-CENELEC JTC 21"
+        date: "2024"
+    notes: "ISO Clause 9.1 plus Annex A Control A.6.2.6 (operation and monitoring) satisfy the Article 72(2) continuous-evaluation expectation when monitored dimensions cover Chapter III requirement families."
+    bidirectional: false
+
+  - id: eu-ai-act--art-72-4--iso42001--clause-7-5-3-a-6-2-7
+    source_framework: eu-ai-act
+    source_ref: "Article 72, Paragraph 4"
+    source_title: "Plan as part of technical documentation"
+    target_framework: iso42001
+    target_ref: "Clause 7.5.3; A.6.2.7"
+    target_title: "Control of documented information; AI system technical documentation"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "CEN-CENELEC JTC 21"
+        date: "2024"
+    notes: "ISO Clauses 7.5.3 (documented-information control) and Annex A Control A.6.2.7 (AI system technical documentation) supply the documented-monitoring-plan substrate the Article 72(4) technical-documentation requirement expects."
+    bidirectional: false
+
+  # GPAI obligations (Articles 53 and 55) per-paragraph mappings.
+  # Added by gpai-obligations-tracker plugin (0.1.0). The blanket
+  # eu-ai-act--art-51-55--iso42001--no-equivalent entry above documents
+  # the absence of a single ISO 42001 equivalent for the regime as a whole;
+  # these per-paragraph rows surface the partial mappings that do exist
+  # for specific Article 53 and Article 55 obligations.
+
+  - id: eu-ai-act--art-53-1-a--iso42001--clause-7-5-a-6-2-7
+    source_framework: eu-ai-act
+    source_ref: "Article 53, Paragraph 1, Point (a)"
+    source_title: "GPAI technical documentation per Annex XI"
+    target_framework: iso42001
+    target_ref: "Clause 7.5; A.6.2.7"
+    target_title: "Documented information; AI system technical documentation"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "CEN-CENELEC JTC 21"
+        date: "2024"
+    notes: "ISO Clause 7.5 documented-information discipline combined with Annex A Control A.6.2.7 satisfies the Article 53(1)(a) GPAI technical-documentation obligation. Annex XI specifies the GPAI-specific content set; ISO supplies the documentation-control substrate."
+    bidirectional: false
+
+  - id: eu-ai-act--art-53-1-d--iso42001--a-7-2-a-7-5
+    source_framework: eu-ai-act
+    source_ref: "Article 53, Paragraph 1, Point (d)"
+    source_title: "GPAI training-data summary per Commission template"
+    target_framework: iso42001
+    target_ref: "A.7.2; A.7.5"
+    target_title: "Data for AI systems; data provenance"
+    relationship: partial-satisfaction
+    confidence: medium
+    citation_sources:
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "ISO Annex A Controls A.7.2 (data for development) and A.7.5 (data provenance) partially satisfy the Article 53(1)(d) training-data summary obligation. ISO controls capture provenance and acquisition discipline; Article 53(1)(d) additionally requires public-facing summary publication per the Commission template, which is outside ISO scope."
+    bidirectional: false
+
+  - id: eu-ai-act--art-55-1-a--iso42001--a-6-2-4
+    source_framework: eu-ai-act
+    source_ref: "Article 55, Paragraph 1, Point (a)"
+    source_title: "GPAI systemic-risk model evaluation and adversarial testing"
+    target_framework: iso42001
+    target_ref: "A.6.2.4"
+    target_title: "AI system verification and validation"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+      - publication: "NIST AI 600-1 Generative AI Profile"
+        date: "2024"
+    notes: "ISO Annex A Control A.6.2.4 verification and validation partially satisfies Article 55(1)(a) state-of-the-art evaluation. Adversarial testing specificity in Article 55(1)(a) aligns with NIST MEASURE 2.5 and 2.7; the trio together cover the obligation."
+    bidirectional: false
+
+  - id: eu-ai-act--art-55-1-c--iso42001--clause-10-2
+    source_framework: eu-ai-act
+    source_ref: "Article 55, Paragraph 1, Point (c)"
+    source_title: "GPAI systemic-risk serious incident tracking"
+    target_framework: iso42001
+    target_ref: "Clause 10.2"
+    target_title: "Nonconformity and corrective action"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "ISO Clause 10.2 nonconformity and corrective action partially satisfies the Article 55(1)(c) serious-incident tracking obligation. ISO covers internal tracking; Article 55(1)(c) additionally requires reporting to the AI Office and national competent authorities, which has no ISO 42001 equivalent. Pair with the incident-reporting plugin for the deadline-aware filing pathway."
     bidirectional: false

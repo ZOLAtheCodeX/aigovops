@@ -219,15 +219,20 @@ class TestQueries(unittest.TestCase):
         self.assertEqual(result["summary"]["gap_count"], 6)
 
     def test_query_matrix_iso_to_eu_ai_act(self):
-        # The EU AI Act file contains 97 entries total across both
+        # The EU AI Act file contains 100 entries total across both
         # directions. A directional matrix query for eu-ai-act -> iso42001
-        # returns 87 (including 3 value-chain mappings added by the
+        # returns 90 (including 3 value-chain mappings added by the
         # supplier-vendor-assessor plugin for Art 25(1), Art 25(3), Art
-        # 26(a), plus 2 retention-and-Annex-IV mappings added by the
+        # 26(a), 2 retention-and-Annex-IV mappings added by the
         # evidence-bundle-packager plugin for Art 11 + Annex IV -> Clause
-        # 7.5 + A.6.2.7 and Art 19 -> Clause 7.5.3); the reverse direction
-        # (iso42001 -> eu-ai-act) holds the remaining 10. Combined count =
-        # 97.
+        # 7.5 + A.6.2.7 and Art 19 -> Clause 7.5.3, and 3 Article 72
+        # sub-paragraph mappings added by the post-market-monitoring
+        # plugin for Art 72(1), 72(2), 72(4)); the reverse direction
+        # (iso42001 -> eu-ai-act) holds the remaining 10. Combined count
+        # = 106 (98 baseline + 3 Article 72 sub-paragraphs + 4 GPAI
+        # Article 53 and 55 per-paragraph mappings + 1 Art 14(4)(d)
+        # human-oversight mapping added by the human-oversight-designer
+        # plugin).
         forward = plugin.build_matrix(
             {
                 "query_type": "matrix",
@@ -242,7 +247,7 @@ class TestQueries(unittest.TestCase):
                 "target_framework": "eu-ai-act",
             }
         )
-        self.assertEqual(len(forward["matrix"]) + len(reverse["matrix"]), 98)
+        self.assertEqual(len(forward["matrix"]) + len(reverse["matrix"]), 106)
         self.assertIn("by_relationship", forward["summary"])
         # Across both directions the file carries 23 no-mapping entries.
         total_gaps = forward["summary"]["by_relationship"].get(
