@@ -28,7 +28,7 @@ ls /tmp/run1/artifacts/
 
 ### run
 
-```
+```bash
 aigovops run --org <organization.yaml> --output <dir>
              [--skip-plugin <name>]
              [--framework iso42001|nist-ai-rmf|eu-ai-act]
@@ -45,7 +45,7 @@ Plugin failures are captured in `<dir>/errors/<plugin-name>.txt`; the run contin
 
 ### pack, verify, inspect
 
-```
+```bash
 aigovops pack --artifacts <dir> --output <bundle-dir>
               [--signing-algorithm hmac-sha256]
               [--scope-file scope.yaml]
@@ -57,7 +57,7 @@ These delegate to the `evidence-bundle-packager` plugin. If that plugin is not p
 
 ### doctor
 
-```
+```bash
 aigovops doctor
 ```
 
@@ -95,7 +95,7 @@ See `examples/organization.example.yaml` for a complete, annotated template.
 
 ## Output directory layout
 
-```
+```text
 <output>/
   run-summary.json
   run-summary.md
