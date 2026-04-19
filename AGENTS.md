@@ -138,3 +138,52 @@ The framework-monitor workflow at [.github/workflows/framework-monitor.yml](.git
 ## 10. Cross-repository coordination
 
 When changes here require corresponding changes in [aigovclaw](https://github.com/ZOLAtheCodeX/aigovclaw) (or vice versa), open a tracking issue in both repositories and link them. Do not merge half a coordinated change.
+
+## 11. Stale-issue protocol (mandatory, blocking)
+
+Before any code edit, grep current `HEAD` for every marker the source issue references (STUB/PLACEHOLDER strings, specific file paths, specific test case IDs, specific citation strings). Use `grep -n` with the exact string. If ANY marker is absent from HEAD, the issue is stale:
+
+1. Return verdict `rejected-stale`.
+2. Do not open a PR. Do not modify any file except to post comments or close the source.
+3. Identify the resolving commit SHA: `git log -1 --pretty=format:"%H %s" -- <path>`.
+4. Close the source: if the dispatch came from a GitHub issue, run `gh issue close <n> --comment "Stale: resolved by commit <sha>. The marker referenced in the issue is no longer present in HEAD. Closing per stale-issue protocol."` (take-resolving-action eligible; reversible via reopen). If the dispatch came from a Jules web UI scheduled task, emit a session-transcript warning `SCHEDULED-TASK-STALE` naming the task ID (the Jules API does not expose scheduled-task CRUD; manual deletion is required at jules.google). If ad-hoc dispatch, emit `AD-HOC-STALE` note.
+5. Write an ISO 42001 Clause 9.1 audit-log entry via the `audit-log-generator` plugin: `event_type="jules-stale-rejection"`, include playbook/skill name, resolving commit SHA, source disposition, and path searched.
+
+Full protocol detail lives in `jules/playbook/*.md` and `jules/skills/*/SKILL.md` Step 0 in the sibling [aigovclaw](https://github.com/ZOLAtheCodeX/aigovclaw) repository. Prior incidents: iso42001-002 (March 2026, attempted eval renumber), nist-ai-rmf-003 (April 2026, correctly surfaced as stale). Both resolved by existing commits; neither required new code.
+
+## 12. Eval test-ID stability
+
+Never renumber existing eval test case IDs (e.g. `iso42001-002`, `nist-ai-rmf-003`) to accommodate new tests or to realign with an external description. IDs are stable references cited in validation reports, audit evidence, and Lead Implementer attestations. New tests get IDs strictly greater than the highest existing ID within that framework's `test_cases.yaml`. If an existing ID is obsolete, mark it `status: retired` rather than reusing or renumbering.
+
+Prior incident: iso42001-002 was validated as an AISIA test; a stale issue proposed renaming it to iso42001-008 to make room for a synthetic SoA test. The correct action was close the stale issue; the proposed renumber would have broken external references to the validated AISIA eval.
+
+## 13. Plugin author contract: anti-hallucination discipline
+
+Every substantive output field in every plugin MUST come from input, be computed deterministically from input, or be flagged as requiring human input. Never invent risks, impacts, role assignments, control applicability, framework interpretations, citation text, threshold values, or residual risk scores.
+
+- When a rule-based inference is possible, make it explicit, deterministic, and document it in the plugin's README rule table.
+- When no evidence supports a determination, emit a placeholder (for example `REQUIRES HUMAN ASSIGNMENT`, `REQUIRES REVIEWER DECISION`) and add a warning to the `warnings` list. Never silently guess.
+- Structural problems (missing required input field, invalid enum value) raise `ValueError`. Content gaps surface as per-row `warnings` entries, not exceptions.
+
+Full contract in `plugins/README.md` "Anti-hallucination invariants" and "Validation stance".
+
+## 14. Jurisdiction scope
+
+The following jurisdictions are the only ones with shipping first-class or scoped plugin + skill coverage in this repository. Do not author speculative plugins for other jurisdictions without an approved issue.
+
+- **Primary** (first-class coverage): USA (NIST AI RMF), EU (EU AI Act), International (ISO/IEC 42001).
+- **Secondary** (scoped plugin + skill): UK (UK ATRS), Singapore (MAGF + FEAT), USA-Colorado (SB 205), USA-NYC (LL144).
+- **Primer only** (navigation skill, no plugin): California (multi-instrument regulatory landscape), Canada (AIDA + PIPEDA + OSFI E-23 + Quebec Law 25 + voluntary code).
+- **Not in scope**: all other jurisdictions are treated as derivative. Practitioners operating in unsupported jurisdictions map their local requirements onto existing plugin outputs.
+
+See `docs/jurisdiction-scope.md` for the full list and the expansion procedure.
+
+## 15. Three-dimension NIST/ISO framing
+
+The catalogue operationalizes three complementary dimensions. These stack cleanly; do not conflate or pick between them.
+
+- **ISO PDCA** (Plan-Do-Check-Act): the AI management system continuous improvement cycle. Drives the PDCA orchestrator in `aigovclaw/agent_loop/`. Maps to ISO/IEC 42001:2023 Clauses 4-10.
+- **NIST AI RMF four functions** (Govern, Map, Measure, Manage per NIST AI RMF 1.0 Section 5): cross-cutting functions applied throughout. Govern is the overlay; Map/Measure/Manage cycle around specific decisions. Plugin-level categorization lives in `plugins/rmf-function-map.yaml` with one tag per plugin.
+- **NIST 7-stage AI system lifecycle** (plan-and-design, collect-and-process-data, build-and-use-model, verify-and-validate, deploy-and-use, operate-and-monitor, use-or-impacted-by, per NIST AI RMF 1.0 Section 3 Figure 3): per-system state tracked on the inventory plugin via `nist_lifecycle_stage` field. Coexists with project-management state (`lifecycle_state`).
+
+When working on cycle-adjacent or framework-alignment content, cite the correct dimension explicitly.
