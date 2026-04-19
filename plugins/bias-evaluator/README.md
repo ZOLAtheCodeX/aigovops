@@ -13,7 +13,7 @@ The plugin does not assign an overall bias score. Per-metric results are emitted
 | Field | Required | Type | Description |
 |---|---|---|---|
 | `system_description` | yes | dict | System metadata. Recommended keys: `system_name`, `purpose`, `decision_authority`, `sector`. The `sector` field controls the recommended-not-mandated note for non-high-risk sectors. |
-| `evaluation_data` | yes | dict | `dataset_ref`, `evaluation_date`, `sample_size`, `ground_truth_available` (bool), and `per_group_counts` keyed by group identifier (e.g. `"race:black"` or intersectional `"race:black|sex:female"`). Each value is a dict with `total`, `selected`, and optional `true_positive`, `false_positive`, `true_negative`, `false_negative`, `positive_predictive_value`. |
+| `evaluation_data` | yes | dict | Required keys `dataset_ref`, `evaluation_date`, `sample_size`, `ground_truth_available` (bool); plus `per_group_counts` keyed by group identifier such as race-black or intersectional race-black-sex-female. Each value is a dict with `total` and `selected`, plus optional ground-truth counts and PPV. See example below. |
 | `protected_attributes` | yes | list | List of dicts `{attribute_name, categories_present}`. |
 | `metrics_to_compute` | no | list | Subset of `VALID_METRICS`. Default `["selection-rate", "impact-ratio"]`. |
 | `jurisdiction_rules` | no | list | Subset of `VALID_JURISDICTION_RULES`. Default `[]`. |

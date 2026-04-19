@@ -63,7 +63,7 @@ Notable absent primitive: no data table (lists are bespoke per page; gap Hub v2 
 
 Single sidebar, five labeled groups, no breadcrumbs, no top-level tabs. Modals are sparing; most flows are full-page routes with wizards instead.
 
-```
+```text
 Sidebar (collapsible, persisted)
 ├── (ungrouped)
 │   ├── Dashboard
@@ -163,6 +163,7 @@ Relationship to `crosswalk-matrix-builder`: complementary, not redundant. Crossw
 Tailwind config layered on top of `frontend/src/styles/design-tokens.css`. Concrete facts:
 
 **Primary color palette (extracted hex):**
+
 - Primary (Deep Slate Blue): `#f0f4f8`, `#d9e2ec`, `#bcccdc`, `#9fb3c8`, `#829ab1`, `#627d98`, `#486581`, `#334e68`, `#243b53`, `#102a43`, `#0a1929` (50 through 950)
 - Success (Teal Green): `#effcf6` ... `#27ab83` (500) ... `#014d40` (900)
 - Warning (Warm Amber): `#fffbea` ... `#f0b429` (500) ... `#8d2b0b` (900)
@@ -171,6 +172,7 @@ Tailwind config layered on top of `frontend/src/styles/design-tokens.css`. Concr
 - Neutral (Warm Gray): `#ffffff` ... `#868e96` (500) ... `#0d0f12` (950)
 
 **Typography stack:**
+
 - Display: `Plus Jakarta Sans, SF Pro Display, -apple-system, sans-serif`
 - Body: `Source Sans 3, SF Pro Text, -apple-system, sans-serif`
 - Mono: `JetBrains Mono, SF Mono, Fira Code, Consolas, monospace`
@@ -180,6 +182,7 @@ Modular scale at 1.2 ratio: `--text-xs: 0.694rem` through `--text-4xl: 2.488rem`
 **Component conventions:** 4px base spacing unit. Border radius `--radius: 0.5rem` default. Subtle layered shadows (`xs` to `2xl`) plus `--shadow-focus`. Restrained animations: 200ms `fade-in-up`, `scale-in`, `slide-in-right`; longer 1.5-2s `shimmer`, `pulse-soft`, `step-pulse` for skeletons. Dark mode is fully tokenized and class-gated (`.dark`).
 
 **Comparison to Hub v1:**
+
 - Hub v1: deep slate `#0f1419` background, burnt orange `#d97757` accent, JetBrains Mono + Crimson Pro.
 - AIGovOS: deep slate-blue `#102a43`/`#0a1929` for darks, no orange accent (uses info blue and danger red as loudest colors), Plus Jakarta Sans + Source Sans 3 + JetBrains Mono.
 
