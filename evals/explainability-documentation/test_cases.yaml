@@ -1,0 +1,180 @@
+# AIGovOps Skill Evaluation Harness
+# Skill: explainability-documentation
+# Purpose: validate skill outputs against NIST AI RMF MEASURE 2.9, EU AI Act
+# Article 86, ISO/IEC 42001:2023 Annex A Control A.8.2, and UK ATRS Section
+# Tool details.
+# Format: input scenario produces expected output structure and citations.
+# Schema: see ../README.md
+# Citation format: see ../../STYLE.md
+#
+# Test cases target SKILL.md v0.1.0 (released). Both scenarios exercise the
+# `explainability-documenter` plugin. The first is a tree-based credit
+# scoring model with intrinsic interpretability claim. The second is a deep
+# neural network image classifier with SHAP plus counterfactual explanation.
+# Validated by Zola Valashiya on 2026-04-18.
+
+test_cases:
+  - id: explainability-documentation-001
+    tier: T1
+    description: |
+      Tree-based credit scoring model. EU jurisdiction. Decision effects are
+      legal and financial, triggering Article 86 applicability. Intrinsic
+      interpretability claim is compatible with model_type=tree-based.
+      Decision-path method covers both global and local scope. Affected-persons
+      audience is included. Article 86 response template reference present.
+      Limitations listed.
+    input:
+      system_description:
+        system_name: "Consumer credit scoring model v4"
+        purpose: "Score consumer credit applications for downstream underwriting"
+        decision_authority: "automated-with-human-review"
+        decision_effects:
+          - "legal"
+          - "financial"
+        jurisdiction: "eu"
+      model_type: "tree-based"
+      explanation_methods:
+        - method: "intrinsic-decision-path"
+          scope: "both"
+          target_audience:
+            - "developers"
+            - "deployers"
+            - "auditors"
+            - "affected-persons"
+          implementation_status: "implemented"
+          evidence_ref: "docs/decision-path-export-2026-04-15.pdf"
+          known_limitations:
+            - "Tree depth capped at 8 to preserve human readability; complex interactions beyond depth 8 are absorbed into surrogate features"
+            - "Decision paths do not quantify confidence intervals on individual paths"
+            - "Categorical splits with high cardinality compress to majority-class buckets in the explanation export"
+        - method: "feature-importance-global"
+          scope: "global"
+          target_audience:
+            - "developers"
+            - "auditors"
+            - "regulators"
+          implementation_status: "implemented"
+          evidence_ref: "docs/feature-importance-2026-04-15.pdf"
+          known_limitations:
+            - "Permutation importance is sensitive to feature correlation; correlated bureaus can mask each other"
+            - "Importance ranks shift across retraining cycles; cross-cycle ranks are noisier than within-cycle"
+      intrinsic_interpretability_claim: true
+      art_86_response_template_ref: "templates/article-86-response-credit-v2.md"
+      reviewed_by: "second-line-risk@example.org"
+      enrich_with_crosswalk: false
+    expected_output:
+      timestamp: present
+      agent_signature: "explainability-documenter/0.1.0"
+      framework: "nist,eu-ai-act,iso42001,uk-atrs"
+      model_type_classification:
+        classification: "intrinsic-interpretable"
+        intrinsic_interpretability_claim: true
+      scope_coverage:
+        global_covered: true
+        local_covered: true
+      audience_coverage:
+        affected_persons_covered: true
+        deployer_or_operator_covered: true
+      art_86_applicability:
+        applies: true
+        triggering_effects:
+          - "legal"
+      art_86_readiness:
+        applies: true
+        response_template_present: true
+        affected_persons_audience_present: true
+        local_scope_method_present: true
+        ready: true
+      limitations_documentation_assessment:
+        methods_with_empty_limitations: 0
+        not_applicable_missing_rationale: 0
+      citations:
+        - "NIST AI RMF, MEASURE 2.9"
+        - "ISO/IEC 42001:2023, Annex A, Control A.8.2"
+        - "ISO/IEC TR 24028:2020"
+        - "EU AI Act, Article 86, Paragraph 1"
+        - "EU AI Act, Article 13, Paragraph 3, Point (b)"
+      summary:
+        total_methods: 2
+        warning_count: 0
+        art_86_applies: true
+        classification: "intrinsic-interpretable"
+
+  - id: explainability-documentation-002
+    tier: T1
+    description: |
+      Deep neural network image classifier. UK public-sector jurisdiction.
+      Decision effects are opportunity-related (no Article 86 trigger). Two
+      post-hoc methods: SHAP for local attribution and counterfactual for
+      contrastive explanation. Both audience and scope coverage complete.
+      No intrinsic interpretability claim. Limitations declared per method.
+    input:
+      system_description:
+        system_name: "Public-sector image triage classifier v2"
+        purpose: "Triage scanned document images for case-officer review"
+        decision_authority: "automated-screen-with-mandatory-officer-confirmation"
+        decision_effects:
+          - "opportunity-related"
+        jurisdiction: "uk"
+      model_type: "deep-neural-network"
+      explanation_methods:
+        - method: "shap"
+          scope: "local"
+          target_audience:
+            - "developers"
+            - "deployers"
+            - "operators"
+            - "auditors"
+          implementation_status: "implemented"
+          evidence_ref: "docs/shap-attributions-2026-04-12.pdf"
+          known_limitations:
+            - "Approximation error grows with input dimensionality; high-resolution patches require subsampling"
+            - "Attribution maps are not faithful proxies for causal contribution"
+            - "Background distribution choice materially shifts attribution magnitudes"
+        - method: "counterfactual"
+          scope: "local"
+          target_audience:
+            - "developers"
+            - "operators"
+            - "end-users"
+          implementation_status: "implemented"
+          evidence_ref: "docs/counterfactuals-2026-04-12.pdf"
+          known_limitations:
+            - "Counterfactuals are not unique; the surfaced example is one of many"
+            - "Generation latency exceeds 200ms per case; not viable for real-time officer workflow"
+        - method: "feature-importance-global"
+          scope: "global"
+          target_audience:
+            - "developers"
+            - "auditors"
+            - "regulators"
+          implementation_status: "implemented"
+          evidence_ref: "docs/global-attribution-2026-04-12.pdf"
+          known_limitations:
+            - "Aggregated global view smooths over class-conditional variation"
+      intrinsic_interpretability_claim: false
+      reviewed_by: "ml-governance-board@example.gov.uk"
+      enrich_with_crosswalk: false
+    expected_output:
+      timestamp: present
+      agent_signature: "explainability-documenter/0.1.0"
+      framework: "nist,eu-ai-act,iso42001,uk-atrs"
+      model_type_classification:
+        classification: "post-hoc-covered"
+        intrinsic_interpretability_claim: false
+      scope_coverage:
+        global_covered: true
+        local_covered: true
+      audience_coverage:
+        deployer_or_operator_covered: true
+      art_86_applicability:
+        applies: false
+      citations:
+        - "NIST AI RMF, MEASURE 2.9"
+        - "ISO/IEC 42001:2023, Annex A, Control A.8.2"
+        - "ISO/IEC TR 24028:2020"
+        - "UK ATRS, Section Tool details"
+      summary:
+        total_methods: 3
+        art_86_applies: false
+        classification: "post-hoc-covered"

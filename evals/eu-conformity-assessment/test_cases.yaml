@@ -1,0 +1,135 @@
+# AIGovOps Skill Evaluation Harness
+# Skill: eu-conformity-assessment
+# Purpose: validate the eu-conformity-assessor plugin output for the two
+#   primary procedure routes under EU AI Act Article 43: Annex VI
+#   internal control (default for Annex III Points 2 to 8) and Annex VII
+#   notified body (required for Annex III Point 1 biometrics without
+#   harmonised standards).
+# Format: input scenario produces expected procedure determination,
+#   Annex IV completeness, declaration of conformity draft fields, CE
+#   marking and registration check status, and warning fingerprints.
+# Schema: see ../README.md
+# Citation format: see ../../STYLE.md
+#
+# Test case status legend:
+#   stub      placeholder content, no validation against standard
+#   validated content grounded in cited frameworks; validated_by populated
+#   deprecated superseded; kept for history
+#
+# Test cases below target SKILL.md v0.1.0. Validated by Zola Valashiya on
+# 2026-04-18 against EU AI Act Articles 17, 22, 43, 47, 48, 49 and
+# Annexes IV, VI, VII (Regulation (EU) 2024/1689).
+
+test_cases:
+  - id: eu-conformity-assessment-001
+    tier: T1.1
+    status: validated
+    validated_by: "Zola Valashiya"
+    validated_on: "2026-04-18"
+    description: |
+      Annex III Point 4 (employment) high-risk system happy path. EU
+      provider, annex-vi-internal-control procedure, full evidence bundle
+      with all nine Annex IV producing artifacts (ai-system-inventory,
+      high-risk-classification, audit-log-entry, metrics-report,
+      risk-register, aisia, soa, management-review-package,
+      internal-audit-plan), CE marking affixed to the system, EU database
+      entry registered with public visibility. The plugin returns
+      procedure_applicability.aligned=True, every Annex IV row with
+      status=present, qms_attestation.status=satisfied, registration_check.
+      status=registered, and the declaration_of_conformity_draft populated
+      from inputs awaiting provider signature.
+    input:
+      system_description:
+        system_id: "AISYS-EMP-001"
+        risk_tier: "high-risk"
+        intended_use: "Resume screening for EU job applicants"
+        sector: "employment"
+        annex_iii_category: "4-employment"
+        ce_marking_required: true
+      provider_identity:
+        legal_name: "Acme Healthcare AI BV"
+        address: "Keizersgracht 1, 1015 CJ Amsterdam, Netherlands"
+        country: "NL"
+        contact: "compliance@acme-health.eu"
+      procedure_requested: "annex-vi-internal-control"
+      evidence_bundle_ref: "examples/demo-scenario/bundles/eu-internal-control-full"
+      ce_marking_location: "system"
+      registration_status:
+        eu_database_entry_id: "EU-DB-12345"
+        registration_date: "2026-04-01"
+        public_or_restricted: "public"
+      reviewed_by: "Zola Valashiya"
+      enrich_with_crosswalk: true
+    expected_outputs:
+      - "assessment['procedure_selected'] == 'annex-vi-internal-control'."
+      - "assessment['procedure_applicability']['aligned'] is True."
+      - "assessment['summary']['annex_iv_categories_missing'] == 0."
+      - "assessment['qms_attestation']['status'] == 'satisfied'."
+      - "assessment['registration_check']['status'] == 'registered'."
+      - "assessment['ce_marking_check']['ce_marking_required'] is True."
+      - "assessment['declaration_of_conformity_draft']['signatory'] == 'Zola Valashiya'."
+      - "render_markdown contains the legal disclaimer callout."
+    clause_references:
+      - "EU AI Act, Article 43, Paragraph 2"
+      - "EU AI Act, Article 47, Paragraph 1"
+      - "EU AI Act, Article 48, Paragraph 1"
+      - "EU AI Act, Article 49, Paragraph 1"
+      - "EU AI Act, Annex IV"
+      - "EU AI Act, Annex VI"
+
+  - id: eu-conformity-assessment-002
+    tier: T1.1
+    status: validated
+    validated_by: "Zola Valashiya"
+    validated_on: "2026-04-18"
+    description: |
+      Annex III Point 1 (biometrics) high-risk system without harmonised
+      standards. EU provider, annex-vii-notified-body procedure correctly
+      requested, notified body record supplied with body_id, name, and
+      certificate_ref, CE marking affixed to the system with the notified
+      body identification present, EU database registered. The plugin
+      returns procedure_applicability.required_procedure='annex-vii-
+      notified-body' and aligned=True, notified_body_check.status='complete',
+      ce_marking_check.notified_body_id_present=True, and the declaration
+      of conformity draft references the notified-body certificate per
+      Article 47, Paragraph 1.
+    input:
+      system_description:
+        system_id: "AISYS-BIO-001"
+        risk_tier: "high-risk"
+        intended_use: "Remote biometric identification for border control"
+        sector: "biometrics"
+        annex_iii_category: "1-biometrics"
+        ce_marking_required: true
+      provider_identity:
+        legal_name: "BioVerify GmbH"
+        address: "Friedrichstrasse 100, 10117 Berlin, Germany"
+        country: "DE"
+        contact: "compliance@bioverify.eu"
+      procedure_requested: "annex-vii-notified-body"
+      harmonised_standards_applied: []
+      notified_body:
+        body_id: "NB-1234"
+        name: "TUV Sud"
+        certificate_ref: "EU-TYPE-EXAM-2026-001"
+      ce_marking_location: "system"
+      registration_status:
+        eu_database_entry_id: "EU-DB-BIO-001"
+        registration_date: "2026-03-15"
+        public_or_restricted: "public"
+      reviewed_by: "Zola Valashiya"
+      enrich_with_crosswalk: true
+    expected_outputs:
+      - "assessment['procedure_selected'] == 'annex-vii-notified-body'."
+      - "assessment['procedure_applicability']['required_procedure'] == 'annex-vii-notified-body'."
+      - "assessment['procedure_applicability']['aligned'] is True."
+      - "assessment['notified_body_check']['status'] == 'complete'."
+      - "assessment['notified_body_check']['body_id'] == 'NB-1234'."
+      - "assessment['ce_marking_check']['notified_body_id_present'] is True."
+      - "assessment['declaration_of_conformity_draft']['notified_body_certificate_ref'] == 'EU-TYPE-EXAM-2026-001'."
+      - "render_markdown contains '## Notified body check' section."
+    clause_references:
+      - "EU AI Act, Article 43, Paragraph 1"
+      - "EU AI Act, Article 47, Paragraph 1"
+      - "EU AI Act, Article 48, Paragraph 3"
+      - "EU AI Act, Annex VII"

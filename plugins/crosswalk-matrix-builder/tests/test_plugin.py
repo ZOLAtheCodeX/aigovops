@@ -229,10 +229,15 @@ class TestQueries(unittest.TestCase):
         # sub-paragraph mappings added by the post-market-monitoring
         # plugin for Art 72(1), 72(2), 72(4)); the reverse direction
         # (iso42001 -> eu-ai-act) holds the remaining 10. Combined count
-        # = 106 (98 baseline + 3 Article 72 sub-paragraphs + 4 GPAI
+        # = 114 (98 baseline + 3 Article 72 sub-paragraphs + 4 GPAI
         # Article 53 and 55 per-paragraph mappings + 1 Art 14(4)(d)
         # human-oversight mapping added by the human-oversight-designer
-        # plugin).
+        # plugin + 2 system-event-logger mappings for Art 12(3) biometric
+        # field list and Art 26(6) deployer log duty + 1 Art 86 -> A.8.2
+        # explainability-documenter mapping for the right to explanation
+        # of individual decisions + 5 EU conformity rows added by the
+        # eu-conformity-assessor plugin: dedicated Annex IV, Annex VI,
+        # Article 47, Article 48, Article 49 entries).
         forward = plugin.build_matrix(
             {
                 "query_type": "matrix",
@@ -247,13 +252,15 @@ class TestQueries(unittest.TestCase):
                 "target_framework": "eu-ai-act",
             }
         )
-        self.assertEqual(len(forward["matrix"]) + len(reverse["matrix"]), 106)
+        self.assertEqual(len(forward["matrix"]) + len(reverse["matrix"]), 114)
         self.assertIn("by_relationship", forward["summary"])
-        # Across both directions the file carries 23 no-mapping entries.
+        # Across both directions the file carries 26 no-mapping entries
+        # (23 baseline + 3 added by eu-conformity-assessor for Articles
+        # 47, 48, 49).
         total_gaps = forward["summary"]["by_relationship"].get(
             "no-mapping", 0
         ) + reverse["summary"]["by_relationship"].get("no-mapping", 0)
-        self.assertEqual(total_gaps, 23)
+        self.assertEqual(total_gaps, 26)
 
     def test_query_pair_specific_mapping(self):
         result = plugin.build_matrix(

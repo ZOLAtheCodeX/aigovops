@@ -59,6 +59,10 @@ PLUGIN_PUBLIC_FUNCTIONS = {
     "robustness-evaluator": ["evaluate_robustness", "render_markdown", "render_csv"],
     "human-oversight-designer": ["design_human_oversight", "render_markdown", "render_csv"],
     "bias-evaluator": ["evaluate_bias", "render_markdown", "render_csv"],
+    "system-event-logger": ["define_event_schema", "render_markdown", "render_csv"],
+    "explainability-documenter": ["document_explainability", "render_markdown", "render_csv"],
+    "genai-risk-register": ["generate_genai_risk_register", "render_markdown", "render_csv"],
+    "eu-conformity-assessor": ["assess_conformity_procedure", "render_markdown", "render_csv"],
 }
 
 

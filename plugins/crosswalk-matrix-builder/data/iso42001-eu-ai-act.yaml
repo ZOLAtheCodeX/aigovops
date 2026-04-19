@@ -1665,3 +1665,188 @@ mappings:
         date: "2024-06"
     notes: "ISO Clause 10.2 nonconformity and corrective action partially satisfies the Article 55(1)(c) serious-incident tracking obligation. ISO covers internal tracking; Article 55(1)(c) additionally requires reporting to the AI Office and national competent authorities, which has no ISO 42001 equivalent. Pair with the incident-reporting plugin for the deadline-aware filing pathway."
     bidirectional: false
+
+  - id: nist-ai-600-1--intellectual-property--eu-ai-act--art-53-1-c
+    source_framework: nist-ai-600-1
+    source_ref: "NIST AI 600-1, intellectual-property"
+    source_title: "GenAI intellectual-property risk (training-data IP infringement; output attribution)"
+    target_framework: eu-ai-act
+    target_ref: "Article 53, Paragraph 1, Point (c)"
+    target_title: "GPAI provider copyright policy obligation"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Generative AI Profile"
+        date: "2024-07"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "EU AI Act Article 53(1)(c) operationalises the NIST AI 600-1 intellectual-property risk by requiring every GPAI provider to have a documented policy to comply with EU copyright law and Article 4(3) of Directive (EU) 2019/790 (text and data mining reservation of rights). Asymmetric: EU obligation satisfies the NIST risk treatment, but EU obligation also covers ground beyond the NIST framing."
+    bidirectional: false
+
+  - id: nist-ai-600-1--information-integrity--eu-ai-act--art-50
+    source_framework: nist-ai-600-1
+    source_ref: "NIST AI 600-1, information-integrity"
+    source_title: "GenAI information-integrity risk (deepfakes, synthetic media, disinformation)"
+    target_framework: eu-ai-act
+    target_ref: "Article 50, Paragraph 2"
+    target_title: "Machine-readable marking of synthetic content + deepfake labelling (with Paragraph 4)"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Generative AI Profile"
+        date: "2024-07"
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "EU AI Act Article 50(2) (machine-readable marking of synthetic content) and Article 50(4) (deepfake labelling) partially satisfy the NIST AI 600-1 information-integrity risk treatment. EU obligations cover provenance signalling and user-facing labelling; the NIST risk additionally covers detection capability and disinformation-resistance evaluation that Article 50 does not mandate. Pair with the genai-risk-register and system-event-logger plugins for full coverage."
+    bidirectional: false
+
+  - id: eu-ai-act--art-12-3--iso42001--a-6-2-8
+    source_framework: eu-ai-act
+    source_ref: "Article 12, Paragraph 3"
+    source_title: "Remote biometric identification system logging fields"
+    target_framework: iso42001
+    target_ref: "A.6.2.8"
+    target_title: "AI system event logging"
+    relationship: partial-satisfaction
+    confidence: medium
+    citation_sources:
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "ISO/IEC 42001:2023 Annex A Control A.6.2.8 establishes general event-log recording but does not enumerate the six biometric-specific fields (start/end datetime, reference database, input data, verification result, operating person identity) that Article 12(3) requires for remote biometric identification systems. ISO satisfies the recording-capability shell; the field list itself is EU-specific and must be specified separately."
+    bidirectional: false
+
+  - id: eu-ai-act--art-26-6--iso42001--a-6-2-8
+    source_framework: eu-ai-act
+    source_ref: "Article 26, Paragraph 6"
+    source_title: "Deployer obligation to keep automatically generated logs"
+    target_framework: iso42001
+    target_ref: "A.6.2.8"
+    target_title: "AI system event logging"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "ISO/IEC 42001:2023 Annex A Control A.6.2.8 supports the deployer log-keeping duty by establishing the recording substrate. Article 26(6) adds a deployer-side six-month retention floor (mirrored in Article 19) and an implicit tamper-evidence expectation that ISO does not specify."
+    bidirectional: false
+
+  - id: eu-ai-act--art-86--nist-ai-rmf--measure-2-9
+    source_framework: eu-ai-act
+    source_ref: "Article 86"
+    source_title: "Right to explanation of individual decision-making"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 2.9"
+    target_title: "Model is explained and interpretable; functionality, outputs, and associated risks characterised"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+      - publication: "AIGovOps explainability-documentation operationalization map"
+        date: "2026-04-18"
+    notes: "EU AI Act Article 86 right to explanation for affected persons of high-risk decisions implies a model-explainability capability anchored in NIST MEASURE 2.9. Implementing MEASURE 2.9 with a local-scope method targeting affected-persons audience supplies the substantive explanation capacity Article 86 requires."
+    bidirectional: false
+
+  - id: eu-ai-act--art-86--iso42001--a-8-2
+    source_framework: eu-ai-act
+    source_ref: "Article 86"
+    source_title: "Right to explanation of individual decision-making"
+    target_framework: iso42001
+    target_ref: "A.8.2"
+    target_title: "System documentation and information for users"
+    relationship: partial-satisfaction
+    confidence: medium
+    citation_sources:
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+      - publication: "AIGovOps explainability-documentation operationalization map"
+        date: "2026-04-18"
+    notes: "ISO A.8.2 information-for-users content covers the documentation dimension that supports an Article 86 explanation response. Partial-satisfaction because Article 86 additionally requires the right itself, an individual-request response template, and an affected-persons audience that A.8.2 alone does not encode."
+    bidirectional: false
+
+  # eu-conformity-assessor plugin (0.1.0) additions: split out the
+  # Article 47 declaration of conformity, Article 48 CE marking, and
+  # Article 49 EU database registration entries from prior combined
+  # rows; add a dedicated Annex IV documentation entry; add the Annex
+  # VI internal control to ISO 9.2/9.3 partial-satisfaction mapping.
+
+  - id: eu-ai-act--annex-iv--iso42001--clause-7-5-a-6-2-7
+    source_framework: eu-ai-act
+    source_ref: "Annex IV"
+    source_title: "Technical documentation content set (nine categories)"
+    target_framework: iso42001
+    target_ref: "Clause 7.5, A.6.2.7"
+    target_title: "Documented information and AI system technical documentation"
+    relationship: satisfies
+    confidence: high
+    citation_sources:
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+      - publication: "CEN-CENELEC JTC 21 WG1 drafts"
+        date: "2024"
+    notes: "Annex IV (technical documentation content set) is satisfied by ISO 42001 Clause 7.5 (documented information) combined with Annex A Control A.6.2.7 (AI system technical documentation). ISO supplies the documentation-control substrate; Annex IV specifies the nine prescribed content categories that the eu-conformity-assessor plugin verifies against the evidence bundle."
+    bidirectional: false
+
+  - id: eu-ai-act--annex-vi--iso42001--clause-9-2-9-3
+    source_framework: eu-ai-act
+    source_ref: "Annex VI"
+    source_title: "Internal control conformity assessment procedure"
+    target_framework: iso42001
+    target_ref: "Clause 9.2, Clause 9.3"
+    target_title: "Internal audit and management review"
+    relationship: partial-satisfaction
+    confidence: high
+    citation_sources:
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+      - publication: "ENISA, Cybersecurity of AI and Standardisation"
+        date: "2023"
+    notes: "ISO 42001 Clauses 9.2 (internal audit) and 9.3 (management review) provide the structural QMS evidence the Annex VI internal-control procedure expects from the provider. ISO covers the management-system audit and review discipline; Annex VI additionally requires the provider to draw up the EU declaration of conformity (Article 47), which has no ISO equivalent."
+    bidirectional: false
+
+  - id: eu-ai-act--art-47--iso42001--no-equivalent
+    source_framework: eu-ai-act
+    source_ref: "Article 47"
+    source_title: "EU declaration of conformity"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "EU declaration of conformity is a product-conformity attestation signed by the provider. ISO 42001 is a management-system standard and has no product-conformity equivalent. The eu-conformity-assessor plugin emits a TEMPLATE declaration the provider completes and signs."
+    bidirectional: false
+
+  - id: eu-ai-act--art-48--iso42001--no-equivalent
+    source_framework: eu-ai-act
+    source_ref: "Article 48"
+    source_title: "CE marking of conformity"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "CE marking is a regulatory product mark affixed under Union harmonisation legislation. ISO 42001 management-system certification confers no right to affix CE marking. The eu-conformity-assessor plugin checks marking location and notified-body identification but does not affix the mark."
+    bidirectional: false
+
+  - id: eu-ai-act--art-49--iso42001--no-equivalent
+    source_framework: eu-ai-act
+    source_ref: "Article 49"
+    source_title: "EU database registration"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "Regulation (EU) 2024/1689"
+        date: "2024-06"
+    notes: "EU-level public database registration of high-risk systems is a regulatory transparency obligation administered by the Commission. ISO 42001 has no public-registry counterpart. The eu-conformity-assessor plugin captures the registration status and flags restricted visibility for Annex III Point 6 (law enforcement) entries."
+    bidirectional: false

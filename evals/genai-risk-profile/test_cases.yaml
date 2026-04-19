@@ -1,0 +1,409 @@
+# AIGovOps Skill Evaluation Harness
+# Skill: genai-risk-profile
+# Purpose: validate skill outputs against NIST AI 600-1 (July 2024) Generative
+# AI Profile 12-risk catalogue, with EU AI Act and California cross-references.
+# Format: input scenario produces expected output structure and citations.
+# Schema: see ../README.md
+# Citation format: see ../../STYLE.md
+#
+# Test cases target SKILL.md v0.1.0 (released). Two scenarios exercise the
+# `genai-risk-register` plugin: a customer-facing chatbot with all 12 risks
+# evaluated, and an image-generation tool with intellectual-property and
+# obscene-content risks elevated.
+# Validated by Zola Valashiya on 2026-04-18.
+
+test_cases:
+  - id: genai-risk-profile-001
+    tier: T1
+    description: |
+      Customer-facing GenAI chatbot, EU + USA-CA jurisdictions, all 12
+      NIST AI 600-1 risks evaluated with practitioner-supplied likelihood,
+      impact, and mitigations. CBRN risk marked as low-likelihood
+      (chatbot lacks technical uplift surface). GPAI obligations artifact
+      supplied via cross_reference_refs to trigger Article 55 citations on
+      information-security and value-chain rows.
+    input:
+      system_description:
+        system_id: "chat-001"
+        model_type: "LLM"
+        modality: "text"
+        is_generative: true
+        training_data_scope: "public-web + curated transcripts"
+        deployment_context: "customer-facing chatbot for order status"
+        jurisdiction:
+          - "eu"
+          - "usa-ca"
+        base_model_ref: "ExampleLM-7B"
+      cross_reference_refs:
+        gpai_obligations_ref: "/artifacts/gpai-obligations-001.json"
+        bias_evaluation_ref: "/artifacts/bias-eval-001.json"
+        supplier_assessment_ref: "/artifacts/vendor-001.json"
+      risk_evaluations:
+        - risk_id: "cbrn-information-capabilities"
+          likelihood: "rare"
+          impact: "catastrophic"
+          inherent_score: 5
+          mitigation_status: "implemented"
+          existing_mitigations:
+            - name: "Domain restriction"
+              description: "Order-status retrieval grounding only"
+              evidence_ref: "/policies/scope.md"
+          residual_likelihood: "rare"
+          residual_impact: "major"
+          residual_score: 4
+          owner_role: "AI Safety Lead"
+          review_date: "2026-04-18"
+        - risk_id: "confabulation"
+          likelihood: "likely"
+          impact: "moderate"
+          inherent_score: 12
+          mitigation_status: "implemented"
+          existing_mitigations:
+            - name: "RAG grounding"
+              description: "Retrieval over verified order data"
+              evidence_ref: "/eng/rag.md"
+          residual_likelihood: "possible"
+          residual_impact: "minor"
+          residual_score: 6
+          owner_role: "ML Lead"
+          review_date: "2026-04-18"
+        - risk_id: "dangerous-violent-hateful-content"
+          likelihood: "unlikely"
+          impact: "moderate"
+          inherent_score: 6
+          mitigation_status: "implemented"
+          existing_mitigations:
+            - name: "Output filter"
+              description: "Toxicity classifier"
+              evidence_ref: "/eng/filter.md"
+          residual_likelihood: "rare"
+          residual_impact: "minor"
+          residual_score: 2
+          owner_role: "Trust & Safety Lead"
+          review_date: "2026-04-18"
+        - risk_id: "data-privacy"
+          likelihood: "unlikely"
+          impact: "major"
+          inherent_score: 8
+          mitigation_status: "implemented"
+          existing_mitigations:
+            - name: "PII redaction"
+              description: "Inbound and outbound redaction"
+              evidence_ref: "/privacy/redaction.md"
+          residual_likelihood: "rare"
+          residual_impact: "moderate"
+          residual_score: 3
+          owner_role: "Privacy Lead"
+          review_date: "2026-04-18"
+        - risk_id: "environmental-impacts"
+          likelihood: "almost-certain"
+          impact: "minor"
+          inherent_score: 10
+          mitigation_status: "partial"
+          existing_mitigations:
+            - name: "Region routing"
+              description: "Low-carbon region preference"
+              evidence_ref: "/ops/region.md"
+          residual_likelihood: "likely"
+          residual_impact: "minor"
+          residual_score: 8
+          owner_role: "Infra Lead"
+          review_date: "2026-04-18"
+        - risk_id: "harmful-bias-homogenization"
+          likelihood: "possible"
+          impact: "moderate"
+          inherent_score: 9
+          mitigation_status: "implemented"
+          existing_mitigations:
+            - name: "Bias evaluation"
+              description: "Quarterly fairness scan"
+              evidence_ref: "/artifacts/bias-eval-001.json"
+          residual_likelihood: "unlikely"
+          residual_impact: "minor"
+          residual_score: 4
+          owner_role: "Fairness Lead"
+          review_date: "2026-04-18"
+        - risk_id: "human-ai-configuration"
+          likelihood: "possible"
+          impact: "moderate"
+          inherent_score: 9
+          mitigation_status: "implemented"
+          existing_mitigations:
+            - name: "Disclosure banner"
+              description: "User notice that responses are AI-generated"
+              evidence_ref: "/ux/banner.md"
+          residual_likelihood: "unlikely"
+          residual_impact: "minor"
+          residual_score: 4
+          owner_role: "UX Lead"
+          review_date: "2026-04-18"
+        - risk_id: "information-integrity"
+          likelihood: "possible"
+          impact: "moderate"
+          inherent_score: 9
+          mitigation_status: "implemented"
+          existing_mitigations:
+            - name: "C2PA marking"
+              description: "Synthetic-content provenance signal"
+              evidence_ref: "/eng/c2pa.md"
+          residual_likelihood: "unlikely"
+          residual_impact: "minor"
+          residual_score: 4
+          owner_role: "Trust & Safety Lead"
+          review_date: "2026-04-18"
+        - risk_id: "information-security"
+          likelihood: "likely"
+          impact: "major"
+          inherent_score: 16
+          mitigation_status: "implemented"
+          existing_mitigations:
+            - name: "Prompt-injection filter"
+              description: "System-prompt isolation + classifier"
+              evidence_ref: "/security/prompt-injection.md"
+          residual_likelihood: "possible"
+          residual_impact: "moderate"
+          residual_score: 9
+          owner_role: "Security Lead"
+          review_date: "2026-04-18"
+        - risk_id: "intellectual-property"
+          likelihood: "possible"
+          impact: "moderate"
+          inherent_score: 9
+          mitigation_status: "implemented"
+          existing_mitigations:
+            - name: "Copyright policy"
+              description: "Article 53(1)(c) policy"
+              evidence_ref: "/policies/copyright.md"
+          residual_likelihood: "unlikely"
+          residual_impact: "minor"
+          residual_score: 4
+          owner_role: "Legal Lead"
+          review_date: "2026-04-18"
+        - risk_id: "obscene-degrading-abusive-content"
+          likelihood: "rare"
+          impact: "catastrophic"
+          inherent_score: 5
+          mitigation_status: "implemented"
+          existing_mitigations:
+            - name: "CSAM classifier"
+              description: "Block + escalate"
+              evidence_ref: "/security/csam.md"
+          residual_likelihood: "rare"
+          residual_impact: "major"
+          residual_score: 4
+          owner_role: "Trust & Safety Lead"
+          review_date: "2026-04-18"
+        - risk_id: "value-chain-component-integration"
+          likelihood: "possible"
+          impact: "moderate"
+          inherent_score: 9
+          mitigation_status: "implemented"
+          existing_mitigations:
+            - name: "Vendor assessment"
+              description: "Upstream provider review"
+              evidence_ref: "/artifacts/vendor-001.json"
+          residual_likelihood: "unlikely"
+          residual_impact: "minor"
+          residual_score: 4
+          owner_role: "Procurement Lead"
+          review_date: "2026-04-18"
+      reviewed_by: "Zola Valashiya (AIGP; LL.M)"
+    expected_outputs:
+      - "coverage_assessment.evaluated_count == 12"
+      - "coverage_assessment.missing_count == 0"
+      - "information-integrity row citations include 'EU AI Act, Article 50, Paragraph 2' and 'Cal. Bus. & Prof. Code Section 22757'"
+      - "information-security row citations include 'EU AI Act, Article 55, Paragraph 1, Point (a)'"
+      - "value-chain-component-integration row citations include 'EU AI Act, Article 55, Paragraph 1, Point (d)'"
+      - "data-privacy row citations include 'Cal. Civ. Code Section 1798.140(v)' and 'California AB 2013, Section 1'"
+      - "summary.critical_flag_count == 1 (information-security inherent_score 16 falls below; residual 9 is below threshold; no flag actually fires here, expect 0)"
+      - "framework == 'nist,eu-ai-act,usa-ca'"
+    clause_references:
+      - "NIST AI 600-1, Section 2"
+      - "NIST AI 600-1, Appendix A"
+      - "EU AI Act, Article 50, Paragraph 2"
+      - "EU AI Act, Article 50, Paragraph 4"
+      - "EU AI Act, Article 55, Paragraph 1, Point (a)"
+      - "EU AI Act, Article 55, Paragraph 1, Point (d)"
+      - "Cal. Bus. & Prof. Code Section 22757"
+      - "California AB 2013, Section 1"
+      - "Cal. Civ. Code Section 1798.140(v)"
+    status: validated
+
+  - id: genai-risk-profile-002
+    tier: T1
+    description: |
+      Image-generation tool, USA-CA jurisdiction. Intellectual-property and
+      obscene-content risks elevated; intellectual-property residual score 16
+      fires the critical flag with escalation to incident-reporting and
+      management-review. CBRN, environmental, and human-AI configuration risks
+      marked not-applicable with rationale (image-generation surface does not
+      present CBRN uplift; energy disclosure handled at infrastructure layer;
+      human-AI configuration handled by deployer). Validates not-applicable
+      handling, jurisdiction-specific California citations, and critical
+      residual flag escalation.
+    input:
+      system_description:
+        system_id: "img-gen-001"
+        model_type: "diffusion"
+        modality: "image"
+        is_generative: true
+        training_data_scope: "licensed image corpus + opt-in user uploads"
+        deployment_context: "design tool for marketing teams"
+        jurisdiction:
+          - "usa-ca"
+        base_model_ref: "ExampleDiffusion-XL"
+      risks_not_applicable:
+        - risk_id: "cbrn-information-capabilities"
+          rationale: "Image-generation surface does not present CBRN technical uplift; outputs are visual."
+        - risk_id: "environmental-impacts"
+          rationale: "Energy disclosure handled at infrastructure-provider layer per shared-responsibility model."
+        - risk_id: "human-ai-configuration"
+          rationale: "Tool is deployer-integrated; human-AI configuration is the deployer's responsibility."
+      risk_evaluations:
+        - risk_id: "confabulation"
+          likelihood: "possible"
+          impact: "minor"
+          inherent_score: 6
+          mitigation_status: "partial"
+          existing_mitigations:
+            - name: "Prompt clarification"
+              description: "Re-prompt suggestions for ambiguous inputs"
+              evidence_ref: "/ux/clarify.md"
+          residual_likelihood: "possible"
+          residual_impact: "minor"
+          residual_score: 6
+          owner_role: "ML Lead"
+          review_date: "2026-04-18"
+        - risk_id: "dangerous-violent-hateful-content"
+          likelihood: "unlikely"
+          impact: "major"
+          inherent_score: 8
+          mitigation_status: "implemented"
+          existing_mitigations:
+            - name: "Output classifier"
+              description: "Pre-render content moderation"
+              evidence_ref: "/eng/img-classifier.md"
+          residual_likelihood: "rare"
+          residual_impact: "moderate"
+          residual_score: 3
+          owner_role: "Trust & Safety Lead"
+          review_date: "2026-04-18"
+        - risk_id: "data-privacy"
+          likelihood: "unlikely"
+          impact: "moderate"
+          inherent_score: 6
+          mitigation_status: "implemented"
+          existing_mitigations:
+            - name: "Opt-in upload pipeline"
+              description: "User-uploaded images deleted post-session"
+              evidence_ref: "/privacy/img-pipeline.md"
+          residual_likelihood: "rare"
+          residual_impact: "minor"
+          residual_score: 2
+          owner_role: "Privacy Lead"
+          review_date: "2026-04-18"
+        - risk_id: "harmful-bias-homogenization"
+          likelihood: "possible"
+          impact: "moderate"
+          inherent_score: 9
+          mitigation_status: "partial"
+          existing_mitigations:
+            - name: "Demographic-prompt evaluation"
+              description: "Quarterly bias-in-image-output scan"
+              evidence_ref: "/artifacts/img-bias-eval.json"
+          residual_likelihood: "possible"
+          residual_impact: "minor"
+          residual_score: 6
+          owner_role: "Fairness Lead"
+          review_date: "2026-04-18"
+        - risk_id: "information-integrity"
+          likelihood: "likely"
+          impact: "major"
+          inherent_score: 16
+          mitigation_status: "implemented"
+          existing_mitigations:
+            - name: "C2PA + visible watermark"
+              description: "AI provenance per CA SB 942"
+              evidence_ref: "/eng/c2pa-img.md"
+          residual_likelihood: "possible"
+          residual_impact: "moderate"
+          residual_score: 9
+          owner_role: "Trust & Safety Lead"
+          review_date: "2026-04-18"
+        - risk_id: "information-security"
+          likelihood: "possible"
+          impact: "moderate"
+          inherent_score: 9
+          mitigation_status: "implemented"
+          existing_mitigations:
+            - name: "API rate limiting"
+              description: "Anti-abuse posture"
+              evidence_ref: "/security/rate-limit.md"
+          residual_likelihood: "unlikely"
+          residual_impact: "minor"
+          residual_score: 4
+          owner_role: "Security Lead"
+          review_date: "2026-04-18"
+        - risk_id: "intellectual-property"
+          likelihood: "likely"
+          impact: "major"
+          inherent_score: 16
+          mitigation_status: "partial"
+          existing_mitigations:
+            - name: "Style-similarity check"
+              description: "Pre-output check against known-artist signatures"
+              evidence_ref: "/legal/style-check.md"
+          residual_likelihood: "likely"
+          residual_impact: "major"
+          residual_score: 16
+          owner_role: "Legal Lead"
+          review_date: "2026-04-18"
+          notes: "Residual risk remains elevated pending licensing programme rollout."
+        - risk_id: "obscene-degrading-abusive-content"
+          likelihood: "possible"
+          impact: "catastrophic"
+          inherent_score: 15
+          mitigation_status: "implemented"
+          existing_mitigations:
+            - name: "NCII + CSAM classifier"
+              description: "Block + report to NCMEC"
+              evidence_ref: "/security/ncii-csam.md"
+          residual_likelihood: "rare"
+          residual_impact: "catastrophic"
+          residual_score: 5
+          owner_role: "Trust & Safety Lead"
+          review_date: "2026-04-18"
+        - risk_id: "value-chain-component-integration"
+          likelihood: "possible"
+          impact: "moderate"
+          inherent_score: 9
+          mitigation_status: "implemented"
+          existing_mitigations:
+            - name: "Base model provenance"
+              description: "Documented upstream provider"
+              evidence_ref: "/artifacts/img-vendor.json"
+          residual_likelihood: "unlikely"
+          residual_impact: "minor"
+          residual_score: 4
+          owner_role: "Procurement Lead"
+          review_date: "2026-04-18"
+      reviewed_by: "Zola Valashiya (AIGP; LL.M)"
+    expected_outputs:
+      - "coverage_assessment.evaluated_count == 9"
+      - "coverage_assessment.not_applicable_count == 3"
+      - "coverage_assessment.missing_count == 0"
+      - "intellectual-property row citations include 'California AB 2013, Section 1'"
+      - "information-integrity row citations include 'Cal. Bus. & Prof. Code Section 22757'"
+      - "data-privacy row citations include 'Cal. Civ. Code Section 1798.140(v)'"
+      - "residual_risk_flags contains a critical entry for intellectual-property (residual_score 16)"
+      - "summary.critical_flag_count >= 1"
+      - "warnings include 'CRITICAL' string referencing intellectual-property"
+    clause_references:
+      - "NIST AI 600-1, Section 2"
+      - "NIST AI 600-1, Appendix A"
+      - "NIST AI RMF, GOVERN 1.4"
+      - "NIST AI RMF, GOVERN 6.1"
+      - "Cal. Bus. & Prof. Code Section 22757"
+      - "California AB 2013, Section 1"
+      - "Cal. Civ. Code Section 1798.140(v)"
+    status: validated

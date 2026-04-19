@@ -1,0 +1,157 @@
+# AIGovOps Skill Evaluation Harness
+# Skill: system-event-logging
+# Purpose: validate system-event-logger plugin output against EU AI Act
+#          Article 12 (automatic logging), Article 19 (retention minimum 6
+#          months), Article 26(6) (deployer log duty), ISO/IEC 42001:2023
+#          Annex A Control A.6.2.8, and NIST AI RMF MEASURE 2.8.
+# Format: input scenario produces expected artifact structure and citations.
+# Schema: see ../README.md
+# Citation format: see ../../STYLE.md
+#
+# Test case status legend:
+#   stub      placeholder content, no validation against standard
+#   validated content grounded in published source text; validated_by populated
+#   deprecated superseded; kept for history
+#
+# Test cases below target SKILL.md v0.1.0. Validated against the published
+# EU AI Act Articles 12, 19, and 26, ISO/IEC 42001:2023 Annex A Control
+# A.6.2.8, and NIST AI RMF MEASURE 2.8. Validated by Zola Valashiya on
+# 2026-04-18.
+
+test_cases:
+  - id: system-event-logging-001
+    tier: T1.1
+    status: validated
+    validated_by: "Zola Valashiya"
+    validated_on: "2026-04-18"
+    description: |
+      EU high-risk-annex-iii employment-sector system (CV screening). Full
+      Article 12(2) traceability coverage. 200-day retention satisfies the
+      Article 19(1) six-month floor. Hash-chain tamper evidence in place.
+      Compliant expected output.
+    input:
+      system_description:
+        system_id: "ResumeScreen-2026"
+        risk_tier: "high-risk-annex-iii"
+        jurisdiction: "eu"
+        remote_biometric_id: false
+        sector: "employment"
+        lifecycle_state: "in-service"
+      event_schema:
+        inference-request:
+          request_id: {type: "string", required: true, description: "unique id"}
+          timestamp: {type: "datetime", required: true, description: "UTC"}
+          subject_id_hash: {type: "string", required: true, description: "pseudonymised subject id"}
+        inference-output:
+          request_id: {type: "string", required: true, description: "matching request id"}
+          output_score: {type: "float", required: true, description: "screening score"}
+          decision: {type: "string", required: true, description: "recommended action"}
+        drift-signal:
+          timestamp: {type: "datetime", required: true, description: "signal time"}
+          metric: {type: "string", required: true, description: "drift metric"}
+          value: {type: "float", required: true, description: "drift value"}
+        safety-event:
+          timestamp: {type: "datetime", required: true, description: "event time"}
+          severity: {type: "string", required: true, description: "severity tier"}
+          description: {type: "string", required: true, description: "event description"}
+        override-action:
+          operator_id: {type: "string", required: true, description: "operator identity"}
+          override_reason: {type: "string", required: true, description: "reason for override"}
+          overridden_output_ref: {type: "string", required: true, description: "affected output id"}
+      retention_policy:
+        policy_name: "eu-art-19-minimum"
+        minimum_days: 200
+        maximum_days: 730
+        deletion_procedure_ref: "DEL-PROC-RESUMESCREEN-001"
+        legal_basis_citation: "EU AI Act, Article 19, Paragraph 1"
+      log_storage:
+        storage_system: "encrypted-cloud-bucket"
+        encryption_at_rest: true
+        access_controls_ref: "IAM-POLICY-LOGS-001"
+        tamper_evidence_method: "hash-chain"
+      traceability_mappings:
+        inference-request: ["c"]
+        inference-output: ["c"]
+        drift-signal: ["a", "b"]
+        safety-event: ["a"]
+        override-action: ["c"]
+    expected:
+      art_12_applicability_status: "mandatory"
+      eu_art_19_floor_satisfied: true
+      tamper_evidence_present: true
+      all_purposes_covered: true
+      biometric_check_absent: true
+      citations_include:
+        - "EU AI Act, Article 12, Paragraph 1"
+        - "EU AI Act, Article 12, Paragraph 2"
+        - "EU AI Act, Article 19, Paragraph 1"
+        - "EU AI Act, Article 26, Paragraph 6"
+        - "EU AI Act, Article 79, Paragraph 1"
+        - "ISO/IEC 42001:2023, Annex A, Control A.6.2.8"
+        - "NIST AI RMF, MEASURE 2.8"
+
+  - id: system-event-logging-002
+    tier: T1.3
+    status: validated
+    validated_by: "Zola Valashiya"
+    validated_on: "2026-04-18"
+    description: |
+      EU high-risk remote biometric identification system. Article 12(3)
+      field list is enforced: start_datetime, end_datetime,
+      reference_database, input_data_ref, verification_result,
+      operating_person_identity. All six fields present produce a
+      satisfied biometric check. Retention at 365 days exceeds the
+      six-month floor; cryptographic-signing tamper evidence present.
+    input:
+      system_description:
+        system_id: "BiometricGate-2026"
+        risk_tier: "high-risk-annex-iii"
+        jurisdiction: "eu"
+        remote_biometric_id: true
+        sector: "law-enforcement"
+        lifecycle_state: "in-service"
+      event_schema:
+        inference-request:
+          request_id: {type: "string", required: true, description: "unique id"}
+          timestamp: {type: "datetime", required: true, description: "UTC"}
+        inference-output:
+          request_id: {type: "string", required: true, description: "matching request id"}
+          match_result: {type: "string", required: true, description: "match status"}
+        biometric-verification:
+          start_datetime: {type: "datetime", required: true, description: "verification start"}
+          end_datetime: {type: "datetime", required: true, description: "verification end"}
+          reference_database: {type: "string", required: true, description: "reference DB identifier"}
+          input_data_ref: {type: "string", required: true, description: "input data reference"}
+          verification_result: {type: "string", required: true, description: "match or no-match"}
+          operating_person_identity: {type: "string", required: true, description: "operator identity"}
+        safety-event:
+          timestamp: {type: "datetime", required: true, description: "event time"}
+          severity: {type: "string", required: true, description: "severity tier"}
+      retention_policy:
+        policy_name: "eu-art-19-extended"
+        minimum_days: 365
+        maximum_days: 1825
+        deletion_procedure_ref: "DEL-PROC-BIOMETRIC-001"
+        legal_basis_citation: "EU AI Act, Article 19, Paragraph 1"
+      log_storage:
+        storage_system: "hsm-backed-ledger"
+        encryption_at_rest: true
+        access_controls_ref: "IAM-POLICY-BIOMETRIC-001"
+        tamper_evidence_method: "cryptographic-signing"
+      traceability_mappings:
+        inference-request: ["c"]
+        inference-output: ["c"]
+        biometric-verification: ["a"]
+        safety-event: ["a", "b"]
+    expected:
+      art_12_applicability_status: "mandatory"
+      eu_art_19_floor_satisfied: true
+      tamper_evidence_present: true
+      all_purposes_covered: true
+      biometric_check_satisfied: true
+      citations_include:
+        - "EU AI Act, Article 12, Paragraph 3"
+        - "EU AI Act, Article 19, Paragraph 1"
+        - "EU AI Act, Article 26, Paragraph 6"
+        - "ISO/IEC 42001:2023, Annex A, Control A.6.2.8"
+        - "NIST AI RMF, MEASURE 2.8"

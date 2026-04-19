@@ -28,6 +28,10 @@ A skill is a knowledge package that operationalizes a specific AI governance fra
 | [human-oversight](human-oversight/SKILL.md) | EU AI Act Article 14, ISO/IEC 42001:2023 Annex A controls A.9.2 / A.9.3 / A.9.4, NIST AI RMF MANAGE 2.3 dedicated human-oversight design (ability coverage, override capability, biometric dual-assignment, operator training, automation bias mitigations) | 0.1.0 | released |
 | [robustness-evaluation](robustness-evaluation/SKILL.md) | Point-in-time robustness evaluation (EU AI Act Article 15, ISO/IEC 42001:2023 Annex A Control A.6.2.4, NIST AI RMF MEASURE 2.5 / 2.6 / 2.7) | 0.1.0 | released |
 | [bias-evaluation](bias-evaluation/SKILL.md) | Fairness and bias evaluation across NYC LL144 Section 5-301 four-fifths rule, EU AI Act Article 10(4), Colorado SB 205 Section 6-1-1702(1), Singapore MAS Veritas (2022), ISO/IEC 42001 Annex A Control A.7.4, and NIST AI RMF MEASURE 2.11 | 0.1.0 | released |
+| [system-event-logging](system-event-logging/SKILL.md) | System-operational event log schema, retention policy, traceability structure, and tamper-evidence posture (EU AI Act Article 12, Article 19, Article 26(6), ISO/IEC 42001:2023 Annex A Control A.6.2.8, NIST AI RMF MEASURE 2.8) | 0.1.0 | released |
+| [explainability-documentation](explainability-documentation/SKILL.md) | Dedicated explainability documentation (NIST AI RMF MEASURE 2.9, EU AI Act Article 86, ISO/IEC 42001:2023 Annex A Control A.8.2, UK ATRS Section Tool details) | 0.1.0 | released |
+| [eu-conformity-assessment](eu-conformity-assessment/SKILL.md) | EU AI Act Article 43 (procedure selection), Annex VI (internal control), Annex VII (notified body), Article 47 (EU declaration of conformity template), Article 48 (CE marking), Article 49 (EU database registration), Annex IV (technical documentation completeness), Article 17 (QMS attestation) | 0.1.0 | released |
+| [genai-risk-profile](genai-risk-profile/SKILL.md) | NIST AI 600-1 (July 2024) Generative AI Profile 12-risk catalogue operationalization (NIST AI RMF subcategory mapping per Appendix A; EU AI Act Articles 50 and 55; California SB 942, AB 2013, AB 1008) | 0.1.0 | released |
 
 ## Adding a new skill
 

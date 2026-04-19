@@ -1109,3 +1109,37 @@ mappings:
         date: "2024-07"
     notes: "ISO Clause 9.1 anchors the monitoring evidence stream that feeds NIST MANAGE 4.2 continual improvement activities. Partial-match because MANAGE 4.2 emphasizes integration into AI system updates beyond monitoring scheme alone."
     bidirectional: true
+
+  - id: iso42001--a-8-2--nist-ai-rmf--measure-2-9
+    source_framework: iso42001
+    source_ref: "A.8.2"
+    source_title: "System documentation and information for users"
+    target_framework: nist-ai-rmf
+    target_ref: "MEASURE 2.9"
+    target_title: "Model is explained and interpretable; functionality, outputs, and associated risks characterised"
+    relationship: partial-match
+    confidence: high
+    citation_sources:
+      - publication: "AIGovOps explainability-documentation operationalization map"
+        date: "2026-04-18"
+      - publication: "NIST AI RMF 1.0"
+        date: "2023-01"
+    notes: "ISO A.8.2 information-for-users content overlaps the audience and documentation dimensions of NIST MEASURE 2.9 explainability characterisation. Partial-match because MEASURE 2.9 additionally requires methodology classification (intrinsic vs post-hoc) and limitations characterisation that A.8.2 does not encode."
+    bidirectional: false
+
+  - id: nist-ai-600-1--section-2--iso42001--no-equivalent
+    source_framework: nist-ai-600-1
+    source_ref: "NIST AI 600-1, Section 2"
+    source_title: "GenAI 12-risk catalogue"
+    target_framework: iso42001
+    target_ref: ""
+    target_title: ""
+    relationship: no-mapping
+    confidence: high
+    citation_sources:
+      - publication: "NIST AI 600-1 Generative AI Profile"
+        date: "2024-07"
+      - publication: "ISO/IEC 42001:2023"
+        date: "2023-12"
+    notes: "ISO/IEC 42001:2023 predates the mainstream GenAI risk taxonomy and contains no direct equivalent to the NIST AI 600-1 Section 2 12-risk catalogue. ISO Clause 6.1.2 risk identification is general-purpose; the GenAI-specific risk surface (CBRN uplift, confabulation, information integrity) is operationalized via the genai-risk-register plugin, not via ISO Annex A controls."
+    bidirectional: false
