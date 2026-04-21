@@ -100,7 +100,7 @@ See [cli/README.md](cli/README.md) for the full subcommand reference and the `or
 
 | Bundle | Objective | Status |
 |---|---|---|
-| [iso42001-cert-readiness](bundles/iso42001-cert-readiness/) | Pre-certification readiness check for ISO 42001 audit | stub |
+| [iso42001-cert-readiness](bundles/iso42001-cert-readiness/) | Pre-certification readiness check for ISO 42001 audit | active |
 
 ## Runtime
 

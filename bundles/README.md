@@ -8,7 +8,7 @@ Bundles are defined as `bundle.yaml` files. The YAML enumerates the constituent 
 
 | Bundle | Objective | Status |
 |---|---|---|
-| [iso42001-cert-readiness](iso42001-cert-readiness/) | Pre-certification readiness check for ISO 42001 audit | stub |
+| [iso42001-cert-readiness](iso42001-cert-readiness/) | Pre-certification readiness check for ISO 42001 audit | active |
 
 ## Bundle requirements
 
