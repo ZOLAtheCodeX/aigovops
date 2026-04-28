@@ -1,26 +1,27 @@
 # AIGovOps Bundle: ISO 42001 Certification Readiness
-# Status: stub. Constituent skills and plugins listed are placeholders.
-# All referenced skills and plugins must exist in this repository before this bundle is usable.
+# Status: active.
 
 name: iso42001-cert-readiness
-version: 0.1.0-stub
+version: 0.1.0
 description: >
   Pre-certification readiness check for ISO/IEC 42001:2023 audit.
   Loads the iso42001 skill, runs the audit-log-generator plugin against
   the AI system inventory, generates a Statement of Applicability draft,
   and produces a gap assessment against all 38 Annex A controls.
-  Stub: full bundle assembly in Phase 3.
 
 skills:
   - name: iso42001
-    version: ">=0.1.0-stub"
+    version: ">=0.2.0"
 
 plugins:
   - name: audit-log-generator
-    version: ">=0.1.0-stub"
+    version: ">=0.2.0"
+  - name: soa-generator
+    version: ">=0.2.0"
+  - name: gap-assessment
+    version: ">=0.2.0"
 
 config:
-  # Bundle-specific configuration. Phase 3.
   output_format: markdown
   include_soa_draft: true
   include_gap_assessment: true
