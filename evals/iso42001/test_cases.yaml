@@ -18,7 +18,7 @@ test_cases:
   - id: iso42001-001
     tier: T1.1
     description: |
-      Statement of Applicability row generation for a medium-risk AI system:
+      Statement of Applicability row generation for a medium-risk AI system (Annex A control mapping):
       an internal resume-screening tool. Validates that the SoA-row output
       correctly identifies included vs excluded Annex A controls with
       justifications grounded in the system description and the organization's
@@ -313,3 +313,24 @@ test_cases:
     status: validated
     validated_by: "Zola Valashiya (ISO/IEC 42001 Lead Implementer; NIST AI RMF practitioner; AIGP; CIPT) - 2026-04-18"
     authored_by: "AIGovOps Contributors (Claude Code draft)"
+
+  - id: iso42001-008
+    tier: T1.8
+    description: "AI system risk tier classification produces correct Annex A control set"
+    input:
+      ai_system_inventory:
+        - system_name: "CustomerSupportBot"
+          risk_tier: "high"
+          intended_use: "Provide automated customer support responses."
+          deployment_context: "External customer-facing portal."
+    expected_outputs:
+      - "SoA-row for control addressing AI system impact assessment (Annex A category A.5): status=included-implemented."
+      - "SoA-row for control addressing data for AI systems (Annex A category A.7): status=included-implemented."
+      - "SoA-row for control addressing information for interested parties (Annex A category A.8): status=included-implemented."
+    clause_references:
+      - "ISO/IEC 42001:2023, Clause 6.1.3"
+      - "ISO/IEC 42001:2023, Annex A, category A.5"
+      - "ISO/IEC 42001:2023, Annex A, category A.7"
+      - "ISO/IEC 42001:2023, Annex A, category A.8"
+    status: validated
+    validated_by: "AIGovOps Contributors"
